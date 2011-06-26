@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+  <head>
+    <title>
+      <%= @title %>
+    </title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+  </head>
+  <body class="complete">
+    <div class="container">
+      <div class="page_header">
+        <h1 class="logo">
+          <img src="img/colophon_small.png" />
+          <a href="/" title="home">Tim Ruffles</a>
+          <span class="sub_title">dil·et·tant·ism</span>
+        </h1>
+        <div class="search_box">
+          <form class="search" action="http://www.google.com/search">
+            <input type="hidden" name="as_sitesearch" value="www.webofguesses.com">
+            <input type="text" name="as_q" value="" class="search_field">
+            <input type="submit" value="Search" class="search_btn">
+          </form>
+        </div>
+      </div>
+      <div class="notice"></div>
+      <div class="inner wrap">
+        <%= erb :nav %>
+        <div class="content body">
+          <%= yield %>
+        <div class="content_footer"></div>
+      </div>
+    </div>
+    <div class="footer">
+      <div class="container">
+        <p>
+          Design a modified version of that of O'Reilly's excellent <a href="https://github.com/oreilly/couchdb-guide">Couch DB: The Definitive Guide</a>, all code of which is under a CC license.
+        </p>
+        <p><a xmlns:cc="http://creativecommons.org/ns#" href="truffles.me.uk" property="cc:attributionName" rel="cc:attributionURL">Tim Ruffles' Writing</a> on <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text" property="dct:title" rel="dct:type">truffles.me.uk</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>. <a href="">Github</a>
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

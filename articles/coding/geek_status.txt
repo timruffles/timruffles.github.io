@@ -1,0 +1,35 @@
+title: Geek Status
+date: 2010/09/13
+body: |
+  You can't ship products because you're too busy worrying about status. Programming is about making things, but we get so caught up in the how of making, we make it so much harder to get things done.
+
+  Why? We naturally take the easiest road to status. Psycologically, we see our real goals as too far away, too risky, too damn hard, and settle for easier sources of status.
+
+  Status in geekdom stems from three sources. One and two are easy and are the 'hows' of programming. Three is hard, and is the goal of programming. Here they are in ascending order of difficulty:
+
+  1 Write 'good' code (difficult language (Haskell, Scala), new/exciting language (Node, Ruby), new paradigm (FP, NoSQL), 'best practices')
+  2 Write popular code - libraries
+  3 Making something successful, that people give time and money tosxxx
+
+  Some supporting evidence for this hierarchy: there's a lot of 'good' code out there and it's easy to start writing it. Does it feel good to write clean-functioanl-refactored-pattern-inspired-DRY code? Yeah. Will it be YAGNI? Yeah. Will anyone except other coders care? Nah.
+
+  So that's inhibitor one: Uncle-Bob saying 'You've got to write good code'. The same motivatior you had to crap in the right place or underage drink. A very human desire for recognition and praise from high-status groups - whether 'gurus' like Bob, parents, or cool kids.
+
+  Number two is wanting to write the next jQuery. Writing some code I'll think, "Oh ho-HO, I've written this before. I should make this into a library with a cool name. People will follow me on Github". So I'll start writing it up into a library, with all the attendant abstraction, packaging and features that a library would need. It'll metastatize, and my project will die.
+
+  Solving 'big' problems makes you feel smarter than solving your own. Just hacking out a few pages of CRUD for your startup isn't high status work! You want to be solving wider problems, other peoples' problems, not the puny one of this exact application. Those bugs on the backlog? Oh they can wait! I'm writing the jQuery of X here!
+
+  So that's why we go for 1 and 2. Now I want to show you why people who get to 3 do so precisely because they care not at all about 1 and 2.
+  
+  * Facebook, hacked in PHP by M Zuckerburg. Apparently it was terrible code. Makes hudreds of millions of people happy
+  * Minecraft, written in Java. People complain about this because it makes it 'slow' - but it has sold €3m and brought joy/addiction to many
+  * Pinboard.io. Written in PHP by Ceglowski: "There is absolutely nothing interesting about the Pinboard architecture or implementation; I consider that a feature". The biggest feature being that it's shipped.
+  * Dwarf Fortress. Arguably the richest game ever. A quote I love: "I'm more interested in making progress on games than in worrying about the technical details ... I don't really consider myself much of a programmer ... unless there's an obvious practical gain, I'd rather use the time for writing games or less painful diversions".
+
+  Building something successful, is extremely hard, and extremely far away. If 3 isn't your sole measure of success and interest, you'll fail.
+
+  I heard an interview with music head honcho X. He was asked about taste in music, and replied, simply, "money is the arbiter of what's successful". He the most successful X the music business because doesn't care a jot about taste, and never has. He only cares about making money out of the music business. He doesn't confuse sources of status, and had the discipline not to take the easy way out and write articles demonstrating how many cool obscure bands he knew.
+
+  Successful code is measured in money or eyeballs. Stop writing 'good' code for the anal-retentive part of your brain, there's no parent-figure to praise you. Stop writing code to solve other peoples' problems to impress them. Bring the tools you know and that other people have written, and don't waste a moment on good taste. When you're done reflect that very few of your peers have avoided the seductions of easy-status and succeeded at the best part of programming: making things.
+
+
