@@ -82,7 +82,7 @@ h3 {
 a,
 a:link,
 a:visited {
-  color: #E75D3A;
+  color: #c52925;
   text-decoration: none;
 }
 
@@ -112,8 +112,8 @@ hr {
 
 hr.bold {
   height: 1px;
-  background-color: #E75D3A;
-  color: #E75D3A;
+  background-color: #c52925;
+  color: #c52925;
 }
 
 /* blockquotes */
@@ -372,7 +372,7 @@ container: 12*60px (unit) + 13*16px (gutter) = 928px = 58em = 100%
 .logo a:hover,
 .logo a:active,
 .logo a:focus {
-  color: #E75D3A;
+  color: #c52925;
   text-decoration: none;
 }
 
@@ -451,7 +451,7 @@ container: 12*60px (unit) + 13*16px (gutter) = 928px = 58em = 100%
   padding-bottom: 1em;
   color: #FFF;
   text-shadow: 1px 1px 0 #000;
-  background: #E75D3A;
+  background: #c52925;
   position: relative;
   overflow: visible;
 }

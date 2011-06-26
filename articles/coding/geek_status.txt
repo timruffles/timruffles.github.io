@@ -7,9 +7,9 @@ body: |
 
   Status in geekdom stems from three sources. One and two are easy and are the 'hows' of programming. Three is hard, and is the goal of programming. Here they are in ascending order of difficulty:
 
-  1 Write 'good' code (difficult language (Haskell, Scala), new/exciting language (Node, Ruby), new paradigm (FP, NoSQL), 'best practices')
-  2 Write popular code - libraries
-  3 Making something successful, that people give time and money tosxxx
+  1. Write 'good' code (difficult language (Haskell, Scala), new/exciting language (Node, Ruby), new paradigm (FP, NoSQL), 'best practices')
+  2. Write popular code - libraries
+  3. Making something successful, that people give time and money tosxxx
 
   Some supporting evidence for this hierarchy: there's a lot of 'good' code out there and it's easy to start writing it. Does it feel good to write clean-functioanl-refactored-pattern-inspired-DRY code? Yeah. Will it be YAGNI? Yeah. Will anyone except other coders care? Nah.
 
