@@ -33,11 +33,33 @@ def load
   @articles_by_category = @articles.group_by {|art| art.category }
 end
 
+def make_rss articles
+  require 'rss/maker'
+  RSS::Maker.make('2.0') do |rss|
+    rss.channel.title = "dil·et·tant·ism"
+    rss.channel.link = "http://www.truffles.me.uk"
+    rss.channel.description = "dil·et·tant·ism feed"
+    rss.items.do_sort = true
+    
+    articles.each do |article|
+      item = rss.items.new_item
+      item.title = article.title
+      item.link = article.link
+      item.date = Time.parse(article.date)
+    end
+  end.to_s
+end
+
 get "/" do
   load
   # last_modified last_modified_at
   # etag Digest::MD5.hexdigest((articles.join('') + modification_times.map(&:to_s).join('')))
   erb :index
+end
+
+get "/rss" do
+  load
+  make_rss(@articles)
 end
 
 get "/:article" do |perma|
