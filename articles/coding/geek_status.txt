@@ -3,7 +3,7 @@ date: 2010/09/13
 body: |
   You can't ship products because you're too busy worrying about status. Programming is about making things, but we get so caught up in the how of making, we make it so much harder to get things done.
 
-  Why? We naturally take the easiest road to status. Psycologically, we see our real goals as too far away, too risky, too damn hard, and settle for easier sources of status.
+  Why? We naturally take the easiest road to status. Psychologically, we see our real goals as too far away, too risky, too damn hard, and settle for easier sources of status.
 
   Status in geekdom stems from three sources. One and two are easy and are the 'hows' of programming. Three is hard, and is the goal of programming. Here they are in ascending order of difficulty:
 
@@ -13,15 +13,15 @@ body: |
 
   Some supporting evidence for this hierarchy: there's a lot of 'good' code out there and it's easy to start writing it. Does it feel good to write clean-functioanl-refactored-pattern-inspired-DRY code? Yeah. Will it be YAGNI? Yeah. Will anyone except other coders care? Nah.
 
-  So that's inhibitor one: Uncle-Bob saying 'You've got to write good code'. The same motivatior you had to crap in the right place or underage drink. A very human desire for recognition and praise from high-status groups - whether 'gurus' like Bob, parents, or cool kids.
+  So that's inhibitor one: Uncle-Bob saying 'You've got to write good code'. The same motivator you had to crap in the right place or underage drink. A very human desire for recognition and praise from high-status groups - whether 'gurus' like Bob, parents, or cool kids.
 
-  Number two is wanting to write the next jQuery. Writing some code I'll think, "Oh ho-HO, I've written this before. I should make this into a library with a cool name. People will follow me on Github". So I'll start writing it up into a library, with all the attendant abstraction, packaging and features that a library would need. It'll metastatize, and my project will die.
+  Number two is wanting to write the next jQuery. Writing some code I'll think, "Oh ho-HO, I've written this before. I should make this into a library with a cool name. People will follow me on Github". So I'll start writing it up into a library, with all the attendant abstraction, packaging and features that a library would need. It'll metastasise, and my project will die.
 
   Solving 'big' problems makes you feel smarter than solving your own. Just hacking out a few pages of CRUD for your startup isn't high status work! You want to be solving wider problems, other peoples' problems, not the puny one of this exact application. Those bugs on the backlog? Oh they can wait! I'm writing the jQuery of X here!
 
   So that's why we go for 1 and 2. Now I want to show you why people who get to 3 do so precisely because they care not at all about 1 and 2.
   
-  * Facebook, hacked in PHP by M Zuckerburg. Apparently it was terrible code. Makes hudreds of millions of people happy
+  * Facebook, hacked in PHP by M Zuckerburg. Apparently it was terrible code. Makes hundreds of millions of people happy
   * Minecraft, written in Java. People complain about this because it makes it 'slow' - but it has sold €3m and brought joy/addiction to many
   * Pinboard.io. Written in PHP by Ceglowski: "There is absolutely nothing interesting about the Pinboard architecture or implementation; I consider that a feature". The biggest feature being that it's shipped.
   * Dwarf Fortress. Arguably the richest game ever. A quote I love: "I'm more interested in making progress on games than in worrying about the technical details ... I don't really consider myself much of a programmer ... unless there's an obvious practical gain, I'd rather use the time for writing games or less painful diversions".

@@ -17,18 +17,23 @@ def extract_params article_path
   article = OpenStruct.new YAML.load_file(article_path)
   article.path = article_path
   article.category = article_path.split("/")[1..-2].first.gsub('_',' ').gsub(/\b(\w)/) {|word| word.upcase }
-  article.link = permalink article.title
+  article.link = permalinkify article.title
   article
 end
 
-def permalink text
+def permalinkify text
   text.gsub(' ','-').downcase.gsub(/[^a-z0-9-]/,'').gsub(/-+/,'-')
+end
+
+def permalink text
+  "http://www.truffles.me.uk/#{text}"
 end
 
 def load
   articles = Dir.glob("articles/**/*.txt")
-  modification_times = articles.sort {|file,file2| File.mtime(file) <=> File.mtime(file2) }
-  last_modified_at = modification_times.last
+  modification_times = (Dir.glob("views/*.erb") + articles).map {|file| File.mtime(file) }.sort {|ta,tb| tb <=> ta }
+  @last_modified_at = modification_times.first
+  @articles_hash = Digest::MD5.hexdigest((articles.join('') + modification_times.map(&:to_s).join('')))
   @articles = articles.map {|art| extract_params(art) }
   @articles_by_category = @articles.group_by {|art| art.category }
 end
@@ -44,7 +49,7 @@ def make_rss articles
     articles.each do |article|
       item = rss.items.new_item
       item.title = article.title
-      item.link = article.link
+      item.link = permalink article.link
       item.date = Time.parse(article.date)
     end
   end.to_s
@@ -52,13 +57,16 @@ end
 
 get "/" do
   load
-  # last_modified last_modified_at
-  # etag Digest::MD5.hexdigest((articles.join('') + modification_times.map(&:to_s).join('')))
+  last_modified @last_modified_at
+  etag @articles_hash
+  @title = "dil·et·tant·ism"
   erb :index
 end
 
 get "/rss" do
   load
+  last_modified @last_modified_at
+  etag @articles_hash
   make_rss(@articles)
 end
 
@@ -68,7 +76,7 @@ get "/:article" do |perma|
   if @article
     mod_time = File.mtime(@article.path)
     # last_modified mod_time
-    # etag Digest::MD5.hexdigest(mod_time)
+    # etag Digest::MD5.hexdigest(@article.body)
     @title, @body, @perma = @article.title,  Redcarpet.new(@article.body).to_html, @article.link
     erb :show
   else
@@ -76,6 +84,13 @@ get "/:article" do |perma|
   end
 end
 
+# sass handler
+get /\/(.*)\.css/ do |stylesheet|
+  headers 'Content-Type' => 'text/css; charset=utf-8'
+  sass stylesheet.to_sym
+end
+
 not_found do
+  @title = "Woops"
   erb :missing
 end
