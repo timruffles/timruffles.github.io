@@ -1,12 +1,9 @@
 #framework
 require "rubygems"
-require "sinatra"
-require "erb"
-require "digest/md5"
-require "ostruct"
-require "yaml"
-require "pp"
-require "redcarpet"
+require "bundler"
+Bundler.setup
+Bundler.require(:default)
+require "sass/plugin/rack"
 
 # other
 require "pathname"
