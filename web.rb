@@ -90,16 +90,6 @@ get "/:article" do |perma|
   end
 end
 
-use Sass::Plugin::Rack
-configure :production do
-  use Rack::Static,
-      :urls => ['/css'],
-      :root => File.expand_path('../tmp', __FILE__)
-
-  Sass::Plugin.options.merge!(:template_location => 'views/sass',
-                              :css_location => 'tmp/css')
-end
-
 not_found do
   @title = "Woops"
   erb :missing
