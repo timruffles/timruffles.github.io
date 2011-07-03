@@ -1,0 +1,42 @@
+title: Startup resources
+body: |
+
+  >  "We are using the word 'guru' only because 'charlatan' is too long to fit into a headline"
+  
+  Peter Drucker
+  
+  There are many rubbishy books out there. Try out business/marketing/startup books in the shop or on Google books. The rubbishy ones are easy to spot - you'll be able to finish them in 15 minutes by ignoring the repetition and silly anecdotes.
+  
+  The internet likes long lists of books. I'd rather mention only the good ones (they're rare, and even if they weren't there aren't enough right answers to need 10s of books in each subject).
+  
+  ## Business
+  
+  * *The New Business Road Test*, J Mullins
+    * The core technical questions about a business in as much detail as they need. Macro and micro market and industry, including Porter's five forces
+  * *Four Steps to the Epiphany*, Steve Blank
+    * Especially good are the checklists at the back - you could successfully run your business by working through them, making sure you've actually done what they ask
+  
+  ## Code
+  
+  I think that unless you're writing code for a big company, it's very easy to spent too much time worrying about technical issues. With that in mind, *The Pragmatic Programmer* has tips that'll actually save you time, rather than over-engineer your code.
+  
+  ## Inspiration
+  
+  * *The Fountainhead*, Ayn Rand
+    * Great inspiration, silly politics. If you're worried about me being a swivel-eyed libertarian, I'm not. A lot better than the propagandist doggerel of *Atlas Shrugged*.
+    
+  ## UX
+  
+  * *Inmates are Running the Asylum*, Alan Cooper
+  
+  UX books get very samey; there's a lot of actionable detail in the above.
+  
+  ## Marketing
+  
+  Strikes me as a subject where the basics (blogging, Twitter (not Facebook unless you're a game)) are obvious and the rest are not things a startup can do without huge risk of wasting time or money (advertising, viral). Make a great product first and foremost.
+  
+  ## Other people's lists
+  
+  [Ycombinator's](http://ycombinator.com/lib.html) is good
+  
+  

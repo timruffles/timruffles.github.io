@@ -1,0 +1,8 @@
+title: Technical challenges
+draft: true
+body: |
+  
+  
+  The technical challenge is *not* the challenge in a startup. The business challenge is the elusive product market fit. Everything technical is a means to that end. That means our friend Mr H Hacker, guru extraordinaire, is really rather badly disposed to startup success. To a hacker, the only important or interesting bit is the technical challenge. They can't wait to get started on that, and skip the boring stuff like customer discovery. Once the hack is done, it feels like the challenge is over, and then they skip the boring stuff like design, marketing and sales.
+  
+  Sales, marketing, design are all, truly, more important to your success. You can easily sell a product without having a product! If you can't sell, your product will be going nowhere.

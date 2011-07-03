@@ -1,18 +1,24 @@
-title: Previous - Exambuff
+title: Exambuff - Open Sourced Startup
 body: |
 
   <div class="summary">
     <h3>Summary</h3>
-    I've <a href="http://github.com/timruffles/exambuff">open sourced</a> my defunct startup <a href="http://exambuff.co.uk">Exambuff</a>. Please take the code (40k lines) and make a go of the business - I hope the below will help. Let me know if you want the domain - or you could rebrand it. It's an exam preparation platform, written in PHP and Flex. I've included all documents and design; you could write the history of a startup with it.
+    I've open sourced my defunct startup <a href="http://exambuff.co.uk">Exambuff</a>. Exambuff is an exam preparation platform, written in PHP and Flex. Please <a href="http://github.com/timruffles/exambuff">take the code (40k lines) design & docs</a> and make a go of the business. I've analysed why I think it didn't work, and suggested things that might work better.
   </div>
   
+  The first business I attempted was Exambuff ([still online](http://exambuff.co.uk)). It was a service to help university students pass exams. You'd hand-write an answer to an example exam question from your course, upload it to a PhD student, and they'd comment on it and tell you where you were going wrong.
   
-
-  The first business I attempted was Exambuff. It was a service to help university students pass exams. You'd write an answer to an example exam question from your course, send it to a PhD student, and they'd tell you where you were going wrong.
+  I didn't make a single penny. I've decided to analyse why my hard work came to nothing, and post the whole thing online. Although it didn't succeed, I'm happy I did it. Equally it'd be great if I and other people don't make the same mistakes as a result. Even better, perhaps you can make something of it. Below I describe where I went wrong, and ideas I've had for more fruitful markets.
   
-  It didn't make a single penny for me. I've decided to analyse it, and post the whole thing online. Although it didn't succeed, I'm happy I did it. Equally it'd be great if I and other people don't make the same mistakes as a result. I've added the ideas I had for more fruitful markets, and where I went wrong. Let me know how it goes!
+  ## Hello world
   
-  I started it on my own in the holidays of my second year of my history degree, after quitting an internship at HP (grey cubical in a grey building, doing, ugh, project management). I wrote the bulk of the code in ~6 months - September 2008 to April 2009.
+  <img src="img/marking.png" width="600" />
+  
+  Exambuff allowed you to upload images of hand-written answers, which the PhD students then annotated and commented upon on screen. The student could then view the commented answers.
+  
+  <img src="img/checkout.jpg" width="600"/>
+  
+  The upload/checkout flow, with fancy uploading and 700 never-to-be-used lines of code to take credit card payments (sigh). I added the document (rather than image) upload long after the original coding was done.
   
   I counted the lines of code in the project after cleaning out libraries.
   
@@ -43,9 +49,29 @@ body: |
   
   That's a lot of code that never saw a single paying customer...
   
-  Looking back I can see so many reasons why a customer never appeared. It'd be great if there were a format for sharing post mortems in startups. Till then, I'll use PG's list of reasons startups die.
+  ## The Story
   
-  ### PG's "The 18 mistakes that kill startups"
+  I had the idea during exams in my second year of university, and immediately asked people what they thought and did Facebook research. What do you know, people thought it was a great idea and said they'd pay for help with their exams!
+  
+  <img src="img/research.jpg" width="600" />
+  
+   I'd applied for a year in industry at HP, and got offered it on the last day of term. But I immediately started working on Exambuff in the evenings. After a month I handed in my notice to work on Exambuff and complete my history degree, not being able to face the grey cubical in a grey building doing... project management. I coded it in ~6 months - July 2008 until January 2009 when I first promoted it.
+  
+  I started recruiting PhD students to be the markers early, and it proved to be the easy bit. I had excellent applicants from top universities.
+  
+  I didn't launch at my campus that year after pitching it as a service to learning support department of my university. They said they'd think about adopting it to offer to students, but asked if I could not launch or promote there until they'd decided. I thought that was pretty exciting, and bought some flyering at a different university instead. It resulted in 0 sales from a handful of visits. I phoned up the university that did the promotion and they promised it had happened. Ouch.
+  
+  After that I entered a few startup competitions and won around £3,000 to spend on promotion and resources. I spent around £500 on promotion in all. I bought a lot of business and coding books.
+  
+  During the run up to my exams I had less and less time as my dissertation loomed. Since I couldn't launch at my uni anyway, I thought I'd go with Facebook ads only. I spent my vouchers, got a few hundred clicks: no sales.
+  
+  <img src="img/ads.jpg" width="600" />
+  
+  On graduating I headed out into freelancing, ending up employing two people full time. Firstly I needed to pay the rent, and secondly there was nothing to do really until next exam season. By the time that came round, my uni had decided not to work with me, I was busy with clients and deadlines, and pretty demoralised that I'd not had a single customer in the two years since I'd started. I threw in the towel.
+  
+  ## What went wrong
+  
+  Looking back I can see so many reasons why a customer never appeared. It'd be great if there were a format for sharing post mortems in startups. I've used a modified list of Paul Graham's [The 18 mistakes that kill startups](http://www.paulgraham.com/startupmistakes.html) (removing everything about funding, as it played no real part):
   
   Key:
   
@@ -55,26 +81,22 @@ body: |
     <li class="na">Not applicable</li>
   </ul>
   
-
   <ul class="post_mortem">
     <li class="yes">1. Single Founder</li>
     <li class="why">I distinctly remember thinking "I'll keep all the winnings for myself". Foolish. So much better to have a small slice of something that a big one of nothing.</li>
     <li class="no">2. Bad Location</li>
-    <li class="no">3. Marginal Niche</li>
+    <li class="yes">3. Marginal Niche</li>
+    <li class="why">While there are plenty of university students, I'd call this marginal for two reasons: the tiny period in which they are interested in examination services, and the smaller number who'd are interested enough in their studies to pay for help.</li>
     <li class="no">4. Derivative Idea</li>
     <li class="no">5. Obstinacy</li>
     <li class="no">6. Hiring Bad Programmers</li>
-    <li class="why">Well, the code isn't pretty but it was hardly the limiting factor.</li>
+    <li class="why">Well, <a href="http://github.com/timruffles/exambuff">the code</a> isn't pretty but it was hardly the limiting factor.</li>
     <li class="no">7. Choosing the Wrong Platform</li>
     <li class="yes">8. Slowness in Launching</li>
     <li class="why">I waiting for my uni to buy. I didn't realise that as an institutional customer, their decision process is measured in years.</li>
     <li class="yes">9. Launching Too Early</li>
     <li class="why">Even when I did half-launch, I didn't know anything about the customer.</li>
     <li class="no">10. Having No Specific User in Mind</li>
-    <li class="na">11. Raising Too Little Money</li>
-    <li class="na">12. Spending Too Much</li>
-    <li class="na">13. Raising Too Much Money</li>
-    <li class="na">14. Poor Investor Management</li>
     <li class="na">15. Sacrificing Users to (Supposed) Profit</li>
     <li class="yes">16. Not Wanting to Get Your Hands Dirty</li>
     <li class="why">I was too embarrassed to talk to fellow students about the idea in person, and possibly I didn't want to hear what they'd say. I did research on the project, and found most students would use it if it were free, and quite a lot of lecturers were pro too.</li>
@@ -83,7 +105,7 @@ body: |
     <li class="why">I didn't quit my degree, but like trying to fly without wings, it's wasn't the effort that went in that prevented takeoff.
   </ul>
   
-  I think the above is a good list - & PG knows his stuff, but it has flaws. It is heavy on funding and money issues - funding isn't the reason I see startups dying (perhaps reflective of different US/UK startup cultures). It's not hierarchical - what should I avoid most? But most of all I'd argue it missed or underemphasises three factors that best explain my failure in Exambuff, and, I'd argue, are more common than many of the above.
+  I'd argue PG's list missed or underemphasises the three factors that best explain my failure in Exambuff, and that are more common than many of the above.
   
   <ul class="post_mortem">
     <li class="yes">19. Not understanding customers</li>
@@ -95,11 +117,9 @@ body: |
   
   Not understanding customers is the killer. If you don't, from day 1, start talking to customers you are piling up risk. Customers will shatter your illusions and you should be thankful for it - they've saved you years of unrewarded toil. Once you've found an idea you get positive feedback for, don't stop talking! Keep going! Your product will be shoddy and irritating, and only by talking to people about it will you ever make it acceptable.
   
-  I did surveys - one on Facebook and a larger one. I didn't realise how easy it is to get people to say they'd pay for something, and how little that translates into sales.
+  I did surveys - one on Facebook and a larger one. I didn't realise how easy it is to get people to say they'd pay for something, and how little that translates into sales. It really doesn't compare to face to face interviews, and trying to gather pre-orders.
   
-  If I'd talked to students I imagine I'd have got more of an idea of how unlikely this idea was to sell. If I'd really thought about, and talked to people, I'd realise that getting sales would be tough.
-  
-  I never did do that research, but I'd guess the following:
+  I never did get round to interviewing customers, but I'd guess the following (however reasonable your belief about customers, they're guesses until you talk to them):
   
   * Most students don't care that much about their education
     * There are a lot of students in the UK, but most are cruising
@@ -110,52 +130,67 @@ body: |
     
   #### Harmful ramifications of knowing how to code
   
-  The technical challenge is *not* the challenge in a startup. The business challenge is the elusive product market fit. Everything technical is a means to that end. That means our friend Mr H Hacker, of PG mythology, is really rather badly disposed to succeeding. To a hacker, the only important or interesting bit is the hack. They can't wait to get started on that, and skip the boring stuff like customer discovery. Once the hack is done, it feels like the challenge is over, and then they skip the boring stuff like design, marketing and sales.
+  ##### Hammer nail syndrome
   
-  Sales, marketing, design are all, truly, more important to your success. You can easily sell a product without having a product! If you can't sell, your product will be going nowhere.
+  Having technical skills makes you want to use them. If I wasn't a coder, I could have run the service as a mail-order one, or via email, or in face-to-face sessions. Additionally I might have made a simple landing page and checked if people bought before I wrote any real code.
   
-  Having technical skills makes you want to use them. If I wasn't a coder, I could have run the service as a mail-order one, or via email, or in face-to-face sessions.
+  Instead I built perhaps the most complex possible version first. Rather than mail order, upload. Rather than documents, images of hand written answers. Since they were images, I wrote an image annotator (from scratch), and, of course, a viewer for the annotations. I also needed a system to allocate jobs to markers, and for them to find them. I almost wrote some code to *best allocate the huge numbers of submitted papers* to each marker.
   
-  Additionally I should have made a simple landing page and checked if people bought before I wrote any real code.
+  ##### Couldn't wait to get started
   
-  If you're a hacker find your Steve Jobs, and be self-controlled. You'll be successful and happier not to have to handle the boring bits.
+  Startups are online, startups involve code, and I could code! I couldn't wait to start writing it. It's similar to building a bridge before doing a survey: inevitably disastrous.
   
-  Don't write a line of code until your customers are validated and you have pre-orders.
+  The risk for startups is very rarely technical, as it proved here. My over-complex system was never ever tested. The only scaling problem I should have worried about was scaling up the number of customers. I found an email attesting to the dangers of dreaming and the premature optimisation it leads to - in 08/2008, I was worried about scaling the app!
+  
+  <img src="img/opt.jpg" width="600" />
+  
+  In future I've endeavoured never to write a line of code until the customers are validated and I have pre-orders.
   
   #### Market or industry forces
  
-  The market was utterly seasonal. I couldn't run tests or promotions at any other time - no student really cares until their exams arrive. In terms of iteration this was a killer - especially compounded with being a sole founder, one who had the same schedule as the customer. I had to prepare a launch at the same time as preparing for my exams.
+  The market is utterly seasonal. I couldn't run tests or promotions at any other time - no student really cares until their exams arrive. In terms of iteration this was a killer - especially compounded with being a sole founder, one who had the same schedule as the customer. I had to prepare a launch at the same time as preparing for my exams.
   
   Secondly the institutional market - universities - would be a very tough nut to crack and wasted so much time. I didn't realise that institutional customers are pretty well worthless for a startup - their sales cycle will last longer than your company. My own university, which gave me some funds, asked that I waited to launch on my campus if I wanted to sell to them. They after a year they said no. I can't believe I kept going after that really - inspiration really is perishable. I just hoped I'd be able to make direct to customer sales.
   
   ### What worked
   
-  Exambuff demonstrated one thing clearly: there are a lot of extremely bright PhD students without flexible work. There have to be many interesting business based around using this resource. Some of the CVs I received were jaw-droppingly perfect - future academics and clearly high fliers. There must be a startup that could offer them work.
+  Exambuff demonstrated one thing clearly: there are a lot of extremely bright PhD students without flexible work. There have to be many interesting business based around using this resource. Some of the CVs I received were jaw-droppingly perfect - future academics and clearly high fliers. There must be a startup that could make something with them.
   
-  ### What might have worked if only
+  ### Hindsight proviso.
   
-  Whatever I think I know, I'm still unsure why people didn't want the service. I'm embarrassed to admit how little I know about the site's tiny number of visitors. Perhaps the business is quite viable if I hadn't chosen yellow as a colour scheme!
+  Whatever I think I know, I'm still unsure why people didn't want the service. I'm embarrassed to admit how little I know about the site's tiny number of visitors. Perhaps the business is quite viable if I hadn't chosen yellow as a colour scheme.
   
   ## What might work still
   
   A few ideas:
   
   * Overseas students
-    * Significantly higher fees, and more at risk at doing disproportionately badly at UK exams due to less experience with the examination style, and language
+    * Pay significantly higher fees, and more at risk at doing disproportionately badly at UK exams due to less experience with the examination style, and language
   * Overseas students' parents
     * The ones paying those fees - perhaps it'd not be a stretch to pay a little more
   * GCSE & A Level student parents (US - equivalent of high-school and 1st year of college)
-    * Parents often care a lot more about exam success than their offspring (until university this was true of me. Sorry parents!)
+    * Parents often care a lot more about exam success than their offspring (until university this was true of me. Sorry mum & dad)
+    * Competing with private tuition. Might be a hard sell, as it won't be perceived as offering anywhere near as much value as face to face tuition, and those who buy tuition are rarely hard up.
   * Professional qualifications
-    * Older students, paying more for their studies
+    * Older students, paying more for their studies, better motivated(?) 
+    
+  ## Key lessons
+  
+  * Find out so much about your customers until you could impersonate them. Do this until you are sick of it, take a day off, and do it more. Every time you learn something new you've increased your chances of success.
+  * No metric matters apart from pre-orders. It's very easy to have someone praise an idea. It's easy to have someone say they'll pay for it. They did both about Exambuff. This are remarkably unrelated to how many people will actually buy it.
+  * Don't write a single line of code until you're forced too. Get by with emails and fake any backend processes. Code is great at automating but when you've got 10 customers, what is there to automate?
+  * Find a co-founder, and one who's not like you. If I had a non-technical co-founder I might have had someone to point out we didn't know what to build yet (although actually this didn't happen in practise in my next startup - another time)
+  * Institutional customers are not easily served by startups. You'll probably die before making a sale, even with a product they like.
     
   ## A few thanks
   
-  Along the way I met some great people. Thanks to [Adam Paulisick](http://www.qriously.com/) who gave me some killer advice that came too late to execute one. Bernard Howard also. The team at RHUL Research and Enterprise. & thanks to my still GF, for putting up with how much time I spent on it :)
+  Along the way I met some great people. Thanks to [Adam Paulisick](http://www.qriously.com/) who gave me some killer advice that came too late to execute one. Bernard Howard also. The team at RHUL Research and Enterprise. & special thanks to my wonderful GF, for putting up with how much time I spent on it :)
+  
+  In reading that £500 of business and coding books I did find some good ones - here's my [list of startup resources](/startup-resources).
   
   ## Fin
   
-  So - here's a complete business to take and do something with. The platform could be used for a few different businesses, and perhaps you're the person to make something of it. It's technically derisked for one thing :) Let [me](mailto:timruffles@googlemail.com) know how it goes!
+  So - here's the [complete business to download](http://github.com/timruffles/exambuff) and do what you will with. The platform could be used for a few different businesses, and perhaps you're the person to make something of it. It's technically derisked for one thing :) Let me know how it goes!
   
   
   
