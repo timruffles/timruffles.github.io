@@ -7,7 +7,6 @@ require "ostruct"
 require "yaml"
 require "pp"
 require "redcarpet"
-require 'sass/plugin/rack'
 
 # other
 require "pathname"
