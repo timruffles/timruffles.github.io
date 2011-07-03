@@ -7,6 +7,7 @@ require "ostruct"
 require "yaml"
 require "pp"
 require "redcarpet"
+require 'sass/plugin/rack'
 
 # other
 require "pathname"
@@ -44,7 +45,7 @@ end
 def cache to_hash, date
   # etag Digest::MD5.hexdigest(to_hash.to_s)
   # last_modified date
-  headers['Cache-Control'] = 'public, max-age=43200'
+  headers['Cache-Control'] = 'public, max-age=43201'
 end
 
 def make_rss articles
@@ -93,11 +94,14 @@ get "/:article" do |perma|
   end
 end
 
-# sass handler
-get /\/(.*)\.css/ do |stylesheet|
-  headers 'Content-Type' => 'text/css; charset=utf-8',
-          'Cache-Control' => 'public, max-age=200000'
-  sass stylesheet.to_sym
+use Sass::Plugin::Rack
+configure :production do
+  use Rack::Static,
+      :urls => ['/css'],
+      :root => File.expand_path('../tmp', __FILE__)
+
+  Sass::Plugin.options.merge!(:template_location => 'views/sass',
+                              :css_location => 'tmp/css')
 end
 
 not_found do
