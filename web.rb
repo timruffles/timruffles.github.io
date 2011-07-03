@@ -1,9 +1,12 @@
 #framework
 require "rubygems"
-require "bundler"
-Bundler.setup
-Bundler.require(:default)
-require "sass/plugin/rack"
+require "sinatra"
+require "erb"
+require "digest/md5"
+require "ostruct"
+require "yaml"
+require "pp"
+require "redcarpet"
 
 # other
 require "pathname"
@@ -41,7 +44,7 @@ end
 def cache to_hash, date
   # etag Digest::MD5.hexdigest(to_hash.to_s)
   # last_modified date
-  headers['Cache-Control'] = 'public, max-age=43201'
+  headers['Cache-Control'] = 'public, max-age=43200'
 end
 
 def make_rss articles
@@ -88,6 +91,13 @@ get "/:article" do |perma|
   else
     raise Sinatra::NotFound.new
   end
+end
+
+# sass handler
+get /\/(.*)\.css/ do |stylesheet|
+  headers 'Content-Type' => 'text/css; charset=utf-8',
+          'Cache-Control' => 'public, max-age=200000'
+  sass stylesheet.to_sym
 end
 
 not_found do
