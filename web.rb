@@ -14,11 +14,12 @@ require "pathname"
 ROOT_DIR = Pathname.new(File.dirname(__FILE__)).realpath
 URL = "http://www.truffles.me.uk"
 
-def load glob
+def load glob, all = false
   files = Dir.glob glob
   modification_times = files.map {|file| File.mtime(file) }.sort {|ta,tb| tb <=> ta }
+  items = files.map {|art| extract_params(art) }.reject(&:draft).select(&:body)
   OpenStruct.new( :last_modified_at => modification_times.first,
-    :items => (items = files.map {|art| extract_params(art) }.reject(&:draft).select(&:body)),
+    :items => items,
     :hash => Digest::MD5.hexdigest((items.join('') + modification_times.map(&:to_s).join(''))),
     :by_category => items.group_by {|art| art.category } )
 end
@@ -66,7 +67,8 @@ end
 
 articles = load "articles/**/*.txt"
 blog_posts = load "blogs/**/*.txt"
-all = articles.items + blog_posts.items
+pages = load "pages/**/*.txt"
+all = articles.items + blog_posts.items + pages.items
 
 get "/" do
   cache articles.hash + blog_posts.hash, [articles.last_modified_at,blog_posts.last_modified_at].max
