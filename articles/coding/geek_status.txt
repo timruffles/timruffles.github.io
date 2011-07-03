@@ -1,5 +1,6 @@
 title: Geek Status
 date: 2010/09/13
+draft: true
 body: |
   You can't ship products because you're too busy worrying about status. Programming is about making things, but we get so caught up in the how of making, we make it so much harder to get things done.
 

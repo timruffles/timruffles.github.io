@@ -1,14 +1,29 @@
 <h2 class="definition">Dilettantism?</h2>
 <p>Joyful refusal to specialise - like our frog jester friend above.</p>
 <p>People used to be broad of interest and pursuit, but a conspiracy of the dull is trying to make specialists of us all.</p>
-<h2>Articles</h2>
-<% @articles_by_category.each do |category, articles| %>
-  <h3>
-    <%= category %>
-  </h3>
-  <% articles.each do |article| %>
-    <h4>
-      <a href="<%= article.link %>"><%= article.title %></a>
-    </h4>
+<div class="column">
+  <h2>Essays</h2>
+  <% @articles.by_category.each do |category, articles| %>
+    <h3>
+      <%= category %>
+    </h3>
+    <% articles.each do |article| %>
+      <h4>
+        <a href="<%= article.link %>"><%= article.title %></a>
+      </h4>
+    <% end %>
   <% end %>
-<% end %>
+</div>
+<div class="column">
+  <h2>Journals</h2>
+  <% @blog_posts.by_category.each do |category, articles| %>
+    <h3>
+      <%= category %>
+    </h3>
+    <% articles.each do |article| %>
+      <h4>
+        <a href="<%= article.link %>"><%= article.title %></a>
+      </h4>
+    <% end %>
+  <% end %>
+</div>

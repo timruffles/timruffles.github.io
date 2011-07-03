@@ -189,7 +189,6 @@ caption
 body
   font-size: 100%
   color: #000
-  background: #f6f6f6 url(../img/bg.png) repeat 0 0
 
 /* links */
 
@@ -202,6 +201,30 @@ a
   &:hover, &:active, &:focus
     text-decoration: underline
     
+.summary
+  padding: 1em 1em
+  background: #FFF7F7
+  margin: 0 0 1em 0
+  
+  h3
+    margin: 0 0 1em 0 
+    
+ul
+  padding: 0
+  ul
+    padding: 1em
+
+.post_mortem, .key
+  li 
+    list-style-type: none
+  .why
+    padding-left: 2em
+  .yes
+    background: #FFF7ED
+  .no
+    background: #F9FFEC
+  .na
+    background: #E9E9E9
 
 .page_header
   margin: 4em 0
@@ -209,13 +232,30 @@ a
   height: 10em
   width: 31em
   
+.column
+  float: left
+  width: 45%
+  font-size: 0.8em
+  margin-right: 5%
+  
+.footer
+  clear: both
+  
+.sub
+  font-size: 0.7em
+  font-style: italic
+  
 #mast
+  padding: .6em 0
+  a
+    font-weight: 100
+    color: #888
+    -webkit-transition: all .4s
+  a:hover
+    color: #222
   .chapters
     font-size: .8em
-    a
-      background: rgba(10,20,232,.4)
-      color: #fff
-      font-weight: 100
+
       
 .footer .container
   font-size: .8em
@@ -246,13 +286,9 @@ a
   position: absolute
   top: 0
   width: 100%
-  background: url(../img/mast.png) 0 0
-  border-bottom: 1px solid rgb(255,51,0)
-  
+  background: url(../img/mast.png) 0 0 repeat-x
   a
-    background: rgba(251,255,0,.8)
-    padding: .1em .2em
-  
+    padding: .15em .3em
   ul 
     padding: 0
     margin: 0

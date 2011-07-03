@@ -1,0 +1,17 @@
+title: The Goal
+body: |
+  I'd like to make a product that makes money; not much, just enough to know I can do it.
+  
+  I've made three products in the past - one that took a long time, one that we thought we were making in the Lean Startup way, one that I made in the Lean Startup style. I'll write about them later.
+  
+  ## The Product
+  
+  A simple hiring app, that creates an application form. When candidates apply you and colleagues can vote on, or filter out, candidates. That's it.
+  
+  I'm focussing heavily on the UX, with inspiration from zero-signup products like Doodle. No passwords to remember, just private urls that can be regenerated.
+  
+  I've decided to build an MVP for it, without doing customer discovery, because it's something I'd like myself. I know full well that skipping discovery makes it orders of magnitude more likely post 4 or 5 will be "Nobody bought it". If that happens, at least it's an interesting way to try out Knockout.js, and I could use it for a screencast.
+  
+  ## The Goal
+  
+  I'd like to launch it by July 14th. That feels like a long way off, but I know how hard fitting things around work is.

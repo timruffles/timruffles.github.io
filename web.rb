@@ -12,13 +12,15 @@ require "redcarpet"
 require "pathname"
 
 ROOT_DIR = Pathname.new(File.dirname(__FILE__)).realpath
+URL = "http://www.truffles.me.uk"
 
-def extract_params article_path
-  article = OpenStruct.new YAML.load_file(article_path)
-  article.path = article_path
-  article.category = article_path.split("/")[1..-2].first.gsub('_',' ').gsub(/\b(\w)/) {|word| word.upcase }
-  article.link = permalinkify article.title
-  article
+def load glob
+  files = Dir.glob glob
+  modification_times = files.map {|file| File.mtime(file) }.sort {|ta,tb| tb <=> ta }
+  OpenStruct.new( :last_modified_at => modification_times.first,
+    :items => (items = files.map {|art| extract_params(art) }.reject(&:draft).select(&:body)),
+    :hash => Digest::MD5.hexdigest((items.join('') + modification_times.map(&:to_s).join(''))),
+    :by_category => items.group_by {|art| art.category } )
 end
 
 def permalinkify text
@@ -26,16 +28,23 @@ def permalinkify text
 end
 
 def permalink text
-  "http://www.truffles.me.uk/#{text}"
+  "#{URL}/#{text}"
 end
 
-def load
-  articles = Dir.glob("articles/**/*.txt")
-  modification_times = (Dir.glob("views/*.erb") + articles).map {|file| File.mtime(file) }.sort {|ta,tb| tb <=> ta }
-  @last_modified_at = modification_times.first
-  @articles_hash = Digest::MD5.hexdigest((articles.join('') + modification_times.map(&:to_s).join('')))
-  @articles = articles.map {|art| extract_params(art) }
-  @articles_by_category = @articles.group_by {|art| art.category }
+def extract_params article_path
+  article = OpenStruct.new YAML.load_file(article_path)
+  article.path = article_path
+  article.category = article_path.split("/")[1..-2].first.gsub('_',' ').gsub(/\b(\w)/) {|word| word.upcase }
+  article.link = permalinkify article.title
+  article.date = article.date || File.mtime(article_path)
+  article
+end
+
+
+def cache to_hash, date
+  # etag Digest::MD5.hexdigest(to_hash.to_s)
+  # last_modified date
+  headers['Cache-Control'] = 'public, max-age=43200'
 end
 
 def make_rss articles
@@ -55,28 +64,28 @@ def make_rss articles
   end.to_s
 end
 
+articles = load "articles/**/*.txt"
+blog_posts = load "blogs/**/*.txt"
+all = articles.items + blog_posts.items
+
 get "/" do
-  load
-  last_modified @last_modified_at
-  etag @articles_hash
+  cache articles.hash + blog_posts.hash, [articles.last_modified_at,blog_posts.last_modified_at].max
   @title = "dil·et·tant·ism"
+  @blog_posts = blog_posts
+  @articles = articles
   erb :index
 end
 
 get "/rss" do
-  load
-  last_modified @last_modified_at
-  etag @articles_hash
-  make_rss(@articles)
+  cache articles.hash + blog_posts.hash, [articles.last_modified_at,blog_posts.last_modified_at].max
+  make_rss(all)
 end
 
 get "/:article" do |perma|
-  load
-  @article = @articles.find {|art| art.link == perma}
+  @article = all.find {|art| art.link == perma}
   if @article
     mod_time = File.mtime(@article.path)
-    # last_modified mod_time
-    # etag Digest::MD5.hexdigest(@article.body)
+    cache @article.body, mod_time
     @title, @body, @perma = @article.title,  Redcarpet.new(@article.body).to_html, @article.link
     erb :show
   else
@@ -86,7 +95,8 @@ end
 
 # sass handler
 get /\/(.*)\.css/ do |stylesheet|
-  headers 'Content-Type' => 'text/css; charset=utf-8'
+  headers 'Content-Type' => 'text/css; charset=utf-8',
+          'Cache-Control' => 'public, max-age=200000'
   sass stylesheet.to_sym
 end
 
