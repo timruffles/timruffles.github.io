@@ -177,9 +177,9 @@ body: |
   ## Key lessons
   
   * Find out so much about your customers until you could impersonate them. Do this until you are sick of it, take a day off, and do it more. Every time you learn something new you've increased your chances of success.
-  * No metric matters apart from pre-orders. It's very easy to have someone praise an idea. It's easy to have someone say they'll pay for it. They did both about Exambuff. This are remarkably unrelated to how many people will actually buy it.
-  * Don't write a single line of code until you're forced too. Get by with emails and fake any backend processes. Code is great at automating but when you've got 10 customers, what is there to automate?
-  * Find a co-founder, and one who's not like you. If I had a non-technical co-founder I might have had someone to point out we didn't know what to build yet (although actually this didn't happen in practise in my next startup - another time)
+  * No metric matters apart from pre-orders. It's very easy to have someone praise an idea. It's easy to have someone say they'll pay for it. They did both about Exambuff. These are remarkably unrelated to how many people will actually buy it.
+  * Don't write a single line of code until you're forced to. Get by with emails and fake any backend processes. Code is great at automating but when you've got 10 customers, what is there to automate?
+  * Find a co-founder, and one who's not like you. If I had a non-technical co-founder I might have had someone to point out we didn't know what to build yet (although actually this didn't happen in practice in my next startup - another time)
   * Institutional customers are not easily served by startups. You'll probably die before making a sale, even with a product they like.
     
   ## A few thanks
