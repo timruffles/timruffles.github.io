@@ -51,9 +51,9 @@ end
 def make_rss articles
   require 'rss/maker'
   RSS::Maker.make('2.0') do |rss|
-    rss.channel.title = "dil·et·tant·ism"
+    rss.channel.title = "Tim Ruffles's blog"
     rss.channel.link = "http://www.truffles.me.uk"
-    rss.channel.description = "dil·et·tant·ism feed"
+    rss.channel.description = "truffles.me.uk feed"
     rss.items.do_sort = true
     
     articles.each do |article|
