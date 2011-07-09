@@ -3,9 +3,9 @@ body: |
 
   <div class="summary">
     <h3>Summary</h3>
-    <p>I've open sourced my defunct startup <a href="http://exambuff.co.uk">Exambuff</a>. Exambuff is an exam preparation platform, written in PHP and Flex. Please <a href="http://github.com/timruffles/exambuff">take the code (30k lines), design & docs</a> and make a go of the business. I've analysed why I think it didn't work, and suggested things that might work better.</p>
+    <p><a href="http://exambuff.co.uk">Exambuff</a> was my exam preparation startup. I failed because I didn't know my customers, wrote code too early, tried to sell to institutions and didn't find a co-founder. Please <a href="http://github.com/timruffles/exambuff">take the code (30k lines, PHP/Flex), design & docs</a> and make a go of the business.</p>
     
-    <div><a href="#lessons">Lessons</a> - for the TL;DR crowd.</div>
+    <div><a href="#lessons">Lessons</a>, <a href="#reasons">20 reasons</a> - for the TL;DR crowd.</div>
   </div>
   
   The first business I attempted was Exambuff ([still online](http://exambuff.co.uk)). It was a service to help university students pass exams. You'd hand-write an answer to an example exam question from your course, upload it to a PhD student, and they'd comment on it and tell you where you were going wrong.
@@ -72,6 +72,8 @@ body: |
   <img src="img/ads.jpg" width="600" />
   
   On graduating I headed out into freelancing, ending up employing two people full time. Firstly I needed to pay the rent, and secondly there was nothing to do really until next exam season. By the time that came round, my uni had decided not to work with me, I was busy with clients and deadlines, and pretty demoralised that I'd not had a single customer in the two years since I'd started. I threw in the towel.
+  
+  <a name="reasons"></a>
   
   ## What went wrong
   
