@@ -10,10 +10,11 @@ body: |
         when ActiveRecord::Base
         ...
       end
+      
     
-  I knew that this was because ```obj.class``` evaluates to ```ActiveRecord::Base```, which is an instance of Class, not of ```ActiveRecord::Base```.
+  I knew that this was because ```obj.class``` evaluates to ```ActiveRecord::Base```, which is an instance of ```Class```, not of ```ActiveRecord::Base```.
 
-  But I realised I didn’t know the mechanics of how the correct version (simply ‘case obj’) worked! Looking in the faithful RDocs for http://ruby-doc.org/core/classes/Object.html, I found that ```===``` is normally passed directly to ```==```, which normally checks if two objects have equivalent value. However overriding ```===``` is suggested to provide “provide meaningful semantics in case statements”. So what would these be?
+  But I realised I didn’t know the mechanics of how the correct version (simply ‘case obj’) worked! Looking in the [faithful RDocs](http://ruby-doc.org/core/classes/Object.html) for , I found that ```===``` is normally passed directly to ```==```, which normally checks if two objects have equivalent value. However overriding ```===``` is suggested to provide “provide meaningful semantics in case statements”. So what would these be?
 
   I fired up IRB and had a go. First thing to realise is that in case statements, the receiver of the ```===``` operator is the expression in the when clause, not in the case clause. Second is that to remember it’s therefore being called on a Class object - a class method.
 
@@ -27,8 +28,11 @@ body: |
       >> true # "a" is a String
       >> "a".is_a?(String)
       >> true # different way of asking the above
+      
+      
 
   and for instance methods, demonstrating it is normally a value comparison, rather than an object comparison:
+  
 
       >> "a" === "b"
       => false # different values, different objects
