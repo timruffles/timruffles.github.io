@@ -1,4 +1,5 @@
 title: Boycott the unhappy
+draft: true
 body: |
 
   Buy things from happy people only, turn away from those with dead eyes. Seek out those who greet you with sunny smiles, who brim with joy in their work. If we all shied from slaves to expediency, soon there would be no market for their slave owners.

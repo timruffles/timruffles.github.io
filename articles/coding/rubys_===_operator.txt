@@ -2,7 +2,7 @@ title: Ruby's === equality operator
 date: 2010/09/13
 
 body: |
-  Ruby’s ```===``` operator is often called the ‘case equality’ operator, which is indicative of where it is used, but not how it works. I realised I hadn’t quite grokked the how when I read this post.
+  Ruby’s ```===``` operator is often called the ‘case equality’ operator, which is indicative of where it is used, but not how it works. I realised I hadn’t quite grokked the how when I read [Jon Canady's post](http://joncanady.com/2010/07/05/switching-on-object-class-in-ruby/).
 
   Jon was confused that the follow switch statement didn’t work as he’d expected - it wasn’t matching even though obj was an instance of ActiveRecord::Base.
 
@@ -11,7 +11,7 @@ body: |
         ...
       end
     
-  I thought, ‘of course, because ```obj.class``` is ```ActiveRecord::Base```, an instance of Class, not of ```ActiveRecord::Base```’.
+  I knew that this was because ```obj.class``` evaluates to ```ActiveRecord::Base```, which is an instance of Class, not of ```ActiveRecord::Base```.
 
   But I realised I didn’t know the mechanics of how the correct version (simply ‘case obj’) worked! Looking in the faithful RDocs for http://ruby-doc.org/core/classes/Object.html, I found that ```===``` is normally passed directly to ```==```, which normally checks if two objects have equivalent value. However overriding ```===``` is suggested to provide “provide meaningful semantics in case statements”. So what would these be?
 
