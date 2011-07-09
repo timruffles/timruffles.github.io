@@ -14,10 +14,8 @@
 <div class="column">
   <h2>Blog</h2>
   <% @blog_posts.by_category.each do |category, articles| %>
-    <% articles.each do |article| %>
-      <h4>
-        <a href="<%= article.link %>"><%= article.title %></a>
-      </h4>
-    <% end %>
+    <h4>
+      <a href="<%= article.link %>"><%= article.title %></a>
+    </h4>
   <% end %>
 </div>
