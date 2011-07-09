@@ -3,22 +3,26 @@ body: |
 
   <div class="summary">
     <h3>Summary</h3>
-    I've open sourced my defunct startup <a href="http://exambuff.co.uk">Exambuff</a>. Exambuff is an exam preparation platform, written in PHP and Flex. Please <a href="http://github.com/timruffles/exambuff">take the code (30k lines), design & docs</a> and make a go of the business. I've analysed why I think it didn't work, and suggested things that might work better.
+    <p>I've open sourced my defunct startup <a href="http://exambuff.co.uk">Exambuff</a>. Exambuff is an exam preparation platform, written in PHP and Flex. Please <a href="http://github.com/timruffles/exambuff">take the code (30k lines), design & docs</a> and make a go of the business. I've analysed why I think it didn't work, and suggested things that might work better.</p>
+    
+    <div><a href="#lessons">Lessons</a> - for the TL;DR crowd.</div>
   </div>
   
   The first business I attempted was Exambuff ([still online](http://exambuff.co.uk)). It was a service to help university students pass exams. You'd hand-write an answer to an example exam question from your course, upload it to a PhD student, and they'd comment on it and tell you where you were going wrong.
   
-  I didn't make a single penny. I've decided to analyse why my hard work came to nothing, and post the whole thing online. Although it didn't succeed, I'm happy I did it. Equally it'd be great if I and other people don't make the same mistakes as a result. Even better, perhaps you can make something of it. Below I describe where I went wrong, and ideas I've had for more fruitful markets.
+  I didn't make a single penny. I've decided to analyse why my hard work came to nothing, and post the whole thing online. Although it didn't succeed, I'm happy I did it. Equally it'd be great if I and other people don't make the same mistakes by learning from it. Better still, perhaps you can make something of it? 
+  
+  Read on to find out where I went wrong, and ideas I've had for more fruitful markets.
   
   ## Hello world
   
+    Exambuff allowed you to upload images of hand-written answers, which the PhD students then annotated and commented upon on screen. The student could then view the commented answers.
+  
   <img src="img/marking.png" width="600" />
   
-  Exambuff allowed you to upload images of hand-written answers, which the PhD students then annotated and commented upon on screen. The student could then view the commented answers.
+    The upload/checkout flow, with fancy uploading and 700 never-to-be-used lines of code to take credit card payments (sigh). I added the document (rather than image) upload long after the original coding was done.
   
   <img src="img/checkout.jpg" width="600"/>
-  
-  The upload/checkout flow, with fancy uploading and 700 never-to-be-used lines of code to take credit card payments (sigh). I added the document (rather than image) upload long after the original coding was done.
   
   I counted the lines of code in the project after cleaning out libraries.
   
@@ -51,7 +55,7 @@ body: |
   
   ## The Story
   
-  I had the idea during exams in my second year of university, and immediately asked people what they thought and did Facebook research. What do you know, people thought it was a great idea and said they'd pay for help with their exams!
+  I had the idea during exams in my second year of university, and immediately asked people what they thought and paid for a Facebook survey. What do you know, people thought it was a great idea, and the survey said they'd pay for help with their exams!
   
   <img src="img/research.jpg" width="600" />
   
@@ -115,11 +119,11 @@ body: |
   
   #### Not understanding customers
   
-  Not understanding customers is the killer. If you don't, from day 1, start talking to customers you are piling up risk. Customers will shatter your illusions and you should be thankful for it - they've saved you years of unrewarded toil. Once you've found an idea you get positive feedback for, don't stop talking! Keep going! Your product will be shoddy and irritating, and only by talking to people about it will you ever make it acceptable.
+  Not understanding my customers was the killer. From day one, every day I wasn't talking to customers I was risking more and more of my time on unknown foundations. More recently, when I've talked to customers they've shattered my illusions and I've been thankful for it - they've saved me unrewarded toil.
   
-  I did surveys - one on Facebook and a larger one. I didn't realise how easy it is to get people to say they'd pay for something, and how little that translates into sales. It really doesn't compare to face to face interviews, and trying to gather pre-orders.
+  That said - I did do surveys - one on Facebook and a larger one. But I didn't realise how easy it is to get people to say they'd pay for something, and how little that translates into sales. It really doesn't compare to face to face interviews, and trying to gather pre-orders.
   
-  I never did get round to interviewing customers, but I'd guess the following (however reasonable your belief about customers, they're guesses until you talk to them):
+  I never did get round to interviewing customers, but I'd guess the following (key word: guess):
   
   * Most students don't care that much about their education
     * There are a lot of students in the UK, but most are cruising
@@ -132,23 +136,23 @@ body: |
   
   ##### Hammer nail syndrome
   
-  Having technical skills makes you want to use them. If I wasn't a coder, I could have run the service as a mail-order one, or via email, or in face-to-face sessions. Additionally I might have made a simple landing page and checked if people bought before I wrote any real code.
+  Having technical skills made me want to use them. If I wasn't a coder, I could have run the service as a mail-order one, or via email, or in face-to-face sessions. Additionally I might have made a simple landing page and checked if people bought before I wrote any real code.
   
-  Instead I built perhaps the most complex possible version first. Rather than mail order, upload. Rather than documents, images of hand written answers. Since they were images, I wrote an image annotator (from scratch), and, of course, a viewer for the annotations. I also needed a system to allocate jobs to markers, and for them to find them. I almost wrote some code to *best allocate the huge numbers of submitted papers* to each marker.
+  Instead I built perhaps the most complex possible version first. Rather than mail order, upload. Rather than documents, images of hand written answers. Since they were images, I wrote an image annotator (from scratch), and, of course, a viewer for the annotations.
   
   ##### Couldn't wait to get started
   
   Startups are online, startups involve code, and I could code! I couldn't wait to start writing it. It's similar to building a bridge before doing a survey: inevitably disastrous.
   
-  The risk for startups is very rarely technical, as it proved here. My over-complex system was never ever tested. The only scaling problem I should have worried about was scaling up the number of customers. I found an email attesting to the dangers of dreaming and the premature optimisation it leads to - in 08/2008, I was worried about scaling the app!
+  My over-complex system was never ever tested. The only scaling problem I should have worried about was scaling up the number of customers. I found an email attesting to the dangers of dreaming and the premature optimisation it leads to - in 08/2008, I was worried about scaling the app!
   
   <img src="img/opt.jpg" width="600" />
   
-  In future I've endeavoured never to write a line of code until the customers are validated and I have pre-orders.
+  In future I've endeavoured never to write a line of code until the customers are validated and I have pre-orders. I've learned that the code is the last thing I should worry about.
   
   #### Market or industry forces
  
-  The market is utterly seasonal. I couldn't run tests or promotions at any other time - no student really cares until their exams arrive. In terms of iteration this was a killer - especially compounded with being a sole founder, one who had the same schedule as the customer. I had to prepare a launch at the same time as preparing for my exams.
+  The market I aimed at is utterly seasonal. I couldn't run tests or promotions at any other time - no student really cares until their exams arrive. In terms of iteration this was a killer - especially compounded with being a sole founder, one who had the same schedule as the customer. I had to prepare a launch at the same time as preparing for my exams.
   
   Secondly the institutional market - universities - would be a very tough nut to crack and wasted so much time. I didn't realise that institutional customers are pretty well worthless for a startup - their sales cycle will last longer than your company. My own university, which gave me some funds, asked that I waited to launch on my campus if I wanted to sell to them. They after a year they said no. I can't believe I kept going after that really - inspiration really is perishable. I just hoped I'd be able to make direct to customer sales.
   
@@ -176,11 +180,13 @@ body: |
     
   ## Key lessons
   
-  * Find out so much about your customers until you could impersonate them. Do this until you are sick of it, take a day off, and do it more. Every time you learn something new you've increased your chances of success.
-  * No metric matters apart from pre-orders. It's very easy to have someone praise an idea. It's easy to have someone say they'll pay for it. They did both about Exambuff. These are remarkably unrelated to how many people will actually buy it.
-  * Don't write a single line of code until you're forced to. Get by with emails and fake any backend processes. Code is great at automating but when you've got 10 customers, what is there to automate?
-  * Find a co-founder, and one who's not like you. If I had a non-technical co-founder I might have had someone to point out we didn't know what to build yet (although actually this didn't happen in practice in my next startup - another time)
-  * Institutional customers are not easily served by startups. You'll probably die before making a sale, even with a product they like.
+  <a name="lessons"></a>
+  
+  * Next time I'm going to find out everything about my customers.
+  * The only metric I care about is pre-orders (and then orders. A big "and then" though :) )
+  * I'm going to avoid writing a single line of code until I'm forced to. I'll get by with emails and fake any backend processes. What is worth automating till you have traction? 
+  * I'll find a co-founder, and one not like me. If I had a non-technical co-founder I might have had someone to point out we didn't know what to build yet (although actually this didn't happen in practice in my next startup - another time)
+  * Institutional customers are not easily served by startups.
     
   ## A few thanks
   
