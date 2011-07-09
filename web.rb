@@ -72,7 +72,7 @@ all = articles.items + blog_posts.items + pages.items
 
 get "/" do
   cache articles.hash + blog_posts.hash, [articles.last_modified_at,blog_posts.last_modified_at].max
-  @title = "dil·et·tant·ism"
+  @title = "Tim Ruffles"
   @blog_posts = blog_posts
   @articles = articles
   erb :index
