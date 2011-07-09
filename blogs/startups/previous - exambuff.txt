@@ -3,7 +3,7 @@ body: |
 
   <div class="summary">
     <h3>Summary</h3>
-    I've open sourced my defunct startup <a href="http://exambuff.co.uk">Exambuff</a>. Exambuff is an exam preparation platform, written in PHP and Flex. Please <a href="http://github.com/timruffles/exambuff">take the code (40k lines), design & docs</a> and make a go of the business. I've analysed why I think it didn't work, and suggested things that might work better.
+    I've open sourced my defunct startup <a href="http://exambuff.co.uk">Exambuff</a>. Exambuff is an exam preparation platform, written in PHP and Flex. Please <a href="http://github.com/timruffles/exambuff">take the code (30k lines), design & docs</a> and make a go of the business. I've analysed why I think it didn't work, and suggested things that might work better.
   </div>
   
   The first business I attempted was Exambuff ([still online](http://exambuff.co.uk)). It was a service to help university students pass exams. You'd hand-write an answer to an example exam question from your course, upload it to a PhD student, and they'd comment on it and tell you where you were going wrong.
