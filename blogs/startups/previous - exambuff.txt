@@ -177,16 +177,17 @@ body: |
     * Competing with private tuition. Might be a hard sell, as it won't be perceived as offering anywhere near as much value as face to face tuition, and those who buy tuition are rarely hard up.
   * Professional qualifications
     * Older students, paying more for their studies, better motivated(?) 
-    
-  ## Key lessons
   
   <a name="lessons"></a>
+  
+  ## Lessons
   
   * Next time I'm going to find out everything about my customers.
   * The only metric I care about is pre-orders (and then orders. A big "and then" though :) )
   * I'm going to avoid writing a single line of code until I'm forced to. I'll get by with emails and fake any backend processes. What is worth automating till you have traction? 
   * I'll find a co-founder, and one not like me. If I had a non-technical co-founder I might have had someone to point out we didn't know what to build yet (although actually this didn't happen in practice in my next startup - another time)
   * Institutional customers are not easily served by startups.
+  * Lots of PhD students out there want flexible work - opportunity.
     
   ## A few thanks
   
