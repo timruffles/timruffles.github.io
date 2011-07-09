@@ -37,7 +37,7 @@ def extract_params article_path
   article.path = article_path
   article.category = article_path.split("/")[1..-2].first.gsub('_',' ').gsub(/\b(\w)/) {|word| word.upcase }
   article.link = permalinkify article.title
-  article.date = article.date || File.mtime(article_path)
+  article.date = article.date || File.mtime(article_path).to_s
   article
 end
 
