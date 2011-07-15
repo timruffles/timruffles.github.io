@@ -1,4 +1,5 @@
 title: Me
+date: 2011/07/09
 body: |
   I work for [Picklive](http://picklive.com) where I write Ruby, Javascript and come up with schemes. We're in [White Bear Yard](http://whitebearyard.com/), come in for a coffee some time.
   

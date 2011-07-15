@@ -1,4 +1,5 @@
 title: Startup resources
+date: 2011/07/09
 body: |
 
   >  "We are using the word 'guru' only because 'charlatan' is too long to fit into a headline"

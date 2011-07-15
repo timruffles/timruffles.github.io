@@ -1,4 +1,5 @@
 title: The Luzhin Defence, Nabokov
+date: 2011/07/09
 body: |
 
   Nabakov's book is split into three - a lonely child's view of the world, an entrancing account of life as a chess genius, and his post-breakdown decline. It is equally about each part, and each has plenty of observations that ring true.

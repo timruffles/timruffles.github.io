@@ -1,6 +1,5 @@
 title: Ruby's === equality operator
 date: 2010/09/13
-
 body: |
   Ruby’s ```===``` operator is often called the ‘case equality’ operator, which is indicative of where it is used, but not how it works. I realised I hadn’t quite grokked the how when I read [Jon Canady's post](http://joncanady.com/2010/07/05/switching-on-object-class-in-ruby/).
 
