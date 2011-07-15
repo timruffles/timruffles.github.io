@@ -36,7 +36,7 @@ def extract_params article_path
   article = OpenStruct.new YAML.load_file(article_path)
   article.path = article_path
   article.category = article_path.split("/")[1..-2].first.gsub('_',' ').gsub(/\b(\w)/) {|word| word.upcase }
-  article.link = permalinkify article.title
+  article.link ||= permalinkify article.title
   article.date = article.date || File.mtime(article_path).to_s
   article
 end
@@ -88,7 +88,7 @@ get "/:article" do |perma|
   if @article
     mod_time = File.mtime(@article.path)
     cache @article.body, mod_time
-    @title, @body, @perma = @article.title,  Redcarpet.new(@article.body).to_html, @article.link
+    @title, @body, @perma, @fb_url = @article.title,  Redcarpet.new(@article.body).to_html, @article.link, @article.facebook_comment_url
     erb :show
   else
     raise Sinatra::NotFound.new
@@ -105,4 +105,12 @@ end
 not_found do
   @title = "Woops"
   erb :missing
+end
+
+def permalink link
+  if /^(http|www)/ =~ link
+    link
+  else
+    "http://truffles.me.uk/#{link.gsub(/^\//,"")}"
+  end
 end
