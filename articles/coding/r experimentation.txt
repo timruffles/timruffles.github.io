@@ -58,7 +58,7 @@ body: |
   ![Normal, 3](img/norm3.png)
   ![Normal, 4](img/norm4.png)  
     
-  Looks like our geyser is fairly well modelled by the normal curve, but with a lower than normal observations near close to the mean on the left, and more than normal further from the mean. When I used 100 breaks I got a weird pattern of peaks and troughs that made me recheck my munger, but it looks fine.
+  Looks like our geyser is fairly well modelled by the normal curve, but with a higher peak around the mean, a lower than normal observations near close to the mean on the left, and more than normal further from the mean. When I used 100 breaks I got a weird pattern of peaks and troughs that made me recheck my munger (which seems fine), but it looks fine with 25.
     
   The second data set was of pairs of father and son's heights. The data was collected as a frequency table, and this absolutely flummoxed my nascent R usage. Being a statistics ignoramus too, after a couple of hours search for how to carry out basic mean/sd/summary on a table of frequency data I came up with nothing. All the operations seemed to be designed to work on tables where each observation had a single row - so rather than this:
 
@@ -126,7 +126,9 @@ body: |
            74  0  0  0  0  0  0  0  0  0  0  2  1  1  0  0  1  0  0  0  0
            75  0  0  0  0  0  0  0  0  0  1  1  1  0  1  2  0  0  0  0  0
       
+      
   Pretty cool result even in ASCII.
+  
   
       > library(Hmisc)
       > describe(fathers) 
@@ -138,6 +140,7 @@ body: |
            Frequency  3  3  8 16 33 60 93 144 137 153 143 115 80 50 29  5  6
            %          0  0  1  1  3  6  9  13  13  14  13  11  7  5  3  0  1
   
+  
 
   I then decided to plot this data with the much-vaunted ggplot2. Looking at the scatter plot, it looked fairly friendly for basic stuff. And it was! I plotted the two data-sets as before, but could now change the colour, size or shape of the points depending on their frequency. Yay! I realised as I was done I could do the plotting with the imported frequency table. Still wouldn't have been able to do simple things like calculating means and sd's though.
 
@@ -145,6 +148,8 @@ body: |
       > pretty + geom_point(aes(size=pearsonFrame$Frequency))
       > pretty + geom_point(aes(size=pearsonFrame$Frequency,colour=pearsonFrame$Frequency))  # my favourite
       > pretty + geom_point(aes(size=pearsonFrame$Frequency))
+      
+      
 
   So my first half-day with R was pretty fun. I think the most confusing aspect is where to stop using R as a DSL by looking for the correct function that "just works" for your task, and to start creating your own solutions by using R as a programming language. The simplicity of retrieving basic statistical functions from, and visualising, correctly formatted data makes me want to explore a lot more.
 
