@@ -149,8 +149,7 @@ body: |
       > pretty + geom_point(aes(size=pearsonFrame$Frequency,colour=pearsonFrame$Frequency))  # my favourite
       > pretty + geom_point(aes(size=pearsonFrame$Frequency))
       
-      
+  ![Scatter](img/scatter.png)
 
   So my first half-day with R was pretty fun. I think the most confusing aspect is where to stop using R as a DSL by looking for the correct function that "just works" for your task, and to start creating your own solutions by using R as a programming language. The simplicity of retrieving basic statistical functions from, and visualising, correctly formatted data makes me want to explore a lot more.
 
-  ![Scatter](img/scatter.png)
