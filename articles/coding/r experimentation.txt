@@ -68,6 +68,8 @@ body: |
     </tr>
     <tr>
       <td>65</td><td>67</td><td>3</td>
+    </tr>
+    <tr>
       <td>66</td><td>67</td><td>1</td>
     </tr>
   </table>
@@ -80,8 +82,14 @@ body: |
     </tr>
     <tr>
       <td>65</td><td>67</td>
+    </tr>
+    <tr>
       <td>65</td><td>67</td>
+    </tr>
+    <tr>
       <td>65</td><td>67</td>
+    </tr>
+    <tr>
       <td>66</td><td>67</td>
     </tr>
   </table>
@@ -97,7 +105,7 @@ body: |
 
   So once I'd got the data in a format R was happy with I could then hit it with all sorts of fun things from R's toolbox.
 
-      > table(pearsonRaw) # pretty cool result even in ASCII
+      > table(pearsonRaw)
              sons
       fathers 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79
            59  0  0  0  0  1  2  0  0  0  0  0  0  0  0  0  0  0  0  0  0
@@ -118,6 +126,8 @@ body: |
            74  0  0  0  0  0  0  0  0  0  0  2  1  1  0  0  1  0  0  0  0
            75  0  0  0  0  0  0  0  0  0  1  1  1  0  1  2  0  0  0  0  0
       
+  Pretty cool result even in ASCII.
+  
       > library(Hmisc)
       > describe(fathers) 
            fathers 
