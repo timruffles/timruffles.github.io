@@ -1,18 +1,22 @@
-title: Rails 3 Asset Pipeline in 20 seconds
+title: Rails 3 Asset Pipeline in a minute
 date: 2011/02/12
 body: |
 
-  Here is a 20 second summary of Rails 3's asset pipeline, and getting it working on Heroku.
+  Here's a quick summary of Rails 3's asset pipeline if you're already confident with Rails/Ruby, and some pointers on getting it working on Heroku.
 
   * Rails 3 supports compiling Coffeescript, SASS etc to JS and CSS.
 
   * Rails 3 puts assets in three places, here's a glob:
 
-      {app,lib,vendor}/assets/{stylesheets,javascripts}.{js.coffee,css.{sass,less,scss}}
+      {app,lib,vendor}/assets/{stylesheets,javascripts}/*.{js.coffee,css.{sass,scss,less}}
+
+  * Meta language filetypes go on the end of the target language, like erb, so `jquery.js.coffee`.
+
+  Those folders are for:
 
   * app - app specific code
-  * lib - libraries you've written
-  * vendor - other people's code
+  * lib - libraries you've written (shared between apps)
+  * vendor - other people's code (Backbone, put selector, etc)
 
   ## Requiring files in CSS/JS
 
@@ -29,11 +33,11 @@ body: |
 
   ## Using it with Heroku 
 
-  If you're using Heroku, in `config/application.rb`, you need to turn off initialize on precomp for heroku (they don't set ENV vars, and it'll probably crash rake precomp). 
+  If you're [using Heroku with the asset pipleine](http://devcenter.heroku.com/articles/rails31_heroku_cedar), you need to turn off initialize on precompilation (they don't set ENV vars, and therefore your initializers will crash). In `config/application.rb`, set:
 
       config.assets.initialize_on_precompile = false
 
-  Debug precompiltation with the command heroku uses, ideally turn off initialization and ensure no initialisers hit DBs etc.
+  Debug precompiltation with the below command Heroku will use. Ideally turn off initialization as above, and if that's not possible, ensure no initialisers hit DBs etc.
 
      env RAILS_ENV=production DATABASE_URL={{YOUR_SCHEME_HERE - prob postgres}}://user:pass@127.0.0.1/dbname bundle exec rake assets:precompile 2>&1
 
