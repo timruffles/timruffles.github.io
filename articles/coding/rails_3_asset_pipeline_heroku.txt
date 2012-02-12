@@ -1,0 +1,40 @@
+title: Rails 3 Asset Pipeline in 20 seconds
+date: 2011/02/12
+body: |
+
+  Here is a 20 second summary of Rails 3's asset pipeline, and getting it working on Heroku.
+
+  * Rails 3 supports compiling Coffeescript, SASS etc to JS and CSS.
+
+  * Rails 3 puts assets in three places, here's a glob:
+
+      {app,lib,vendor}/assets/{stylesheets,javascripts}.{js.coffee,css.{sass,less,scss}}
+
+  * app - app specific code
+  * lib - libraries you've written
+  * vendor - other people's code
+
+  ## Requiring files in CSS/JS
+
+  Requiring them in [doesn't require](http://guides.rubyonrails.org/asset_pipeline.html#search-paths) the `app`, `lib` or `vendor` prefix. You [don't need a file type suffix](http://guides.rubyonrails.org/asset_pipeline.html#search-paths). You use [Sprocket's](https://github.com/sstephenson/sprockets) `//= require asset_name` to pull in other files in JS or CSS (or any language that compiles to either of those).
+
+  Grab the [sass-rails](https://github.com/rails/sass-rails) gem for sass, and [compass-rails](https://github.com/compass/compass-rails) to avoid reinventing a heap of [CSS3/browser compability mixins](http://compass-style.org/reference/compass/css3/).
+
+  ## Configuartion
+
+  If you have any top level files (eg that will be in a `script` or `link` tag) aside from application.{js,css}, they will not be precompiled unless you tell Rails about them manually.
+
+      # again, no need to mention .coffee
+      config.assets.precompile += %w{app.js app.css}
+
+  ## Using it with Heroku 
+
+  If you're using Heroku, in `config/application.rb`, you need to turn off initialize on precomp for heroku (they don't set ENV vars, and it'll probably crash rake precomp). 
+
+      config.assets.initialize_on_precompile = false
+
+  Debug precompiltation with the command heroku uses, ideally turn off initialization and ensure no initialisers hit DBs etc.
+
+     env RAILS_ENV=production DATABASE_URL={{YOUR_SCHEME_HERE - prob postgres}}://user:pass@127.0.0.1/dbname bundle exec rake assets:precompile 2>&1
+
+
