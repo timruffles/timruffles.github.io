@@ -4,7 +4,7 @@ body: |
   
   <div class="summary">
     <h3>Summary</h3>
-    <p>In one day, starting with 0 Objective C/iOS skills, what can you make? With the help of O'Reilly's <a href="http://my.safaribooksonline.com/9781449327088/" title="Programming iOS">, the quick <a href="http://cocoadevcentral.com/d/learn_objectivec/">Objective C guide</a> and <a href="http://www.raywenderlich.com/5138/beginning-storyboards-in-ios-5-part-1">Matthijs Hollemans's</a> guide to iOS, it's quite plausible to have built a simple "add items to a list" app by the day's end. Kudos Apple!</p>
+    <p>In one day, starting with 0 Objective C/iOS skills, what can you make? With the help of O'Reilly's <a href="http://my.safaribooksonline.com/9781449327088/" title="Programming iOS">Programming iOS</a>, the quick <a href="http://cocoadevcentral.com/d/learn_objectivec/">Objective C guide</a> and <a href="http://www.raywenderlich.com/5138/beginning-storyboards-in-ios-5-part-1">Matthijs Hollemans's</a> guide to iOS, it's quite plausible to have built a simple "add items to a list" app by the day's end. Kudos Apple!</p>
   </div>
 
   I want to do a quick app that helps you achieve your goals. Mobile seemed the only sensible way to deliver a goal tracking application, as when you've just finished your run it'd be nice to tick it off then and there.
