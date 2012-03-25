@@ -10,7 +10,7 @@ body: |
     <div><a href="#lessons">Lessons</a>, <a href="#reasons">20 reasons</a> - for the TL;DR crowd.</div>
   </div>
   
-  The first business I attempted was Exambuff ([still online](http://exambuff.co.uk)). It was a service to help university students pass exams. You'd hand-write an answer to an example exam question from your course, upload it to a PhD student, and they'd comment on it and tell you where you were going wrong.
+  The first business I attempted was Exambuff. It was a service to help university students pass exams. You'd hand-write an answer to an example exam question from your course, upload it to a PhD student, and they'd comment on it and tell you where you were going wrong.
   
   I didn't make a single penny. I've decided to analyse why my hard work came to nothing, and post the whole thing online. Although it didn't succeed, I'm happy I did it. Equally it'd be great if I and other people don't make the same mistakes by learning from it. Better still, perhaps you can make something of it? 
   

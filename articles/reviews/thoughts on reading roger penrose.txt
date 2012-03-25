@@ -13,11 +13,11 @@ body: |
 
   Searle points out the answers are correct although he doesn't understand Chinese, and makes this an argument against a computer which also performs this function doing so.
 
-  However, the /system/ does! Searle is working on the wrong level, bifurcating what should be whole into 'me' and the 'machine'. He + machine = understands Chinese. 
+  However, the /system/ does! Searle is working on the wrong level, bifurcating what should be whole into 'me' and the 'machine'. He + machine = understands Chinese.
 
   The parrallel to conciousness is made more clear when Searle is replaced by numerous other people, say the population of India. The parallel to the human brain of a Chinese person, whose individual neurons do not understand Chinese, but the system - the brain - does, is clearer.
 
-  What it comes down to is that languages can be translated down into lower level system that behave as if the (imaginary) language was carried out. 
+  What it comes down to is that languages can be translated down into lower level system that behave as if the (imaginary) language was carried out.
 
   The language of the human brain works on a high level, and is translated down into chemicals and neurons. If we refigured these into an algorithm, we could feed that into any Turing complete machine, whether constructed of electrical circuits (or perhaps an interpreted language built on an interpreted language...), or ants nests, or water wheels, and the system would behave as if it were concious.
 
