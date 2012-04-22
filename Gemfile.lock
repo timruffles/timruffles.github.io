@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/rtomayko/shotgun.git
+  revision: d9195d7e1e4ac2eb3d949ec1b7df7a5e7e694ad5
+  specs:
+    shotgun (0.9)
+      rack (>= 1.0)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -17,4 +24,5 @@ DEPENDENCIES
   json
   redcarpet
   sass
+  shotgun!
   sinatra

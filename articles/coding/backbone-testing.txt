@@ -1,109 +1,61 @@
-title: Introduction to Backbone testing
+title: "Series intro: Building better Backbone apps faster with tests"  
 date: 22/04/2012
 body: |
-  In this 5 part series I'm going to take you through how I test Backbone.js apps. This article is a broad overview of my ideas about testing in general, and testing Backbone code specifically. The other articles will be:
+
+  This series show you how Backbone apps will let you write better apps, faster, than ever before. Why should you read it? Let me tell you a story:
+
+  <div class="story bad">
+    <div class="smiley">☹</div>
+    <p>It's Friday at 18.46. Your app isn't working on IE <em>again</em>. You fix and deploy, and realise you've deployed a one character typo. Meeting friends in the pub? Don't think so.</p>
+  </div>
   
-  - Testing Backbone views
-  - Testing Backbone models
-  - Integration testing Backbone
-  - Creating a mocked server for Backbone apps
+  Segue to cheesy [silver-bullet](http://c2.com/cgi/wiki?SilverBullet) comparison:
   
-  I stress this is how /I/ test applications - there are many ways to test, I'll be detailing the methods I've found most effective while developing a number of products - [real time games](http://picklive.com), a [Twitter client](http://teachthebird.com) and [Chrome extensions](http://arachnys.com) - with Backbone.
+  <div class="story good">
+    <div class="smiley">☺</div>
+    <p>IE didn't have <code>Array#indexOf</code> and <code>String#substr</code> can't hack negative indicies but your tests alterted you as you went. The release went great: no suprise, you already knew it worked from your happily blinking test suites. Desk beer!</p>
+  </div>
+
+  I can't promise you this series is a ticket to cheesy-silver-bullet land. But I can promise you pragmatic application of testing will result in less stress, faster development, and better apps.
   
-  ## Intro to testing
+  ## Series overview
   
-  Testing code means writing code to test code, rather than manual tests. This has all the benefits you might expect - it's fast, automatable, and doesn't get bored.
+  The articles in the series will be:
   
-  Testing JS has often been thought difficult. It needn't be. JS is difficult to test when it's written in the "big glob of code" style, with little structure.
+  1. Basics of testing with Backbone - for test beginners
+  1. Testing Backbone views
+  1. Testing Backbone models
+  1. Creating a mocked server for Backbone apps
+  1. Nuts'n'bolts of Javascript testing - stubs, mocks
+  1. The fiddly bit - asyncronous tests
+  1. Functional tests for Backbone
+  1. Advanced Backbone views - easy testing with view models
+  1. The hard problem of testing - when to test, what to test
   
-  Now Backbone has brought modular code into the mainstream of JS development (poor Dojo seems to be the Betamax of JS libraries - always first, never biggest), we should see that myth vanish. Backbone's core components split applications into easily testable chunks.
+  I'll also be creating a [Javascript/Backbone testing glossary](/javascript-backbone-testing-glossary) as I go.
   
-  ## Why you should care about tests
+  ## Disclaimer and my Backbone experience
   
-  Everybody tests their code, but some people do it the dumb way. The dumb way is manual testing. Manually testing front end code involves the old "refresh the page and click around testings". This is fine for exploratory code, or quick hacks, but for anything you rely on it's dumb. Manual tests:
+  I stress this is series is drawn from the methods I've found most effective while developing a number of products with Backbone - [real time games](http://picklive.com), a [Twitter client](http://teachthebird.com) and [Chrome extensions](http://arachnys.com). There are many opinions about testings. If there's controversy about the best way of writing tests I'll flag it up with my choice and the reasoning behind it.
+  
+  ## Series goals
+  
+  By the end of it you'll be able to:
     
-  - are a waste of development time
-  - will not be run often
-  - will not be run cross browser (feel like doing the ol' refresh-n-click on all webkits, Opera, Firefox, IE6,7,8,9,10, mobile)
+  - write well tested Backbone models and views
+  - test all the fiddly bits - functional tests, AJAX and asynchronous tests
+  - create demo servers to run your app without a live backend.
   
-  As a programmer your value proposition is automation - and there's no reason you shouldn't automate as much of your own work as possible. Whenver you find yourself changing code and breaking a feature, or commiting a 'quick fix' to production that contains a fatal typo, testing could have helped.
-  
-  There are a heap of testing options out there. I prefer those with command line runners, as they're easy to run from within an editor without mousing about - or trigger automatically on a build server. Here's a non-exhaustive list. My examples are in JSTestDriver, but test drivers are all extremely simple - don't worry if you'd prefer to use something else.
-  
-  - [JSTestDriver]()
-  - [Buster.js]
-  - [QUnit.js]
-  - [DOH]
-  - [YETI]
-  
-  I prefer testing with asserts - there are lots of 'sugar' options out there that make tests read like English, but I'd rather not waste time learning them and write good test names instead.
-  
-  ## What you should test
-  
-  While you should write automated tests, that's not to say you should test everything, always. Testing, like any development practise, is a tool, not a goal. Use it where it helps to acheive the goal - writing software that solves a problem. It takes time to learn where it helps and where it hinders, and everyone has a different level.
-  
-  Testing is a trade-off - risk of error vs cost of development. Really comprehensive testing of code will likely involve 2-3x more lines of code in test than the code being tested. It's probably not worth it to test everything in detail - unless you're writing space shuttle launch code.
-  
-  Instead I find a mixture of unit tests on complex code, and integration tests elsewhere, is a good tradeoff. Let's look at what unit and integration tests are, and how they work in Backbone.
-  
-  ## Unit tests
-  
-  Unit tests work on piece of code in isolation - often single functions. Programs are composed of functions and objects - unit tests will take a single component and check that it behaves correctly.
-  
-  Let's look at an example - some real Backbone view code. Let's say we have a view that we'd like to update a model on a click.
-  
-  ```js
-    toggleReminder: function (evt) {
-      this.model.set({reminder: !this.model.get("reminder")})
-    }
-  ```
-  
-  A very simple case - we'd like this event handle to toggle a reminder. Let's ignore the question of whether this case is too simple to test.
+  The core messages I'll be attempting to promote and justify are:
     
-  The benefit of Backbone's modularity is apparent here. If the code was instead
+  - JS/Backbone testing is easy and valuable
+  - knowing when to test is a hard problem
+  - testing is a tool, not a goal
   
-  ```js
-    $("#reminders .reminder").on("click",function(evt){
-      $(evt.currentTarget).data("reminder").toggleReminder()
-    });
-  ```
+  ## Schedule
   
-  We'd not have easy access to that handle to check it does perform as desired. We could of course store it in an object - and eventually we'd have reinvented something similar to Backbone by degrees.
+  I'll be posting the rest of the articles over the next few weeks. Subscribe to [the feed](http://feeds.feedburner.com/TimRufflesBlog) to be notified of the new articles.
   
-  Back to the test. The desired behaviour here is "take a click, and toggle our model's reminder". How could we test that?
+  If you're in the UK, you like the class I'm running at General Assembly London - [Building Web Apps with Backbone.js](http://www.eventbrite.com/event/3306153795/eorg?ebtv=C). It'll take you through Backbone.js from the basics, and work through a case study of converting a leagacy procedural Javascript/forms based app into a single-page Backone app.
   
-  ```js
-    "it should toggle reminder on click": function() {
-      view = makeView()
-      assertEquals(false,view.model.get("reminder"))
-      view.toggleReminder()
-      assertEquals(true,view.model.get("reminder"))
-      view.toggleReminder()
-      assertEquals(false,view.model.get("reminder"))
-    }
-  ```
-  
-  In this simple test we've:
-  
-  - setup the expected precondition - the state we're basing our later expectations upon
-  - specified what we expect to happen as a result of the behaviour we're requesting
-  - requested that behaviour (fire the callback to toggle the reminder on and off)
-  
-  What we haven't done is totally isolate the view from the rest of the system. We're relying on the rest to do it's job - what we're interested is /this/ view's behaviour. A fully unit tested system should work cleanly together - each part rlying on the contract documented through tests. We'll discuss how far to go with isolation in the article on Unit Testing with Mocks and Stubs.
-    
-  ## Integration testing
-  
-  Integration tests are the opposite of unit tests. They test systems in circumstances as close to reality as possible. They're also normally tests of behaviours users would understand - "when I click this button, this happens", not "this function takes a state object and a method and updates that state".
-  
-  Integration testing Backbone is more involved than unit testing. I'd argue, however, that it's possible more valuable. You get a lot of testing done in one integration test, covering a lot of code. It'll involve a bit of setup so I'll leave code examples for later, but they'll have names like
-  
-  "when the user hits the 'buy' button, they see the product appear in their shopping cart"
-  "when the user receives a message, they see an alert"
-  
-  These behaviours involve many components behind the scence - in the first, a view for the buy button, some model procedure to ask the server if it's in stock, and another view that renders the updated cart. Simple behaviour for the user - lots of code to be tested.
-  
-  ## Key testing ideas
-  
-  I hope that's given you a broad brush intro to testing Backbone. I'll be posting the rest of the articles over the next few weeks. Subscribe to [the feed](http://feeds.feedburner.com/TimRufflesBlog) to be notified of the new articles.
-  
-  If you're in the UK, you might be interested in the class I'm running at General Assembly - [Building Web Apps with Backbone.js](http://www.eventbrite.com/event/3306153795/eorg?ebtv=C). It'll take you through Backbone.js from the basics, and give you a good start in how to create apps. Thanks for reading, and please say hi if you've any questions - [@timruffles](http://twttr.com/timruffles).
+  Thanks for reading, please say hi if you've any questions - [@timruffles](http://twttr.com/timruffles).

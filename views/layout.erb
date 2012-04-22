@@ -1,10 +1,10 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<% @is_root = request.path_info == "/"  %>
 <html>
   <head>
     <title>
       <%= @title %>
     </title>
-    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link rel="stylesheet" href="/css/style.css" type="text/css">
     <script type="text/javascript">
 
@@ -20,31 +20,31 @@
 
     </script>
   </head>
-  <body>
+  <body class="<%= @is_root ?  "root" : "article"%>">
     <div id="content" class="reading">
-      <div class="page_header">
-        <h1 class="logo">
-          <a href="/" title="home">Tim Ruffles</a>
-          <span class="sub_title">Coding, business, design & laundry.</span>
-        </h1>
-      </div>
+        <% if @is_root %>
+          <%= erb :header %>
+        <% end %>
        <div id="body">
           <%= yield %>
         </div>
     </div>
     <div id="mast">
-      <div class="reading">
-        <div class="links logical">
-          <div class="navigation logical">
-            <a href="/">Home</a>
-            <a href="/me">Me</a>
-            <a href="http://feeds.feedburner.com/TimRufflesBlog">RSS</a>
+      <div class='reading'>
+          <div class="links logical">
+            <div class="navigation logical">
+              <a href="/">Home</a>
+              <a href="/me">Me</a>
+              <a href="http://feeds.feedburner.com/TimRufflesBlog">RSS</a>
+            </div>
+            <div class="search logical">
+              <a href="https://www.google.com/search?as_sitesearch=http://truffles.me.uk">Search</a>
+            </div>
           </div>
-          <div class="search logical">
-            <a href="https://www.google.com/search?as_sitesearch=http://truffles.me.uk">Search</a>
-          </div>
+          <% unless @is_root %>
+            <%= erb :header %>
+          <% end %>
         </div>
-      </div>
     </div>
     <div class="footer reading">
       <div class="container">

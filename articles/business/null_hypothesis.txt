@@ -1,4 +1,4 @@
-vim title: "What's your startup's null hypothesis?"
+title: "What's your startup's null hypothesis?"
 date: "22/03/2012"
 body: |
   I've realised that without an experimental control, any 'test' I do of my startup ideas is invalid. It's incredibly easy to get people to say something is a good idea - first because of politeness, second because it's very cheap to do so, third because no idea you come up with is going to be obviously worse than existing products.

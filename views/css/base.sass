@@ -209,10 +209,8 @@ a
   h3
     margin: 0 0 1em 0 
     
-ul
-  padding: 0
-  ul
-    padding: 1em
+ul ul
+  padding: 1em
 
 .post_mortem, .key
   li 
@@ -226,11 +224,21 @@ ul
   .na
     background: #E9E9E9
 
-.page_header
+.article #mast
+  .page_header
+    display: inline
+    h2
+      font-size: 1em
+      display: inline
+      
+.article #body
+  margin-top: 10em
+    
+.root .page_header
   margin: 4em 0
-  background: url(../img/colophon_small.png) no-repeat top right
   height: 10em
   width: 31em
+  background: url(../img/colophon_small.png) no-repeat top right
   
 .column
   float: left
@@ -247,6 +255,7 @@ ul
   
 #mast
   padding: .6em 0
+  width: 100%
   a
     font-weight: 100
     color: #888
@@ -256,7 +265,8 @@ ul
   .chapters
     font-size: .8em
 
-      
+
+
 .footer .container
   font-size: .8em
 
@@ -269,11 +279,14 @@ ul
 .reading
   width: 30em
   margin: 0 auto
+  
 .minor
   font-size: 0.8em
 .break
   margin: 0 0 0 1em
 #content
+  width: 30em
+  margin: 0 auto
 
 .logical
   display: inline
@@ -285,7 +298,6 @@ ul
 #mast
   position: absolute
   top: 0
-  width: 100%
   background: url(../img/mast.png) 0 0 repeat-x
   a
     padding: .15em .3em
@@ -308,12 +320,32 @@ ul
   .wrap
     background-position: 50% -3.5em
     padding: 24em 1.5em 1.5em 1.5em
-.sub_title
+.root .sub_title
   display: block
   
-h2 a
+h2 a, #body h1 a
   color: #000
   &:active,
   &:visited,
   &:hover
     color: #000
+
+    
+.story
+  padding: 1em
+  overflow: auto
+  margin-bottom: 1em
+  p
+    float: left
+    width: 24em
+    margin-bottom: 0
+.bad
+  background: #F8C6AF
+.good
+  background: #C0F8AF
+  
+.smiley
+  font-family: "Helvetica"
+  font-size: 4em
+  float: left
+  width: 1em
