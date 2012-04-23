@@ -1,0 +1,43 @@
+title: "Javascript Backbone Testing Glossary"
+date: "24/04/2012"
+template: "erb"
+definitions:
+  assertion: "Boolean (yes/no) function that causes the function it's executed within to fail if it is not true."
+  example:
+    text: "An example of behaviour something should exhibit."
+    also: test
+  BDD: "Behaviour driven development - a style of testing that emphasises that you should be testing [behaviour not implementation](/javascript-testing-concepts#behaviour-not-implementation). Often uses testing syntax that approximates natural language."
+  mock: "An implementation of a method that also acts as an [assertion] about how that method is called during the [test]. For example, it could be set to fail if it is called too often or seldom, or with the wrong arguments."
+  stub: "Replacement for real implementation of a method. An example would be: <code>model.slowMethod = function() { return 'result that otherwise would take ages to generate' };</code>"
+  spec:
+    text: "Short for 'specification'."
+    also: test
+  "functional test": "Tests that run on functionality users could recognise, as close to the production enviroment as possible. Contrast with [unit test]"
+  "integration test": "Tests to ensure multiple components work - integrate - with each other. Often a synonym for [integration test]."
+  test: "Code containing one or more [assertion] that ensures the code under test has the behaviour described it in the test's name."
+  "test suite": "One or more [tests], run together."
+  "test case": "A [test]"
+  TDD: "Writing code only when you have a failing test. Writing tests first makes you 'drive-out' your development by making each test pass."
+  "unit test": "A test of an isolated function or small piece of behaviour. Likely involves using [stub]s to avoid relying on complex, slow or not-yet-implemented code."
+body: |
+  
+  <dl>
+  <% @article.definitions.to_a.sort_by {|k,v| k.downcase }.each do |key,value| %>
+    <dt>
+      <a id="<%= key %>"></a>
+      <%= key %>
+    </dt>
+    <dd>
+      <%= (value['text'] || value).gsub(/\[([^\]]+)\]\(([^\)]+)\)/) {
+        "<a href='#{$2}'>#{$1}</a>"
+      }.gsub(/\[([^\]]+)\]/) do  
+        "<a href='##{$1}'>#{$1}</a>"
+      end %>
+      <% if value.is_a?(Hash) && syn = value['also'] %>
+        <span class="see-also">Also called: <a href="#<%= syn %>"> <%= syn %></a>.</span>
+      <% end %>
+    </dd>
+  <% end %>
+  </dl>
+  
+  

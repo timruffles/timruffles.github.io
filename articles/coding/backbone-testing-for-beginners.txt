@@ -3,24 +3,9 @@ date: "23/04/2012"
 body: |  ## 
  
    Testing is writing code to test code, rather than perfoming manual tests (a zombie like processes of click click click, refresh). This has all the benefits you might expect - it's fast, automatable, and doesn't get bored.
- 
-   Testing JS has often been thought difficult. It needn't be. JS is difficult to test when it's written in the "big glob of code" style, with little structure it's one of the best languages for testing - I'll expand on it in the first article.
- 
-   Now Backbone has brought modular code into the mainstream of JS development (not that it's anything new - libraries like Dojo were there years ago, but Dojo in particular seems to be the Betamax of JS libraries - always first, never adopted), we should see that myth vanish. Backbone's core components split applications into easily testable chunks.
- 
-   ## Why you should care about tests
- 
-   Everybody tests their code, but there's a smart and a dumb way to do it. The dumb way is manual testing. Manually testing front end code involves the old "refresh the page and click around testings". This is fine for exploratory code, or quick hacks, but for anything you rely on it's just silly. Manual tests:
    
-   - are a waste of development time 
-   -- I can run 199 tests in 5 seconds. Can you even load the page in that time?
-   - will not be run often 
-   -- if it takes ages to do it, it'll not be done, even less the closer to deadlines you are
-   - will not be run cross browser 
-   -- feel like doing the ol' refresh-n-click on all webkits, Opera, Firefox, IE6,7,8,9,10, and mobile browsers?
- 
-   As a programmer your value proposition is automation - and there's no reason you shouldn't automate as much of your own work as possible. Want to be Paul Graham's mythical 10x coder? Automation is where you'll get gains. Whenver you find yourself changing code and breaking a feature, or commiting a 'quick fix' to production that contains a fatal typo (I uh... have /never/ done that), testing could have helped.
- 
+   If you're new to testing, this article will get you up to speed with the tools, core idea of testing, the types of tests, a bit of the jargon, and the overall ideas of testing.
+
    ## Tools
  
    You'll need a test runner. There are a heap of of them out there. I prefer those with command line runners, as they're easy to run from within an editor without mousing about - or trigger automatically on a build server. Here's a non-exhaustive list. My examples are in JSTestDriver, but test drivers are all extremely simple - don't worry if you'd prefer to use something else.
@@ -31,19 +16,40 @@ body: |  ##
    - [DOH]
    - [YETI]
  
-   I ended up using JSTestDriver as it did (nearly) everything I wanted when I needed it (AMD module loading was the exception, but it could be hacked around), with CruiseControl for continuous integration as it was what we already had.
+   I'm using JSTestDriver for my testing. It's great, so are the above, use whichever you prefer!
+   
+   ## The very basics of testing
+   
+   Testing works by making assertions about the behaviour of code. Assertions are functions you call to make certain your code has done certain things. They look like this:
+     
+   ```
+     assertEquals("happy",state)
+     assertMatches(/^(\w+)_state/,state)
+     assertEmpty(form.errors())
+   ```
+   
+   Every [test](/testing-glossary#test), or [example](/testing-glossary#example), in your code will have one or more [assertion](/testing-glossary#assertion)s. Test one thing in each example - you may want to use multiple assertions to do this, but just ensure they link to the test name.
+   
+   I personally name tests in a sentence style:
+     
+   ```
+     "it should play a sound on load": function(){
+       /* ... */
+     },
+     "it returns a formatted currency string": function(){
+       /* ... */
+     }
+   ```
+   
+   You might prefer another style of testing naming. Do whatever you find easiest - but do remember to write tests that describe what your code [_should be doing_](/testing-concepts#behaviour-not-implementation), not _how it is doing it_. We'll return to this later - for now, just remember to write tests that describe behaviours your code needs to exhibit, not the way you've made it do it.
+   
+   ## The two major types of test
+   
+   There are two broad categories of tests: unit tests, and functional tests.
  
-   ## What you should test
+   ### Unit tests
  
-   While you should write automated tests, that's not to say you should test everything, always. Testing, like any development practise, is a tool, not a goal. Use it where it helps to acheive the goal - writing software that solves a problem. It takes time to learn where it helps and where it hinders, and everyone has a different level.
- 
-   Testing is a trade-off - risk of error vs cost of development. Really comprehensive testing of code will likely involve 2-3x more lines of code in test than the code being tested. It's probably not worth it to test everything in detail - unless you're writing space shuttle launch code.
- 
-   Instead I find a mixture of unit tests on complex code, and integration tests elsewhere, is a good tradeoff. Let's look at what unit and integration tests are, and how they work in Backbone.
- 
-   ## Unit tests
- 
-   Unit tests work on piece of code in isolation - often single functions. Programs are composed of functions and objects - unit tests will take a single component and check that it behaves correctly.
+   Unit tests work on piece of code in isolation - often single functions. JS programs are composed of functions and objects that hold functions and variables. Unit tests will take a single function or object and check that it behaves correctly.
  
    Let's look at an example - some real Backbone view code. Let's say we have a view that we'd like to update a model on a click.
  
@@ -53,19 +59,7 @@ body: |  ##
      }
    ```
  
-   A very simple case - we'd like this event handle to toggle a reminder. Let's ignore the question of whether this case is too simple to test.
-   
-   The benefit of Backbone's modularity is apparent here. If the code was instead
- 
-   ```js
-     $("#reminders .reminder").on("click",function(evt){
-       $(evt.currentTarget).data("reminder").toggleReminder()
-     });
-   ```
- 
-   We'd not have easy access to that handle to check it does perform as desired. We could of course store it in an object - and eventually we'd have reinvented something similar to Backbone by degrees.
- 
-   Back to the test. The desired behaviour here is "take a click, and toggle our model's reminder". How could we test that?
+   A very simple case - we'd like this event handle to toggle a reminder. The desired behaviour here is "take a click, and toggle our model's reminder". How could we test that?
  
    ```js
      "it should toggle reminder on click": function() {
@@ -80,11 +74,11 @@ body: |  ##
  
    In this simple test we've:
  
-   - setup the expected precondition - the state we're basing our later expectations upon
-   - specified what we expect to happen as a result of the behaviour we're requesting
-   - requested that behaviour (fire the callback to toggle the reminder on and off)
+   - setup the expected precondition - the state we're basing our reasoning about later expectations upon
+   - specified what we expect to happen as a result of triggering behaviour
+   - trigger that behaviour (firing the callback to toggle the reminder on and off)
  
-   What we haven't done is totally isolate the view from the rest of the system. We're relying on the rest to do it's job - what we're interested is /this/ view's behaviour. A fully unit tested system should work cleanly together - each part rlying on the contract documented through tests. We'll discuss how far to go with isolation in the article on Unit Testing with Mocks and Stubs.
+   What we haven't done is totally isolate the view from the rest of the system. We're relying on the rest to do it's job - what we're interested is _this_ view's behaviour. A fully unit tested system should work cleanly together - each part rlying on the contract documented through tests. We'll discuss how far to go with isolation in the article on Unit Testing with Mocks and Stubs.
    
    #### Summary
  
@@ -92,7 +86,7 @@ body: |  ##
    - they test one piece of behaviour in isolation
    - they often involve stubbing complex/slow external systems (AJAX, databases like IndexedDB)
    
-   ## Functional/integration testing
+   ### Functional/integration testing
  
    Functional tests are the opposite of unit tests. They test systems in circumstances as close to reality as possible. They're also normally tests of behaviours users would understand - "when I click this button, this happens", not "this function takes a state object and a method and updates that state".
  

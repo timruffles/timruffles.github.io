@@ -1,0 +1,7 @@
+ ## What you should test
+
+ While you should write automated tests, that's not to say you should test everything, always. Testing, like any development practise, is a tool, not a goal. Use it where it helps to acheive the goal - writing software that solves a problem. It takes time to learn where it helps and where it hinders, and everyone has a different level.
+
+ Testing is a trade-off - risk of error vs cost of development. Really comprehensive testing of code will likely involve 2-3x more lines of code in test than the code being tested. It's probably not worth it to test everything in detail - unless you're writing space shuttle launch code.
+
+ Instead I find a mixture of unit tests on complex code, and integration tests elsewhere, is a good tradeoff. Let's look at what unit and integration tests are, and how they work in Backbone.

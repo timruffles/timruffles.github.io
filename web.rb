@@ -88,8 +88,14 @@ get "/:article" do |perma|
   if @article
     mod_time = File.mtime(@article.path)
     cache @article.body, mod_time
-    @title, @body, @perma, @fb_url = @article.title,  Redcarpet.new(@article.body).to_html, @article.link, @article.facebook_comment_url
-    erb :show
+    @body = if @article.template == "erb"
+      erb = ERB.new(@article.body)
+      erb.result binding
+    else
+      Redcarpet.new(@article.body).to_html
+    end
+    @title, @perma, @fb_url = @article.title, @article.link, @article.facebook_comment_url
+    erb(:show)
   else
     raise Sinatra::NotFound.new
   end
