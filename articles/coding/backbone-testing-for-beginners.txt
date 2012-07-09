@@ -1,26 +1,42 @@
-title: "BB testing for beginners"
+title: "Backbone / Javascript testing from the ground up"
+link: "testing-backbone-javascript-tutorial"
 date: "23/04/2012"
 body: |  ## 
  
-   Testing is writing code to test code, rather than perfoming manual tests (a zombie like processes of click click click, refresh). This has all the benefits you might expect - it's fast, automatable, and doesn't get bored.
+   Testing is writing code to test code, rather than performing manual tests (a zombie like processes of click click click, refresh). This has all the benefits you might expect - it's fast, automatable, and doesn't get bored.
    
-   If you're new to testing, this article will get you up to speed with the tools, core idea of testing, the types of tests, a bit of the jargon, and the overall ideas of testing.
+   There's a lot to testing if you've not done it before, but it's simple enough. This article will get you up to speed with the tools, core ideas, types of tests and testing strategies.
+   
+   <div class="summary">
+     We write tests by making assertions about the behaviour our code should have. We run the tests in a test runner. Unit tests test on a component level, functional tests on a system level.
+   </div>
+   
+   ### Contents
+   
+   - [Tools](#tools)
+   - [The core - tests, assertions and behaviour](#testing-core)
+   - [Unit testing](#unit-tests)
+   - [Functional tests](#functional-tests)
+   - [Fake code](#fakes)
+   - [Test driven development](#tdd)
 
+   <a id="tools"></a>
    ## Tools
  
-   You'll need a test runner. There are a heap of of them out there. I prefer those with command line runners, as they're easy to run from within an editor without mousing about - or trigger automatically on a build server. Here's a non-exhaustive list. My examples are in JSTestDriver, but test drivers are all extremely simple - don't worry if you'd prefer to use something else.
+   You'll need a test runner. There are a heap of of them out there. I prefer those with command line runners, as they're easy to run from within an editor without mousing about - or trigger automatically on a build server. Here's a non-exhaustive list. My examples are in JSTestDriver, but test drivers are all basically the same. It'll be trivial to follow the examples and translate them into something else.
  
-   - [JSTestDriver]()
-   - [Buster.js]
-   - [QUnit.js]
-   - [DOH]
-   - [YETI]
+   - [JSTestDriver](http://code.google.com/p/js-test-driver/)
+   - [YUI test](http://yuilibrary.com/yui/docs/test/)
+   - [Dojo DOH](http://dojotoolkit.org/reference-guide/1.7/util/doh.html) * not fantastically documented
+   - [QUnit.js](http://docs.jquery.com/Qunit) * no command line runner
+   - [Buster.js](http://busterjs.org/) * beta
  
-   I'm using JSTestDriver for my testing. It's great, so are the above, use whichever you prefer!
+   All of the above are great, use whichever you prefer!
    
-   ## The very basics of testing
+   <a id="testing-core"></a>
+   ## The core of testing
    
-   Testing works by making assertions about the behaviour of code. Assertions are functions you call to make certain your code has done certain things. They look like this:
+   Testing is the process of writing assertions specifying the behaviour of your code. Assertions are functions you call to make certain your code does certain things. They look like this:
      
    ```
      assertEquals("happy",state)
@@ -28,40 +44,49 @@ body: |  ##
      assertEmpty(form.errors())
    ```
    
-   Every [test](/testing-glossary#test), or [example](/testing-glossary#example), in your code will have one or more [assertion](/testing-glossary#assertion)s. Test one thing in each example - you may want to use multiple assertions to do this, but just ensure they link to the test name.
+   As you can see, they take the form of a boolean test about something. It could be testing that two things are equal, or that a string matches a regex, or that a piece of code raises a certain `Error`.
+   
+   Every [test](/backbone-javascript-testing-glossary#test), or [example](/backbone-javascript-testing-glossary#example), in your code will have one or more [assertions](/backbone-javascript-testing-glossary#assertion). Test one [behaviour](/backbone-javascript-testing-glossary#behaviour) in each example - you may want to use multiple assertions to do this, but just ensure they link to the test name. If you don't, it'll be very confusing to discern what your code has failed to do.
    
    I personally name tests in a sentence style:
      
-   ```
+   <pre>
      "it should play a sound on load": function(){
        /* ... */
      },
      "it returns a formatted currency string": function(){
        /* ... */
      }
-   ```
+   </pre>
    
-   You might prefer another style of testing naming. Do whatever you find easiest - but do remember to write tests that describe what your code [_should be doing_](/testing-concepts#behaviour-not-implementation), not _how it is doing it_. We'll return to this later - for now, just remember to write tests that describe behaviours your code needs to exhibit, not the way you've made it do it.
+   You might prefer another style of testing naming. Do whatever you find easiest - but do remember to write tests that describe what your code _should be doing_, not _how it is doing it_.
+   
+   #### Summary
+   
+   - tests are a piece of code which uses assertions to ensure the code tested matches the description of the behaviour in the test name
+   - every test has one or more assertion
+   - tests should be about behaviour your the tested component should exhibit, not how you created that behaviour
    
    ## The two major types of test
    
-   There are two broad categories of tests: unit tests, and functional tests.
- 
+   I think about tests as being in two broad categories: unit tests, and functional tests. Unit tests test one component in isolation, functional tests test systems on a level users would recognise.
+
+   <a id="unit-tests"></a> 
    ### Unit tests
  
-   Unit tests work on piece of code in isolation - often single functions. JS programs are composed of functions and objects that hold functions and variables. Unit tests will take a single function or object and check that it behaves correctly.
+   Unit tests work on piece of code in isolation - often single functions. JS programs are composed of functions and objects that hold functions. Unit tests will take a single function or object and check that it behaves correctly.
  
    Let's look at an example - some real Backbone view code. Let's say we have a view that we'd like to update a model on a click.
  
-   ```js
+   <pre>
      toggleReminder: function (evt) {
        this.model.set({reminder: !this.model.get("reminder")})
      }
-   ```
+   </pre>
  
    A very simple case - we'd like this event handle to toggle a reminder. The desired behaviour here is "take a click, and toggle our model's reminder". How could we test that?
  
-   ```js
+   <pre>
      "it should toggle reminder on click": function() {
        view = makeView()
        assertEquals(false,view.model.get("reminder"))
@@ -70,7 +95,7 @@ body: |  ##
        view.toggleReminder()
        assertEquals(false,view.model.get("reminder"))
      }
-   ```
+   </pre>
  
    In this simple test we've:
  
@@ -78,7 +103,9 @@ body: |  ##
    - specified what we expect to happen as a result of triggering behaviour
    - trigger that behaviour (firing the callback to toggle the reminder on and off)
  
-   What we haven't done is totally isolate the view from the rest of the system. We're relying on the rest to do it's job - what we're interested is _this_ view's behaviour. A fully unit tested system should work cleanly together - each part rlying on the contract documented through tests. We'll discuss how far to go with isolation in the article on Unit Testing with Mocks and Stubs.
+   What we haven't done is totally isolate the view from the rest of the system. We're relying on the rest (our `Model` in this case) to do it's job - what we're interested is _this_ view's behaviour. A fully unit tested system should work cleanly together - as each part relies on the behaviour that is specified and tested through its own unit tests.
+   
+   More isolation is often useful, and we'll discuss this after we introduce functional tests.
    
    #### Summary
  
@@ -86,23 +113,144 @@ body: |  ##
    - they test one piece of behaviour in isolation
    - they often involve stubbing complex/slow external systems (AJAX, databases like IndexedDB)
    
+   <a id="functional-tests"></a>   
    ### Functional/integration testing
- 
+
+   
    Functional tests are the opposite of unit tests. They test systems in circumstances as close to reality as possible. They're also normally tests of behaviours users would understand - "when I click this button, this happens", not "this function takes a state object and a method and updates that state".
  
    Functional testing Backbone is more involved than unit testing. I'd argue, however, that it's possible more valuable. You get a lot of testing done in one functional test, covering a lot of code. It'll involve a bit of setup so I'll leave code examples for later, but they'll have names like
+  
+   <pre>
+     "when the user hits 'buy', the product appears in their shopping cart": function() {
+       var ui = makeUI();
+       refuteHasCss(ui.cart.el,".cart-item");
+       ui.products.$(".products")[0].click()
+       assertHasCss(ui.cart.el,".cart-item");
+     }
+   </pre>
+   
+   These behaviours involve many components behind the scenes - in the first, a view for the buy button, some model procedure to ask the server if it's in stock, and another view that renders the updated cart. Simple behaviour for the user - lots of code to be tested.
  
-   "when the user hits the 'buy' button, they see the product appear in their shopping cart"
-   "when the user receives a message, they see an alert"
- 
-   These behaviours involve many components behind the scence - in the first, a view for the buy button, some model procedure to ask the server if it's in stock, and another view that renders the updated cart. Simple behaviour for the user - lots of code to be tested.
- 
-   They're also known as integration tests as they test components working together. You could have a integration test that wasn't a functional test - plumbing code between your model and persistance layer for instance. Don't get too het up about the names - Rails integration tests are functional tests.
+   Functional tests are also known as [integration tests](/backbone-testing-glossary#integration-test) as they test components working together (integrating). They're more often called integration tests in backend code, where you're testing whether modules work together correctly, but it's nothing a user would recognise. You could even have an integration test that wasn't a functional test in the front end - plumbing code between your model and persistence layer for instance.
+   
+   Don't get too het up about the names though - the important thing is to recognise that in contrast to unit testing, you're trying to test _recognisable functionality_ rather than isolated pieces of code.
  
    #### Summary
  
    - functional tests test the system as close to 'for real' as possible
    - they work on testing user-recognisable behaviour
    - they're great for testing a lot of code quickly
- 
-   ## Key testing ideas
+
+   <a id="fakes"></a>   
+   ### Fakes
+
+   Testing will often involve faking system behaviour. When something your code relies on is too slow, complicated to set up or unreliable, you'll want to fake it.
+   
+   Fakes or stubs are implementations of methods or objects created for the purposes of testing. You will use them when the system they're stubbing is too slow, unreliable to test, or hasn't yet been created.
+   
+   The last use is fantastic when you're developing a component that works with a component someone else is writing, or you haven't written yet. You specify the contract with the other code via stubs, and your code will rely on that contract being fulfilled.
+   
+   - faking components you haven't written yet but your code relies on
+   - faking slow, unreliable or complex code
+
+   <a id="tdd"></a>   
+   ### Test driven development
+
+   Test driven development (TDD) has one principle - never write any code except to fix a failing test. So before you write a single line of application code, you write a test explaining what you want that first component to do.
+   
+   This means each line of code is written _in response to a failing test_. So if we took any line of code away, there would be a test that fails.
+   
+   So coding becomes a loop:
+     
+   1. write a test
+   1. run it, confirm it's failing
+   1. write as little code as possible to make it pass
+   1. run test, confirm it's passing.
+   1. If it is, back to step 1 for a new test. If not, back to step 3 to make it pass.
+   
+   Logically, if we follow this rule, we will know:
+     
+   1. all behaviour is specified by a test
+   1. code removal/incorrect modification will result in a failing test
+   1. we only wrote code in response to the behaviours we want our code to exhibit
+   
+   So a simple example.
+   
+   #### Write test
+   
+   <pre>
+     "it should toggle reminder on click": function() {
+       view = makeView()
+       assertEquals(false,view.model.get("reminder"))
+       view.toggleReminder()
+       assertEquals(true,view.model.get("reminder"))
+       view.toggleReminder()
+       assertEquals(false,view.model.get("reminder"))
+     }
+   </pre>
+   
+   #### Run test
+   
+   <pre>
+    > sh run_tests.sh
+    ...........................F
+    1 test failure ("it should toggle reminder on click"), view.toggleReminder is not a function
+   </pre>
+  
+   OK, looks like we'll need that `toggleReminder` function! You can see here that "never write code except as a response to failing code" is quite a tough rule to live up to. 
+   
+   If you want to know your code exhibits the three outcomes of TDD we discussed above, you'll need to be disciplined to not write the "obvious code" before you've written and run a failing test.
+  
+   #### Implement code
+   
+   <pre>
+     ReminderView = View.extend({
+       toggleReminder: function() {
+       
+       }
+     })
+   </pre>
+   
+   #### Run test
+
+    <pre>
+     > sh run_tests.sh
+     ...........................F
+     1 test failure ("it should toggle reminder on click"), expected false to equal true
+    </pre>
+    
+   OK, we fixed the error, now our assertion is failing. We'll need to implement that toggle to make it pass.
+   
+   #### Implement code
+   
+   <pre>
+     ReminderView = View.extend({
+       toggleReminder: function() {
+         this.model.set({reminder:!this.model.get("reminder")});
+       }
+     })
+   </pre>
+   
+   #### Run test
+   
+   <pre>
+    > sh run_tests.sh
+    ............................
+    All tests passed
+   </pre>
+   
+   Great! We can now add another test to describe another aspect of our code's desired behaviour.
+   
+   You can see this technique is expensive in terms of code. If you're interested in TTD, I've described  a [cautious approach to TDD](/test-driven-development-pros-cons) that recognises it is an expensive technique - there is probably a lot of code it's not worth it to test. If you're following TDD, you'd have to.
+   
+   ## Summary
+   
+   - You'll need a test runner. I prefer those with a command line runner for faster testing from within my editor (vim)
+   - You write tests by making assertions about what your code should be doing
+   - Unit tests specifying a component's behaviour in isolation
+   - Functional tests specify behaviour on or near to a level users would understand
+   - Testing involves faking extensively - for easy, speed or because your code relies on other code you've not written yet
+   - Test driven development lets you ensure all your code is covered by tests - at a high cost
+    
+   
