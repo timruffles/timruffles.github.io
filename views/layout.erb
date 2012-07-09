@@ -12,12 +12,13 @@
       _gaq.push(['_setAccount', 'UA-24335480-1']);
       _gaq.push(['_trackPageview']);
 
-      (function() {
+      var asyncScript = function(src) {
         var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        ga.src = src;
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-
+      };
+      asyncScript(('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js');
+      asyncScript("/js/prettify.js");
     </script>
   </head>
   <body class="<%= @is_root ?  "root" : "article"%>">
@@ -41,15 +42,11 @@
               <a href="https://www.google.com/search?as_sitesearch=http://truffles.me.uk">Search</a>
             </div>
           </div>
-          <% unless @is_root %>
-            <%= erb :header %>
-          <% end %>
         </div>
     </div>
     <div class="footer reading">
       <div class="container">
-        <p><a xmlns:cc="http://creativecommons.org/ns#" href="http://truffles.me.uk" property="cc:attributionName" rel="cc:attributionURL">Writing</a> on <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text" property="dct:title" rel="dct:type">truffles.me.uk</span> is available <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">under this license</a>.</p>
-        <p><a href="https://github.com/timruffles/truffles.me.uk">Source code</a> of the blog. Ad-hoc but flexible (little code, rather than an implementation of the <a href="http://en.wikipedia.org/wiki/Visitor_pattern">visitor pattern</a>). Get in touch via <a rel="author" href="https://plus.google.com/110753026594188724855">G+</a>.
+        <p><a href="https://github.com/timruffles/truffles.me.uk">Source code</a> of the blog. Ad-hoc but flexible (little code, rather than an implementation of the <a href="http://en.wikipedia.org/wiki/Visitor_pattern">visitor pattern</a>). Get in touch <a href="http://twttr.com/timruffles">@timruffles</a>, <a rel="author" href="https://plus.google.com/110753026594188724855">G+</a>.
         </p>
       </div>
     </div>

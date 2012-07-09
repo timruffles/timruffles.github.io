@@ -1,5 +1,12 @@
 <h1><a href="<%= @perma %>"><%= @title%></a></h1>
 <%= @body %>
-<div id="fb-root"></div>
-<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
-<fb:comments href="<%= permalink(@fb_url || @perma) %>" num_posts="1000" width="500"></fb:comments>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'trufflesmeuk';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments.</a></noscript>
