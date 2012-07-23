@@ -1,6 +1,6 @@
 title: Backbone.js domain driven design
 body: |
-# Domain driven design and Backbone.js
+  # Domain driven design and Backbone.js
   I find spending a good chunk of time thinking about your domain when creating a Backbone application has a very large payoff. Everything below applies to all JS frameworks, it's just Backbone is a) popular b) what I'm using this minute.
 
   Backbone has two main tools for modelling - Models and Collections. I use value objects extensively as well, and they can be trivially implemented using models. 
@@ -8,8 +8,7 @@ body: |
 
   ## Value objects
 
-  A value object is a domain object that is defined only by its value. A time period, for instance, is [fungible]() - it is entirely defined by its value. You don't care _which_ Monday-Thursday June 2012 it is, and it wouldn't make sense to give it an id. If you create two value objects with the same value there are _the same_ in your applications' eyes.
-
+  A value object is a domain object that is defined only by its value. A time period, for instance, is [fungible](http://oxforddictionaries.com/definition/english/fungible?q=fungible) - it is entirely defined by its value. You don't care _which_ object representing Monday-Thursday June 2012 it is, and it wouldn't make sense to give it an id. If you create two value objects with the same value there are _the same_ in your applications' eyes.
 
   They have the immediate benefit of solving issues where you might set multiple fields on a model and need to listen to both. So with our time period example:
 
@@ -37,11 +36,8 @@ body: |
     constructor: function(attrs,opts) {
       var base = opts.base || {};
       _.defaults(attrs,base); 
-
       var existing;
       if(existing = Query.all.get(attrs)) return existing;
-
-      
     }
   })
   ```
@@ -87,7 +83,7 @@ body: |
 
   Great - now lets extend our `sync` method to be aware of this, and only give the model layer domain objects that are ready to go.
 
-  ```
+  <code>
   var originalSync = Backbone.sync;
   Backbone.sync = function(method,model,options) {
 
@@ -117,7 +113,7 @@ body: |
 
     originalSync.call(this,method,model,options);
   };
-  ```
+  </code>
 
   Backbone is quite a lot of structure to bring to web sites. Likewise, layering might be a lot of structure to bring to small web apps. However, as you are handling persisting to a couple of datastores (perhaps a REST backend, and real-time web sockets), you'll have a lot of code that's handling serialising to and from them. To me, it may as well live in the sync layer, rather than in models. You can implement this in a couple of nice clean functions, rather than specific/inherited code in all of your models.
 

@@ -22,9 +22,9 @@ body: |
 
   Requiring them in [doesn't require](http://guides.rubyonrails.org/asset_pipeline.html#search-paths) the `app`, `lib` or `vendor` prefix. You [don't need a file type suffix](http://guides.rubyonrails.org/asset_pipeline.html#search-paths). You use [Sprocket's](https://github.com/sstephenson/sprockets) `//= require asset_name` to pull in other files in JS or CSS (or any language that compiles to either of those).
 
-  Grab the [sass-rails](https://github.com/rails/sass-rails) gem for sass, and [compass-rails](https://github.com/compass/compass-rails) to avoid reinventing a heap of [CSS3/browser compability mixins](http://compass-style.org/reference/compass/css3/).
+  Grab the [sass-rails](https://github.com/rails/sass-rails) gem for sass, and [compass-rails](https://github.com/compass/compass-rails) to avoid reinventing a heap of [CSS3/browser compatibility mixins](http://compass-style.org/reference/compass/css3/).
 
-  ## Configuartion
+  ## Configuration
 
   If you have any top level files (eg that will be in a `script` or `link` tag) aside from application.{js,css}, they will not be precompiled unless you tell Rails about them manually.
 
