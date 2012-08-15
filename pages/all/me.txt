@@ -1,8 +1,8 @@
 title: Me
 date: 2011/07/09
 body: |
-  I work for [Picklive](http://picklive.com) where I write Ruby, Javascript and come up with schemes. We're in [White Bear Yard](http://whitebearyard.com/), come in for a coffee some time.
-  
-  I enjoy reading, writing, maths (studying MST121 and MS221 at the Open Uni right now), [photography](http://www.flickr.com/photos/timruffles/), debating, laundry and eating. Eating especially.
+  I write Ruby and Javascript to pay bills, & other things out of interest.
+
+  I enjoy reading, writing, maths, machine learning, [photography](http://www.flickr.com/photos/timruffles/), debating, laundry and eating. Eating especially.
   
   
