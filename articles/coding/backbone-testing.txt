@@ -1,5 +1,5 @@
 title: How to test Backbone apps
-date: 22/04/2012
+date: 2012/04/22
 body: |
   
   Testing your Backbone code will let you write better apps, faster. This series will show you how. I’ll cover unit and functional testing, and techniques to test your app without a live backend/API.
