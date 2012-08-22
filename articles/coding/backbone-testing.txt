@@ -28,7 +28,7 @@ body: |
   
   <div class="story bad">
     <div class="smiley">☹</div>
-    <p>It's Friday at 18.46. Your Selenium suite takes 28 minutes to run, and your 96% code coverage unit test suite had to be rewritten due to product changes. You need to release to and make users happy, but all your time was spent fixing tests.</p>
+    <p>It's Friday at 18.46. Your Selenium suite takes 28 minutes to run, and your 96% code coverage unit test suite had to be rewritten due to product changes. You need to release to make users happy, but all your time was spent fixing tests.</p>
   </div>
   
   Tests are not the goal - releasing a great Backbone app for your users is!  I’ll be highlight techniques to keep your tests from become fragile and costly to maintain.
