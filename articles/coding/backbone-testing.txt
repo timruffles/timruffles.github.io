@@ -1,0 +1,66 @@
+title: How to test Backbone apps
+date: 22/04/2012
+body: |
+  
+  Testing your Backbone code will let you write better apps, faster. This series will show you how. I’ll cover unit and functional testing, and techniques to test your app without a live backend/API.
+  
+  ## Why should I care about testing my Backbone code?
+  
+  Let me give you the typical pro-testing before and after:
+  
+  #### Before
+
+  <div class="story bad">
+    <div class="smiley">☹</div>
+    <p>It's Friday at 18.46. Your app isn't working on IE <em>again</em>. You fix and deploy, and realise you've pushed a one character typo. Meeting friends in the pub? Nope.</p>
+  </div>
+  
+  #### After
+  
+  Flash to a cheesy [silver bullet](http://c2.com/cgi/wiki?SilverBullet) comparison:
+  
+  <div class="story good">
+    <div class="smiley">☺</div>
+    <p>IE didn't have <code>Array#indexOf</code> but your tests alerted you before deploy. The release was great: no surprise, you already knew it worked from your happily blinking test suites. Desk beer!</p>
+  </div>
+
+  Sounds nice! However, [silver bullets](http://c2.com/cgi/wiki?SilverBullet) belong in vampire stories. Every programming practice has costs along with benefits, testing is no exception. So we have an additional story to consider:
+  
+  <div class="story bad">
+    <div class="smiley">☹</div>
+    <p>It's Friday at 18.46. Your Selenium suite takes 28 minutes to run, and your 96% code coverage unit test suite had to be rewritten due to product changes. You need to release to and make users happy, but all your time was spent fixing tests.</p>
+  </div>
+  
+  Tests are not the goal - releasing a great Backbone app for your users is!  I’ll be highlight techniques to keep your tests from become fragile and costly to maintain.
+  
+  ## Series overview
+  
+  The articles in the series will be:
+  
+  1. Testing Backbone models
+  1. Testing Backbone views
+  1. Asynchronous tests
+  1. Creating a mocked server for Backbone apps
+  1. Advanced Backbone views - easy testing with view models
+  1. Functional testing for Backbone
+    
+  ## Experience
+  
+  This series is drawn from the methods I've found most effective while developing a number of products with Backbone - numerous [real time games](http://picklive.com), a [machine learning Twitter client](http://twedar.com), [Chrome extensions](http://arachnys.com) and an [analytics dashboard](http://skimlinks.com).
+  
+  ## What will I learn?
+  
+  By the end of the series you'll be able to:
+    
+  - write well tested Backbone models, collections, routers and views
+  - test all the fiddly bits - functional tests, AJAX and asynchronous tests
+  - create demo ‘servers’ to run your app without a live backend.
+  - have some principles to decide when testing is worth it
+  
+  ## Schedule
+  
+  I'll be posting the rest of the articles over the next few weeks, starting this week. Subscribe to [the feed](http://feeds.feedburner.com/TimRufflesBlog) or [follow me](http://twttr.com/timruffles) so you don’t miss them as they come out.
+  
+  If you're in the UK, you might like the class I've run before and will run again in the future at [General Assembly London](http://www.eventbrite.com/org/1787534763), Building Web Apps with Backbone.js. It'll take you through Backbone.js from the basics, and work through a case study of converting a legacy jQuery app into a single-page Backbone app.
+  
+  Thanks for reading, please say hi if you've any questions - [@timruffles](http://twttr.com/timruffles).

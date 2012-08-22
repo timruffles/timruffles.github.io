@@ -14,7 +14,7 @@ body: |
   
   A view wouldn't be doing a great job if it didn't give the user something to look at. Let's make sure our views do that now.
   
-  Backbone is liberal in its approach to views, leaving it up to you to decide how to render them. Step one is deciding on how to create some nice DOM elements. I use templates - specifically code-free templates like Mustache - as they're quick, testable and designer friendly. I've written about [my setup and the reasoning behind it](/javascript-templates-are-great) if you're interested. The examples in this article will reflect this setup.
+  Backbone is liberal in its approach to views, leaving it up to you to decide how to render them. Step one is deciding on how to create some nice DOM elements. I use templates - specifically code-free templates like [Mustache](https://github.com/janl/mustache.js) - as they're quick, testable and designer friendly. The examples in this article will reflect this setup.
   
   ### Our first presentation test
   
@@ -94,7 +94,7 @@ body: |
   
   ## Listen for events
   
-  Views handle user interaction with the DOM. This is a common question about Javascript testing, so let's have a look.
+  Views handle user interaction with the DOM. How to test this is a common question in Javascript testing, so let's have a look.
   
   <pre>
     "test I can preview an item by clicking on it": function() {
