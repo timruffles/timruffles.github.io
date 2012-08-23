@@ -57,12 +57,10 @@ def make_rss articles
     rss.items.do_sort = true
     
     articles.each do |article|
-			unless article.rss
-				item = rss.items.new_item
-				item.title = article.title
-				item.link = permalink article.link
-				item.date = Time.parse(article.date)
-			end
+      item = rss.items.new_item
+      item.title = article.title
+      item.link = permalink article.link
+      item.date = Time.parse(article.date)
     end
   end.to_s
 end
