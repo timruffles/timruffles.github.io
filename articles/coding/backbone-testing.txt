@@ -37,8 +37,8 @@ body: |
   
   The articles in the series will be:
   
-  1. Testing Backbone models
   1. Testing Backbone views
+  1. Testing Backbone models
   1. Asynchronous tests
   1. Creating a mocked server for Backbone apps
   1. Advanced Backbone views - easy testing with view models
