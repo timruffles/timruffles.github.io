@@ -119,7 +119,7 @@ body: |
   
   If instead you implement all of these rules around modifying our domain state in a view, what happens when you add another view performing the same operation? If you said "copy the code there too", remove one cookie from your jar and GRIND IT INTO DUST. For that way lies madness - every time you change the [domain](/backbone-javascript-testing-glossary#domain) rules, you know have two places to update. Miss one, and that's a ugly new bug a user will run into (not to mention two places to test).
 
-	Finally, model tests are simpler to write, being plain old Javascript rather than DOM or AJAX.
+  Finally, model tests are simpler to write, being plain old Javascript rather than DOM or AJAX.
   
   So that makes our job in testing view interaction with models super-simple! As we know they'll be calling a maximum of one model method per user interaction, you should already be saying to yourself "aha, a simple [mocking](/backbone-javascript-testing-glossary#mock) job".
   
