@@ -39,6 +39,9 @@ body: |
 
   Debug precompiltation with the below command Heroku will use. Ideally turn off initialization as above, and if that's not possible, ensure no initialisers hit DBs etc.
 
-     env RAILS_ENV=production DATABASE_URL={{YOUR_SCHEME_HERE - prob postgres}}://user:pass@127.0.0.1/dbname bundle exec rake assets:precompile 2>&1
+      env RAILS_ENV=production DATABASE_URL={{YOUR_SCHEME_HERE - prob postgres}}://user:pass@127.0.0.1/dbname bundle exec rake assets:precompile 2>&1
+
+
+  If you've any other gotchas, or if anything is out of date, please let me know!
 
 

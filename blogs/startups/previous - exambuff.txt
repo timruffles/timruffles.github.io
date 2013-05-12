@@ -1,5 +1,4 @@
 title: Exambuff - Open Sourced Startup
-facebook_comment_url: http://truffles.me.uk
 date: 2011/07/09
 body: |
 
