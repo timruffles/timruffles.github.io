@@ -1,5 +1,5 @@
 title: "Testing Backbone views"
-date: "23/08/2012"
+date: "2012/08/23"
 body: |
   Backbone views are responsible for presenting the state of the models to your user. Most commonly, they'll use the DOM to do this (equally I've written views that use Canvas, SVG or sound), and handling user interaction with that presentation. We'll focus on testing DOM views as they're most common.
   

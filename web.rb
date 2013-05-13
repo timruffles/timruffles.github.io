@@ -70,6 +70,9 @@ end
 articles = load "articles/**/*.txt"
 blog_posts = load "blogs/**/*.txt"
 pages = load "pages/**/*.txt"
+[articles,blog_posts,pages].each do |list|
+  list.drop_if! {|i| i["draft"] || i["body"].nil? || i["title"].nil? }
+end
 all = articles.items + blog_posts.items + pages.items
 
 get "/" do
