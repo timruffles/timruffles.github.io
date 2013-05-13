@@ -1,7 +1,7 @@
 title: Me
 date: 2011/07/09
 body: |
-  I write Ruby and Javascript mainly, along with Python for a side-dish. Occasionally I try to learn Haskell and then a "a strong lax monoidal functor" chases me away.
+  I write Ruby and Javascript mainly, along with Python for a side-dish. Occasionally I try to learn Haskell and then a "strong lax monoidal functor" chases me away.
 
   I enjoy reading, writing, maths, machine learning, [photography](http://www.flickr.com/photos/timruffles/), debating, laundry and eating. Eating especially.
   
