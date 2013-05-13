@@ -1,5 +1,5 @@
 title: "Backbone / Javascript Testing Glossary"
-date: "24/04/2012"
+date: 2012/04/24
 template: "erb"
 definitions:
   assertion: "Boolean (yes/no) function that causes the [test] it's executed within to fail if it is not true."
