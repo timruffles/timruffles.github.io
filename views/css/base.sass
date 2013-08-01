@@ -10,6 +10,11 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
   font-family: inherit
   vertical-align: baseline
 
+*
+  -moz-border-sizing: border-box
+  -webkit-border-sizing: border-box
+  border-sizing: border-box
+
 article, aside, dialog, figure, footer, header, hgroup, nav, section
   display: block
 
@@ -46,11 +51,24 @@ a img
 h1,h2,h3,h4,h5,h6
   font-family: Palatino, "Palatino Linotype", Georgia, Times, "Times New Roman", serif
 
+#comments
+  h3
+    margin-top: 0.5em
+  input[type=text]
+    width: 95% 
+    padding: .25em
+  input[type=text], textarea
+    font-size: 1em
+  textarea
+    width: 100%
+  h2,h3,h4
+    font-family: arial, "Helvetica Neue", Helvetica, sans-serif 
+
 body, input[type="text"], input[type="submit"], .search
   font-family: arial, "Helvetica Neue", Helvetica, sans-serif 
 
 html
-  font-size: 100.01%
+  font-size: 18px
 
 h1, h2, h3, h4, h5, h6
   font-weight: normal
@@ -63,6 +81,7 @@ h1
   
 #body h1
   font-size: 2.5em
+  line-height: 1.25em
 
 h2
   font-size: 1.5em
@@ -236,14 +255,18 @@ ul ul
 .root .page_header
   margin: 4em 0
   height: 10em
-  width: 31em
-  background: url(../img/colophon_small.png) no-repeat top right
   
 .column
   float: left
   width: 45%
   font-size: 0.8em
   margin-right: 5%
+  @media (max-width: 320px)
+    clear: both
+    width: 100%
+    font-size: 1em
+    .articles_head
+      display: none
   
 .footer
   clear: both
@@ -275,17 +298,23 @@ ul ul
 
 /* layout */
 
-.reading
-  width: 30em
+$reading_width: 35em
+=reading_width
+  width: $reading-width
   margin: 0 auto
+  @media (max-width: 320px)
+    padding: 0 1rem
+    
+
+.reading
+  +reading_width
   
 .minor
   font-size: 0.8em
 .break
   margin: 0 0 0 1em
 #content
-  width: 30em
-  margin: 0 auto
+  +reading_width
 
 .logical
   display: inline
@@ -346,5 +375,11 @@ h2 a, #body h1 a
   width: 1em
 
 pre,code
-  font-size: 1.125em
+  font-size: 1em
   margin-bottom: 1rem
+  white-space: pre-wrap
+
+.plug
+  background: hsl(120, 100%, 94%)
+  border: 1px solid hsl(120, 100%, 70%)
+  padding: 0.25rem 0.5rem

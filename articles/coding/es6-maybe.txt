@@ -1,0 +1,116 @@
+title: Playing with ES6 generators to make a Maybe in Javascript
+date: "2013/08/01"
+body: |
+
+  <div class="summary">
+    If you know about Either, Maybe and JS generators already just take a look <a href="https://gist.github.com/timruffles/6129848">at the code</a>.
+  </div>
+
+  Javascript [ES6](http://tc39wiki.calculist.org/es6/) is likely to [introduce generators](http://wiki.ecmascript.org/doku.php?id=harmony:generators) into the language. A number of cool things are enabled by generators' ability to control the flow of a function from outside.
+
+  I've used them here to build a userful boiler-plate reduction tool similar to the idea of Haskell's [Either](http://learnyouahaskell.com/for-a-few-monads-more#error) and [Maybe](http://learnyouahaskell.com/a-fistful-of-monads#getting-our-feet-wet-with-maybe). It's not indended as something to use, just as an experiement.
+
+
+  ## What's Either a Maybe or a...
+
+  If you don't know about Maybe and Either, I'll give a brief intro. If you do - [let's talk about JS](#in-js). There are [better](http://learnyouahaskell.com/a-fistful-of-monads#getting-our-feet-wet-with-maybe) [guides](http://learnyouahaskell.com/for-a-few-monads-more#error), but I'll have a go:
+
+  Either and Maybe replace code that checks for invalid values in a process. Maybe handles missing things: no matching record in the database, no such key in a Map. Either handles things that could go wrong - invalid input, numerical calculations out of domain etc.
+
+  The core idea is to split what you want to do with something apart from checking and handling whether it's missing or invalid. Rather than having lots of error checking after each potentially missing/ernoeous step, you simply write your code as if everything is perfect, and Either and Maybe's machinery will handle any problems. Here's a pseudo code example:
+
+  <pre>
+  user = database.find(params["id"])
+  number = user.fetch("optional-number-field")
+  log = Math.log(number) # could be NaN if -1
+  </pre>
+
+  Here we have 2 potential Nothing values (db search, fetch a field), and one potential invalid result (Math.log is undefined for negative numbers). If we add in the error checking we make it harder to read:
+
+  <pre>
+  user = database.find(params["id"])
+  return unless user
+  number = user.fetch("optional-number-field")
+  return if nil?(number)
+  log = Math.log(number) # could be NaN if -1
+  return if nan?(log)
+  </pre>
+
+  With Either and Maybe we can just write the process we want to carry out if everything is there and correct, and let other code handle the errors. Obviously in lots of cases you want to know about error states, and this example is probably bad, but hopefully you can think of cases where you don't need to handle errors on a granular level.
+
+
+  ### jQuery is an existing Javascript example
+
+  A well-known example is jQuery, in which calling DOM manipulations on a selection you made that found nothing doesn't cause a bug. Often you don't care about something not being there, you're just defining what happens if it is:
+
+  <pre>
+  function select(item) {
+    $(".selected").removeClass(".selected")
+    $("[data-id=" + item.id + "]").addClass(".selected")
+  }
+  </pre>
+
+  Here we've got a select handler that first deselects the previously selected item. It's less code to just specify that any selected items are deselect them that to specifically try to find them, do something if they're found, or nothing if not.
+
+
+  <a id=in-js></a>
+
+  ## Javascript generators get in on the game
+
+  Javascript generators let you do a similar thing. I'll not explain generators in depth here, but the core concept is yield returns control to the code that's calling the generator, and "blocks" there until the generator is resumed.
+
+  <pre>
+  var numericalProcess = function*() {
+    yield Math.log
+    yield function(x) { return x - 1 }
+    yield Math.log
+    yield Math.sqrt
+    yield Math.log
+  }
+  </pre>
+
+  This process has 3 potential invalid values from the Math.log, but we can just write it without any error checking. We're going to define a MaybeGenerator that implements this. The final result will be a tool that correctly allows us to avoid any NaN values, while the process runs fine without explicit checks:
+
+  <pre>
+  var safeNumericalExample = MaybeGenerator(isNaN,numericalProcess)
+   
+  var shouldBeNothing = safeNumericalExample(-1)
+  var becomesNothingLater = safeNumericalExample(1)
+  var someNormalNumber = safeNumericalExample(1205)
+   
+  console.log(shouldBeNothing)   // Nothing
+  console.log(becomesNothingLater)   // Nothing
+  console.log(someNormalNumber) // 0.29592896553598536...
+  </pre>
+
+  The `MaybeGenerator` takes a list of functions that test for a value that stops the process, and the generator wrapping the process. Each step is passed the value from the previous one, threading the value through the steps in a point-free style (AKA not referring to arguments explicitly).
+
+  <pre>
+  var Nothing = {Nothing: true}
+ 
+  function MaybeGenerator() {
+    var g = arguments[arguments.length - 1]
+    // list of functions that test for any "Nothing" values
+    var maybes = [].slice.call(arguments,0,arguments.length - 1)
+   
+    return function(value) {
+      var generator = g.apply(null)
+      var result
+      var nothing = false
+      while(result = generator.next(), !result.done) {
+        value = result.value.call(null,value)
+        if(maybes.some(function(mf) { return mf(value) })) {
+          return Nothing
+        }
+      }
+      return value
+    }
+  }
+  </pre>
+
+  Each time we call `generator.next()` the generator runs until it hits a `yield`. Once that happens we get a `{done: Boolean, value: Anything}` object back from the generator. We're yielding functions to apply to the value, so we apply it to the current value. If returns something one of our guard functions thinks is a Nothing, we return Nothing and we're done. Once the generator is finished (the function closes) we get a `{done: true, value: undefined}` and end the loop, returning the final value.
+
+  That rounds out the implementation! I'm sure there are many more interesting & sensible things to do with generators, they're extremely powerful.
+
+
+

@@ -37,7 +37,7 @@ def extract_params article_path
   article.path = article_path
   article.category = article_path.split("/")[1..-2].first.gsub('_',' ').gsub(/\b(\w)/) {|word| word.upcase }
   article.link ||= permalinkify article.title
-  article.date = article.date || File.mtime(article_path).to_s
+  article.date = (article.date && Date.parse(article.date)) || File.mtime(article_path).to_s
   article
 end
 
@@ -56,7 +56,7 @@ def make_rss articles
     rss.channel.description = "truffles.me.uk feed"
     rss.items.do_sort = true
     
-    articles.each do |article|
+    articles.sort {|a,b| b.date <=> a.date }.each do |article|
 			unless article.rss
 				item = rss.items.new_item
 				item.title = article.title
@@ -74,18 +74,19 @@ pages = load "pages/**/*.txt"
   list.drop_if! {|i| i["draft"] || i["body"].nil? || i["title"].nil? }
 end
 all = articles.items + blog_posts.items + pages.items
+postable = articles.items + blog_posts.items
 
 get "/" do
   cache articles.hash + blog_posts.hash, [articles.last_modified_at,blog_posts.last_modified_at].max
   @title = "Tim Ruffles"
-  @blog_posts = blog_posts
+  @blog_posts = blog_posts.items.sort {|a,b| b.date <=> a.date }
   @articles = articles
   erb :index
 end
 
 get "/rss" do
   cache articles.hash + blog_posts.hash, [articles.last_modified_at,blog_posts.last_modified_at].max
-  make_rss(all)
+  make_rss(postable)
 end
 
 get "/:article" do |perma|

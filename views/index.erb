@@ -1,21 +1,21 @@
 <div class="column">
-  <h2>Articles</h2>
+  <h2>Blog</h2>
+  <% @blog_posts.each do |article| %>
+    <h4>
+      <a href="<%= article.link %>"><%= article.title %></a>
+    </h4>
+  <% end %>
+</div>
+<div class="column">
+  <h2 class=articles_head>Articles</h2>
   <% @articles.by_category.each do |category, articles| %>
     <h3>
       <%= category %>
     </h3>
-    <% articles.each do |article| %>
+    <% articles.sort {|a,b| b.date <=> a.date }.each do |article| %>
       <h4>
         <a href="<%= article.link %>"><%= article.title %></a>
       </h4>
     <% end %>
-  <% end %>
-</div>
-<div class="column">
-  <h2>Blog</h2>
-  <% @blog_posts.items.each do |article| %>
-    <h4>
-      <a href="<%= article.link %>"><%= article.title %></a>
-    </h4>
   <% end %>
 </div>
