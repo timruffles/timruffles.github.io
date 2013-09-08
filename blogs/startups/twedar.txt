@@ -13,5 +13,5 @@ body: |
 
   ## Have a look at the code
 
-  Read through the [code](https://github.com/timruffles/twitter_ml_processes) - it was the first real node app I wrote. The [front-end](https://github.com/timruffles/twitter_ml) is written in Backbone & Rails.
+  Read through the [code](https://github.com/timruffles/twitter_ml_processes) - it was the first real node app I wrote. The [front-end](https://github.com/timruffles/houses) is written in Backbone & Rails.
 
