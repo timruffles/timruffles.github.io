@@ -79,8 +79,7 @@ postable = articles.items + blog_posts.items
 get "/" do
   cache articles.hash + blog_posts.hash, [articles.last_modified_at,blog_posts.last_modified_at].max
   @title = "Tim Ruffles"
-  @blog_posts = blog_posts.items.sort {|a,b| b.date <=> a.date }
-  @articles = articles
+  @all = postable.sort_by {|a| a.date }.reverse
   erb :index
 end
 
