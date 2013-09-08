@@ -1,7 +1,7 @@
 title: Twedar - machine learning side project
 date: 2013/09/08
 body: |
-  [Twedar](http://twedar.herokuapp.com) is a little side-project [I](https://twitter.com/timruffles) built about two years back with [Philip Cole](https://twitter.com/philip_cole). It's a live-updated Twitter search, with the power to filter out any noise from unrelated subjects that match your keywords. For instance, if you're interested in the [Ruby programming language](https://www.ruby-lang.org) you'll get loads of unrelated tweets about rubies in jewelry, people called ruby, ruby in song lyrics, etc. Twedar lets you cut them out.
+  [Twedar](http://twedar.herokuapp.com) is a little side-project [I](https://twitter.com/timruffles) built about two years back with [Philip Cole](https://twitter.com/philip_cole). It's a live-updated Twitter search, with the power to filter out any noise from unrelated subjects that match your keywords. If you're interested in the [Ruby programming language](https://www.ruby-lang.org) search Twitter for 'Ruby' you'll get loads of unrelated tweets about rubies in jewelry, people called ruby, ruby in song lyrics, etc. Twedar lets you cut them out.
 
   Behinds the scenes is a [really simple version](http://www.paulgraham.com/spam.html) of a technology like the spam filters in Gmail that stops you hearing about all those anatomy enhancement products.
 
