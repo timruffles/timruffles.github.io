@@ -3,13 +3,13 @@ date: 2013/09/08
 body: |
   [Twedar](http://twedar.herokuapp.com) is a little side-project [I](https://twitter.com/timruffles) built about two years back with [Philip Cole](https://twitter.com/philip_cole). It's a live-updated Twitter search, with the power to filter out any noise from unrelated subjects that match your keywords. If you're interested in the [Ruby programming language](https://www.ruby-lang.org) search Twitter for 'Ruby' you'll get loads of unrelated tweets about rubies in jewelry, people called ruby, ruby in song lyrics, etc. Twedar lets you cut them out.
 
-  Behinds the scenes is a [really simple version](http://www.paulgraham.com/spam.html) of a technology like the spam filters in Gmail that stops you hearing about all those anatomy enhancement products.
+  Behinds the scenes is a really simple version of a technology like the spam filters in Gmail that stops you hearing about all those anatomy enhancement products.
 
   It was fun to build, but we never released it properly! So I'm doing that now - have a play and tell us what you think.
 
   ## Filtering tweets
 
-  Twedar uses a naive bayes classifier. Bayes rule is a lovely little idea that's suprisingly intuative. Here's a [presentation](http://www.slideshare.net/timruffles1/naturallanguage-processing-with-naive-bayes) I made about using Bayesean filtering for classifications; there are definitely [better](https://www.coursera.org/course/nlp), [resources](https://www.udacity.com/course/cs271) out there!
+  Twedar uses a naive bayes classifier. Bayes rule is a lovely little idea that's suprisingly intuative. Here's a [presentation](http://www.slideshare.net/timruffles1/naturallanguage-processing-with-naive-bayes) I made about using Bayesean filtering for classifications; there are definitely [better](https://www.coursera.org/course/nlp) [resources](https://www.udacity.com/course/cs271) out there!
 
   ## Have a look at the code
 
