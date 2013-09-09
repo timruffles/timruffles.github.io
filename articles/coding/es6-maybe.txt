@@ -8,16 +8,16 @@ body: |
 
   Javascript [ES6](http://tc39wiki.calculist.org/es6/) is likely to [introduce generators](http://wiki.ecmascript.org/doku.php?id=harmony:generators) into the language. A number of cool things are enabled by generators' ability to control the flow of a function from outside.
 
-  I've used them here to build a userful boiler-plate reduction tool similar to the idea of Haskell's [Either](http://learnyouahaskell.com/for-a-few-monads-more#error) and [Maybe](http://learnyouahaskell.com/a-fistful-of-monads#getting-our-feet-wet-with-maybe). It's not indended as something to use, just as an experiement.
+  I've used them here to build a useful boiler-plate reduction tool similar to the idea of Haskell's [Either](http://learnyouahaskell.com/for-a-few-monads-more#error) and [Maybe](http://learnyouahaskell.com/a-fistful-of-monads#getting-our-feet-wet-with-maybe). It's not intended as something to use, just as an experiment.
 
 
   ## What's Either a Maybe or a...
 
   If you don't know about Maybe and Either, I'll give a brief intro. If you do - [let's talk about JS](#in-js). There are [better](http://learnyouahaskell.com/a-fistful-of-monads#getting-our-feet-wet-with-maybe) [guides](http://learnyouahaskell.com/for-a-few-monads-more#error), but I'll have a go:
 
-  Either and Maybe replace code that checks for invalid values in a process. Maybe handles missing things: no matching record in the database, no such key in a Map. Either handles things that could go wrong - invalid input, numerical calculations out of domain etc.
+  Either and Maybe replace code that checks for invalid values in a process. Maybe handles missing things: no matching record in the database, no such key in a Map. Either handles things that could go wrong - no such file, numerical calculations out of domain etc.
 
-  The core idea is to split what you want to do with something apart from checking and handling whether it's missing or invalid. Rather than having lots of error checking after each potentially missing/ernoeous step, you simply write your code as if everything is perfect, and Either and Maybe's machinery will handle any problems. Here's a pseudo code example:
+  The core idea is to split what you want to do with something apart from checking and handling whether it's missing or invalid. Rather than having lots of error checking after each potentially missing/erroneous step, you simply write your code as if everything is perfect, and Either and Maybe's machinery will handle any problems. Here's a pseudo code example:
 
   <pre>
   user = database.find(params["id"])
@@ -111,6 +111,7 @@ body: |
   Each time we call `generator.next()` the generator runs until it hits a `yield`. Once that happens we get a `{done: Boolean, value: Anything}` object back from the generator. We're yielding functions to apply to the value, so we apply it to the current value. If returns something one of our guard functions thinks is a Nothing, we return Nothing and we're done. Once the generator is finished (the function closes) we get a `{done: true, value: undefined}` and end the loop, returning the final value.
 
   That rounds out the implementation! I'm sure there are many more interesting & sensible things to do with generators, they're extremely powerful.
+
 
 
 
