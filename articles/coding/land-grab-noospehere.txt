@@ -1,0 +1,18 @@
+title: Land-grabbing the noosphere
+date: 2013/09/10
+body: |
+
+  Abandoned projects are land-grabs that hurt everybody.
+
+  Open source is a reputation economy. People don't write OSS for the sake of it - they want it to be used and renown. Existing libraries put people off writing new solutions to a problem as they decrease new libraries' chances of gaining users, & their potential rewards.
+
+  So if you abandon a project you've reduced the future quality of an ecosystem.
+
+
+  ## If you love it, let go
+
+  If you have a project you're no longer interested in, find a new maintainer or shut it down. Make this clear on the README, and point people towards the new project(s).
+
+  Shutting down abandoned projects is a guaranteed net positive to an ecosystem: you're not working on it anyway, and you might spark new initiatives.
+
+  If you care about other people, kill your zombie projects!
