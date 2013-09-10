@@ -1,5 +1,9 @@
-title: Land-grabbing the noosphere
+title: Land-grabbing the Noosphere
 date: 2013/09/10
+footnotes:
+- id: 
+  text: |
+    Title taken from <a href="http://catb.org/esr/writings/homesteading/homesteading/">'Homesteading the Noosphere'</a> a classic essay by Eric Raymond about the dynamics of open-source
 body: |
 
   Abandoned projects are land-grabs that hurt everybody.
