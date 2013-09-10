@@ -101,7 +101,7 @@ get "/:article" do |perma|
     else
       Redcarpet.new(@article.body).to_html
     end
-    @title, @perma, @fb_url, @footnotes = @article.title, @article.link, @article.facebook_comment_url, @article.footnotes.enum_for(:each_with_index).map {|fn,i| Footnote.new(fn.fetch("id","fn-#{i + 1}"),fn.fetch("text")) }
+    @title, @perma, @fb_url, @footnotes = @article.title, @article.link, @article.facebook_comment_url, (@article.footnotes || []).enum_for(:each_with_index).map {|fn,i| Footnote.new(fn.fetch("id","fn-#{i + 1}"),fn.fetch("text")) }
     erb(:show)
   else
     raise Sinatra::NotFound.new
