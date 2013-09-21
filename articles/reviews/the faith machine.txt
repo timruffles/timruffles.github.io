@@ -12,9 +12,9 @@ body: |
   
   Which is the kind of thing you say when you're an upset person today. It immediately reminded me of a similar sentiment in similar words, but the words of a 19th century aesthete, Mr Matthew Arnold:
   
-    "we are here as on a darkling plain
-     Swept with confused alarms of struggle and flight
-     Where ignorant armies clash by night"
+  <blockquote>"we are here as on a darkling plain
+  Swept with confused alarms of struggle and flight
+  Where ignorant armies clash by night"</blockquote>
     
     Matthew Arnold, Dover Beach
     
@@ -28,8 +28,8 @@ body: |
   
   Secondly I think our preferences can be illustrated, exercised, questioned and valorised by metaphor and the arts, in a way that they aren't by pure fact. When X in the play justifies his 47 year career in the church in his love for a "good fucking metaphor", I understand. Metaphour is why:
   
-  "Judgements are like watches
+  <blockquote>"Judgements are like watches
    none go just alike,
-   yet each prefers his own"
+   yet each prefers his own"</blockquote>
     
   is going to inspire people 1,000 years hence, and expositions of how peoples' opinions are subjective are going to sit in textbooks unquoted and unremembered. Metaphour brings our preferences into the light, gives us joy when we observe how they reinforce them.
