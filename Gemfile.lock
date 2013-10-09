@@ -23,7 +23,7 @@ PLATFORMS
 
 DEPENDENCIES
   json
-  pg
+  pg (~> 0.15.1)
   redcarpet (~> 1.17.2)
   sass
   shotgun!
