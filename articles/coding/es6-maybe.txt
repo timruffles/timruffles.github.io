@@ -17,23 +17,23 @@ body: |
 
   Either and Maybe replace code that checks for invalid values in a process. Maybe handles missing things: no matching record in the database, no such key in a Map. Either handles things that could go wrong - no such file, numerical calculations out of domain etc.
 
-  The core idea is to split what you want to do with something apart from checking and handling whether it's missing or invalid. Rather than having lots of error checking after each potentially missing/erroneous step, you simply write your code as if everything is perfect, and Either and Maybe's machinery will handle any problems. Here's a pseudo code example:
+  The core idea is to split what you want to do with something apart from checking and handling whether it's missing or invalid. Rather than having lots of error checking after each potentially missing/erroneous step, you simply write your code as if everything is perfect, and Either and Maybe's machinery will handle any problems. Here's an example:
 
   <pre>
-  user = database.find(params["id"])
-  number = user.fetch("optional-number-field")
-  log = Math.log(number) # could be NaN if -1
+  var user = database.find(params["id"])
+  var number = user.fetch("optional-number-field")
+  var log = Math.log(number) # could be NaN if -1 or undefined
   </pre>
 
   Here we have 2 potential Nothing values (db search, fetch a field), and one potential invalid result (Math.log is undefined for negative numbers). If we add in the error checking we make it harder to read:
 
   <pre>
-  user = database.find(params["id"])
-  return unless user
-  number = user.fetch("optional-number-field")
-  return if nil?(number)
-  log = Math.log(number) # could be NaN if -1
-  return if nan?(log)
+  var user = database.find(params["id"])
+  if(!user) return;
+  var number = user.fetch("optional-number-field")
+  // check for missing, or out of domain values
+  if(number == null || number < 0) return; 
+  var log = Math.log(number)
   </pre>
 
   With Either and Maybe we can just write the process we want to carry out if everything is there and correct, and let other code handle the errors. Obviously in lots of cases you want to know about error states, and this example is probably bad, but hopefully you can think of cases where you don't need to handle errors on a granular level.
