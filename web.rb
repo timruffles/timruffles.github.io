@@ -7,7 +7,7 @@ require "ostruct"
 require "yaml"
 require "pp"
 require "redcarpet"
-require "pg"
+require_relative "./db"
 
 # other
 require "pathname"
@@ -15,7 +15,7 @@ require "pathname"
 ROOT_DIR = Pathname.new(File.dirname(__FILE__)).realpath
 URL = "http://www.truffles.me.uk"
 
-db = PG.connnect(ENV["DATABASE_URL"])
+db = get_db
 
 def load glob, all = false
   files = Dir.glob glob
