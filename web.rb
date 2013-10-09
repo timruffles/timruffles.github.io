@@ -94,7 +94,7 @@ end
 Footnote = Struct.new(:id,:text)
 
 get "/l/:name" do |name|
-  results = db.exec_params("SELECT url FROM links WHERE name = '$1'",[name])
+  results = db.exec_params("SELECT url FROM links WHERE name = $1",[name])
   if results.num_tuples == 0
     raise Sinatra::NotFound.new
   else
