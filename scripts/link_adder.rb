@@ -1,5 +1,5 @@
 require "pg"
-db = PG.connnect(ENV["DATABASE_URL"])
+db = PG.connect(ENV["DATABASE_URL"])
 loop do
   puts "Add link url:"
   url = gets
