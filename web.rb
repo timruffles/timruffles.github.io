@@ -7,12 +7,15 @@ require "ostruct"
 require "yaml"
 require "pp"
 require "redcarpet"
+require "pg"
 
 # other
 require "pathname"
 
 ROOT_DIR = Pathname.new(File.dirname(__FILE__)).realpath
 URL = "http://www.truffles.me.uk"
+
+db = PG.connnect(ENV["DATABASE_URL"])
 
 def load glob, all = false
   files = Dir.glob glob
@@ -89,6 +92,23 @@ get "/rss" do
 end
 
 Footnote = Struct.new(:id,:text)
+
+get "/l/:name" do |name|
+  results = db.exec_params("SELECT url FROM links WHERE name = '$1'",[name])
+  if results.num_tuples == 0
+    raise Sinatra::NotFound.new
+  else
+    url = results[0]["url"]
+
+    # might want to change where the resource is in future
+    status 307
+
+    # According to RFC 2616 section 14.30, "the field value consists of a
+    # single absolute URI"
+    response['Location'] = uri(url, settings.absolute_redirects?, settings.prefixed_redirects?)
+    halt()
+  end
+end
 
 get "/:article" do |perma|
   @article = all.find {|art| art.link == perma}
