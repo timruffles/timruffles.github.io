@@ -15,9 +15,11 @@ require "pathname"
 ROOT_DIR = Pathname.new(File.dirname(__FILE__)).realpath
 URL = "http://www.truffles.me.uk"
 
-db = get_db
+if ENV["DATABASE_URL"]
+  db = get_db
+end
 
-def load glob, all = false
+def load_posts glob, all = false
   files = Dir.glob glob
   modification_times = files.map {|file| File.mtime(file) }.sort {|ta,tb| tb <=> ta }
   items = files.map {|art| extract_params(art) }.reject(&:draft).select(&:body)
@@ -70,9 +72,9 @@ def make_rss articles
   end.to_s
 end
 
-articles = load "articles/**/*.txt"
-blog_posts = load "blogs/**/*.txt"
-pages = load "pages/**/*.txt"
+articles = load_posts "articles/**/*.txt"
+blog_posts = load_posts "blogs/**/*.txt"
+pages = load_posts "pages/**/*.txt"
 [articles,blog_posts,pages].each do |list|
   list.drop_if! {|i| i["draft"] || i["body"].nil? || i["title"].nil? }
 end
