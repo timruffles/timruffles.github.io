@@ -1,5 +1,7 @@
 #framework
-require "rubygems"
+require "bundler"
+Bundler.setup
+Bundler.require
 require "sinatra"
 require "erb"
 require "digest/md5"

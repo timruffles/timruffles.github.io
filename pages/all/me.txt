@@ -4,10 +4,10 @@ body: |
 
   I write [Javascript & Ruby](http://github.com/timruffles) for my startup, [SidekickJS](http://www.sidekickjs.com); teach at [General Assembly](https://generalassemb.ly/instructors/tim-ruffles/904), [Decoded](http://decoded.co) and [Event Handler](www.eventhandler.co.uk); and [speak](http://lanyrd.com/profile/timruffles/past/speaking/) at user-groups and conferences.
 
-  I offer Javascript training and consulting - focussing on MVC frameworks like Angular.js and Backbone, testing, deployments/ops and d3. If your company is looking to start using any of these tools, has a big maintainence headache or wants to train up devs in these tools, let me know!
+  I offer Javascript training and consulting on MVC frameworks like Angular.js and Backbone, testing, deployments/ops and d3. If you're faced with a big maintenance headache, or want to train up your developers, let me know!
 
   I enjoy doing too many things at once. I'm currently learning to play piano - slowly. I used to be into [photography](http://www.flickr.com/photos/timruffles/collections/72157637151558545/).
 
-  Get in [touch](http://twitter.com/timruffles) - or timruffles at Google's delightful mail service.
+  Get in touch via [twitter](http://twitter.com/timruffles) or timruffles at Google's delightful mail service.
   
   
