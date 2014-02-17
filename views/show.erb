@@ -1,6 +1,6 @@
 <h1><a href="<%= @perma %>"><%= @title%></a></h1>
 <%= @body %>
-<% unless @article.category == "Ideas" %>
+<% unless @article.category == "Ideas" || @article.ads_disabled %>
   <p class=plug>Want to be proud of your team's Javascript? Try my <a href="http://www.sidekickjs.com">code-quality tool for teams - SidekickJS</a><p>
 <% end %>
 <hr />
@@ -15,6 +15,7 @@
   </div>
 <% end %>
 </div>
+<% unless @article.comments_disabled %>
 <div id="comments"></div>
 <script type="text/javascript" class="juvia">
 (function() {
@@ -63,3 +64,4 @@
      document.getElementsByTagName('body')[0]).appendChild(s);
 })();
 </script>
+<% end %>
