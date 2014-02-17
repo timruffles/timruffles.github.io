@@ -4,7 +4,7 @@ ads_disabled: true
 comments_disabled: true
 body: |
 
-  I really enjoy sharing what I've learned about programming with others at conferences and user groups. I've spoken in 5 countries, at conferences like [FOSDEM](https://fosdem.org/2014/schedule/event/javascript_d3_webapps/), [BuildStuff](http://sched.co/GFUeOz) and [TakeOff](http://takeoffconf.com/2014).
+  I really enjoy sharing what I've learned about programming with others at conferences and user groups. I've [spoken in 5 countries](http://lanyrd.com/profile/timruffles/), at conferences like [FOSDEM](https://fosdem.org/2014/schedule/event/javascript_d3_webapps/), [BuildStuff](http://sched.co/GFUeOz) and [TakeOff](http://takeoffconf.com/2014).
 
   I've been speaking & teaching since 2011. Below are some videos of me speaking, and some nice things people who found my talks useful have said:
 
@@ -12,11 +12,11 @@ body: |
 
   ### Solving the real callback hell - Great British Node Conf, London 2013
 
-  <iframe width="560" height="315" src="//www.youtube.com/embed/Wu9n7Ry0PWw" frameborder="0" allowfullscreen></iframe>
+  <iframe width="630" height="400" src="//www.youtube.com/embed/Wu9n7Ry0PWw" frameborder="0" allowfullscreen></iframe>
 
   ### No more pyramids - tools to keep callbacks neat, RejectJS 2012, Berlin
 
-  <iframe width="560" height="315" src="//www.youtube.com/embed/n34S_uFtGnw" frameborder="0" allowfullscreen></iframe>
+  <iframe width="630" height="400" src="//www.youtube.com/embed/n34S_uFtGnw" frameborder="0" allowfullscreen></iframe>
 
   ## Audience comments
 
