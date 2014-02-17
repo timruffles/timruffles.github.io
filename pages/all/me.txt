@@ -2,7 +2,7 @@ title: Me
 date: 2011/07/09
 body: |
 
-  I write [Javascript & Ruby](http://github.com/timruffles) for my startup, [SidekickJS](http://www.sidekickjs.com); teach at [General Assembly](https://generalassemb.ly/instructors/tim-ruffles/904), [Decoded](http://decoded.co) and [Event Handler](www.eventhandler.co.uk); and [speak](http://lanyrd.com/profile/timruffles/past/speaking/) at user-groups and conferences.
+  I write [Javascript & Ruby](http://github.com/timruffles) for my startup, [SidekickJS](http://www.sidekickjs.com); teach at [General Assembly](https://generalassemb.ly/instructors/tim-ruffles/904), [Decoded](http://decoded.co) and [Event Handler](www.eventhandler.co.uk); and [speak](/speaking) at user-groups and conferences.
 
   I offer Javascript training and consulting on MVC frameworks like Angular.js and Backbone, testing, deployments/ops and d3. If you're faced with a big maintenance headache, or want to train up your developers, let me know!
 
