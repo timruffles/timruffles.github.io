@@ -4,19 +4,7 @@ ads_disabled: true
 comments_disabled: true
 body: |
 
-  I really enjoy sharing what I've learned about programming with others at conferences and user groups. I've [spoken in 5 countries](http://lanyrd.com/profile/timruffles/), at conferences like [FOSDEM](https://fosdem.org/2014/schedule/event/javascript_d3_webapps/), [BuildStuff](http://sched.co/GFUeOz) and [TakeOff](http://takeoffconf.com/2014).
-
-  I've been speaking & teaching since 2011. Below are some videos of me speaking, and some nice things people who found my talks useful have said:
-
-  ## Videos
-
-  ### Solving the real callback hell - Great British Node Conf, London 2013
-
-  <iframe width="630" height="400" src="//www.youtube.com/embed/Wu9n7Ry0PWw" frameborder="0" allowfullscreen></iframe>
-
-  ### No more pyramids - tools to keep callbacks neat, RejectJS 2012, Berlin
-
-  <iframe width="630" height="400" src="//www.youtube.com/embed/n34S_uFtGnw" frameborder="0" allowfullscreen></iframe>
+  I've [spoken in 5 countries](http://lanyrd.com/profile/timruffles/) at conferences like [FOSDEM](https://fosdem.org/2014/schedule/event/javascript_d3_webapps/), [BuildStuff](http://sched.co/GFUeOz) and [TakeOff](http://takeoffconf.com/2014). I've taught classes for all sorts of organisations - like [GA](https://generalassemb.ly/instructors/tim-ruffles/904), the [European Bioinformatics Institute](https://www.ebi.ac.uk/training/workshop/javascript-tips-best-practices) and [FOWA](http://lanyrd.com/2012/fowa/szbzr/).
 
   ## Audience comments
 
@@ -24,14 +12,25 @@ body: |
 
   <blockquote class="twitter-tweet" lang="en"><p>Brilliant talk about async flow control in JavaScript by <a href="https://twitter.com/timruffles">@timruffles</a> <a href="https://twitter.com/search?q=%23LNUG&amp;src=hash">#LNUG</a></p>&mdash; Andrew Nesbitt (@teabass) <a href="https://twitter.com/teabass/statuses/360109506153295872">July 24, 2013</a></blockquote>
 
-  <blockquote class="twitter-tweet" lang="en"><p>Thought provoking talk by <a href="https://twitter.com/timruffles">@timruffles</a> about function/event/streams vs objects &amp; how objects not right choice most of the time <a href="https://twitter.com/search?q=%23londonjsconf&amp;src=hash">#londonjsconf</a></p>&mdash; Nathan Gloyn (@NathanGloyn) <a href="https://twitter.com/NathanGloyn/statuses/433984029575372800">February 13, 2014</a></blockquote>
-
-  <blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/timruffles">@timruffles</a> Super-tight explanation of ES6 generators &amp; their utility. <a href="https://twitter.com/search?q=%23rejectjs&amp;src=hash">#rejectjs</a> <a href="https://twitter.com/search?q=%23jsconfeu&amp;src=hash">#jsconfeu</a></p>&mdash; Mike MacCana (@mikemaccana) <a href="https://twitter.com/mikemaccana/statuses/378154224636690432">September 12, 2013</a></blockquote>
-
   <blockquote class="twitter-tweet" lang="en"><p>Great day at <a href="https://twitter.com/search?q=%23londonjs&amp;src=hash">#londonjs</a> yesterday - favourite talk was <a href="https://twitter.com/timruffles">@timruffles</a> &quot;Choosing objects or functions&quot;</p>&mdash; Mark Ross (@_markross) <a href="https://twitter.com/_markross/statuses/434256193977335808">February 14, 2014</a></blockquote>
 
-  <blockquote class="twitter-tweet" lang="en"><p>Also enjoying watching <a href="https://twitter.com/timruffles">@timruffles</a> trying to explain to a skeptical audience why FP is nicer than OOP. <a href="https://twitter.com/search?q=%23londonjs&amp;src=hash">#londonjs</a> (should use more cat gifs)</p>&mdash; Bodil Stokke (@bodil) <a href="https://twitter.com/bodil/statuses/433979661400678401">February 13, 2014</a></blockquote>
 
+  ## Videos
+
+  <iframe width="300" height="200" src="//www.youtube.com/embed/Wu9n7Ry0PWw" frameborder="0" allowfullscreen></iframe>
+
+  <br />
+
+  <iframe width="300" height="200" src="//www.youtube.com/embed/n34S_uFtGnw" frameborder="0" allowfullscreen></iframe>
+
+  <script>
+    if(window.matchMedia('(min-device-width: 400)').matches) {
+      ;[].forEach.call(document.querySelectorAll("iframe"),function(el) {
+        el.width = 630
+        el.height = 400
+      })
+    }
+  </script>
 
 
   <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
