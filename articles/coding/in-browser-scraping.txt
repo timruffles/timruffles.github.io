@@ -1,0 +1,89 @@
+title: Scraping data with the browser
+date: "2014/03/03"
+template: erb
+body: |
+  
+  <p>Chrome's developer tools make it easy to scrape data from web pages. I'll demonstrate this by grabbing a list of <a href='en.wikipedia.org/wiki/ISO_3166-1)'>ISO country codes and country names</a> from Wikipedia.
+
+  <p>Before we begin, some general tips with working with the console (OSX):
+
+  <ul>
+    <li>Press up and down to navigate command history. This is great for iteratively building up a pipeline
+    <li>Press alt and left and right to skip forwards/backwards one word
+    <li>Cmd + k to clear the console
+    <li>Ctrl + e to skip to end, Ctrl + a to skip to the start
+    <li>Ctrl + enter to add a new line without running the current command
+  </ul>
+
+  <h3>Finding the element to scrape</h3>
+
+  <p>First off, we want to find the element that contains our data. Using the elements panel and right click -> 'Inspect element', we highlight the element containing our data.
+
+  <p><img src=img/inspect.png width=640>
+
+  <h3>Building a pipeline</h3>
+
+  <p>Next we move to the console. Chrome places the element you inspected most recently in the <code>$0</code> variable, the next most recent on <code>$1</code> and so on. It also aliases <code>querySelectorAll</code> as <code>$$(css [,startNode])</code>, so we can use these together to check out the rows in our table:
+
+  <pre>
+  > $$("tr",$0)[0].innerHTML
+  "<%= require 'cgi'; CGI.escapeHTML('<td><a href="/wiki/Afghanistan" title="Afghanistan">Afghanistan</a></td>
+  <td><a href="/wiki/ISO_3166-1_alpha-2#AF" title="ISO 3166-1 alpha-2"><tt>AF</tt></a></td>
+  <td><tt>AFG</tt></td>
+  <td><tt>004</tt></td>
+  <td><a href="/wiki/ISO_3166-2:AF" title="ISO 3166-2:AF">ISO 3166-2:AF</a></td>') %>"
+  </pre>
+
+  <p>Great! Looks like some useful data in that HTML. I normally slap <code>[0]</code> at the end of the pipeline to get this insight into what's being produced.
+
+  <p>To grab the data from the HTML in another one-liner we can use one of the Array additions - <code>map</code>. Unforunately <code>$$</code> returns a <code>NodeList</code> which is array-like but not an array. To work around this we grab <code>[].map</code> and <code>.call</code> it on the node list.
+
+  <pre>
+  > [].map.call($$("tr",$0),mapper)[0]
+  </pre>
+
+  <p>We'll need to define <code>mapper()</code> - a function that takes each element in turn and returns the data we want as a structured object. In this case we want the contents of the 1st and 2nd nodes, so:
+
+  <pre>
+  > function mapper(el) {
+      return {
+        country: $("td",el)[0].innerText,
+        code: $("td",el)[1].innerText
+      }
+    }
+  > [].map.call($$("tr",$0),mapper)[0]
+  Object {country: "Afghanistan", code: "AF"}
+  </pre>
+
+  <p>Excellent - just what we want. Now we have an array full of tasty data, but how do we get it out?
+
+  <p>Chrome saves the day again with <code>copy()</code>, giving us the data-clipboard bridge we've always wanted. Since we want useful data we'll <code>JSON.stringify</code> the data first, and our completed pipeline looks like:
+
+  <pre>
+  > var data = [].map.call($$("tr",$0),mapper);
+  > copy(JSON.stringify(data))
+  </pre>
+
+  <p>What does our final data look like?
+
+  <pre>
+  [{"country":"Afghanistan","code":"AF"},{"country":"Åland Islands","code":"AX"},/* ... */,{"country":"Zimbabwe","code":"ZW"}]
+  </pre>
+
+  <p>Here's the whole pipeline built up bit by bit
+
+  <pre>
+  > var nodes = $$("tr",$0);
+  > function mapper(el) {
+      return {
+        country: $("tr")[0].innerText,
+        code: $("tr")[1].innerText
+      }
+    }
+  > var data = [].map.call(nodes,mapper)
+  > copy(JSON.stringify(data))
+  </pre>
+
+  <p>Happy scraping!
+
+
