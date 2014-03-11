@@ -32,4 +32,6 @@ body: |
 
   <img src='img/distortion.png' width='600'>
 
-  Designers: infographics aren't just there to look pretty. They're sending a message - quite possible the wrong one. Double-check that the visual impression you're creating fits the data!
+  So about 30% of the infographic wasn't information, but noise.
+
+  Designers: infographics aren't just there to look pretty: they are there to communicate. Double-check that the message you're sending fits the data!
