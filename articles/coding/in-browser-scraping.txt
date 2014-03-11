@@ -76,8 +76,8 @@ body: |
   > var nodes = $$("tr",$0);
   > function mapper(el) {
       return {
-        country: $("tr")[0].innerText,
-        code: $("tr")[1].innerText
+        country: $("tr",el)[0].innerText,
+        code: $("tr",el)[1].innerText
       }
     }
   > var data = [].map.call(nodes,mapper)
