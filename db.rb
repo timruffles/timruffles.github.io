@@ -1,3 +1,4 @@
+require "uri"
 require "pg"
 def get_db
   u = URI.parse(ENV["DATABASE_URL"])
