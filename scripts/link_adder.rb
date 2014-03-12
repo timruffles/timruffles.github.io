@@ -1,3 +1,6 @@
+require "bundler"
+Bundler.setup
+Bundler.require
 require_relative "../db"
 db = get_db
 loop do
