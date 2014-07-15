@@ -2,9 +2,9 @@ title: Me
 date: 2011/07/09
 body: |
 
-  I write [Javascript & Ruby](http://github.com/timruffles) for my startup, [SidekickJS](http://www.sidekickjs.com); teach at [General Assembly](https://generalassemb.ly/instructors/tim-ruffles/904), [Decoded](http://decoded.co) and [Event Handler](www.eventhandler.co.uk); and [speak](/speaking) at user-groups and conferences.
+  I write [Javascript, Elixir and Ruby](http://github.com/timruffles) for my startup, [SidekickJS](http://www.sidekickjs.com); teach at [YLD](http://yld.io), [Decoded](http://decoded.co) and [Event Handler](www.eventhandler.co.uk); and [speak](/speaking) at user-groups and conferences. I run the [Functional Javascript](http://lanyrd.com/series/funjsldn/) meetup in London, and maintain the [Javascript Garden](http://bonsaiden.github.com/JavaScript-Garden/).
 
-  I offer Javascript training and consulting on MVC frameworks like Angular.js and Backbone, testing, deployments/ops and d3. If you're faced with a big maintenance headache, or want to train up your developers, let me know!
+  I offer Javascript training on MVC frameworks like Angular.js and Backbone, testing, deployments/ops and D3. If you're faced with a big maintenance headache, or want to train up your developers, let me know!
 
   I enjoy doing too many things at once. I'm currently learning to play piano - slowly. I used to be into [photography](http://www.flickr.com/photos/timruffles/collections/72157637151558545/).
 
