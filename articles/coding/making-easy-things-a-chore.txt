@@ -1,25 +1,14 @@
-title: Making easy things a chore
+title: Keeping easy things easy
 date: "2014/08/19"
 body: |
 
-  There's a trend in front-end development to want to use the 'best practices' everywhere. I think this is in large part a way of signalling 'competence through tribal membership': i.e I use the cool tools so I must be good. In reality it smacks of the advanced beginner.
+  There's a trend in front-end development to want to use the 'best practice' tools in every project, no matter the size or complexity. I think this is in large part a way of signalling (to ourselves as much as others) competence through tribal membership: i.e I use cool tools so I must be good.
 
-  Engineering is about trade-offs. There are times that a [raft](http://www.moock.org/blog/archives/000310.html) is the correct engineering response, and a lovely cantilevered bridge is a criminal waste of time and resources. Just as with new development tools the bridge is outwardly a more eye-catching sign of competence while being in reality the opposite.
+  But engineering is about trade-offs. There are times when a [raft](http://www.moock.org/blog/archives/000310.html) is the correct engineering solution, and a lovely cantilevered bridge is a criminal waste of time and resources. Just as with new development tools - Gulp, CSS transpilers, JS transpilers - the bridge is outwardly a more eye-catching sign of competence while being in reality the opposite.
 
-  As a concrete example I found myself - a long term advocate of CSS transpilers and automation - dissuading a team of much smarter people from setting up a huge Grunt, LESS and Coffeescript pipeline for a new UI. The UI was to be small, low-traffic and community maintained. Let's consider the tools they suggested, and why it'd have been a poor engineering choice:
-
-  - ideally we wanted to deploy via Github pages to allow contribution from a web-UI with no effort on our side. Any build would have made that a lot harder, and ruled out non-technical contributes to copy etc.
-  - Coffeescript - aids non-Javascript people to write safe JS without JSHint etc, and provides a standardise class pattern. For a small project the cost of additional tooling and learning overhead wouldn't amortise over the tiny code-base
-  - LESS. CSS transpilers solve scaling up CSS on a big project - with mixins etc. Again, a net cost to a profit with 100 LOC of CSS tops
-  - Grunt - incompatible with Github pages, and turns a simple 'double click index.html' workflow into something with installation and startup times
-  - community maintenance means ad-hoc contribution - the more dependencies and setup time the more off-putting
-
-  A fluency with weighing trade-off is the definition of graduating from being an [advanced-beginner](http://en.wikipedia.org/wiki/Dreyfus_model_of_skill_acquisition):
+  A fluency with weighing trade-offs is the definition of graduating from being an [advanced-beginner](http://en.wikipedia.org/wiki/Dreyfus_model_of_skill_acquisition):
   
   - limited situational perception
   - all aspects of work treated separately with equal importance
 
-  Advanced-beginners can't identify the attributes - scale, team-size, complexity - that make a project appropriate for a complex workflow. They see use of 'best practice' tools as goals in themselves, whereas tools are only valuable as means the projects tangible outcomes.
-
-  Next time you're about to setup your Gruntfile to brew a cup of tea whenever your tests pass, consider: do you need to build a 4 lane cantilevered bridge, or is grabbing an oar and rowing across the engineer's choice?
-
+  We're being advanced-beginners when we don't weigh the attributes - scale, team-size, complexity - that make a project appropriate for a complex workflow. We should be careful not to treat 'best practice' tools as goals in themselves, when they should be valuable only as means to our project's goals. Expertise isn't just making hard things possible; it's keeping easy things easy.

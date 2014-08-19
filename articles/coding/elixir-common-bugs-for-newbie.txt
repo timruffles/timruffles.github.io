@@ -1,4 +1,7 @@
-
+title: Making easy things a chore
+draft: true
+date: "2014/08/19"
+body: |
 
   I see this a lot when Elixir's Ruby-ish syntax makes me write something like `a_map.put(:some_key,some_value)`, rather than `Map.put(a_map,:some_key,some_val)`.
     
