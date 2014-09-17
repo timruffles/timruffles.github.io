@@ -1,0 +1,16 @@
+<h1>Toy projects</h1>
+
+<section class=projects>
+  <% @all.items.each do |article| %>
+    <article class=project>
+      <img width=600 src="<%= article.screenshot %>" alt='<%= article.title %>'>
+      <h3>
+        <a href="<%= article.code_url %>">
+          <%= article.title %>
+        </a>
+      </h3>
+      <p><%= article.body %></p>
+    </article>
+  <% end %>
+</section>
+

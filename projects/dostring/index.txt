@@ -1,0 +1,10 @@
+title: DoString
+date: "22/04/2014"
+code_url: https://github.com/timruffles/dostring
+screenshot: img/projects/erlang-twitter-bot.png
+body: |
+
+  A twitter bot to motivate yourself to continue a new habit by the don't break the chain method. Simply tweet @dostring with the habits #hashtagged.
+
+  Written to learn Erlang and OTP.
+

@@ -1,4 +1,4 @@
-#framework
+#ymlframework
 require "bundler"
 Bundler.setup
 Bundler.require
@@ -93,6 +93,14 @@ end
 get "/rss" do
   cache articles.hash + blog_posts.hash, [articles.last_modified_at,blog_posts.last_modified_at].max
   make_rss(postable)
+end
+
+
+projects = load_posts "projects/projects/*.txt"
+get "/projects" do
+  @title = "Projects"
+  @all = projects
+  erb :projects
 end
 
 Footnote = Struct.new(:id,:text)
