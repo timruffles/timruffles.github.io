@@ -1,5 +1,5 @@
 title: DoString
-date: "22/04/2013"
+date: "22/04/2014"
 code_url: https://github.com/timruffles/dostring
 screenshot: img/projects/erlang-twitter-bot.png
 body: |

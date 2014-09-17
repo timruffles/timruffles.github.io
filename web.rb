@@ -24,7 +24,14 @@ end
 def load_posts glob, all = false
   files = Dir.glob glob
   modification_times = files.map {|file| File.mtime(file) }.sort {|ta,tb| tb <=> ta }
-  items = files.map {|art| extract_params(art) }.reject(&:draft).select(&:body)
+  items = files.map do |art| 
+    load_params(art)
+  end.reject do |art|
+    art["date"].nil? or art["body"].nil?
+  end.map do |art|
+    parse_params art
+  end
+  items.sort_by!(&:date).reverse!
   OpenStruct.new( :last_modified_at => modification_times.first,
     :items => items,
     :hash => Digest::MD5.hexdigest((items.join('') + modification_times.map(&:to_s).join(''))),
@@ -39,13 +46,21 @@ def permalink text
   "#{URL}/#{text}"
 end
 
-def extract_params article_path
-  article = OpenStruct.new YAML.load_file(article_path)
-  article.path = article_path
+def load_params article_path
+  YAML.load_file(article_path).merge({
+    "path" => article_path
+  })
+end
+
+def parse_params params
+  article = OpenStruct.new params
+  article_path = article.path
   article.category = article_path.split("/")[1..-2].first.gsub('_',' ').gsub(/\b(\w)/) {|word| word.upcase }
   article.link ||= permalinkify article.title
-  article.date = (article.date && Date.parse(article.date)) || File.mtime(article_path).to_s
+  article.date = Date.parse(article.date)
   article
+rescue StandardError => e
+  raise "Invalid article: #{e}\n#{params}"
 end
 
 
