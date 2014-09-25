@@ -1,0 +1,12 @@
+title: DoString - a project to learn Erlang
+date: 2014/09/17
+body: |
+
+  I really got excited about Erlang for the first time at BuildStuff.lt. There were several incredible talks that covered Erlang - Joe Armstrong, John Hughes etc. What impressed me most was the focus on fault tolerence. There was a clear-eyed acceptance of our software being as secure as a giraffe trying to sprint on two legs: destined to fail, soon.
+
+  Coupled with that it seemed like Erlang had been parallel before it was cool. And functional. And, in a sense, more object oriented than any 'OO' language as communication was asynchronous and the agents entirely distinct.
+
+  Anyway - the reasons Erlang are interesting are numerous enough to deserve another post. What did I build?
+
+
+  
