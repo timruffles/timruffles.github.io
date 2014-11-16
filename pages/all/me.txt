@@ -2,12 +2,12 @@ title: Me
 date: 2011/07/09
 body: |
 
-  I write [Javascript, Elixir and Ruby](http://github.com/timruffles) for my startup, [SidekickJS](http://www.sidekickjs.com); teach at [YLD](http://yld.io), [Decoded](http://decoded.co) and [Event Handler](www.eventhandler.co.uk); and [speak](/speaking) at user-groups and conferences. I run the [Functional Javascript](http://lanyrd.com/series/funjsldn/) meetup in London, and maintain the [Javascript Garden](http://bonsaiden.github.com/JavaScript-Garden/).
+  I write [Javascript and Ruby](http://github.com/timruffles) for my startup, [SidekickJS](http://www.sidekickjs.com); teach developers in-house for organisations like Gilt.com, the European Bioinformations Institute, and Inviqa; and [speak](/speaking) at user-groups and conferences.
 
-  I offer Javascript training on MVC frameworks like Angular.js and Backbone, testing, deployments/ops and D3. If you're faced with a big maintenance headache, or want to train up your developers, let me know!
+  I run the [Functional Javascript](http://lanyrd.com/series/funjsldn/) meetup in London, and maintain the [Javascript Garden](http://bonsaiden.github.com/JavaScript-Garden/). My [technical writing](/writing) appears in a book and various guest posts, and I've produced a video course on AngularJS.
 
-  I enjoy doing too many things at once. I'm currently learning to play piano - slowly. I used to be into [photography](http://www.flickr.com/photos/timruffles/collections/72157637151558545/).
+  I offer Javascript training on frameworks like Angular.js and Backbone, testing, deployments/ops and D3.
 
-  Get in touch via [twitter](http://twitter.com/timruffles) or timruffles at Google's delightful mail service.
+  Get in touch via [twitter](http://twitter.com/timruffles) or 'oi' at truffles.me.uk.
   
   
