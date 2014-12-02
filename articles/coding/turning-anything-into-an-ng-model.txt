@@ -1,0 +1,62 @@
+title: "Turning anything into an ng-model"
+date: "20/11/2014"
+body: |
+
+  `ng-model` is rarely used to its full potential. Few people realise it can turn literally any interative component into a fully-working form field, with all Angular's validation goodness.
+
+  So here's a little example form:
+
+     <form name=timeForm>
+
+        <svg width=1000 height=1000>
+
+          <g clock-input ng-model=item.time name=time></g>
+
+          <text x=500 y=500>{{ item.time | date:"shortTime" }}</text>
+          <text x=500 y=550 ng-click="toggle()">{{ ticking ? "Stop" : "Start" }}</text>
+
+        </svg>
+
+      </form>
+
+  This drawn SVG clock will have all the standard goodness Angular's `form` state object provides. So we can check `timeForm.time.$pristine` to check out if the user has done an Icarus and bothered the tempting sun. `item.time` will be kept updated with a real Javascript `Date` object depending on the position of the hand, and, conversely, updates to `item.time` will move the hand.
+
+  ## How?
+
+  `ngModelController` is the API behind this. It's the object representation of an input's logical state. Hooking into `ngModelController` enables our `clock-input` to control the `ng-model` directive, and thus appear as a input on our form.
+
+  To get at the controller instance for our `ng-model`, we request it in our directive definition via the `require:` key. Without a prefix, it'll ensure an instance of directive is present on the same element, and pass its controller to our linking function.
+
+      module.directive("clock-input", function clock() {
+        return {
+          require: "ngModel",
+          // ...
+
+  We've two jobs in the linking function. We want to get view values into the model, and updated model values into the view.
+
+  We inform the controller of updated time values from the widget via `ngModel.$setViewValue()`. This'll update the model after it's been parsed and validated, and update the form object's state variables.
+
+  To tell Angular how to send updates on the model side to the view we override `ngModel.$render`, which is called when a change is detected to the model.
+
+      link: function(scope, el, attrs, ngModel) {
+
+        // initialize the non-angular widget, and
+        // pass in our model updating function
+        var clock = donutClock({
+          onInput: ngModel.$setViewValue,
+          el: el[0],
+        });
+
+        // when angular detects a change to the model,
+        // we update our widget
+        ngModel.$render = function model2view(time) {
+          clock.set(ngModel.$viewValue);
+        }
+
+      }
+
+  That's it.
+
+  I really like this API! One API to turn anything - D3 visualisations, random non-Angular widgets, `<canvas>`, the audio input or accelarometer - into an ng-model. That is a resuable abstraction.
+
+  
