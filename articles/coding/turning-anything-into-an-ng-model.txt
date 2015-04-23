@@ -2,7 +2,7 @@ title: "Turn anything into an ng-model with ngModelController"
 date: "23/04/2015"
 body: |
 
-  Few people realise that `ng-model` can be turn any interactive component into a fully-working input for use in Angular's `form` system. This saves you a heap of time in reinventing wheels - very often I see 100s of lines of codes in controllers managing state that Angular's `ng-model` desperately wants to manage for you.
+  Few people realise that `ng-model` can turn any interactive component into a fully-working input for use in Angular's `form` system. This saves you a heap of time in reinventing wheels - very often I see 100s of lines of codes in controllers managing state that Angular's `ng-model` desperately wants to manage for you.
 
   To demo this we'll plug a non-Angular SVG clock into `ng-model`.
 
@@ -122,10 +122,14 @@ body: |
 
   ## Summary
 
-  - wrap components that capture user interactive with a directive and `require` `ngModel`
+  - wrap components that capture user interactions with a directive and `require` `ngModel`
   - use the `ngModelController` APIs to control how your widget updates the model, and renders updates to its value
   - via `ngModelController` you can also control formatting of values to display in the widget, and the parsing and validation of values read from it
   - if you see a heap of `$watch`es in your controller handling the state of user input, think: is there a `ng-model` missing somewhere?
+
+  ### Thanks
+
+  <a href="https://twitter.com/charlotteis">@charlotteis</a> for awesome proof reading!
 
 
 

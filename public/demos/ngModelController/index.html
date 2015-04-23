@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<meta charset=utf-8>
+
+<link rel="stylesheet" href=style.css>
+
+<body ng-app=demo ng-controller=TimeCtrl>
+
+<article>
+
+  <h2>Drag the time</h2>
+
+  <p>Form data:</p>
+
+  <pre>
+timeForm.$pristine: {{ timeForm.$pristine }}
+timeForm.time.$pristine: {{ timeForm.time.$pristine }}
+timeForm.time.$valid: {{ timeForm.time.$valid }}
+item.time: {{ item.time }}
+  </pre>
+
+  <div class="background" ng-style="{ background: timeToColour(item.time) }">
+    <form name=timeForm>
+
+      <div class='extended-clock'>
+        <svg width=1000 height=1000 >
+          <g clock-input ng-model=item.time name=time></g>
+
+          <text x=500 y=500>{{ item.time | date:"shortTime" }}</text>
+          <text x=500 y=550 ng-click="toggle()">{{ ticking ? "Stop" : "Start" }}</text>
+        </svg>
+      </div>
+
+    </form>
+  </div>
+
+</article>
+
+<script src=clock.js></script>
+<script src=angular.js></script>
+<script src=demo.js></script>
+</body>
