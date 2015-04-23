@@ -112,7 +112,7 @@ body: |
 
       }
 
-  That's it.
+  That's it - the <a href="https://gist.github.com/timruffles/bfbc53c5d7444a506470">full source</a> has the code for the clock etc.
 
   You can do lots more with `ngModelController` - adding validators to the `$validators` object, changing how the values are parsed from the view, or formatted for it, with the `$parsers` and `$formatters` arrays - but that's a story for another blog post.
 
