@@ -70,7 +70,7 @@ body: |
 
   ## Step 2
 
-  To get at the controller instance for our `ng-model`, we request it in our directive definition via the `require:` key. Without a prefix, it'll ensure an instance of directive is present on the same element, and pass its controller to our linking function.
+  To get at the controller instance for our `ng-model`, we request it in our directive definition via the `require:` key. Without a prefix, it'll ensure an instance of the `ng-model` directive is present on the same element as our `clock-input`, and pass the `ng-model`'s controller to our linking function.
 
       module.directive("clock-input", function clock() {
         return {
@@ -83,13 +83,13 @@ body: |
 
   ## Step 3
 
-  We're now going to implement two way binding in our `link` function: getting view values into the model, and updated model values into the view.
+  We're now going to implement two way binding in our `link` function: getting view values into the model, and getting updated model values into the view.
 
-  `ngModelController` is the important API here. It's the object representation of an input's logical state, with various APIs for you to hook into the 2 way binding process.
+  `ngModelController` is the important API here. It's the abstract representation of an input's logical state, with various APIs for you to hook into the 2-way binding process.
 
-  We inform the controller of updated time values from the widget via `ngModel.$setViewValue(newValue)`. This'll update the model after it's been parsed and validated, and update the form object's state variables.
+  We inform the controller of updated time values from the widget via `ngModel.$setViewValue(newValue)`. This'll update the model after it's been parsed and validated, and update the form object's state variables (e.g `timeForm.time.$pristine)`.
 
-  To tell Angular how to send updates from the model side to the view we override `ngModel.$render`, which is called when a change is detected to the model:
+  To control how updates from the model side are presented by the view we override `ngModel.$render()`, which is called when a change is detected to the model:
 
       link: function(scope, el, attrs, ngModel) {
 
@@ -106,7 +106,7 @@ body: |
 
         // when angular detects a change to the model,
         // we update our widget
-        ngModel.$render = function model2view(time) {
+        ngModel.$render = function model2view() {
           clock.set(ngModel.$viewValue);
         }
 
