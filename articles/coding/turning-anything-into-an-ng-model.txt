@@ -4,11 +4,13 @@ body: |
 
   Few people realise that `ng-model` can be turn any interactive component into a fully-working input for use in Angular's `form` system. This saves you a heap of time in reinventing wheels - very often I see 100s of lines of codes in controllers managing state that Angular's `ng-model` desperately wants to manage for you.
 
-  How? By writing a directive that collaborates with `ng-model` via its controller - the `ngModelController`.
+  To demo this we'll plug a non-Angular SVG clock into `ng-model`.
 
-  As an example - we'll plug a non-Angular SVG clock into `ng-model`. Try dragging the sun, editing the input and hitting 'start'. As you can see, we'll achieve full ng-model functionality with a very unusual input.
+  Try dragging the sun, editing the input and hitting 'start'. As you can see, we'll achieve full ng-model functionality with a very unusual input.
 
   <a class="jsbin-embed" href="http://jsbin.com/nelucu/15/embed?output&height=470px">JS Bin</a><script src="http://static.jsbin.com/js/embed.js"></script>
+
+  ## Turning a widget into an input
 
   First off - here's our template. A standard Angular form, with two-way binding between our input and the value of `input.time` via `ng-model`:
   
@@ -35,7 +37,7 @@ body: |
 
       </form>
 
-  Now the steps we'll need to go through are:
+  To get this template working we'll next need to:
 
   1. create the `clock-input` directive that initialises our clock widget
   1. access the controller of the `ng-model` within our directive
@@ -81,7 +83,6 @@ body: |
 
   ## Step 3
 
-
   We're now going to implement two way binding in our `link` function: getting view values into the model, and updated model values into the view.
 
   `ngModelController` is the important API here. It's the object representation of an input's logical state, with various APIs for you to hook into the 2 way binding process.
@@ -117,7 +118,14 @@ body: |
 
   ## Three cheers
 
-  I really like this API! One API to turn anything - D3 visualisations, random non-Angular widgets, `<canvas>`, the audio input or accelerometer - into an ng-model. A great example of a well designed abstraction promoting reuse.
+  I really like this API! One API to turn anything - D3 visualisations, React components, random non-Angular widgets, `<canvas>`, the audio input or accelerometer - into an ng-model. A great example of a well designed abstraction promoting reuse.
+
+  ## Summary
+
+  - wrap components that capture user interactive with a directive and `require` `ngModel`
+  - use the `ngModelController` APIs to control how your widget updates the model, and renders updates to its value
+  - via `ngModelController` you can also control formatting of values to display in the widget, and the parsing and validation of values read from it
+  - if you see a heap of `$watch`es in your controller handling the state of user input, think: is there a `ng-model` missing somewhere?
 
 
 
