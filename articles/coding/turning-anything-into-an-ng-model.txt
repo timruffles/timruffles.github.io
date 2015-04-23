@@ -2,7 +2,7 @@ title: "Turn anything into an ng-model with ngModelController"
 date: "23/04/2015"
 body: |
 
-  Few people realise that `ng-model` can be turn literally any iterative component into a fully-working input for use in Angular's `form` system. This saves you a heap of time in reinventing wheels - very often I see 100s of lines of codes in controllers managing state that Angular's `ng-model` desperately wants to manage for you.
+  Few people realise that `ng-model` can be turn any interactive component into a fully-working input for use in Angular's `form` system. This saves you a heap of time in reinventing wheels - very often I see 100s of lines of codes in controllers managing state that Angular's `ng-model` desperately wants to manage for you.
 
   How? By writing a directive that collaborates with `ng-model` via its controller - the `ngModelController`.
 
