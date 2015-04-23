@@ -83,7 +83,7 @@ def make_rss articles
 				item = rss.items.new_item
 				item.title = article.title
 				item.link = permalink article.link
-				item.date = Time.parse(article.date)
+				item.date = (article.date.is_a?(String) ? Time.parse(article.date) : article.date).to_s
 			end
     end
   end.to_s
