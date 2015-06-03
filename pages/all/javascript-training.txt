@@ -6,5 +6,6 @@ body: |
 
   I offer Javascript training that allows developers to think in Javascript. The training is over two days, and takes developers from hello-world through to functional programming and unit-testing.
 
+  Do [get in touch](mailto:oi+training@truffles.me.uk) for bookings or questions.
 
 

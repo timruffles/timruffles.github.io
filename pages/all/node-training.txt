@@ -15,4 +15,5 @@ body: |
   - real-time
   - the 'node way'
 
+  Do [get in touch](mailto:oi+training@truffles.me.uk) for bookings or questions.
 

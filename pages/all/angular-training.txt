@@ -19,7 +19,7 @@ body: |
   - Getting data
   - Testing
   
-
+  Do [get in touch](mailto:oi+training@truffles.me.uk) for bookings or questions.
   
 
   

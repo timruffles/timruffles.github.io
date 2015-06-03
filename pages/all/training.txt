@@ -6,6 +6,8 @@ body: |
   
   I have been training developers since 2012 for companies like the European Bioinformatics Institute, Thomas Cook, TMW, Decoded and General Assembly. I specialise in Javascript: [AngularJS](/angular-training), [NodeJS](/nodejs-training), core [Javascript](/javascript-training) and [D3](/d3-training).
 
+  Do [get in touch](mailto:oi+training@truffles.me.uk) for bookings or questions.
+
   
 
   
