@@ -4,6 +4,6 @@ ads_disabled: true
 comments_disabled: true
 body: |
 
-  I offer training in how to create data-visualisations with D3 to developers. The course will take your developers' existing HTML, CSS and JS skills and use D3 to create exiting, interactive visualisations.
+  I offer training in how to create data-visualisations with D3 to developers. The course will take your developers' existing HTML, CSS and JS skills and use D3 to create exciting, interactive visualisations.
 
   Do [get in touch](mailto:oi+training@truffles.me.uk) for bookings or questions.
