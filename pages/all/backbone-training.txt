@@ -1,0 +1,17 @@
+title: Backbone Training
+date: 2015/01/17
+ads_disabled: true
+comments_disabled: true
+body: |
+
+  I've been delivering Backbone training since 2012, and have been an active Backbone user since 0.4. My Backbone training is delivered across 2 days, with day one building a core, and day two providing the knowledge you'll need for production ready systems.
+
+  The course covers:
+
+  - MVC and Backbone
+  - application structure
+  - modelling your domain
+  - performance
+  - testing Backbone
+  - handling persistence
+

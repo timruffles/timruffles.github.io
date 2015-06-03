@@ -50,6 +50,8 @@ def load_params article_path
   YAML.load_file(article_path).merge({
     "path" => article_path
   })
+rescue StandardError => e
+  raise "Invalid article: #{article_path}, #{e}"
 end
 
 def parse_params params
@@ -95,6 +97,7 @@ pages = load_posts "pages/**/*.txt"
 [articles,blog_posts,pages].each do |list|
   list.drop_if! {|i| i["draft"] || i["body"].nil? || i["title"].nil? }
 end
+
 all = articles.items + blog_posts.items + pages.items
 postable = articles.items + blog_posts.items
 

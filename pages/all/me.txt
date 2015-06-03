@@ -2,11 +2,11 @@ title: Me
 date: 2011/07/09
 body: |
 
-  I write [Javascript and Ruby](http://github.com/timruffles) for my startup, [SidekickJS](http://www.sidekickjs.com); teach developers in-house for organisations like Gilt.com, the European Bioinformations Institute, and Inviqa; and [speak](/speaking) at user-groups and conferences.
+  I write [Javascript and Ruby](http://github.com/timruffles) for my startup, [SidekickJS](http://www.sidekickjs.com); [train developers](/developer-training) in-house for organisations like Gilt.com, the European Bioinformations Institute, and Inviqa; and [speak](/speaking) at user-groups and conferences.
 
   I run the [Functional Javascript](http://lanyrd.com/series/funjsldn/) meetup in London, and maintain the [Javascript Garden](http://bonsaiden.github.com/JavaScript-Garden/). My [technical writing](/writing) appears in a book and various guest posts, and I've produced a video course on AngularJS.
 
-  I offer Javascript training on frameworks like Angular.js and Backbone, testing, deployments/ops and D3.
+  I offer [Javascript training](/developer-training) on frameworks like [Angular.js](/angular-training) and [Backbone](/backbone-training), [testing](/tdd-training) and [D3](/d3-training).
 
   Get in touch via [twitter](http://twitter.com/timruffles) or 'oi' at truffles.me.uk.
   

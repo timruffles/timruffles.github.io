@@ -4,7 +4,7 @@ ads_disabled: true
 comments_disabled: true
 body: |
 
-  I've [spoken in 5 countries](http://lanyrd.com/profile/timruffles/) at conferences like [FOWA](https://futureofwebapps.com/london-2014/speakers), [FOSDEM](https://fosdem.org/2014/schedule/event/javascript_d3_webapps/), [BuildStuff](http://sched.co/GFUeOz) and [TakeOff](http://takeoffconf.com/2014). I've taught classes for all sorts of organisations - like [Event Handler](http://www.eventhandler.co.uk/events/ldnjsclass-angularjsfullday), [GA](https://generalassemb.ly/instructors/tim-ruffles/904), the [European Bioinformatics Institute](https://www.ebi.ac.uk/training/workshop/javascript-tips-best-practices) and [FOWA](http://lanyrd.com/2012/fowa/szbzr/).
+  I've [spoken in 5 countries](http://lanyrd.com/profile/timruffles/) at conferences like [FOWA](https://futureofwebapps.com/london-2014/speakers), [FOSDEM](https://fosdem.org/2014/schedule/event/javascript_d3_webapps/), [BuildStuff](http://sched.co/GFUeOz) and [TakeOff](http://takeoffconf.com/2014). I've [taught workshops](/training) for all sorts of organisations - like [Event Handler](http://www.eventhandler.co.uk/events/ldnjsclass-angularjsfullday), [GA](https://generalassemb.ly/instructors/tim-ruffles/904), the [European Bioinformatics Institute](https://www.ebi.ac.uk/training/workshop/javascript-tips-best-practices) and [FOWA](http://lanyrd.com/2012/fowa/szbzr/).
 
   ## Audience comments
 

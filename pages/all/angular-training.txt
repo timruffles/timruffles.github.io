@@ -1,0 +1,26 @@
+title: Angular Training
+date: 2015/01/17
+ads_disabled: true
+comments_disabled: true
+body: |
+
+  I offer a range of Angular training to fit your team's level - from beginner to expert. I've delivered the training for clients like Thomas Cook and General Assembly, in cities across the UK.
+
+  The training is offered across 2 days: Core Angular and Expert Angular. They can be taught independently if only part of the course is required, or you have different skill-levels within the team. 
+
+  ## Course structure
+
+  - The philosophy of Angular
+  - Booting the app
+  - Data-binding
+  - Controllers
+  - Directives
+  - Routing
+  - Getting data
+  - Testing
+  
+
+  
+
+  
+  

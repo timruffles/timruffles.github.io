@@ -1,0 +1,18 @@
+title: NodeJS Training
+slug: nodejs-training
+date: 2015/01/17
+ads_disabled: true
+comments_disabled: true
+body: |
+
+  I offer NodeJS training that takes people from hello-world to building real-time applications with node. The training includes:
+
+  - the core Node APIs
+  - thinking async
+  - HTTP + REST with node
+  - npm and publishing modules
+  - performance
+  - real-time
+  - the 'node way'
+
+

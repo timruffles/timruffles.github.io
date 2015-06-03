@@ -1,0 +1,12 @@
+title: Developer Training
+date: 2015/01/17
+ads_disabled: true
+comments_disabled: true
+body: |
+  
+  I have been training developers since 2012 for companies like the European Bioinformatics Institute, Thomas Cook, TMW, Decoded and General Assembly. I specialise in Javascript: [AngularJS](/angular-training), [NodeJS](/nodejs-training), core [Javascript](/javascript-training) and [D3](/d3-training).
+
+  
+
+  
+  
