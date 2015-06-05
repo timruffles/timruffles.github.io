@@ -1,7 +1,0 @@
-title: Event Source AngularJS
-date: 2015/06/05
-draft: true
-body: |
-  
-  Draft
-
