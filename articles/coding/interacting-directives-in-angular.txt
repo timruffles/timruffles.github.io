@@ -7,7 +7,7 @@ body: |
 
   The route of high-coupling is via the `Scope`. However this means sharing a heap of mutable state between components. Worse still, if one directive needs to publish a function for another to use it's completely invisible in the template - and requires heavy setup in tests.
 
-  The low-coupling route is to use events (i.e `$rootScope`), or services. However both are best suited to very low-cohesion interactions as they are so implicit: they don't appear in the template and you have to read the source for both to see the publish/subscribe pairing.
+  The low-coupling route is to use events (e.g `$rootScope.emit()`), or services. However both are best suited to very low-cohesion interactions as they are so implicit: they don't appear in the template and you have to read the source for both to see the publish/subscribe pairing.
 
   For components that interact closely events or services therefore reduce the readability of your code, making it hard for others to see the interactions. [Explicit is better than implicit](https://www.python.org/dev/peps/pep-0020/).
 
