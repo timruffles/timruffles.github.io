@@ -4,7 +4,7 @@ ads_disabled: true
 comments_disabled: true
 body: |
 
-  I've [spoken in 5 countries](http://lanyrd.com/profile/timruffles/) at conferences like [FOWA](https://futureofwebapps.com/london-2014/speakers), [FOSDEM](https://fosdem.org/2014/schedule/event/javascript_d3_webapps/), [BuildStuff](http://sched.co/GFUeOz) and [TakeOff](http://takeoffconf.com/2014). I've [taught workshops](/training) for all sorts of organisations - like [Event Handler](http://www.eventhandler.co.uk/events/ldnjsclass-angularjsfullday), [GA](https://generalassemb.ly/instructors/tim-ruffles/904), the [European Bioinformatics Institute](https://www.ebi.ac.uk/training/workshop/javascript-tips-best-practices) and [FOWA](http://lanyrd.com/2012/fowa/szbzr/).
+  I've [spoken in 5 countries](http://lanyrd.com/profile/timruffles/) at conferences like [FOWA](https://futureofwebapps.com/london-2014/speakers), [FOSDEM](https://fosdem.org/2014/schedule/event/javascript_d3_webapps/), [BuildStuff](http://sched.co/GFUeOz) and [TakeOff](http://takeoffconf.com/2014). I've [taught workshops](/developer-training) for all sorts of organisations - like [Event Handler](http://www.eventhandler.co.uk/events/ldnjsclass-angularjsfullday), [GA](https://generalassemb.ly/instructors/tim-ruffles/904), the [European Bioinformatics Institute](https://www.ebi.ac.uk/training/workshop/javascript-tips-best-practices) and [FOWA](http://lanyrd.com/2012/fowa/szbzr/).
 
   ## Audience comments
 
@@ -17,11 +17,11 @@ body: |
 
   ## Videos
 
-  <iframe width="300" height="200" src="//www.youtube.com/embed/Wu9n7Ry0PWw" frameborder="0" allowfullscreen></iframe>
+  <iframe width="300" height="200" src="//www.youtube.com/embed/KIm84cPhH9g" frameborder="0" allowfullscreen></iframe>
 
   <br />
 
-  <iframe width="300" height="200" src="//www.youtube.com/embed/n34S_uFtGnw" frameborder="0" allowfullscreen></iframe>
+  <iframe width="300" height="200" src="//www.youtube.com/embed/Wu9n7Ry0PWw" frameborder="0" allowfullscreen></iframe>
 
   <script>
     if(window.matchMedia('(min-device-width: 400)').matches) {
@@ -31,7 +31,6 @@ body: |
       })
     }
   </script>
-
 
   <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
