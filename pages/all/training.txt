@@ -8,7 +8,7 @@ body: |
 
   I offer ticketed public training and in-house training for companies.
 
-  My training is very hands-on to ensure everyone is able to ship what they've learned when they're back at work. No dry lectures allowed. Check out some of [my](http://timruffles.github.io/angular-js-class/slides) [materials](http://timruffles.github.io/d3-class/slides/#/121) - they're continually improved so you can benefit from updates in the future.
+  My training is structured hands-on practice to ensure attendees can apply what they've learned back at work. Check out some of [my](http://timruffles.github.io/angular-js-class/slides) [materials](http://timruffles.github.io/d3-class/slides/#/) - they're continually improved so you can benefit from updates in the future.
 
   Please [get in touch](mailto:oi+training@truffles.me.uk) for bookings or questions.
 
