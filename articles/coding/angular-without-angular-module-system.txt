@@ -1,0 +1,81 @@
+title: Angular without its module system
+date: 2015/06/10
+draft: true
+body: |
+
+  I'm going to demonstrate a way I've used Angular that replaces its module system with browserify - equally applicable to other module systems. After that I'll talk about why you might want to do that.
+
+  ## Ripping it out
+
+  Angular's module system is integral to Angular. Your application is booted up by creating an injector with your boot module(s), and that's used to prime the compiler with the directives and controllers it needs, not to mention routing etc if you've included it.
+
+  The challenge the module system poses to a lot of non-standard use cases - lazy-loading being an incredibly important one - is that if you're not inside that injector once it's created, you can't get at the same *instances* of the injector singletons the compiler uses: `$directiveProvider`, `$controllerProvider` and `$routeProvider`.
+
+  So all non-standard uses of Angular's module system start out with the same pattern:
+
+  - boot the app to create our injector singletons
+  - grab them in a `run()` block or similar
+  - expose them to other code somehow: likely a module, or as globals (if you're in a hacky mood)
+  - use them to incrementally add functionality
+
+  ## CommonJS
+
+  I'll demo the approach with CommonJS - the module system used by Node and browserify. Rather than defining angular modules, we'll create standard CommonJS modules that expose Angular functionality like controllers, directives and routes:
+
+      exports.controllers = {
+        UserCtrl: UserCtrl,
+      };
+
+      exports.routes = {
+        "/users": {
+          template: require("./views/user/index.html"),
+        },
+        "/users/:id": {
+          template: require("./views/user/show.html"),
+        },
+      };
+
+      exports.directives = {
+        userProfile: userProfile
+      };
+
+  We're using `stringify` to allow us to directly `require()` templates. You probably get where I'm going with this now: we've written a module that exposes some chunks of Angular functionality.
+
+  ### Loading
+
+  Now for the 'ripping modules out of Angular' algorithm:
+
+      angular.module("app", ["ngRoute"])
+      .config(function($controllerProvider, $compileProvider, $routeProvider) { 
+
+        var deps = [
+          require("../user"),
+          require("../homepage"),
+        ];
+
+        deps.forEach(function(module) {
+          _.each(module.controllers || {}, function(controller, name) {
+            $controllerProvider.register(name, controller);
+          });
+
+          //todo make recursive through sub-modules so you can declare directives in sub-modules
+          _.each(module.directives || {}, function(directive, name) {
+            $compileProvider.directive(name, directive);
+          });
+
+          _.each(module.routes || {}, function(route, path) {
+            $routeProvider.when(path, route);
+          });
+        });
+     })
+     .run(function($rootScope, $rootElement, $timeout, $location, $q) {
+        ng.init({'$rootScope': $rootScope,
+          '$rootElement' : $rootElement,
+          '$timeout' : $timeout,
+          '$location' : $location,
+          '$q' : $q});
+
+
+  ## Why
+
+  One of the weaker parts of Angular is its module system. It doesn't do enough to warrent the additional complexity it adds. Because it doesn't solve the module *loading* problem, it's frequently used with a module system that does solve it, such as require.js or browserify.

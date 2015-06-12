@@ -1,6 +1,5 @@
 title: Directive communication in Angular
 date: 2015/06/05
-draft: true
 body: |
 
   Directives in Angular are great. One challenge people face, however, is getting them to interact without creating too much, or too little, coupling.

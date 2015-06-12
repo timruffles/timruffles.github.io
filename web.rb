@@ -27,7 +27,7 @@ def load_posts glob, all = false
   items = files.map do |art| 
     load_params(art)
   end.reject do |art|
-    art["date"].nil? or art["body"].nil?
+    art["date"].nil? or art["body"].nil? or art["draft"] or art["title"].nil?
   end.map do |art|
     parse_params art
   end
@@ -94,9 +94,6 @@ end
 articles = load_posts "articles/**/*.txt"
 blog_posts = load_posts "blogs/**/*.txt"
 pages = load_posts "pages/**/*.txt"
-[articles,blog_posts,pages].each do |list|
-  list.drop_if! {|i| i["draft"] || i["body"].nil? || i["title"].nil? }
-end
 
 all = articles.items + blog_posts.items + pages.items
 postable = articles.items + blog_posts.items
