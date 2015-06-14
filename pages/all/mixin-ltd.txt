@@ -1,0 +1,13 @@
+title: Mixin Ltd
+date: 2015/06/14
+body: |
+
+  Mixin Ltd is my company - here's useful information you may need for invoices etc. I offers developer training and product delivery with Javascript.
+
+  - Company registration number: 08802507
+  - VAT registration: 194090987
+  - Registered address (where offical things are sent to my accountants): Unit 11 Fonthill Road, Hove, East Sussex, BN3 6HA
+  - Say hi via [@timruffles](https://www.twitter.com/timruffles), [oi@truffles.me.uk](mailto:oi@truffles.me.uk) or [020 8123 4163](tel:02081234163).
+  - Day to day I'm in London - get in touch for coffee, or say hi at a meetup.
+
+
