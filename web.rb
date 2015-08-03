@@ -10,6 +10,7 @@ require "yaml"
 require "pp"
 require "redcarpet"
 require_relative "./db"
+require "set"
 
 # other
 require "pathname"
@@ -96,12 +97,15 @@ blog_posts = load_posts "blogs/**/*.txt"
 pages = load_posts "pages/**/*.txt"
 
 all = articles.items + blog_posts.items + pages.items
+
 postable = articles.items + blog_posts.items
+postable.sort_by(&:date).reverse!
+postable_set = Set.new(postable)
 
 get "/" do
   cache articles.hash + blog_posts.hash, [articles.last_modified_at,blog_posts.last_modified_at].max
   @title = "Tim Ruffles"
-  @all = postable.sort_by {|a| a.date }.reverse
+  @all = postable
   erb :index
 end
 
@@ -138,7 +142,13 @@ get "/l/:name" do |name|
 end
 
 get "/:article" do |perma|
-  @article = all.find {|art| art.link == perma}
+  @article = all.find {|art| art.link == perma }
+
+  # TODO this is messy, need better implementation
+  if postable_set.include?(@article)
+    @previous_article, @next_article = find_next_and_last(@article, postable)
+  end
+
   if @article
     mod_time = File.mtime(@article.path)
     cache @article.body, mod_time
@@ -165,6 +175,16 @@ end
 not_found do
   @title = "Woops"
   erb :missing
+end
+
+def find_next_and_last(article, articles)
+  index = articles.index(article) 
+  puts "found #{index}" 
+  if index
+    [articles[index + 1], index == 0 ? nil : articles[index - 1]]
+  else
+    [nil, nil]
+  end
 end
 
 def permalink link
