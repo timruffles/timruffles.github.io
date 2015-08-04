@@ -1,14 +1,16 @@
-title: Book announcement: Node and Postgres
+title: 'Node and Postgres: book announcement'
 date: "2015/08/04"
 body: |
 
-  I'm writing [a book](https://leanpub.com/postgres-on-node) on using Postgres with NodeJS. It's in response to an odd phenomenon: it's the favourite database of most experienced NodeJS developers I know, but there are very few resources for people wanting to use Node & Postgres together. This lack of learning material means developers just starting out with the backend often pick Mongo for tasks it's really, really bad at.
+  I'm writing [a book](https://leanpub.com/postgres-on-node) on using Postgres with NodeJS. 
+
+  It's in response to an odd phenomenon: it's the favourite database of most Node developers I know, but there are few resources for people wanting to use Node & Postgres together. This lack of learning material means developers just starting out with the backend often pick MongoDB for tasks it's really, really bad at.
 
   Postgres needs little introduction. First it's a cutting-edge relational database with all the ACID goodness you'd expect. Beyond that it has more exotic powers like first-class JSON support, publish/subscribe, windowing functions and procedural languages.
 
-  Most applications benefit hugely from the reliability you get from transactions and schema constraints. They protect you from a huge range of nasty failures. This lets you focus on application logic rather than the hairy locking code that NoSQL databases require to safely implement many operations.
+  Applications with valuable data benefit hugely from the reliability you get from transactions and schema constraints. They protect you from a huge range of nasty failures. This lets you focus on application logic rather than the hairy locking code that NoSQL databases require to safely implement many operations.
 
-  If you've not used Postgres (or a RDB) before I'd be really interested to hear what you'd like to see covered. If you tried PG and didn't like it, I'm especially interested to know what blocked you. If you're a PG expert take a look over the table of contents and let me know if you think I've covered the right things.
+  If you've not used Postgres (or a RDB) before I'd be really interested to [hear what you'd like covered](https://leanpub.com/postgres-on-node/email_author/new). If you tried PG and didn't like it, I'm especially interested to know what blocked you. If you're a PG expert take a look over the [table of contents](https://leanpub.com/postgres-on-node#toc-title) and let me know if you think I've covered the right things.
 
 
   
