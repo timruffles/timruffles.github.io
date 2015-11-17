@@ -1,4 +1,4 @@
-title: AngularJS Training
+title: Angular Training
 date: 2015/01/17
 ads_disabled: true
 comments_disabled: true
