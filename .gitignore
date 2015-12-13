@@ -3,3 +3,5 @@
 *.swp
 *.swo
 vendor
+public/dist.*
+public/js/*dist.js

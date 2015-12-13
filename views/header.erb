@@ -1,6 +1,22 @@
 <% @header_tag = @is_root ? "h1" : "h2" %>
-<div class="page_header">
-  <<%= @header_tag %> class="logo">
-    Tim Ruffles
-  </<%= @header_tag %>>
-</div>
+<header>
+  <a href="/me">
+    <<%= @header_tag %> id=header>
+      Developer Training - Tim Ruffles
+      <canvas></canvas>
+    </<%= @header_tag %>>
+  </a>
+
+  <nav>
+    <a href=https://www.twitter.com/timruffles
+       >
+      @timruffles
+    </a>
+    <a href=/me>
+      Me
+    </a>
+    <a href=/developer-training>
+      Training
+    </a>
+  </nav>
+</header>

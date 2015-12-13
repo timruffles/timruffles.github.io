@@ -1,27 +1,47 @@
-<h1><a href="<%= @perma %>"><%= @title%></a></h1>
-<%= @body %>
+<article>
+  
+  <svg viewBox="0 0 75 40" preserveAspectRatio="xMinYMin meet" class="top left">
+    <polygon 
+      points='0 40  75 0  75 40'
+    ></polygon>
+  </svg>
+  
+  <div class='content'>
+    <h1><a href="<%= @perma %>"><%= @title%></a></h1>
+    <%= @body %>
 
-<% if @previous_article %>
-  <p class=nav>
-    Previous: <a href="<%= @previous_article.link %>">
-      <%= @previous_article.title %>
-    </a>
-  <p>
-<% end %>
+  </div>
 
-<% if @next_article %>
-  <p class=nav>
-    Next: <a href="<%= @next_article.link %>">
-      <%= @next_article.title %>
-    </a>
-  </p>
-<% end %>
+  <div class=footer>
+    <% if @previous_article %>
+      <p class=nav>
+        Previous: <a href="<%= @previous_article.link %>">
+          <%= @previous_article.title %>
+        </a>
+      <p>
+    <% end %>
 
-<% unless @article.category == "Ideas" || @article.ads_disabled %>
-  <p class=plug>Want to be proud of your team's Javascript? Try my <a href="http://www.sidekickjs.com">code-quality tool for teams - SidekickJS</a><p>
-<% end %>
+    <% if @next_article %>
+      <p class=nav>
+        Next: <a href="<%= @next_article.link %>">
+          <%= @next_article.title %>
+        </a>
+      </p>
+    <% end %>
 
-<hr />
+    <% unless @article.category == "Ideas" || @article.ads_disabled %>
+      <p class=plug>Want to be proud of your team's Javascript? Try my <a href="http://www.sidekickjs.com">code-quality tool for teams - SidekickJS</a><p>
+    <% end %>
+
+    <p class=subscribeHint>Enjoyed this? Get more like it in your email!</p>
+    <form class=subscribe>
+      <input type=email placeholder=ilike@javascript.com>
+      <input type=submit value=Subscribe>
+    </form>
+  </div>
+
+</article>
+
 <% unless @footnotes.empty? %>
   <div class="footnotes">
     <h3>Footnotes</h3>
@@ -32,55 +52,7 @@
     </ul>
   </div>
 <% end %>
-</div>
 
 <% unless @article.comments_disabled %>
-<div id="comments"></div>
-<script type="text/javascript" class="juvia">
-(function() {
-    var options = {
-        container   : '#comments',
-        site_key    : 'igxtnepp9np9dt4tx4czx1zrl1ojbqe',
-        topic_key   : location.pathname,
-        topic_url   : location.href,
-        topic_title : document.title || location.href,
-        include_base: !window.Juvia,
-        include_css : !window.Juvia
-    };
-
-    function makeQueryString(options) {
-        var key, params = [];
-        for (key in options) {
-            params.push(
-                encodeURIComponent(key) +
-                '=' +
-                encodeURIComponent(options[key]));
-        }
-        return params.join('&');
-    }
-
-    function makeApiUrl(options) {
-        // Makes sure that each call generates a unique URL, otherwise
-        // the browser may not actually perform the request.
-        if (!('_juviaRequestCounter' in window)) {
-            window._juviaRequestCounter = 0;
-        }
-
-        var result =
-            'http://truffles-comments.herokuapp.com/api/show_topic.js' +
-            '?_c=' + window._juviaRequestCounter +
-            '&' + makeQueryString(options);
-        window._juviaRequestCounter++;
-        return result;
-    }
-
-    var s       = document.createElement('script');
-    s.async     = true;
-    s.type      = 'text/javascript';
-    s.className = 'juvia';
-    s.src       = makeApiUrl(options);
-    (document.getElementsByTagName('head')[0] ||
-     document.getElementsByTagName('body')[0]).appendChild(s);
-})();
-</script>
+  <%= erb :comments %>
 <% end %>

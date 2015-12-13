@@ -1,6 +1,5 @@
 <div class="posts">
-  <% @all.each_slice(4) do |articles| %>
-    <div class=chunk>
+  <% @all[0..9].each do |articles| %>
     <% articles.each do |article| %>
       <a href="<%= article.link %>" class=post title="<%= article.title %>">
         <h4>
@@ -9,6 +8,5 @@
         <span class=date><%= article.date.strftime("%-e %b '%y") %></span>
       </a>
     <% end %>
-    </div>
   <% end %>
 </div>

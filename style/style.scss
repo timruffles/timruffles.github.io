@@ -1,0 +1,184 @@
+@import "bourbon";
+@import "neat";
+@import "prettify";
+
+/*
+ * variables
+ */
+$mainColor: hsl(6, 91%, 65%);
+$bodyTextPadding: 2rem;
+
+/*
+ * general
+ */
+body {
+  background: $mainColor;
+  font-family: "Helvetica Neue Light", sans-serif;
+  font-weight: 100;
+  padding: 0;
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box; 
+}
+
+/*
+ * specific
+ */
+#header {
+  margin: 1ex auto 0 auto;
+  background-size: cover;
+  // hide
+  text-indent: -500rem;
+  overflow: hidden;
+  position: relative;
+
+  canvas {
+    position: absolute;
+    @include transform-origin(0 0);
+    top: 0;
+    left: 0;
+  }
+}
+
+#headerImage {
+  visibility: hidden;
+  height: 0;
+  width: 0;
+}
+
+.outer {
+  @include outer-container();
+}
+
+article {
+  overflow: visible;
+
+  width: 100%;
+  max-width: 40rem;
+  margin: 0 auto;
+
+  svg {
+    left: 0;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  .content {
+    position: relative;
+    background: #fff;
+    padding: 4ex 0 6ex 0;
+    top: -4.5px;
+  }
+
+  polygon {
+    fill: #fff;
+  }
+
+  p {
+    padding: 0 $bodyTextPadding;
+  }
+
+  h1, h2 {
+    margin-top: 0.5em;
+    text-transform: uppercase;
+    font-size: 2.5rem;
+    margin-bottom: 1rex;
+    padding-top: 1ex;
+    padding: 0 $bodyTextPadding;
+  }
+
+  .top {
+    width: 25%;
+  }
+
+  code {
+    display: block;
+    white-space: pre;
+    padding: 0 $bodyTextPadding;
+    font-size: 1.125rem;
+    font-family: monospace;
+  }
+
+}
+
+.footer {
+  background: #fff;
+  margin-top: 4ex;
+  padding: 2rem 0;
+
+  a {
+    padding: 0 $bodyTextPadding;
+  }
+  hr {
+    width: 40%;
+    margin: 1rem auto;
+    border: none;
+    border-top: 1px solid $mainColor;
+  }
+}
+
+
+
+nav {
+  text-align: center;
+  margin: 1ex 0;
+  a {
+    color: #fff;
+    text-transform: lowercase;
+    &::after {
+      content: "|";
+    }
+    &:last-child::after {
+      content: "";
+    }
+  }
+}
+
+/*
+ * typography
+ */
+h1, h2, h3, a {
+  color: $mainColor; }
+
+a {
+  text-decoration: none;
+}
+
+h1, h2, h3 {
+  font-weight: 100; }
+
+/*
+ * forms
+ */
+.subscribe {
+  overflow: auto;
+  padding: 0 $bodyTextPadding;
+  input {
+    float: left;
+    height: 2.5rem;
+    margin-right: 0;
+    box-shadow: inset 0 1px 3px hsla(0, 0%, 0%, 0.06);
+    border: 1px solid #cecece;
+    border-radius: 0;
+  }
+  input[type=email] {
+    padding: 1rem;
+    width: 12rem;
+  }
+  input[type=submit] {
+    background: $mainColor;
+    color: #fff;
+    border: none;
+    width: 6rem;
+    margin-left: 1rem;
+    padding: 0.25rem .5rem;
+  }
+}
+
+.subscribeHint {
+  color: #555;
+}

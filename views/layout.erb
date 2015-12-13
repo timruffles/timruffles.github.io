@@ -1,54 +1,28 @@
 <% @is_root = request.path_info == "/"  %>
-<html>
-  <head>
-    <title>
-      <%= @title %>
-    </title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" href="/css/style.css" type="text/css">
-    <script type="text/javascript">
+<!DOCTYPE html>
+<meta charset=utf-8>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-24335480-1']);
-      _gaq.push(['_trackPageview']);
+<title><%= @title %></title>
 
-      var asyncScript = function(src) {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = src;
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      };
-      asyncScript(('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js');
-      asyncScript("/js/prettify.js");
-    </script>
-  </head>
-  <body class="<%= @is_root ?  "root" : "article"%>">
-    <div id="content" class="reading">
-        <% if @is_root %>
-          <%= erb :header %>
-        <% end %>
-       <div id="body">
-          <%= yield %>
-        </div>
+<style>
+  <%= site_style %>
+</style>
+
+<body class="<%= @is_root ?  "root" : "article"%>">
+
+  <%= erb :header %>
+
+  <div class="outer">
+    <div id="body">
+      <%= yield %>
     </div>
-    <div id="mast">
-      <div class='reading'>
-          <div class="links logical">
-            <div class="navigation logical">
-              <a href="/">Home</a>
-              <a href="/me">Me</a>
-              <a href="http://feeds.feedburner.com/TimRufflesBlog">RSS</a>
-            </div>
-            <div class="search logical">
-              <a href="https://www.google.com/search?as_sitesearch=http://truffles.me.uk">Search</a>
-            </div>
-          </div>
-        </div>
-    </div>
-    <div class="footer reading">
-      <div class="container">
-        <p>Say hi <a href="http://twitter.com/timruffles">@timruffles</a></p>
-      </div>
-    </div>
-  </body>
-</html>
+  </div>
+
+  <img src="img/me-128.jpg" id=headerImage>
+
+  <script>
+    <%= site_script %>
+  </script>
+  <%= erb :analytics %>
+</body>
