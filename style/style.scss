@@ -1,18 +1,19 @@
 @import "bourbon";
 @import "neat";
-@import "prettify";
 
 /*
  * variables
  */
 $mainColor: hsl(6, 91%, 65%);
+$background: #EA7669;
 $bodyTextPadding: 2rem;
+$readingColumnWidth: 40rem;
 
 /*
  * general
  */
 body {
-  background: $mainColor;
+  background: $background;
   font-family: "Helvetica Neue Light", sans-serif;
   font-weight: 100;
   padding: 0;
@@ -27,18 +28,19 @@ body {
  * specific
  */
 #header {
-  margin: 1ex auto 0 auto;
-  background-size: cover;
+  margin: 0;
   // hide
-  text-indent: -500rem;
-  overflow: hidden;
-  position: relative;
-
-  canvas {
-    position: absolute;
-    @include transform-origin(0 0);
-    top: 0;
-    left: 0;
+  a {
+    margin: 1ex auto 0 auto;
+    display: block;
+    background-size: cover;
+    background: url(img/tim-ruffles.png);
+    background-size: contain;
+    text-indent: -500rem;
+    overflow: hidden;
+    position: relative;
+    width: 64px;
+    height: 64px;
   }
 }
 
@@ -56,8 +58,8 @@ article {
   overflow: visible;
 
   width: 100%;
-  max-width: 40rem;
-  margin: 0 auto;
+  max-width: $readingColumnWidth;
+  margin: 4ex auto 0 auto;
 
   svg {
     left: 0;
@@ -65,13 +67,12 @@ article {
 
   img {
     max-width: 100%;
+    height: auto;
   }
 
   .content {
-    position: relative;
     background: #fff;
     padding: 4ex 0 6ex 0;
-    top: -4.5px;
   }
 
   polygon {
@@ -83,7 +84,7 @@ article {
   }
 
   h1, h2 {
-    margin-top: 0.5em;
+    margin-top: 0em;
     text-transform: uppercase;
     font-size: 2.5rem;
     margin-bottom: 1rex;
@@ -91,9 +92,6 @@ article {
     padding: 0 $bodyTextPadding;
   }
 
-  .top {
-    width: 25%;
-  }
 
   code {
     display: block;
@@ -105,14 +103,23 @@ article {
 
 }
 
-.footer {
+.footer, .footnotes, #comments {
   background: #fff;
   margin-top: 4ex;
   padding: 2rem 0;
+}
+
+.footer {
 
   a {
     padding: 0 $bodyTextPadding;
+
   }
+
+  > p:first-of-type {
+    margin-top: 0;
+  }
+
   hr {
     width: 40%;
     margin: 1rem auto;
@@ -121,6 +128,24 @@ article {
   }
 }
 
+#comments {
+  padding: 2rem;
+  textarea {
+    width: 100%;
+  }
+}
+
+.root {
+  h3 {
+    background: #fff;
+    padding: 1.5ex 2em;
+    max-width: $readingColumnWidth;
+    margin: 0 auto 1ex auto;
+    &:first-of-type {
+      margin-top: 2ex;
+    }
+  }
+}
 
 
 nav {

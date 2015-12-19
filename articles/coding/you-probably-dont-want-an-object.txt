@@ -8,11 +8,11 @@ body: |
 
   OO means different things to different people. In this article I take a simple definition, which I think has a lot of weight as it's the definition from Alan Kay, the originator of OO:
 
-    OOP to me means only messaging [and] local retention and protection and hiding of state-process
+  > OOP to me means only messaging [and] local retention and protection and hiding of state-process
 
   secondly Alan states:
 
-    TODO objects are smaller idea, real idea is messages
+  > TODO objects are smaller idea, real idea is messages
 
   So OO is a model for programming that can be implemented in many ways. It's specifically NOT classes, which is one way of implementing objects. It's specifically NOT certain languages, you can trivally produce objects in any language.
 
@@ -26,17 +26,17 @@ body: |
 
   Where are the objects - with identity and state that changes - in an HTTP request handler? There is no state to change. We parse the input - statelessly. We retrieve the current state from storage - statlessly. For GET requests we transform that state into the response, and in the case of non-GET requests generate a new state and store it. There are no objects with identity that are mutated. It can be brought right down to:
 
-    function abstractGET(input, state, transformToResponse) {
-      return transformToResponse(input, state);
-    }
+      function abstractGET(input, state, transformToResponse) {
+        return transformToResponse(input, state);
+      }
 
-    function abstractPOST(input, stateBefore, transformState, transformToResponse, storage) {
-      var stateAfter = transformState(input, stateBefore);
-      var storageResult = storage(stateAfter);
-      return transformToResponse(stateAfter, storageResult);
-    }
+      function abstractPOST(input, stateBefore, transformState, transformToResponse, storage) {
+        var stateAfter = transformState(input, stateBefore);
+        var storageResult = storage(stateAfter);
+        return transformToResponse(stateAfter, storageResult);
+      }
 
-    TODO need better examples
+      TODO need better examples
 
   If we involve objects with mutable state suddenly our code does not match our problem. We have stated we are dealing with time and identity, when we are only dealing with values. Objects' ... CONTINUE
 

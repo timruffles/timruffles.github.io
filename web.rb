@@ -32,22 +32,22 @@ Footnote = Struct.new(:id,:text)
 helpers BlogHelpers
 
 get "/" do
-  cache data.articles.hash + data.blog_posts.hash, [data.articles.last_modified_at,data.blog_posts.last_modified_at].max
+  cache data.articles.hash
   @title = "Tim Ruffles"
-  @data.all = data.postable
+  @all = data.articles
   erb :index
 end
 
 get "/rss" do
-  cache data.articles.hash + data.blog_posts.hash, [data.articles.last_modified_at,data.blog_posts.last_modified_at].max
-  make_rss(data.postable)
+  cache data.articles.hash
+  make_rss(data.articles)
 end
 
 
-get "/data.projects" do
-  @title = "data.Projects"
-  @data.all = data.projects
-  erb :data.projects
+get "/projects" do
+  @title = "Projects"
+  @all = data.projects
+  erb :projects
 end
 
 get "/l/:name" do |name|
@@ -68,27 +68,32 @@ get "/l/:name" do |name|
 end
 
 get "/:article" do |perma|
-  @article = data.all.find {|art| art.link == perma }
+  @article = data.by_slug[perma]
 
-  # TODO this is messy, need better implementation
-  if data.postable_set.include?(@article)
-    @previous_article, @next_article = find_next_and_last(@article, data.postable)
-  end
-
-  if @article
-    mod_time = File.mtime(@article.path)
-    cache @article.body, mod_time
-    @body = if @article.template == "erb"
-      erb = ERB.new(@article.body)
-      erb.result binding
-    else
-      Redcarpet.new(@article.body).to_html
-    end
-    @title, @perma, @fb_url, @footnotes = @article.title, @article.link, @article.facebook_comment_url, (@article.footnotes || []).enum_for(:each_with_index).map {|fn,i| Footnote.new(fn.fetch("id","fn-#{i + 1}"),fn.fetch("text")) }
-    erb(:show)
-  else
+  unless @article
     raise Sinatra::NotFound.new
   end
+
+  if @article.type == "post"
+    @previous_article, @next_article = find_next_and_last(@article, data.articles)
+  end
+
+  mod_time = File.mtime(@article.path)
+  cache @article.body, mod_time
+  @body = if @article.template == "erb"
+    erb = ERB.new(@article.body)
+    erb.result binding
+  else
+    Redcarpet.new(@article.body).to_html
+  end
+
+  @title = @article.title
+  @perma = @article.link
+  @footnotes = (@article.footnotes || []).enum_for(:each_with_index).map do |fn,i|
+    Footnote.new(fn.fetch("id","fn-#{i + 1}"),fn.fetch("text"))
+  end
+
+  erb(:show)
 end
 
 not_found do

@@ -5,13 +5,15 @@
   "main": "index.js",
   "scripts": {
     "start": "bundle exec ruby web.rb",
+    "watch": "bundle exec shotgun",
     "js": "cat public/js/site.js | uglifyjs -m -c > public/js/dist.js",
-    "cssWatch": "cat style/normalize.css <(node-sass -w --include-path node_modules/bourbon-neat/app/assets/stylesheets/ --include-path node_modules/bourbon/app/assets/stylesheets/ style/style.scss) > public/dist.css"
+    "cssWatch": "nodemon -w style --exec 'cat style/normalize.css <(node-sass --include-path node_modules/bourbon-neat/app/assets/stylesheets/ --include-path node_modules/bourbon/app/assets/stylesheets/ style/style.scss) > public/dist.css'"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bourbon": "^4.2.6",
-    "bourbon-neat": "^1.7.2"
+    "bourbon-neat": "^1.7.2",
+    "nodemon": "^1.8.1"
   }
 }

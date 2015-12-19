@@ -1,12 +1,7 @@
-<div class="posts">
-  <% @all[0..9].each do |articles| %>
-    <% articles.each do |article| %>
-      <a href="<%= article.link %>" class=post title="<%= article.title %>">
-        <h4>
-          <%= article.title %>
-        </h4>
-        <span class=date><%= article.date.strftime("%-e %b '%y") %></span>
-      </a>
-    <% end %>
-  <% end %>
-</div>
+<% @all[0..9].each do |article| %>
+  <h3>
+    <a href="<%= article.link %>">
+      <%= article.title %>
+    </a>
+  </h3>
+<% end %>

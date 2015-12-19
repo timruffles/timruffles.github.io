@@ -6,56 +6,42 @@ require "ostruct"
 class BlogData
 
   def articles
-    @articles ||= load_posts "articles/**/*.txt"
-  end
-
-  def blog_posts
-    @blog_posts ||= load_posts "blogs/**/*.txt"
+    @articles ||= (
+      as = load_posts "articles/**/*.txt", type: "post"
+      as.sort_by!(&:date)
+      as.reverse!
+      as
+    )
   end
 
   def pages
-    @pages ||= load_posts "pages/**/*.txt"
+    @pages ||= load_posts "pages/**/*.txt", type: "page"
   end
 
   def projects
-    @projects ||= load_posts "projects/projects/*.txt"
+    @projects ||= load_posts "projects/projects/*.txt", type: "project"
   end
 
-  def all
-    @all = articles.items + blog_posts.items + pages.items
-  end
-
-  def postable
-    if @postable
-      @postable
-    else
-      postable = articles.items + blog_posts.items
-      postable.sort_by(&:date).reverse!
-      @postable = postable.to_a
-    end
-  end
-
-  def postable_set
-    @postable_set ||= Set.new(postable)
+  def by_slug
+    @by_slug ||= Hash[all.map {|p| [p.link, p] }]
   end
 
   protected
 
-  def load_posts glob, all = false
+  def all
+    @all ||= articles + pages
+  end
+
+  def load_posts glob, opts = {}
     files = Dir.glob glob
-    modification_times = files.map {|file| File.mtime(file) }.sort {|ta,tb| tb <=> ta }
-    items = files.map do |art| 
+
+    files.map do |art| 
       load_params(art)
     end.reject do |art|
       art["date"].nil? or art["body"].nil? or art["draft"] or art["title"].nil?
     end.map do |art|
       parse_params art
     end
-    items.sort_by!(&:date).reverse!
-    OpenStruct.new( :last_modified_at => modification_times.first,
-      :items => items,
-      :hash => Digest::MD5.hexdigest((items.join('') + modification_times.map(&:to_s).join(''))),
-      :by_category => items.group_by {|art| art.category } )
   end
 
   def permalinkify text

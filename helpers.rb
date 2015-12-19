@@ -9,9 +9,7 @@ module BlogHelpers
     @site_style ||= open(PUBLIC_DIR + "/public/dist.css").read;
   end
 
-  def cache to_hash, date
-    # etag Digest::MD5.hexdigest(to_hash.to_s)
-    # last_modified date
+  def cache *args
     headers['Cache-Control'] = 'public, max-age=43200'
   end
 end
