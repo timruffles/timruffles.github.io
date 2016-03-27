@@ -5,18 +5,14 @@ body: |
   Here's a quick summary of Rails 3's asset pipeline if you're already confident with Rails/Ruby, and some pointers on getting it working on Heroku.
 
   * Rails 3 supports compiling Coffeescript, SASS etc to JS and CSS.
-
-  * Rails 3 puts assets in three places, here's a glob:
-
-      {app,lib,vendor}/assets/{stylesheets,javascripts}/*.{js.coffee,css.{sass,scss,less}}
-
+  * Rails 3 puts assets in three places, here's a glob: `{app,lib,vendor}/assets/{stylesheets,javascripts}/*.*`
   * Meta language filetypes go on the end of the target language, like erb, so `jquery.js.coffee`.
 
   Those folders are for:
 
   * app - app specific code
   * lib - libraries you've written (shared between apps)
-  * vendor - other people's code (Backbone, put selector, etc)
+  * vendor - other people's code (jQuery, Backbone, etc)
 
   ## Requiring files in CSS/JS
 
