@@ -99,7 +99,7 @@ pages = load_posts "pages/**/*.txt"
 all = articles.items + blog_posts.items + pages.items
 
 postable = articles.items + blog_posts.items
-postable.sort_by(&:date).reverse!
+postable.sort_by!(&:date).reverse!
 postable_set = Set.new(postable)
 
 get "/" do
