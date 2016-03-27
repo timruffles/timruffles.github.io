@@ -1,5 +1,6 @@
 title: You probably don't want an object
 date: "2015/09/17"
+draft: true
 body: |
 
   Object-orientation is a powerful way to organise code but it harms as much as helps when it's overused. The largest failure of OO has been for web-services. I gave a talk on this back in early 2014, and wanted to share it.
