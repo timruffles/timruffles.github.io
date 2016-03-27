@@ -10,6 +10,10 @@ class BlogData
       as = load_posts "articles/**/*.txt", type: "post"
       as.sort_by!(&:date)
       as.reverse!
+      as.each_cons(2) do |nxt, prev|
+        prev[:next] = nxt
+        nxt[:previous] = prev
+      end
       as
     )
   end
@@ -40,7 +44,7 @@ class BlogData
     end.reject do |art|
       art["date"].nil? or art["body"].nil? or art["draft"] or art["title"].nil?
     end.map do |art|
-      parse_params art
+      parse_params art.merge(opts)
     end
   end
 
@@ -89,16 +93,6 @@ class BlogData
         end
       end
     end.to_s
-  end
-
-  def find_next_and_last(article, articles)
-    index = articles.index(article) 
-    puts "found #{index}" 
-    if index
-      [articles[index + 1], index == 0 ? nil : articles[index - 1]]
-    else
-      [nil, nil]
-    end
   end
 
   def permalink link

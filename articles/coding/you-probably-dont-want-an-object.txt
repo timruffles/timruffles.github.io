@@ -1,4 +1,4 @@
-title: You probably don't want an object
+∑title: You probably don't want an object
 date: "2015/09/17"
 body: |
 
@@ -18,7 +18,7 @@ body: |
 
   A particuarly pernicious idea is that OO is about modelling. It's pernicious because although we're writing code to help real-world people, our problems are code problems, not real world ones. Our code should be shaped by the needs of the program, not of the real world.
 
-  ## Why OO?
+  ##Why OO?
 
   OO is fantastic where we have something in our programs with identity and state that changes during the program's execution. It was born in the user-interface, and with good reason. UI components have identity and state - we need to track what the user has put in a text box, for instance, and the text box is definined by its identity not its content. TODO more specific
   

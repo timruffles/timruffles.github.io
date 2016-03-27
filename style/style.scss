@@ -55,7 +55,7 @@ body {
 }
 
 article {
-  overflow: visible;
+  overflow: hidden;
 
   width: 100%;
   max-width: $readingColumnWidth;
@@ -85,17 +85,23 @@ article {
 
   h1, h2 {
     margin-top: 0em;
-    text-transform: uppercase;
-    font-size: 2.5rem;
+    padding: 0 $bodyTextPadding;
     margin-bottom: 1rex;
     padding-top: 1ex;
-    padding: 0 $bodyTextPadding;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
   }
 
 
-  code {
+  pre code {
     display: block;
-    white-space: pre;
+    white-space: pre-wrap;
     padding: 0 $bodyTextPadding;
     font-size: 1.125rem;
     font-family: monospace;
@@ -110,21 +116,8 @@ article {
 }
 
 .footer {
-
-  a {
-    padding: 0 $bodyTextPadding;
-
-  }
-
   > p:first-of-type {
     margin-top: 0;
-  }
-
-  hr {
-    width: 40%;
-    margin: 1rem auto;
-    border: none;
-    border-top: 1px solid $mainColor;
   }
 }
 

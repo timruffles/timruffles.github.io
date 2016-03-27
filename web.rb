@@ -74,10 +74,6 @@ get "/:article" do |perma|
     raise Sinatra::NotFound.new
   end
 
-  if @article.type == "post"
-    @previous_article, @next_article = find_next_and_last(@article, data.articles)
-  end
-
   mod_time = File.mtime(@article.path)
   cache @article.body, mod_time
   @body = if @article.template == "erb"

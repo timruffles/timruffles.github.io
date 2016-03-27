@@ -1,29 +1,28 @@
 <div class=footer>
-  <% if @previous_article %>
-    <p class=nav>
-      Previous: <a href="<%= @previous_article.link %>">
-        <%= @previous_article.title %>
-      </a>
-    <p>
-  <% end %>
-
-  <% if @next_article %>
-    <p class=nav>
-      Next: <a href="<%= @next_article.link %>">
-        <%= @next_article.title %>
-      </a>
-    </p>
-  <% end %>
-
-  <%  # TODO renable and style
-      unless true || @article.category == "Ideas" || @article.ads_disabled %>
-    <p class=plug>Want to be proud of your team's Javascript? Try my <a href="http://www.sidekickjs.com">code-quality tool for teams - SidekickJS</a><p>
-  <% end %>
-
   <p class=subscribeHint>Enjoyed this? Get more like it in your email!</p>
   <form class=subscribe>
     <input type=email placeholder=ilike@javascript.com>
     <input type=submit value=Subscribe>
   </form>
 </div>
+
+<% if @article.previous || @article.next %>
+  <div class=footer>
+    <% if @article.previous %>
+      <p class=nav>
+        Previous: <a href="<%= @article.previous.link %>">
+          <%= @article.previous.title %>
+        </a>
+      <p>
+    <% end %>
+
+    <% if @article.next %>
+      <p class=nav>
+        Next: <a href="<%= @article.next.link %>">
+          <%= @article.next.title %>
+        </a>
+      </p>
+    <% end %>
+  </div>
+<% end %>
 
