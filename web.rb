@@ -61,6 +61,7 @@ def parse_params params
   article.category = article_path.split("/")[1..-2].first.gsub('_',' ').gsub(/\b(\w)/) {|word| word.upcase }
   article.link ||= permalinkify article.title
   article.date = Date.parse(article.date)
+  article.previous_slugs = params["previous_slugs"] || []
   article
 rescue StandardError => e
   raise "Invalid article: #{e}\n#{params}"
@@ -142,7 +143,10 @@ get "/l/:name" do |name|
 end
 
 get "/:article" do |perma|
-  @article = all.find {|art| art.link == perma }
+  @article = all.find do |art|
+    art.link == perma or (art.previous_slugs.find {|slug| slug == perma })
+  end
+
 
   # TODO this is messy, need better implementation
   if postable_set.include?(@article)
