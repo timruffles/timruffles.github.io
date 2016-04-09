@@ -10,6 +10,5 @@ body: |
   - [Decoupling Backbone.js Applications with pub/sub](https://blog.safaribooksonline.com/2013/10/02/decoupling-backbone-applications-with-pubsub/), O'Reilly's Safari Blog - post on pub/sub in Backbone
   - [Every-day Functional Programming](http://12devsofxmas.co.uk/2013/12/day-2-everyday-functional-programming) - article about how functional-programming is bread-and-butter, not self-indulgance
   - [.net magazine - issue 257](http://www.myfavouritemagazines.co.uk/design/net-magazine-back-issues/net-summer-14-issue-257/) - article introducing D3 for .net print magazine
-  - [Real Time the Easy Way](http://www.futureinsights.com/home/real-time-the-easy-way-with-eventsource-angularjs-and-nodejs.html) - FOWA conference blog article on NodeJS, Express, Angular and EventSource
   - [JavaScript Garden](http://bonsaiden.github.com/JavaScript-Garden/) - I maintain the site, and have extended the content
 
