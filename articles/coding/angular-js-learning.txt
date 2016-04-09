@@ -1,4 +1,4 @@
-title: 'AngularJS 1.x - best practises for larger apps'
+title: 'AngularJS 1.x - best practices for larger apps'
 date: "2015/08/04"
 body: |
 
