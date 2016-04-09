@@ -12,7 +12,10 @@ body: |
 
   EventSource is a HTTP based protocol that allows one-way evented communication from the server to the client. It avoids the overhead of polling, provides seamless reconnection without any code on your part and has an incredibly simple API.
 
+
   I'll take you through the server-sent events related parts of both the client and server-side of a chat application implemented via EventSource. We'll use AngularJS in the client and NodeJS in the server. The [full source](https://github.com/timruffles/chat-event-source) is available to read too.
+
+  ## EventSource API
 
   First - let's check out the EventSource API itself:
 
@@ -26,6 +29,8 @@ body: |
       });
 
   Surprisingly cruft-free for a browser API! We provide the URL of the HTTP endpoint that'll be pushing the events, and then use the `addEventListener(eventName, handlerFunction)` API we know and love in the DOM. Just like in the DOM we have an event object holding event data in its properties. Here we want the data - which is sent as a string. I've chosen to encode it as JSON - so we simply parse it and place it at the start of our list of chats.
+
+  ## Server-sent events protocol
 
   The server-side is not much more complex. The simplicity of the API is hidden in the spec, so I'll show you the full text of a session, first up the request:
 
@@ -46,6 +51,8 @@ body: |
       data: {"message":"this is fun","userId":1,"createdAt":"2014-08-26T17:06:12.521Z"}
 
   Simplicity itself! We simply have to set the `Content-Type` to `text/event-stream`, disable caching and tell the browser to expect `chunked` encoding. Each event is sent as a number of headers (`event:`, `data:`) separated by new-lines, with a double new-line between events.
+
+  ## SSEs with NodeJS and express
 
   Let's implement that with NodeJS. I've chosen the `express` HTTP server library as it's simple and commonly-used. If you've not used it before, it's just a matter of writing handler functions that use the `request` and `response` parameters (usually shortened to `req` and `res`) to respond to HTTP requests. Here's a simple one for creating a user:
 
