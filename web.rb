@@ -59,6 +59,8 @@ def parse_params params
   article = OpenStruct.new params
   article_path = article.path
   article.category = article_path.split("/")[1..-2].first.gsub('_',' ').gsub(/\b(\w)/) {|word| word.upcase }
+  article.ads_disabled = article.ads_disabled.nil?  ? article.category != "posts" : article.ads_disabled
+  article.comments_disabled = article.comments_disabled.nil?  ? article.category != "posts" : article.comments_disabled
   article.link ||= permalinkify article.title
   article.date = Date.parse(article.date)
   article.previous_slugs = params["previous_slugs"] || []
