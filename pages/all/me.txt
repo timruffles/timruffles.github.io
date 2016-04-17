@@ -8,7 +8,7 @@ body: |
 
   I offer [Javascript training](/developer-training) on frameworks like [Angular.js](/angular-training) and [Backbone](/backbone-training), [NodeJS](/nodejs-training) and [D3](/d3-training).
 
-  Get in touch via [twitter](http://twitter.com/timruffles) or <a id='zzz'></span>.
+  Get in touch via [twitter](http://twitter.com/timruffles) or <a id='zzz'></a>.
 
   <script>
     (function(d, z) {
