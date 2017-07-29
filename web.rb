@@ -79,7 +79,7 @@ def make_rss articles
   require 'rss/maker'
   RSS::Maker.make('2.0') do |rss|
     rss.channel.title = "Tim Ruffles's blog"
-    rss.channel.link = "http://www.truffles.me.uk"
+    rss.channel.link = URL
     rss.channel.description = "truffles.me.uk feed"
     rss.items.do_sort = true
     
@@ -196,6 +196,6 @@ def permalink link
   if /^(http|www)/ =~ link
     link
   else
-    "http://truffles.me.uk/#{link.gsub(/^\//,"")}"
+    "#{URL}/#{link.gsub(/^\//,"")}"
   end
 end
