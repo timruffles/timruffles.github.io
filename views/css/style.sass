@@ -7,10 +7,15 @@
   -webkit-box-sizing: border-box
   box-sizing: border-box
 
+$small-width: 600px
+
 /* typography */
 
 body
   font-size: 18px
+  @media(max-width: #{$small-width})
+    font-size: 24px
+    line-height: 1.4
 
 p
   line-height: 1.35em
@@ -32,17 +37,21 @@ body, input[type="text"], input[type="submit"], .search
 /* typographical layut */
 
 =reading_gutter
+  width: 42rem
+  margin: 0 auto
   padding: 0 0.5rem
+  @media(max-width: #{$small-width})
+    width: auto
+    padding: 0 1rem
+    overflow: visible
 
-.footer
+.footer, .article #content, .reading
   +reading_gutter
 
 .page_header
   h1, h2
     +reading_gutter
 
-.article #content
-  +reading_gutter
 
 
 /* links */
@@ -118,13 +127,7 @@ body
 .logical
   display: inline
 
-=reading_width
-  width: 42rem
-  margin: 0 auto
-@media (min-width: 321px)
-  .footer, #content, .reading
-    +reading_width
-  
+
   
 #mast
   position: absolute
@@ -153,7 +156,7 @@ pre
   font-size: 0.6em
   margin-bottom: 1rem
   white-space: pre-wrap
-  @media (min-width: 321px)
+  @media (min-width: #{$small-width})
     font-size: 1em
     padding: 0.5em 1em
 
@@ -161,7 +164,7 @@ pre
   border: 1px solid hsl(223, 100%, 84%)
   padding: 0.25rem 0.5rem
   margin-top: 4ex
-  @media (min-width: 321px)
+  @media (min-width: #{$small-width})
     padding: 0.5rem 1rem
 
 
@@ -177,7 +180,7 @@ pre
     width: 100%
 
 .posts
-  @media (min-width: 321px)
+  @media (min-width: #{$small-width})
     position: relative
     left: -6px
   h4
@@ -202,7 +205,7 @@ pre
         color: #fff
     padding-left: .25rem
     margin-bottom: 6px
-    @media (min-width: 321px)
+    @media (min-width: #{$small-width})
       border-left: 6px solid #00c0ff
       padding-left: .7rem
   .post:nth-child(2n)
@@ -259,11 +262,6 @@ pre
   float: left
   width: 1em
 
-img.high_res
-  width: 320px
-  @media (min-width: 321px)
-    width: auto
-
 .footnotes
   font-size: 0.9em
   color: #333
@@ -276,9 +274,11 @@ blockquote
   white-space: normal
   margin: 0
 
-.content .reading img
-  @media (max-width: 320px)
-    width: 300px
+#content
+  img, video, iframe
+    /* scale the image proportionally, but never larger than container */
+    max-width: 100%
+    height: auto
 
 
 blockquote p
