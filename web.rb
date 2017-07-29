@@ -9,8 +9,8 @@ require "ostruct"
 require "yaml"
 require "pp"
 require "redcarpet"
-require_relative "./db"
 require "set"
+require_relative "./db"
 
 # other
 require "pathname"

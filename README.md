@@ -16,3 +16,11 @@ bundle install --path vendor
 ```
 bundle exec ruby web
 ``` 
+
+## Deploy
+
+Hosted on Heroku - deploy is as easy as:
+
+```
+git push heroku master
+```
