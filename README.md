@@ -14,7 +14,7 @@ bundle install --path vendor
 ## Run
 
 ```
-bundle exec ruby web
+bundle exec ruby web.rb
 ``` 
 
 ## Deploy
