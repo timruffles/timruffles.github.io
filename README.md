@@ -10,3 +10,9 @@ I built a blog. Why reinvent this wheel?
 ```
 bundle install --path vendor
 ```
+
+## Run
+
+```
+bundle exec ruby web
+``` 
