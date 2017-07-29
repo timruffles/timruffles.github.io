@@ -8,13 +8,13 @@ I built a blog. Why reinvent this wheel?
 ## Install
 
 ```
-bundle install --path vendor
+make install
 ```
 
 ## Run
 
 ```
-bundle exec ruby web.rb
+make run
 ``` 
 
 ## Deploy
@@ -22,5 +22,5 @@ bundle exec ruby web.rb
 Hosted on Heroku - deploy is as easy as:
 
 ```
-git push heroku master
+make deploy
 ```
