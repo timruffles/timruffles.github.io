@@ -16,7 +16,7 @@ require_relative "./db"
 require "pathname"
 
 ROOT_DIR = Pathname.new(File.dirname(__FILE__)).realpath
-URL = "http://www.truffles.me.uk"
+URL = "https://www.truffles.me.uk"
 
 if ENV["DATABASE_URL"]
   db = get_db
