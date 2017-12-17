@@ -1,3 +1,4 @@
+draft: true
 body: |
   Should you declare your functions before you use them, or afterwards? Might sound strange, or obvious, if you've not thought about this before! Actually there's a bit to it.
 

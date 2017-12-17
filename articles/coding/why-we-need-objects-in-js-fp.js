@@ -1,3 +1,4 @@
+draft: true
 body: |
   Althought functional programming has taken JS by storm - Redux, RxJS, and friends - you'll notice one thing we haven't got rid of: objects. Not `Object`, but full-blown, Alan Kay, "behaviour and state" objects.
 
