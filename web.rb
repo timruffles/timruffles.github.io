@@ -113,6 +113,7 @@ end
 
 get "/rss" do
   cache articles.hash + blog_posts.hash, [articles.last_modified_at,blog_posts.last_modified_at].max
+  response.headers['content-type'] = 'application/xml;charset=utf-8'
   make_rss(postable)
 end
 
