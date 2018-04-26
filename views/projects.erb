@@ -3,7 +3,9 @@
 <section class=projects>
   <% @all.items.each do |article| %>
     <article class=project>
-      <img width=600 src="<%= article.screenshot %>" alt='<%= article.title %>'>
+      <% if article.screenshot %>
+        <img width=600 src="<%= article.screenshot %>" alt='<%= article.title %>'>
+      <% end %>
       <h3>
         <a href="<%= article.code_url %>">
           <%= article.title %>
