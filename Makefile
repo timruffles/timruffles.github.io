@@ -1,10 +1,10 @@
 
 
-.PHONY: run deploy install
+.PHONY: start deploy install start
 
 install:
 	bundle install --path vendor
-run:
+start:
 	bundle exec shotgun web.rb
 deploy:
 	git push origin master && git push heroku master
