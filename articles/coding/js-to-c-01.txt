@@ -16,7 +16,7 @@ body: |
 
   I ran a [meet up group](http://lanyrd.com/2013/sicp-blitz-london/) making a speedy journey through SICP. The final three chapters of that book always felt like they required a lot more time than was easy to give them. So earlier this year I took a week out to stay in a beautiful house in the Austrian alps with SICP, pen and paper, and a plan: read chapters 3-5 of SICP and do the exercises!
 
-  <img src=img/austria.jpg />
+  <img src=img/austria.JPG />
   <img src=img/sicp-work.jpg style='margin-top: 2ex'/>
 
 
