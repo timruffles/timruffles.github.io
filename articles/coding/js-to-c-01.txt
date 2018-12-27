@@ -1,0 +1,39 @@
+title: Writing a Javascript to C compiler
+date: "2018/12/27"
+body: |
+
+  I’m writing a JavaScript to C compiler, and I'd like to share the journey. Why? The proximate provocation was [SICP’s](http://wiki.c2.com/?StructureAndInterpretationOfComputerPrograms) [final exercise](http://mitpress.mit.edu/sites/default/files/sicp/full-text/book/book-Z-H-35.html#%_thm_5.52):
+
+  > As a counterpoint to exercise 5.51, modify the compiler so that it compiles Scheme procedures into sequences of C instructions.
+
+  Lots of people have done this for Scheme, I was interested to see how it’d work out for Javascript.
+
+  The longer term motive is that figuring out how things ‘really work’ is a deep itch for me. I’m a self-taught developer - I studied history at university. Throughout my infatuation with coding I’ve been slowly digging deeper and deeper into the magic of how our code actually runs. 
+
+  [Way back](https://www.slideshare.net/timruffles1/coffeescript-essence) in 2011 I started hacking around with the Coffeescript transpiler, to add Ruby’s overridable comparison operator.
+
+  <img src=img/coffee.png width=600 height=406 />
+
+  I ran a [meet up group](http://lanyrd.com/2013/sicp-blitz-london/) making a speedy journey through SICP. The final three chapters of that book always felt like they required a lot more time than was easy to give them. So earlier this year I took a week out to stay in a beautiful house in the Austrian alps with SICP, pen and paper, and a plan: read chapters 3-5 of SICP and do the exercises!
+
+  <img src=img/austria.jpg />
+  <img src=img/sicp-work.jpg style='margin-top: 2ex'/>
+
+
+  After that week I felt I’d cracked the book, and was ready to start writing a compiler!
+
+  I’ve got a lot out of the process so far, and I want to share it. To say the least it’s way too much for a single post.  So I’m going to blog it every two weeks, going retrospectively over the first steps. I’ll introduce parsing and compiling bit by bit, without any required computer-science or C background: just the way I learned it!
+
+  I’ll cover the following:
+
+  - Compiling an interpreted, dynamic language. HUH?
+  - Compiler basics
+  - Representing values at runtime
+  - Compiling statements
+  - Compiling operators
+  - Compiling functions
+  - Compiling exceptions
+  - Garbage collection
+  - Event driven runtime
+
+  If you’d like to read the series, follow me on [RSS](/rss) or [Twitter](https://twitter.com/timruffles/).
