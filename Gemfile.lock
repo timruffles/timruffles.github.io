@@ -12,7 +12,7 @@ GEM
     json (2.1.0)
     pg (0.17.1)
     rack (1.6.8)
-    redcarpet (1.17.2)
+    redcarpet (3.4.0)
     sass (3.4.25)
     sinatra (1.2.6)
       rack (~> 1.1)
@@ -25,7 +25,7 @@ PLATFORMS
 DEPENDENCIES
   json (> 1.5.3)
   pg (~> 0.17.0)
-  redcarpet (~> 1.17.2)
+  redcarpet (~> 3.4.0)
   sass (~> 3.4.25)
   shotgun!
   sinatra (= 1.2.6)

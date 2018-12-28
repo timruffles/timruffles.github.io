@@ -162,8 +162,9 @@ get "/:article" do |perma|
       erb = ERB.new(@article.body)
       erb.result binding
     else
-      Redcarpet.new(@article.body).to_html
+      Redcarpet::Markdown.new(Redcarpet::Render::HTML, footnotes: true, fenced_code_blocks: true).render(@article.body)
     end
+    puts @body
     @title, @perma, @fb_url, @footnotes = @article.title, @article.link, @article.facebook_comment_url, (@article.footnotes || []).enum_for(:each_with_index).map {|fn,i| Footnote.new(fn.fetch("id","fn-#{i + 1}"),fn.fetch("text")) }
     erb(:show)
   else

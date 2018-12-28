@@ -1,8 +1,12 @@
 # only works on osx
 .PHONY: start deploy install start
 
-install:
-	brew install postgresql && bundle install --path vendor
+ruby_deps: Gemfile
+	bundle install --path vendor
+
+install: ruby_deps
+	brew install postgresql
+
 start:
 	bundle exec shotgun web.rb
 deploy:
