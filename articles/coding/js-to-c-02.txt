@@ -1,0 +1,252 @@
+title: "Compiling Interpreted Languages"
+date: "2018/12/28"
+body: |
+
+  I think a few years back I’d have been confused by the concept of compiling JavaScript. I would have assumed that compiled and interpreted languages fundamentally different beasts. Reading SICP taught me that on a deep level, programs in either type of language are specification. Often, parts of that specification will rely on some operations being provided as primitives by the host language or execution environment - for instance, networking will require physical support from the host.
+
+  Given that programs are specifications, we can fulfil it however we like! Either we can use the program text as runtime input to an existing host-native program which will interpret it, or we can compile that program into a equivalent program in another language.[^1] 
+
+  [^1]: Still further, we could mix both, interpreting and compiling - as interpreters with just-in-time (JIT) compilers do.
+
+  Let’s demonstrate this for a simple language with two operations, `VAR` and `PRINT`, with strings are its only data-type. Here’s a program in that language:
+
+  ```
+  VAR name "Melody"
+  VAR name2 name
+  VAR name "Chemi"
+  PRINT "Hello" name name2
+  ```
+
+  Running this program correct implementation of our spec should output "Hello Chemi Melody".
+
+  Here's a spec for the operations:
+
+  - `VAR <identifier> <value>` variable assignment - after this runs, references to `identifier` will evaluate to `value`
+  - `PRINT <value> ... <value>` prints the values of previously assigned variables, or string literals, space separated
+
+  Here's a rough grammar definition:
+
+  ```
+  program = operation+
+  operation = var | print
+  var = VAR identifier value
+  print = PRINT value+
+
+  value = string | identifier
+  identifier = \w+
+  string = " [^"]+ "
+  ```
+
+   We can implement this spec with either an interpreter or a compiler. Our interpreter will take in the program text at runtime, analyse it, and call methods in our host environment to fulfil the spec. Our compiler will take the program text and output an equivalent program that, when run, would fulfil the spec.
+
+  ## Parsing
+
+  First we'll want to transform our program's text into a data structure we can analyse - a syntax tree. This is called parsing - a necessary process for any interpreter or compiler. Our language is simple, and this means our parser is too:
+
+  ```
+  function parse(text) {
+      return text.split('\n').map(operationParse)
+  }
+
+  function operationParse(text) {
+    const [_, type, expression] = /(VAR|PRINT) (.+)$/.exec(text)
+    return {type, operands: operandParse(expression)}
+  }
+
+  function operandParse(text) {
+    return text.match(/"[^"]+"|\w+/g).map(tokenParse)
+  }
+
+  function tokenParse(token) {
+    return token.startsWith('"')
+      ? {type: 'string', text: token.slice(1, -1)}
+      : {type: 'identifier', id: token}
+  }
+  ```
+
+  This'll give us the following tree for the above program:
+
+  ```
+  [{"type":"VAR","operands":[{"type":"identifier","id":"name"},{"type":"string","text":"Melody"}]},{"type":"VAR","operands":[{"type":"identifier","id":"name2"},{"type":"identifier","id":"name"}]},{"type":"VAR","operands":[{"type":"identifier","id":"name"},{"type":"string","text":"Chemi"}]},{"type":"PRINT","operands":[{"type":"string","text":"Hello"},{"type":"identifier","id":"name"},{"type":"identifier","id":"name2"}]}]
+  ```
+
+  After that let's write an interpreter for it. We're leaning as heavily as we can on our host environment - JavaScript - to implement our spec. For instance we can use a JS object to implement variable assignments and re-assignments as the behaviour matches our spec. `console.log` happens to implement the space separation we require too!
+
+  ```
+  function iterpretProgram(ast) {
+    const env = {};
+    ast.map(n => interpretOperation(env, n))
+  }
+
+  function interpretOperation(env, node) {
+    switch (node.type) {
+      case 'VAR': return assign(env, node);
+      case 'PRINT': return console.log(...node.operands.map(n => interpretNode(env, n)))
+      default: throw Error(`unknown node ${node.type}`)
+    }
+  }
+
+  function interpretNode(env, node) {
+    switch (node.type) {
+      case 'identifier': return lookup(env, node.id);
+      case 'string': return node.text
+      default: throw Error(`unknown node ${node.type}`)
+    }
+  }
+
+  function assign(env, {operands: [name, value, ...err]}) {
+    if (err.length > 0) throw Error('Too many arugments to operation VAR')
+    if (name.type !== 'identifier') throw Error('Name in VAR must be an identifier')
+    return env[name.id] = interpretNode(env, value)
+  }
+
+  function lookup(env, id) {
+    if (!(id in env)) throw Error(`Undeclared variable ${id}`)
+    return env[id]
+  }
+  ```
+
+  We can run our program as follows:
+  
+  ```
+  console.log(iterpretProgram(parse(sourceCode)))  
+  ```
+  
+  ## Compiler
+
+  Writing the compiler when you have an interpreter (or the other way round) is a translation job. We now output another program text - whether that's in machine code (binary format), or a higher level language like C, Go.
+
+  The choice of target host/language will decide how much we need to implement. For instance, targeting C lets us use C's function call mechanism, which handles short lived data on its own stack. Conversely, targeting LLVM, assembler or machine code would require us to do far, far more.
+
+  We're going to target Go, again leaning on what it provides us as much as we can! Implementing our `VAR` operation is easy: since our language only supports strings as values our env will simply be a `map[string]string` - a map of string keys and values. Again, its semantics match that of our spec so we may as well keep it simple!
+
+  ```
+  function compileProgram(ast) {
+    const env = {} // our compiler is too simple to need a compile-time environment, but keep the function signatures equivalent
+    return `package main
+
+    import "fmt"
+
+    func main() {
+        env := make(map[string]string)
+        ${ast.map(n => compileOperation(env, n)).join('\n')}
+    }`
+  }
+
+  function compileOperation(env, node) {
+    switch (node.type) {
+      case 'VAR': return compileAssign(env, node);
+      case 'PRINT': return `fmt.Println(${node.operands.map(n => compileNode(env, n)).join(', ')})`
+      default: throw Error(`unknown node ${node.type}`)
+    }
+  }
+
+  function compileNode(env, node) {
+    switch (node.type) {
+      case 'identifier': return compileLookup(env, node.id);
+      case 'string': return `"${node.text}"`
+      default: throw Error(`unknown node ${node.type}`)
+    }
+  }
+
+  function compileAssign(env, {operands: [name, value, ...err]}) {
+    if (err.length > 0) throw Error('Too many arugments to operation VAR')
+    if (name.type !== 'identifier') throw Error('Name in VAR must be an identifier')
+    return `env["${name.id}"] = ${compileNode(env, value)}`
+  }
+
+  function compileLookup(_env, id) {
+    return `env["${id}"]`
+  }
+  ```
+
+  This would compile our program above into:
+  
+  ```
+  package main
+
+  import "fmt"
+
+  func main() {
+    env := make(map[string]string)
+    env["name"] = "Melody"
+    env["name2"] = env["name"]
+    env["name"] = "Chemi"
+    fmt.Println("Hello", env["name"], env["name2"])
+  }
+  ```
+
+  [Running this](https://play.golang.org/p/dDIjgC0Z1me) on the Go playground gives us the expected output!
+
+  ## Runtime vs compile time
+
+  Languages do differ in how much we must do at runtime, but that doesn’t prevent us for compiling large swathes of it.
+
+  For an example of some behaviour that mandates runtime support, consider:
+
+  ```
+  const name = fs.readFileSync(‘./property’, { encoding: ‘utf8’ })
+  const fn = global[name]
+  console.log(global[fn()])
+  ```
+
+  You can see here that the method to be called (`name`) depends on input outside the program, and the value of `global[name]` does too! How much of such a dynamic program could we meaningfully compile?
+
+  If we compiled our example program we’d be able to avoid re-parsing the program on re-running. The text of the program doesn’t change at runtime after all!
+
+  For real examples we can go further, for instance compiling in the exact lexical scope a particular variable is written or read from. For instance:
+
+  ```
+  let target = 0
+  const A = () => {
+     const B = () => {
+         target += 1
+     }
+  }
+  ```
+
+  We can tell at compile-time that the target variable exists in the top-level scope. Rather than doing a runtime walk up the scope chain we can simply compile to something like:
+
+  ```
+  env.parent.parent.get('target')
+  ```
+
+  rather than having to invoke a runtime method like the below:
+
+  ```
+  function lookup(env, property) {
+    while(env) {
+      if(env.has(property)) {
+         return env.get(property)
+      }
+    }
+    return undefined
+  }
+  ```
+
+  We know for sure the variable exists, so we can just reference the correct environment straight away. Interestingly, that’s precisely the type of optimisations just-in-time compilers (JITs) perform. JITs are another reminders that dynamic languages can profit greatly from compilation! Equally many interpreters perform the same optimisation. As SICP says, there's nothing theoretically stopping us from doing lots at runtime in compiled implementations, or lots of compilation in interpreted ones. Those decisions are trade-offs, and we'll decide how much of the pros/cons of each approach we'll get depending on where we sit between the two extremes.
+
+  We can also optimise - for instance in this loop, even without declaring variables `const` we can see that `multiple` does not vary across iterations:
+
+  ```
+  let a = 10
+  let b = 20
+  let sum = 0;
+  for(const x of xs) {
+    let multiple = a + b;
+    sum += x * multiple
+  }
+  ```
+
+  We can compile this to:
+
+  ```
+  let sum = 0;
+  for(const x of xs) {
+    sum += x * 30
+  }
+  ```
+
+  In my next post, I'll outline the approach I'll take for writing my JS to C compiler.
+
+
