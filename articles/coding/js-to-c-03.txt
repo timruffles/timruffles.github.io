@@ -1,4 +1,5 @@
 title: "Architecture for a JS to C compiler"
+draft: true
 date: "2018/12/31"
 body: |
 
