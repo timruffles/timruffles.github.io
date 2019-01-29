@@ -2,7 +2,7 @@ title: "Compiling Interpreted Languages"
 date: "2019/01/29"
 body: |
 
-  I think a few years back I’d have been confused by the concept of compiling JavaScript. I would have assumed that compiled and interpreted languages were fundamentally different beasts. Reading SICP taught me that on a deep level, programs in any language can be implemented correctly via compilation or interpretation. I started to think as programs as descriptions of desired behaviour, given a particular language definition.
+  I think a few years back I’d have been confused by the concept of compiling JavaScript. I would have assumed that compiled and interpreted languages were fundamentally different beasts. Reading [SICP](https://mitpress.mit.edu/sites/default/files/sicp/index.html) taught me that on a deep level, programs in any language can be implemented correctly via compilation or interpretation. I started to think as programs as descriptions of desired behaviour, given a particular language definition.
 
   Given that programs are descriptions, we can fulfil it however we like! Either we can use the program text as runtime input to an existing host-native program which will interpret it, or we can compile that program into a equivalent program in another language.[^1] 
 
@@ -119,11 +119,11 @@ body: |
   
   ## Compiler
 
-  We can see the symmatries between compilation and interpretation when directly translating our interpreter to our compiler. Ratehr than immediately performing operations, we'll now output equivalent program text in our target language - whether that's in machine code (binary format), or a higher level language like C or Go.
+  We can see the symmetries between compilation and interpretation when directly translating our interpreter to our compiler. Rather than immediately performing operations, we'll now output equivalent program text in our target language - whether that's in machine code (binary format), or a higher level language like C or Go.
 
   The choice of target host/language will decide how much we need to implement ourselves. For instance, targeting C lets us rely on C's existing function call mechanism, which handles short lived data on the stack. Conversely, targeting LLVM, assembler or machine code would require us to do far, far more.
 
-  We're going to target Go, again leaning on what it provides us as much as we can. Implementing our `VAR` operation is easy: since our language only supports strings as values our env will simply be a `map[string]string` - a map of string keys and values. Again, its semantics match that of our spec so we may as well keep it simple.
+  We're going to target Go, again leaning on what it provides us as much as we can. Implementing our `VAR` operation is easy: since our language only supports strings as values our environment will simply be a `map[string]string` - a map of string keys and values. Again, its semantics match that of our spec so we may as well keep it simple.
 
   ```
   function compileProgram(ast) {
