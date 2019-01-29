@@ -1,6 +1,5 @@
 title: "Compiling Interpreted Languages"
-date: "2018/12/28"
-draft: true
+date: "2019/01/29"
 body: |
 
   I think a few years back I’d have been confused by the concept of compiling JavaScript. I would have assumed that compiled and interpreted languages were fundamentally different beasts. Reading SICP taught me that on a deep level, programs in any language can be implemented correctly via compilation or interpretation. I started to think as programs as descriptions of desired behaviour, given a particular language definition.
