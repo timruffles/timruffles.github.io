@@ -1,5 +1,5 @@
 title: "Writing a Javascript to C compiler"
-date: "2018/12/27"
+date: "2018/01/29"
 body: |
 
   I’m writing a JavaScript to C compiler, and I'd like to share the journey. Why? Figuring out how things ‘really work’ is a deep itch for me. I’m a self-taught developer. Throughout my infatuation with coding I’ve been slowly digging deeper and deeper into the magic of how our code actually runs. 
