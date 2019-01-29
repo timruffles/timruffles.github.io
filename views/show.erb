@@ -1,20 +1,20 @@
 <h1><a href="<%= @perma %>"><%= @title%></a></h1>
 <%= @body %>
 
-<% if @previous_article %>
-  <p class=nav>
-    Previous: <a href="<%= @previous_article.link %>">
-      <%= @previous_article.title %>
-    </a>
-  <p>
-<% end %>
-
 <% if @next_article %>
   <p class=nav>
     Next: <a href="<%= @next_article.link %>">
       <%= @next_article.title %>
     </a>
   </p>
+<% end %>
+
+<% if @previous_article %>
+  <p class=nav>
+    Previous: <a href="<%= @previous_article.link %>">
+      <%= @previous_article.title %>
+    </a>
+  <p>
 <% end %>
 
 <% unless @article.category == "Ideas" or @article.ads_disabled %>
@@ -33,5 +33,3 @@
   </div>
 <% end %>
 </div>
-
-<p>Any comments? Please <a href="https://twitter.com/timruffles">tweet @timruffles</a></p>

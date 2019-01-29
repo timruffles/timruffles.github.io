@@ -2,13 +2,13 @@ title: Me
 date: 2011/07/09
 body: |
 
-  I [train developers](/developer-training) for organisations like Google, Gilt.com and the European Bioinformations Institute. I'm a [Google Developer Expert](https://developers.google.com/experts/people/tim-ruffles) for the web platform, specialising in AngularJS.
+  I'm a full stack developer at Github. I'm a [Google Developer Expert](https://developers.google.com/experts/people/tim-ruffles) for the web platform.
 
-  I [speak](/speaking) at user-groups and conferences. 
+  I [speak](/speaking) at user-groups and conferences.
 
-  I write D3, Node, Angular and plain old Javascript for contract clients. I'm happy with my current contract so am not in the market for another.
+  I used to [train developers](/developer-training) for organisations like Google, Gilt.com and the European Bioinformations Institute. 
 
-  I run the [Functional Javascript](http://lanyrd.com/series/funjsldn/) meetup in London (come along!), and maintain the [Javascript Garden](http://bonsaiden.github.com/JavaScript-Garden/).
+  I ran the [Functional Javascript](http://lanyrd.com/series/funjsldn/) meetup in London, and maintain the [Javascript Garden](http://bonsaiden.github.com/JavaScript-Garden/).
 
 
   Get in touch via [twitter](http://twitter.com/timruffles) or <a id='zzz'></a>.

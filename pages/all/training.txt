@@ -6,13 +6,9 @@ body: |
   
   I have been training developers since 2012 for companies like the European Bioinformatics Institute, Thomas Cook, TMW, Decoded and General Assembly. I specialise in Javascript: [AngularJS](/angular-training), [NodeJS](/nodejs-training), core [Javascript](/javascript-training) and [D3](/d3-training).
 
-  I offer ticketed public training and in-house training for companies.
-
   My training is structured around hands-on coding to make sure attendees can apply what they've learned back at work. Check out some of [my](http://timruffles.github.io/angular-js-class/slides) [materials](http://timruffles.github.io/d3-class/slides/#/) - they're continually improved so you can benefit from updates in the future.
 
-  Please [get in touch](mailto:oi+training@truffles.me.uk) for bookings or questions.
-
-  <img src='/img/developer-training-tim-ruffles.jpg' alt='Developer Training with Tim Ruffles at the European Bioinformations Institute' class='article-image' width=600 height=400>
+  <img src='/img/developer-training-tim-ruffles.jpg' alt='Developer Training with Tim Ruffles at the European Bioinformatics Institute' class='article-image' width=600 height=400>
 
 
   
