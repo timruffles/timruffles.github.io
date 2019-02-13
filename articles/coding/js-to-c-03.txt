@@ -1,40 +1,31 @@
 title: "Architecture for a JS to C compiler"
-draft: true
-date: "2018/12/31"
+date: "2019/02/19"
 body: |
 
   The basic data-flow of compilation looks like this:
 
-  1. parse
-  1. optimisation (optional)
-  1. code generation
+  1. parse: turn the source text into something we can use as input for our compiler, usually an AST (abstract syntax tree)
+  1. optimisation (optional): transform the input program into an equivalent one that's more efficient in time or space
+  1. code generation: output a program in our target language, e.g machine code
 
   My JS to C compiler will implement this as follows
 
-  1. parse: rely on esprima - this project is about compilation not parsing
-  1. code generation + optimisation: a compiler written in TypeScript, outputting C code
-
-  We'll also need a runtime. There is a lot of runtime behaviour in JS that cannot be implemented without runtime support. This I'll write directly in C. For instance garbage collection must be provided by the host environment.
-
-  Our flow will be  
-
-  1. parse: `esprima`
-  1. compiler: `js-to-c.ts`
-  1. run: `js-to-c.dylib`
+  1. parse: use [esprima](http://esprima.org/) - this project is about compilation not parsing
+  2. & 3. code generation + optimisation: a compiler written in TypeScript that outputs C
 
   ## C as a target language
   
-  C is lower-level than JavaScript, but it still gives us a lot! We can use the following features in C to implement similar features in Javascript:
+  C is lower-level than JavaScript, but it still gives us a lot! We can use the following features in C to implement similar features in JavaScript:
 
   1. control structures: `if`, `for`, `while` etc will map well between languages
   2. function calls: we can compile JS functions to C functions
 
-  Features that C lacks we'll need to write from scratch, and comprise much of the runtime C library:
+  However, there is lots we're going to have to write from scratch. For instance C lacks data-structures beyond statically sized arrays. We'll fill this in with what's called a 'runtime library' - a library we'll call from our compiled program. Lots of the behaviour we'll need to implement JavaScript cannot be implemented without runtime support: 
 
   1. garbage collection
   2. exception handling
   3. data-structures: dynamic arrays and objects
-  4. prototypal object system
+  4. prototype-based object system
 
   ## A sketch
 
@@ -69,38 +60,53 @@ body: |
                 "type": "BlockStatement",
   ```
   
-  This will be input to `js-to-c.ts`, which would output a target C program. Here's the `fact` function for instance, where you can see the ternary expression being compiled to C control flow:
+  This will be input to `js-to-c.ts`, which would output a target C program. We have a ternary expression in our input program, here's a snippet from the function in the compiler that handles it. You can see we're implementing JS's ternary expression with C's `if`:
+
+
+  ```typescript
+  function compileConditionalExpression(node: ConditionalExpression, state: CompileTimeState) {
+      // ...
+      return `${testSrc};
+              JsValue* ${resultTarget.id};
+              if(isTruthy(${testResultTarget.id})) {
+                  ${consequentSrc}
+              } else {
+                  ${alternateSrc}
+              }`
+  }
+  ```
+
+  Once our compiler has run we're left with a valid C program (hopefully). The below is the compiled `fact` function. Some interesting things to look for: the recursive call, and how the result value from the ternary is threaded through the multiplication and return:
 
   ```
   static JsValue *fact_1(Env *env) {
-    log_info("User function fact");
     JsValue *return_3;
-    /* ternary */
-    JsValue *left_6 = (envGet(env, interned_2 /* n */));
-    JsValue *right_7 = (jsValueCreateNumber(3));
-    JsValue *conditionalPredicate_5 = (LTOperator(left_6, right_7));
+
+    JsValue *left_6 = envGet(env, interned_2 /* n */);
+    JsValue *right_7 = jsValueCreateNumber(3);
+    JsValue *conditionalPredicate_5 = LTOperator(left_6, right_7);
     JsValue *conditionalValue_4;
     if (isTruthy(conditionalPredicate_5)) {
-      return_3 = (envGet(env, interned_2 /* n */));
+      return_3 = envGet(env, interned_2 /* n */);
     } else {
-      JsValue *left_8 = (envGet(env, interned_2 /* n */));
-      JsValue *callee_10 = (envGet(env, interned_11 /* fact */));
-      JsValue *left_12 = (envGet(env, interned_2 /* n */));
-      JsValue *right_13 = (jsValueCreateNumber(1));
-      JsValue *call10Arg_0 = (subtractOperator(left_12, right_13));
+      JsValue *left_8 = envGet(env, interned_2 /* n */);
+      JsValue *callee_10 = envGet(env, interned_11 /* fact */);
+      JsValue *left_12 = envGet(env, interned_2 /* n */);
+      JsValue *right_13 = jsValueCreateNumber(1);
+      JsValue *call10Arg_0 = subtractOperator(left_12, right_13);
       JsValue *args_10[] = {call10Arg_0};
-      JsValue *right_9 = (functionRunWithArguments(callee_10, args_10, 1, NULL));
+      JsValue *right_9 = functionRunWithArguments(callee_10, args_10, 1, NULL);
 
-      return_3 = (multiplyOperator(left_8, right_9));
+      return_3 = multiplyOperator(left_8, right_9);
     }
     return return_3;
     return getUndefined();
   }
   ```
 
-  More complex behaviour in JS - like function environments - are implemented with our runtime functions, for instance `envGet()`. We couldn't rely on the C call-stack here as JS environments are long lived. Functions are closures and thus their enclosing environment can live well beyond the lifetime of the call-stack that defined them - think of function values stored as global properties or as event-listeners.
+  You can also see calls out to our runtime library - e.g `envGet()`. This is part of the runtime as we can't rely on the C call-stack here. In JS, functions are closures. Therefore they need the environment they close over to live well beyond the lifetime of the call-stack that defined them - think of function values stored as global properties or as event-listeners.
 
-  To do this our output programs `#include` (think `require()` or `import` from JS-land) our runtime library's header files[^2], and call the functions that library has defined elsewhere:
+  To use the runtime library our output program use C's `#include` macro to include our runtime library's header files[^2], and get access to the definitions of the functions our library has defined elsewhere:
 
   ```
   #include "../../runtime/environments.h"
