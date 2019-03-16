@@ -2,7 +2,7 @@ title: "Compiling JS control-flow to C"
 date: "2019/03/16"
 body: |
 
-  Let's look at how we implement JS's `if` statement in C. First, let's write a quick example:
+  Let's look at how I implemented JS's `if` statement in the [`js-to-c`](https://github.com/timruffles/js-to-c/) compiler. First, let's write a JS `if`:
 
   ```js
   if (Math.random() > 0.5) {
