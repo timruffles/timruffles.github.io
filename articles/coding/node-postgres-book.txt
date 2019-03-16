@@ -1,4 +1,5 @@
 title: 'Node and Postgres: book announcement'
+archive: true
 date: "2015/08/04"
 body: |
 
