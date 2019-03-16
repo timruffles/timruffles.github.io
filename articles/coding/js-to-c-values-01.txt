@@ -1,5 +1,6 @@
 title: "Representing JS Values in C"
 date: "2019/03/09"
+draft: true
 body: |
 
   When implementing JS a primary decision is how to represent JS values - the objects, numbers and strings that make up JS programs. Since I'm targeting C, there's a lot of flexibility in how to do this.
