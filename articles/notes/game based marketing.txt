@@ -1,4 +1,5 @@
 title: Game Based Marketing, G Zichermann & J Linder 
+archive: true
 date: 2010/08/03
 body: |
   Loyalty = Stickiness

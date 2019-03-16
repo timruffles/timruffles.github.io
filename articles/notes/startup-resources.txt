@@ -1,4 +1,5 @@
 title: Startup resources
+archive: true
 date: 2011/07/09
 body: |
 
