@@ -1,0 +1,44 @@
+title: Objects
+date: 2019/01/01
+draft: true
+body: |
+  ## Objects
+
+  I've implemented objects in a simple - and inefficient way - a linked list of property descriptors. Previously it was a hash map, but generic hash map in C libraries are somewhat gnarly and didn't teach me anything about what I'm trying to learn: compilation and language implementation.
+
+  ```c
+  typedef struct JsObject {
+      PropertyDescriptor* properties;
+      PropertyDescriptor* tailProperty;
+
+      // Internal slots - implementation visible only
+      JsValue* prototype;
+
+      // determines if this is callable - i.e [[Call]] internal slot
+      FunctionRecord* callInternal;
+  } JsObject;
+  ```
+
+  You can see the properties exposed in JS-land, e.g `o.foo = 'bar'`, are distinct from the internal properties that are required to implement JS like `prototype`.
+
+  ## Strings
+
+  I have two types of strings: interned and heap. Interned strings are those where the value is found in the source of the JS program, e.g:
+
+  ```js
+  var obj = {
+    foo: "bar",
+  }
+  var objName = "obj"
+  console.log(global[obj]);
+  ```
+
+  Would intern "obj", "foo", "bar", and "objName". These are allocated at startup of the compiled program:
+
+  ```c
+
+  ```
+
+  
+
+
