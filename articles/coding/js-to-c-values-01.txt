@@ -1,6 +1,5 @@
 title: "Representing JS Values in C"
-date: "2019/03/09"
-draft: true
+date: "2019/04/18"
 body: |
 
   When implementing JS a primary decision is how to represent JS values - the objects, numbers and strings that make up JS programs. Since I'm targeting C, there's a lot of flexibility in how to do this.
@@ -18,9 +17,9 @@ body: |
 
   The decision on representation will balance efficiency with ease of implementation. Highly-optimised implementations, like V8, will have multiple representations for a single type, for instance dense and sparse arrays. The immutable types can also be implemented differently to the mutable types: for instance, assignment of number values can be implemented by copying rather than referencing, as the number value can never change.
 
-  Note: this article will not explain the C language. [Read this](TODO) and you'll have enough C to follow along.
+  Note: this article will not explain the C language.
 
-  Functions, strings, objects and arrays will get a post to themselves; this time let's discuss the root `JsValue` type, and numbers, and the boolean and null/undefined types.
+  Functions, strings, objects and arrays will get a post to themselves; this time let's discuss the root `JsValue` type, numbers, and the boolean and null/undefined types.
 
   ## JsValue struct
 
@@ -99,3 +98,5 @@ body: |
   ```
 
   You can see the numbers are 'interned' - which is literal numbers in the source-code are pre-allocated at program startup, and are not part of garbage-checking.
+
+  Next time I'll dig into the more complex types: objects, arrays, functions and strings.
