@@ -58,7 +58,7 @@ body: |
 
   Absolutely no reason this couldn't have been implemented via `sh.Environment("Process").Set("Test","testvalue")`, but hey.
 
-  ## In practise
+  ## In practice
 
   Most implementations made this a syntax error a while back.
   

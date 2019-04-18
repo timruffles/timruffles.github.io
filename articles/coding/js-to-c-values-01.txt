@@ -51,7 +51,7 @@ body: |
   }
   ```
 
-  You can see we allocate a value (`gcAllocate` allocates to the managed heap that is used to implemented garbage-collection) and then store the passed `double` in our value union. Since JS has IExxx floating-point arthimetic, `double` gives us the 64 bit floating-point semantics we need. Code that needs to get at the value will call the `jsValueNumber(JsValue)` getter:
+  You can see we allocate a value (`gcAllocate` allocates to the managed heap that is used to implemented garbage-collection) and then store the passed `double` in our value union. Since JS has [IEEE-754](https://en.wikipedia.org/wiki/IEEE_754) floating-point arthimetic, `double` gives us the 64 bit floating-point semantics we need. Code that needs to get at the value will call the `jsValueNumber(JsValue)` getter:
 
   ```c
   double jsValueNumber(JsValue* val) {
