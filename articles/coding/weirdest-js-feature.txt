@@ -1,9 +1,8 @@
 title: "The Weirdest JavaScript syntax"
-draft: true
-date: 2019/05/05
+date: "2019/04/18"
 body: |
 
-  I have bad news: the following is valid, spec compilant JS syntax:
+  I have bad news. The following is valid, spec compliant JS syntax:
 
   ```js
   foo("hi", bar * 2) = 42;
@@ -25,17 +24,11 @@ body: |
   console.log(window.title) // pear
   ```
 
-  The upshot is the spec allows functions to return an assignable value, so they can be the left hand of an assignment. A imaginary spec-compiliant DOM API could therefore expose a `windowTitle()` setter, that'd work like:
+  The upshot is the spec allows functions to evaluated an assignable value in the left hand of an assignment. A imaginary spec-compliant DOM API could therefore expose a `windowTitle()` setter, that'd work like:
 
   ```js
   windowTitle() = "pear"
   console.log(window.title) // pear
-  ```
-
-  Or why not go crazy, and define an xPath setter?
-
-  ```js
-  xPath("//a/@class") = "highlight"
   ```
 
   ## History
@@ -46,9 +39,9 @@ body: |
 
   > Indeed, IE JScript (for VBScript compatibility) long ago added support for "Reference" type return values from certain native ("host object") methods. This enabled `domNode.item(i) = j`, e.g. SpiderMonkey added support because someone embedding its open source wanted to support code written for JScript.
 
-  Wow! That's a weird history - VBScript -> IE JScript -> Mozilla JavaScript -> ES1 spec -> ES5.
+  So the complete history of this feature goes: VBScript to IE JScript to Mozilla JavaScript to the spec.
   
-  I also found complete code example of the kind of, I assume, VBScript inspired APIs this'd support:
+  I also found a [complete code example](https://stackoverflow.com/questions/16686974/can-a-functions-return-value-be-an-lvalue-in-javascript) of the kind of, I assume, VBScript inspired APIs this'd support (can't find an official API guide for this though, frustratingly):
 
   ```js
   var sh = WScript.CreateObject("Wscript.Shell");
@@ -56,11 +49,5 @@ body: |
   env("TEST") = "testvalue";
   ```
 
-  Absolutely no reason this couldn't have been implemented via `sh.Environment("Process").Set("Test","testvalue")`, but hey.
-
-  ## In practice
-
-  Most implementations made this a syntax error a while back.
-  
-  TODO
+  Absolutely no reason this couldn't have been implemented via `sh.Environment("Process").Set("TEST","testvalue")`, but one fateful day in the 90s someone made a different call. That it affected five generations of the language spec teaches us syntax is the slowest thing to change out there: language designers beware!
 
