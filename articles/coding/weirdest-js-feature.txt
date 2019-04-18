@@ -5,7 +5,7 @@ body: |
   I have bad news. The following is valid, spec compliant JS syntax:
 
   ```js
-  foo("hi", bar * 2) = 42;
+  foo("bar") = 42;
   ```
 
   What in the Crockford is going on?
