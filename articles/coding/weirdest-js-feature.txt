@@ -35,7 +35,7 @@ body: |
 
   I had to find out more - when and why did this end up in the spec? Digging through the archives, this feature was part of the very first [ES1 spec](https://www.ecma-international.org/publications/files/ECMA-ST-ARCH/ECMA-262,%201st%20edition,%20June%201997.pdf) from 1997, which was capturing all the craziness that emerged from the early days of JS. The wording stays unchanged in the ES5 spec.
 
-  I had to track down some examples of this feature being used. I found lots of references to people saying it was required by "old DOM APIs", in IE specifically. Then, in the ESDiscuss archive, Brendan Eich gave [an example](https://mail.mozilla.org/pipermail/es-discuss/2008-May/006367.html) in a discussion about cleaning up the spec for the never-to-be-released ES4:
+  I had to track down some examples of this feature being used. I found lots of references to people saying it was required by "old DOM APIs", in IE specifically. Then, in the ESDiscuss archive, Brendan Eich gave [an example](https://esdiscuss.org/topic/a-random-collection-of-es4-draft-spec-surprises-and-thoughts#content-4) in a discussion about cleaning up the spec for the never-to-be-released ES4:
 
   > Indeed, IE JScript (for VBScript compatibility) long ago added support for "Reference" type return values from certain native ("host object") methods. This enabled `domNode.item(i) = j`, e.g. SpiderMonkey added support because someone embedding its open source wanted to support code written for JScript.
 
