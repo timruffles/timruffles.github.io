@@ -10,7 +10,7 @@ body: |
 
   What in the Crockford is going on?
   
-  Working on my [JS to C compiler](/writing-a-javascript-to-c-compiler) I've spent a fair bit of time reading and implementing the ECMAScript spec, specifically ES5 strict mode as it's small(er). It's in ES5 and ealier that this weird syntax exists - it [was removed in ES2015](http://ecma-international.org/ecma-262/6.0/#sec-additions-and-changes-that-introduce-incompatibilities-with-prior-editions). If you read the ES1-5 specs on function calls, [you'll find](https://www.ecma-international.org/ecma-262/5.1/#sec-8.7) functions can return an internal spec type called a `Reference`
+  Working on my [JS to C compiler](/writing-a-javascript-to-c-compiler) I've spent a fair bit of time reading and implementing the ECMAScript spec, specifically ES5 strict mode as it's small(er). It's in ES5 and earlier that this weird syntax exists - it [was removed in ES2015](http://ecma-international.org/ecma-262/6.0/#sec-additions-and-changes-that-introduce-incompatibilities-with-prior-editions). If you read the ES1-5 specs on function calls, [you'll find](https://www.ecma-international.org/ecma-262/5.1/#sec-8.7) functions can return an internal spec type called a `Reference`
 
   > one difficulty: function calls are permitted to return references. This possibility is admitted purely for the sake of host objects. No built-in ECMAScript function defined by this specification returns a reference and there is no provision for a user-defined function to return a reference. 
 
