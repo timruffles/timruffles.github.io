@@ -2,7 +2,7 @@ title: "Writing a Javascript to C compiler"
 date: "2019/01/28"
 body: |
 
-  I’m writing a JavaScript to C compiler, and I'd like to share the journey. Why? Figuring out how things ‘really work’ is a deep itch for me. I’m a self-taught developer. Throughout my infatuation with coding I’ve been slowly digging deeper and deeper into the magic of how our code actually runs. 
+  I’m writing a [JavaScript to C compiler](https://github.com/timruffles/js-to-c), and I'd like to share the journey. Why? Figuring out how things ‘really work’ is a deep itch for me. I’m a self-taught developer. Throughout my infatuation with coding I’ve been slowly digging deeper and deeper into the magic of how our code actually runs. 
 
   [Way back](https://www.slideshare.net/timruffles1/coffeescript-essence) in 2011 I started hacking around with the Coffeescript transpiler, for example seeing what it took to add Ruby’s overridable comparison operator to the language:
 
