@@ -221,17 +221,6 @@ input
     box-sizing: border-box
     // Addresses excess padding in IE8/9
     padding: 0
-  &[type="search"]
-    // Addresses appearance set to searchfield in S5, Chrome
-    -webkit-appearance: textfield
-    -moz-box-sizing: content-box
-    // Addresses box sizing set to border-box in S5, Chrome (Include -moz to
-    // future-proof)
-    -webkit-box-sizing: content-box
-    box-sizing: content-box
-    &::-webkit-search-decoration
-      // Corrects inner padding displayed oddly in S5, Chrome on OSX
-      -webkit-appearance: none
 
 button::-moz-focus-inner, input::-moz-focus-inner
   // Corrects inner padding and border displayed oddly in FF3/4
