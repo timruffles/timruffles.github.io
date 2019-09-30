@@ -8,7 +8,7 @@ body: |
   func main() {
     users := []User{User{"alice"}, User{"bob"}}
 
-    // hint: this line compiles ✅, User fulfils Named
+    // hint: this line compiles, User fulfils Named
     var _ Named = User{"charlie"}
 
     getName(users[0])

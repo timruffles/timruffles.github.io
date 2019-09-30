@@ -9,18 +9,16 @@
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="/css/style.css" type="text/css">
     <script type="text/javascript">
-
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-24335480-1']);
       _gaq.push(['_trackPageview']);
 
-      var asyncScript = function(src) {
+      function asyncScript(src) {
         var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
         ga.src = src;
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      };
+      }
       asyncScript(('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js');
-      asyncScript("/js/prettify.js");
     </script>
   </head>
   <body class="<%= @is_root ?  "root" : "article"%>">
