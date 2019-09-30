@@ -8,39 +8,71 @@ body: |
   func main() {
     users := []User{User{"alice"}, User{"bob"}}
 
-    // hint: this line does compile, User does fulfil Named
+    // hint: this line compiles ✅, User fulfils Named
     var _ Named = User{"charlie"}
 
-    fmt.Println(
-      getName(users[0]),
-      getNames(users),
-      countSlice(users),
-      switchNamed(&users[0], &users[1]),
-    )
+    getName(users[0])
+    getNames(users)
   }
 
-  func getName(n Named) string          { return n.name() }
+  func getName(n Named) string { n.name() }
   func getNames(ns []Named) []string    { /* ... */ }
-  func countSlice(ns []interface{}) int { return len(ns) }
-  func switchNamed(a,b *Named) { /* ... */ }
-
-  type User struct {
-    fullName string
-  }
-  func (u User) name() string { return u.fullName }
-
-  type Named interface {
-    name() string
-  }
   ```
 
-  It doesn't: even though the `getName` call is fine, all of the `getNames`, `countSlice` and `switchNamed` calls are type errors.
+  It doesn't compile. Surprisingly, although `User` implements `Named`, and the `getName` call is fine, the `getNames(users)` call is a type error.
 
-  When I first came to Go I was surprised that if `User` implemented `Named` I wasn't able to use a `User` wherever I saw a `Named` in the types of arguments. Instead, although I could pass `User` to a method accepting `Named`:
+
+  When I first came to Go it confused me that if `User` implemented `Named` I wasn't able to use a `User` wherever I saw a `Named` in the types of arguments. Instead, although I could pass `User` to a method accepting `Named`:
 
   - I couldn't pass `[]User` as a `[]Named`
   - I couldn't pass `[]User` as an `[]interface{}`
   - I couldn't pass `*User` as `*Named`
+
+  <p>
+  <details>
+    <summary>Here's a fuller example demonstrating all of these cases.</summary>
+
+    <code><pre>
+    package main
+    import "fmt"
+    func main() {
+      users := []User{User{"alice"}, User{"bob"}}
+
+      getName(users[0])
+    
+      // cannot use users (type []User) as type []Named in 
+      // argument to getNames
+      getNames(users)
+      // cannot use users (type []User) as type []interface 
+      // {} in argument to countSlice
+      countSlice(users)
+      // cannot (type *User) as type *Named in argument 
+      // to switchNamed:
+      switchNamed(&users[0], &users[1])
+    }
+
+    func getName(n Named) string { 
+       return n.name() 
+    }
+    func getNames(ns []Named) []string    { /* ... */ }
+    func countSlice(ns []interface{}) int {
+      return len(ns) 
+    }
+    func switchNamed(a,b *Named) { /* ... */ }
+
+    type User struct {
+      fullName string
+    }
+    func (u User) name() string { return u.fullName }
+
+    type Named interface {
+      name() string
+    }
+    </code></pre>
+
+    <p><a href="https://play.golang.org/p/TXe-4OTwNho">Runnable code</a></p>
+  </details>
+  </p>
 
   ## Why can't Go be like `$language`?
 
@@ -80,14 +112,14 @@ body: |
 
   ## Clearing up the mystery
 
-  First, an intuitive approach: imaging helping your friend move their pets to a new home. They give you two boxes, one  labelled 'friendly snakes', one 'fluffy spiders'. Easy enough, sling both boxes in your car and drive! But does that scenario prove you could do the same if they just handed you the critters unboxed? Not at all.
+  First, an intuition for the difference between interface values and concrete values in Go. Imaging helping your friend move their pets to a new home. They give you two boxes, one  labelled 'friendly snakes', one 'fluffy spiders'. Easy enough, sling both boxes in your car and drive! But does that scenario prove you could do the same if they just handed you the critters unboxed? Not at all.
 
-  Equivalently, do not assume that because you can put a concrete `User` into a `Named` interface value, you can use that concrete value *as* an interface value. A concrete value and an interface value containing it are fundamentally different things and can be used in different ways.
+  Equivalently, do not assume that because you can store a concrete `User` **in** a `Named` interface value, you can use that concrete value **as** an interface value. A concrete value and an interface value containing it are fundamentally different things and can be used in different ways.
 
   But if that's true, how is `logOne` able to accept `User` values? Simple: the Go compiler automatically creates interface values for you where it can. The two lines below are equivalent:
 
   ```go
-  // Go implicitly 'boxes' the User in an interface value...
+  // Go implicitly allocates an interface value and places the User in it
   logOne(User{"charlie"})
   // ...equivalent to us manually allocating one and passing it
   var f1 Named = User{"charlie"}
@@ -108,10 +140,11 @@ body: |
 
   <details>
     <summary>Answer</summary>
+
+    <p>The crux is again that an interface value is a different thing to a concrete value, rather than - as in other languages - just another way a concrete value can be used. Each cell in an interface value will contain one of those familiar double pointer values:</p>
     
     <p><img width=328 src="/img/go-interface-slices.JPG" alt="Go interface slice vs value slice" /></p>
 
-    The crux is again that an interface value is a different thing to a concrete value, rather than - as in other languages - just another way a concrete value can be used.
   </details>
 
   However, given Go can automatically allocate a `Named` where required, couldn't Go also allocate a `[]Named` automatically to let you pass a `[]User` to `getNames`? It's certainly possible to imagine how Go could do it. It could allocate a new slice of interface values for you, and assign the concrete `User` values into corresponding indexes:
@@ -131,7 +164,7 @@ body: |
   Indeed, for `getNames(users)` this would actually work fine! But slices have mutable indexes. and many functions mutate the slices they're passed. Can you see why automatically creating new slices to pass in would not work as desired for such functions? For instance:
 
   ```go
-  func switchNamed(xs []Named, a, b int) {
+  func switchItems(xs []Named, a, b int) {
     t := xs[a]
     xs[a] = xs[b]
     xs[b] = t
@@ -140,18 +173,16 @@ body: |
   users := []User{User{"alice"}, User{"bob"}}
   // not possible, but imagine it was and Go did the implicit 
   // allocate/initialize we did above
-  switchNamed(users, 0, 1)
+  switchItems(users, 0, 1)
   ```
 
-  The implicit allocation would stop `switchNamed` from working as we'd only be affecting the newly allocated slice/backing array - `ns` in the example above where I showed you what Go would have to do to make it work.
+  The implicit allocation would stop `switchItems` from working as we'd only be affecting the newly allocated slice/backing array - `ns` in the example above where I showed you what Go would have to do to make it work.
 
-  <small>
-  `*1`  Again, Go's helpful implicit conversions can make this confusing - at `*1` we could just pass `u`, but we know Go must be allocating an interface value for us.
-  </small>
+  Again, Go's helpful implicit conversions can make this confusing - for `append(ns, n)` we could just do `append(ns, u)`, but now we know Go must be allocating the interface value for us.
 
   ## Takeaways
 
-  If get a type error when you attempt to use a concrete value in a place needing an interface value and you think "but it fulfils the interface", remember: interface values and concretes are very different things. When you have a method accepting interface values that's what it must receive, and if it's not safe for Go to allocate them for you it's down to you to do it.
+  If get a type error when you attempt to use a concrete value in a place needing an interface value and you think "but it fulfils the interface", remember: interface values and concretes are very different things. That you can place a concrete value in an interface value does not mean it is an interface value, so you can't use it in all the same ways.
 
   For instance, if you have a function accepting ` []interface{}` you can't pass a slice of concrete values. Although we know all interfaces fulfil the empty interface, an interface value is still different from a concrete value: it's a container which allows us to peek in and extract the concrete type via type assertions. So if we have a slice of concrete values we're going to have to allocate interface values to pass in:
 
@@ -179,10 +210,9 @@ body: |
   findAndRemoveUsers(users)
   ```
 
-  Quiz time
-  =========
+  ## Quiz time
 
-  Why doesn't Go allow us to pass a pointer to a `User` to a method accepting a pointer to `Named`?
+  Why couldn't Go do something clever to let us pass a pointer to a `User` to a method accepting a pointer to `Named`?
 
   ```go
   func switchNamed(a,b *Named) {
