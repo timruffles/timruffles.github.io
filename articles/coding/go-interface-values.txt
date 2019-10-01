@@ -141,7 +141,7 @@ body: |
   <details>
     <summary>Answer</summary>
 
-    <p>The crux is again that an interface value is a different thing to a concrete value, rather than - as in other languages - just another way a concrete value can be used. Each cell in an interface value will contain one of those familiar double pointer values:</p>
+    <p>The crux is again that an interface value is a different thing to a concrete value, rather than - as in other languages - just another way a concrete value can be used. Each cell in a slice of interface values will contain one of those familiar double pointer values:</p>
     
     <p><img width=328 src="/img/go-interface-slices.JPG" alt="Go interface slice vs value slice" /></p>
 
