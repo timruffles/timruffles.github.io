@@ -22,7 +22,7 @@ body: |
   It doesn't compile. Surprisingly, although `User` implements `Named`, and the `getName` call is fine, the `getNames(users)` call is a type error.
 
 
-  When I first came to Go it confused me that if `User` implemented `Named` I wasn't able to use a `User` wherever I saw a `Named` in the types of arguments. Instead, although I could pass `User` to a method accepting `Named`:
+  When I first came to Go, I found it confusing that, given (1) `User` implemented `Named`, and (2) `getName(someUser)` compiled, that:
 
   - I couldn't pass `[]User` as a `[]Named`
   - I couldn't pass `[]User` as an `[]interface{}`
@@ -259,4 +259,6 @@ body: |
   Note: pointers to interfaces are fairly rare in practise.
 
   </details>
+
+  <p>Thanks to <a href="https://mobile.twitter.com/camsmorgan">Campbell Morgan</a>, <a href="https://iheanyi.com">Iheanyi Ekechukwu</a> and <a href="https://bradshaw.io">Stephen Bradshaw</a> for reviewing this and offering their wisdom!</p>
 
