@@ -2,7 +2,7 @@ title: A pandemic of bubble maps
 date: "2020/03/29"
 body: |
 
-    Besides COVID-19, we have an outbreak of bad data-visualisation. Everyone is using circles on maps to show the prevalence of the virus when it's a terrible way to communicate that data:
+    Besides COVID-19, we have an outbreak of very hard to understand bubble maps communicating case numbers:
 
     <a href="img/covid-circles-problem.jpg">
         <img src="img/covid-circles-problem.jpg" alt="using two varying dimensions to show one-dimensional data is a weak and inefficient technique" width="1631" height="1245" />
