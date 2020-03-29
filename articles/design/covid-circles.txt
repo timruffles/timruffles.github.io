@@ -1,0 +1,36 @@
+title: A pandemic of bubble maps
+date: "2020/03/29"
+body: |
+
+    Besides COVID-19, we have an outbreak of bad data-visualisation. Everyone is using circles on maps to show the prevalence of the virus when it's a terrible way to communicate that data:
+
+    ![using two varying dimensions to show one-dimensional data is a weak and inefficient technique](img/covid-circles-problem.jpg)
+
+    [Experts](#citations) (e.g Tufte) agree: circles are a poor way to communicate relative magnitude. Firstly because we suck at judging differences between values encoded as the areas of shapes. Secondly because we especially suck at judging the relative area of circles.
+
+    If you’re attempting to communicate important data, rather than designing attractive wall art, please use a colour ramp. This is a one dimensional encoding of one dimensional data, and it’s much easier to judge.
+
+    Compare: which of these communicates where the outbreak is worst in London:
+
+    ![colour is better than circles at communicating the difference between one-dimensional values](img/covid-circles-versus.png)
+
+    Journalists would be better off simply republishing Wikipedia’s images, or building on them. And out of [The Guardian](https://www.theguardian.com/world/2020/mar/28/coronavirus-uk-how-many-confirmed-cases-are-in-your-area) and <a href="https://www.dailymail.co.uk/news/article-8129921/London-THREE-TIMES-coronavirus-cases-region-UK.html" rel=nofollow>The Daily Mail</a>, I’m sorry to say the evidence suggests the Daily Mail better understands how to communicate data:
+
+    ![oh dear](img/covid-circles-dm.png)
+
+    <a id=citations></a>
+
+    ## Citations
+
+    > The use of two (or three) varying dimensions to show one-dimensional data is a weak and inefficient technique, capable of handling only very small data sets, often with error in design and ambiguity in perception. These designs cause so many problems that they should be avoided.
+
+    [Tufte 2001, P. 71](https://www.researchgate.net/publication/50371823_The_Visual_Display_of_Quantitative_Information_ER_Tufte)
+
+    > bar figures give the most accurate comparisons, the circles and squares less accurate
+
+    [Croxton, F. E., & Stein, H. (1932). Graphic comparisons by bars, squares, circles, and cubes. Journal of the American Statistical Association, 27, 54–60](https://psycnet.apa.org/record/1932-03010-001)
+
+    ## Useful COVID-19 map visualisations
+
+    - [University of Virginia](https://nssac.bii.virginia.edu/covid-19/dashboard/)
+    - [University of Washington](https://hgis.uw.edu/virus/)
