@@ -12,7 +12,7 @@ body: |
 
     If you’re attempting to communicate important data, rather than designing attractive wall art, please use a colour ramp. This is a one dimensional encoding of one dimensional data, and it’s much easier to judge.
 
-    Compare: which of these communicates where the outbreak is worst in London:
+    Compare: which of the following charts communicates where the outbreak is worst in London?
 
     <img src="img/covid-circles-versus.png" alt="colour is better than area at communicating the difference between one-dimensional values" width=680 height=355 />
 
