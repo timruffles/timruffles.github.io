@@ -4,7 +4,9 @@ body: |
 
     Besides COVID-19, we have an outbreak of bad data-visualisation. Everyone is using circles on maps to show the prevalence of the virus when it's a terrible way to communicate that data:
 
-    ![using two varying dimensions to show one-dimensional data is a weak and inefficient technique](img/covid-circles-problem.jpg)
+    <a href="img/covid-circles-problem.jpg">
+        <img src="img/covid-circles-problem.jpg" alt="using two varying dimensions to show one-dimensional data is a weak and inefficient technique" width="1631" height="1245" />
+    </a>
 
     [Experts](#citations) (e.g Tufte) agree: circles are a poor way to communicate relative magnitude. Firstly because we suck at judging differences between values encoded as the areas of shapes. Secondly because we especially suck at judging the relative area of circles.
 
@@ -12,11 +14,11 @@ body: |
 
     Compare: which of these communicates where the outbreak is worst in London:
 
-    ![colour is better than circles at communicating the difference between one-dimensional values](img/covid-circles-versus.png)
+    <img src="img/covid-circles-versus.png" alt="colour is better than area at communicating the difference between one-dimensional values" width=680 height=355 />
 
     Journalists would be better off simply republishing Wikipedia’s images, or building on them. And out of [The Guardian](https://www.theguardian.com/world/2020/mar/28/coronavirus-uk-how-many-confirmed-cases-are-in-your-area) and <a href="https://www.dailymail.co.uk/news/article-8129921/London-THREE-TIMES-coronavirus-cases-region-UK.html" rel=nofollow>The Daily Mail</a>, I’m sorry to say the evidence suggests the Daily Mail better understands how to communicate data:
 
-    ![oh dear](img/covid-circles-dm.png)
+    <img src="img/covid-circles-dm.png" alt="oh dear" width=680 height=355 />
 
     <a id=citations></a>
 
