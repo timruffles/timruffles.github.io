@@ -11,17 +11,15 @@ body: |
   I ran the Functional Javascript meetup in London, and maintain the [Javascript Garden](http://bonsaiden.github.com/JavaScript-Garden/).
 
 
-  Get in touch via [twitter](http://twitter.com/timruffles) or <a id='zzz'></a>.
+  <a id='zzz'>Get in touch</a>.
 
   <script>
     (function(d, z) {
       var el = document.querySelector('#zzz');
       el[(0, "h" + "r" + ["e","f"].join(""))]  = (0, "m" + "ailto" + [":",
-        "oi", "+"
-        , "inquiry", z, d
+        "hello", z, d
       ].join(""));
-      el.innerHTML = (17, "e" + ["ma"].join("") + "il me");
-    })(["truffles","me","uk"].join("."), "@");
+    })(["timr","co"].join("."), "@");
         
     
   </script>
