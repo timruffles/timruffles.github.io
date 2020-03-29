@@ -2,7 +2,7 @@ title: A pandemic of bubble maps
 date: "2020/03/29"
 body: |
 
-    Besides COVID-19, we have an outbreak of very hard to understand bubble maps communicating case numbers:
+    Besides COVID-19, we have an outbreak of bubble maps failing to communicate data effectively:
 
     <a href="img/covid-circles-problem.jpg">
         <img src="img/covid-circles-problem.jpg" alt="using two varying dimensions to show one-dimensional data is a weak and inefficient technique" width="1631" height="1245" />
