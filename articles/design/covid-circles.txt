@@ -8,7 +8,7 @@ body: |
         <img src="img/covid-circles-problem.jpg" alt="using two varying dimensions to show one-dimensional data is a weak and inefficient technique" width="1631" height="1245" />
     </a>
 
-    Obviously the overlapping is dreadful. But even if fixed, [experts](#citations) (e.g Tufte) agree: circles are a poor way to communicate relative magnitude. Firstly because we suck at judging differences between values encoded as the areas of shapes. Secondly because we especially suck at judging the relative area of circles.
+    Obviously, the overlapping is absurdly unreadable. But even if fixed, [experts](#citations) (e.g Tufte) agree: circles are a poor way to communicate relative magnitude. Firstly because we suck at judging differences between values encoded as the areas of shapes. Secondly because we especially suck at judging the relative area of circles.
 
     If you’re attempting to communicate important data, rather than designing attractive wall art, please use a colour ramp. This is a one dimensional encoding of one dimensional data, and it’s much easier to judge.
 
