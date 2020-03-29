@@ -2,7 +2,7 @@ title: Me
 date: 2011/07/09
 body: |
 
-  I'm a full stack developer at Github. I'm a [Google Developer Expert](https://developers.google.com/experts/people/tim-ruffles) for the web platform.
+  I'm a full stack developer at Plaid, previously GitHub, KiPlot, Cloudflare. I'm a [Google Developer Expert](https://developers.google.com/experts/people/tim-ruffles) for the web platform.
 
   I [speak](/speaking) at user-groups and conferences.
 
