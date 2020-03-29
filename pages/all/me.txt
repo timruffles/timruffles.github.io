@@ -8,7 +8,7 @@ body: |
 
   I used to [train developers](/developer-training) for organisations like Google, Gilt.com and the European Bioinformations Institute. 
 
-  I ran the [Functional Javascript](http://lanyrd.com/series/funjsldn/) meetup in London, and maintain the [Javascript Garden](http://bonsaiden.github.com/JavaScript-Garden/).
+  I ran the Functional Javascript meetup in London, and maintain the [Javascript Garden](http://bonsaiden.github.com/JavaScript-Garden/).
 
 
   Get in touch via [twitter](http://twitter.com/timruffles) or <a id='zzz'></a>.
