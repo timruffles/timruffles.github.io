@@ -1,4 +1,4 @@
-title: You probably don't want an object
+title: Object-wdnflected programming
 date: "2015/09/17"
 draft: true
 body: |

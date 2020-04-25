@@ -35,4 +35,4 @@ body: |
   - Garbage collection
   - Event driven runtime
 
-  If you’d like to read the series, follow me on [RSS](/rss) or [Twitter](https://twitter.com/timruffles/).
+  If you’d like to read the series, follow me on [RSS](/rss).

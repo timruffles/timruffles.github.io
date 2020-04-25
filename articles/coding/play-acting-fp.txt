@@ -1,15 +1,18 @@
 draft: true
 body: |
-  Althought functional programming has taken JS by storm - Redux, RxJS, and friends - you'll notice one thing we haven't got rid of: objects. Not `Object`, but full-blown, Alan Kay, "behaviour and state" objects.
+  Functional programming outside full FP languages like Haskell and OCaml should make considered use of objects. Not `{name: 'amy'}` objects, but full-blown, Alan Kay, 'behaviour and state' objects.
 
   Why?
 
   Let's agree some definitions. Here I'm using FP to mean a certain set of principles:
 
-  - modelling without the use of mutable datastructures in business logic (i.e normal app code)
+  - modelling without the use of mutable data-structures in business logic (i.e normal app code)
   - no reassignment of local, or especially shared, variables in business logic
 
-  So, big no-nos would be:
+  In both non-FP languages where I've seen attempts to write 'functional' application code - JS and Go - attempts to avoid violating these rules leads to code that's very hard to read, maintain, and modify.
+
+
+  Some obvious example of object-oriented code that violates these principles are:
 
   ~~~
   let user = {};
@@ -41,22 +44,9 @@ body: |
   }
   ~~~
 
-  ## Objectless code
-
-  Languages with a compiler can write code like the following, without recourse to objects:
-
-  ~~~
-  app = 
-    user = load_user
-
-  ~~~
+  However: outside of languages with compilers that do a lot of clever rewrit
 
 
-  ## Javascript, at root
-
-  Javascript's execution model has events and asynchronousy at its core. We can't develop any interesting applications without having to hook into this. A compiled language - Haskell for instance - can support effectively any model of execution by concealing the details behind compilation. The compiler takes code in one flow-control idiom and can spit out code in another. 
-
-  If we're writing JS, there is simply no way we can write code in a way that conceals JS's evented nature.
 
   Okay - why does this force us to use objects?
 
@@ -64,9 +54,11 @@ body: |
 
   What kind of state? Not the 'accidental state' that is used by so much OO/producural code, but essential state. Here are some examples of essential state:
 
-  - have we received a response from a server
-  - did we open a file, or did we fail?
-  - what does the user wish the value of this input box to be?
+  - a database connection
+  - the result of a sub-process execution
+  - a network response
+  - the result of attempting to open a file
+  - user input
 
   Accidental state is simply a side-effect of a certain coding style, things like:
 
@@ -75,16 +67,24 @@ body: |
 
   ## Handling essential state without objects
 
-  There is one way to handle essential state without objects, but it's fairly hairy: continuation passing. That is, setting up a long chain of callbacks that pass the current essential state around as the program continues.
+  There is one way to handle essential state completely without objects, but it's dreadful: continuation passing. That is, setting up a long chain of callbacks that pass the current essential state around as the program continues.
 
   ## Redux
 
   Where are we forced to use objects in Redux? The store. This is our single global store for essential state. We have principled rules around updating the state, but nevertheless we can't do without it.
 
+  It's immutable, but it's certainly an Kay-object: `store.dispatch()`, `store.getState()`. `store.dispatch({ type: "Load" })` and `store.load()` is a minor difference, and you could implement Redux perfectly well with the action-creators living on the store.
+
   ## Promises
 
-
+  Promises are a classic Kay-object: a bundle of state (resolution or rejection state) and methods on that state `.then()`.
 
   ## RxJS
+
+  Streams are again classic Kay-objects.
+
+  ## So what?
+
+  The takeaway here is without
 
 

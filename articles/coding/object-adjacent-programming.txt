@@ -1,0 +1,81 @@
+title: Functional Posturing
+text: |
+
+    Functional posturing is the attempt to write functional code in a non-functional language. It's posturing because the benefits accrued are - ironically - non-functional. Objective benefits like performance (the performance is worse), maintainability (the code is non-idiomatic and brittle) and correctness (I don't observe these programs being any less bug-prone) are not the goal. The goal is to align with a 'better' style of programming, where better started out pragmatic, but have become aesthetic and about status-signaling.
+
+
+    First off: I like functional programming. I ran a meetup about it, I've written my share of Lisp, dabbled with Haskell, and have certainly performed some functional posturing myself. This post has nothing to say about functional code in functional languages. I'm pointing out places that enthusiasm about a tool that has many good qualities leads people to write code with lower ROI than with more pragmatic approaches.
+
+    The better type of functional posturing would be code that uses things like Rx, or Redux, where they aren't really justified by the program's essential complexity. Even Rx's authors will admit Rx is shockingly easy to get wrong. Redux is a high ceremony way of writing an object with a `state` data property that is not mutated, only replaced:
+
+    ```
+    class Store {
+        private state: {
+           readonly count: number
+        }
+
+        incrementAction() {}
+
+        getState() {}
+    }
+
+    const createStore = () => {
+       const reducer = (a) => {}
+       let state = {}
+       return {
+         dispatch(action) {
+         }
+         getState() {}
+       }
+    }
+    ```
+
+    Rx, Redux and lately hooks are all very cool and shiny and represent a fresh way to `fetch()` some data and put it on the screen and let the user diddle with it. It's quite evident that nothing about writing code with them provides even a 10% leap in ROI over non-functionally inspired code (the Backbones, Angulars of the world). I've built frontends for 10 years and TypeScript blew away everything else for (large codebase) productivity. Ironically I started out with Flex and ActionScript 3 which had types anyway.
+
+    The less delightful type of functional posturing is a type of allergy to objects - Alan Kay objects here - leading to ugly reinventions of objects and functions with 8, 10 or 22 parameters. I saw this in Javascript and I've seen it in Go:
+
+    ```go
+    func SomeHandler(req Request, a UserTable, b AccountTable, c Config, d Redis, e FeatureFlags, f Logger, g Metrics) {
+        SubStepA(req, a, b, c, d, e, f, g)
+    }
+
+    func SubStepA(req Request, a UserTable, c Config, d Redis, e FeatureFlags, f Logger, g Metrics) {
+        // you can see that we end up passing everything down the chain because sub-components' dependencies become
+        // dependencies of their parents
+        SubStepB(req, a, b, c, d, e, f, g)
+    }
+
+    func SubStepB(req Request, b AccountTable, c Config, d Redis, e FeatureFlags, f Logger, g Metrics) {
+    }
+    ```
+
+    Responses like "you don't need to write code like that" are to miss the point: code like the above has been written. It was motivated by functional posturing.
+
+    In JS, currying - a favourite of functional posturers - would come to the 'rescue':
+
+    ```go
+    /**
+     * @type
+     * ... omitted for you sanity
+     */
+    const someHandler = (req, a , b , c , d , e , f , g ) => {
+    }
+
+    const startup = () => {
+      const handler = curry(someHandler, makeG(), ...)
+
+    }
+    ```
+
+    What would using closures to reinvent objects achieve? Code that's:
+    1. incredibly hard to read
+    2. unidiomatic
+    3. slow
+    4. a pain to test
+
+    Does it achieve much in the way of
+
+
+
+
+
