@@ -23,20 +23,25 @@
   </head>
   <body class="<%= @is_root ?  "root" : "article"%>">
     <div id="mast">
-      <div class='reading'>
+      <div class='top-bar reading'>
           <div class="links logical">
             <div class="navigation logical">
               <a href="/">Home</a>
-              <a href="/me">Me</a>
               <a href="http://feeds.feedburner.com/TimRufflesBlog">RSS</a>
+              <a href="/me">
+                  <%= @is_root ? 'Me' : 'Tim Ruffles' %>
+              </a>
             </div>
           </div>
         </div>
     </div>
     <div id="content" class="reading">
-        <% if @is_root %>
-          <%= erb :header %>
-        <% end %>
+       <% if @is_root %>
+        <div class="page-header">
+          <h1><a href="/me">Tim Ruffles</a>' Blog</h1>
+        </div>
+       <% end %>
+
        <div id="body">
           <%= yield %>
         </div>

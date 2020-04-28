@@ -35,7 +35,7 @@ body, input[type="text"], input[type="submit"]
 .sub_title
   font-size: .4em
 
-/* typographical layut */
+/* typographical layout */
 
 =reading_gutter
   width: 42rem
@@ -49,10 +49,10 @@ body, input[type="text"], input[type="submit"]
 .footer, .article #content, .reading
   +reading_gutter
 
-.page_header
-  h1, h2
-    +reading_gutter
-
+h1
+  margin: .5rem 0 1.5rem 0
+  @media(max-width: #{$small-width})
+    margin: 0 0 .25rem 0
 
 
 /* links */
@@ -65,14 +65,16 @@ a
   &:hover, &:active, &:focus
     text-decoration: underline
 
-  
-h2 a, #body h1 a
-  color: #000
-  &:active,
-  &:visited,
-  &:hover
+h1, h2, h3, h4
+  a
     color: #000
-    
+    &:active,
+    &:visited,
+    &:hover,
+    &:focus
+      color: #000
+      text-decoration: none
+
 // summary at top of article
 .summary
   padding: 1em 1em
@@ -88,8 +90,8 @@ ul ul
 /* layout */
   
 #mast
-  padding: .6em 0 0 0
   width: 100%
+  padding: .6em 0 0 0
   a
     color: #888
     -webkit-transition: all .4s
@@ -98,21 +100,18 @@ ul ul
   .chapters
     font-size: .8em
 
-.article #mast
-  .page_header
-    display: inline
-    h2
-      font-size: 1em
-      display: inline
-      
+.top-bar
+  overflow: auto
+  .author
+    display: block
+    float: right
+
 .footer
   clear: both
   
 .sub
   font-size: 0.7em
   font-style: italic
-
-/* layout */
 
 .minor
   font-size: 0.8em
@@ -258,9 +257,6 @@ pre
 .footnotes
   font-size: 0.9em
   color: #333
-
-blockquote
-  white-space: pre
 
 .twitter-tweet
   width: 100%

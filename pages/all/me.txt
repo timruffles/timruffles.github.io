@@ -6,7 +6,7 @@ body: |
 
   I [speak](/speaking) at user-groups and conferences.
 
-  I used to [train developers](/developer-training) for organisations like Google, Gilt.com and the European Bioinformations Institute. 
+  I used to [train developers](/developer-training) for organisations like White October Events (Angular Conf, Render etc), Google, The FT, Gilt.com and the European Bioinformations Institute.
 
   I ran the Functional Javascript meetup in London, and maintain the [Javascript Garden](http://bonsaiden.github.com/JavaScript-Garden/).
 
