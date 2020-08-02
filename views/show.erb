@@ -3,7 +3,7 @@
 
 <% if @next_article %>
   <p class=nav>
-    Next: <a href="<%= @next_article.link %>">
+    Next: <a href="<%= @next_article.slug %>">
       <%= @next_article.title %>
     </a>
   </p>
@@ -11,7 +11,7 @@
 
 <% if @previous_article %>
   <p class=nav>
-    Previous: <a href="<%= @previous_article.link %>">
+    Previous: <a href="<%= @previous_article.slug %>">
       <%= @previous_article.title %>
     </a>
   <p>

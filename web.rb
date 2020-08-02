@@ -2,6 +2,7 @@
 require "bundler"
 Bundler.setup
 Bundler.require
+
 require "sinatra"
 require "erb"
 require "digest/md5"
@@ -10,17 +11,22 @@ require "yaml"
 require "pp"
 require "redcarpet"
 require "set"
+
 require_relative "./db"
+require_relative "./canonical"
 
 # other
 require "pathname"
 
 ROOT_DIR = Pathname.new(File.dirname(__FILE__)).realpath
-URL = "https://www.truffles.me.uk"
+URL = "https://timr.co"
 
 if ENV["DATABASE_URL"]
   db = get_db
 end
+
+# timr.co as canonical
+use CanonicalHeader
 
 def load_posts glob, all = false
   files = Dir.glob glob
@@ -30,7 +36,7 @@ def load_posts glob, all = false
   end.reject do |art|
     art["date"].nil? or art["body"].nil? or art["draft"] or art["title"].nil?
   end.map do |art|
-    parse_params art
+    parse_article art
   end
   items.sort_by!(&:date).reverse!
   OpenStruct.new( :last_modified_at => modification_times.first,
@@ -55,12 +61,12 @@ rescue StandardError => e
   raise "Invalid article: #{article_path}, #{e}"
 end
 
-def parse_params params
+def parse_article params
   article = OpenStruct.new params
   article_path = article.path
   article.category = article_path.split("/")[1..-2].first.gsub('_',' ').gsub(/\b(\w)/) {|word| word.downcase }
   article.ads_disabled = article.ads_disabled.nil?  ? article.category != "coding" : article.ads_disabled
-  article.link ||= permalinkify article.title
+  article.slug ||= permalinkify article.title
   article.date = Date.parse(article.date)
   article.previous_slugs = params["previous_slugs"] || []
   article
@@ -84,12 +90,12 @@ def make_rss articles
     rss.items.do_sort = true
     
     articles.sort {|a,b| b.date <=> a.date }.each do |article|
-			unless article.rss
-				item = rss.items.new_item
-				item.title = article.title
-				item.link = permalink article.link
-				item.date = (article.date.is_a?(String) ? Time.parse(article.date) : article.date).to_s
-			end
+        unless article.rss
+            item = rss.items.new_item
+            item.title = article.title
+            item.link = permalink article.slug
+            item.date = (article.date.is_a?(String) ? Time.parse(article.date) : article.date).to_s
+        end
     end
   end.to_s
 end
@@ -146,9 +152,8 @@ end
 
 get "/:article" do |perma|
   @article = all.find do |art|
-    art.link == perma or (art.previous_slugs.find {|slug| slug == perma })
+    art.slug == perma or (art.previous_slugs.find {|slug| slug == perma })
   end
-
 
   # TODO this is messy, need better implementation
   if postable_set.include?(@article)
@@ -165,7 +170,7 @@ get "/:article" do |perma|
       Redcarpet::Markdown.new(Redcarpet::Render::HTML, footnotes: true, fenced_code_blocks: true).render(@article.body)
     end
     puts @body
-    @title, @perma, @fb_url, @footnotes = @article.title, @article.link, @article.facebook_comment_url, (@article.footnotes || []).enum_for(:each_with_index).map {|fn,i| Footnote.new(fn.fetch("id","fn-#{i + 1}"),fn.fetch("text")) }
+    @title, @perma, @fb_url, @footnotes = @article.title, @article.slug, @article.facebook_comment_url, (@article.footnotes || []).enum_for(:each_with_index).map {|fn,i| Footnote.new(fn.fetch("id","fn-#{i + 1}"),fn.fetch("text")) }
     erb(:show)
   else
     raise Sinatra::NotFound.new
