@@ -15,8 +15,7 @@ class CanonicalHeader
     end
 
     def self.canonical_tag(env, canonical_host)
-      url_scheme = env['HTTP_X_FORWARDED_PROTO'] || env['rack.url_scheme']
-      canonical = "#{url_scheme}://#{canonical_host}#{env['SCRIPT_NAME']}#{env['PATH_INFO']}"
+      canonical = "https://#{canonical_host}#{env['SCRIPT_NAME']}#{env['PATH_INFO']}"
       "<#{canonical}>; rel=\"canonical\""
     end
 end
