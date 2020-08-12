@@ -9,8 +9,6 @@ class CanonicalHeader
 
       headers['Link'] = CanonicalHeader.canonical_tag(env, "timr.co")
 
-      puts headers
-
       [status, headers, body]
     end
 
