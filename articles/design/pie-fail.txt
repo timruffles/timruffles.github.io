@@ -26,7 +26,7 @@ body: |
 
   So while it was visually 10-20% bigger, 'Day to Day Running' represented 50% less of the real total than 'Building for the Future'! An accurate visual representation would be the below:
 
-  <a class="jsbin-embed" href="http://jsbin.com/simof/6/embed?output">JS Bin</a><script src="http://static.jsbin.com/js/embed.js"></script>
+  <a class="jsbin-embed" href="https://jsbin.com/simof/6/embed?output">JS Bin</a><script src="https://static.jsbin.com/js/embed.js"></script>
 
   The problem is that the pie chart system, where a category that takes 50% of the whole gets 180<sup>o</sup> degrees and therefore 50% of the area, has been misapplied to non-circular shape. The distortion affects the categories that sit in the non-circular area:
 
