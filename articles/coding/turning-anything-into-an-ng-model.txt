@@ -8,7 +8,7 @@ body: |
 
   Try dragging the sun, editing the input and hitting 'start'. As you can see, we'll achieve full ng-model functionality with a very unusual input.
 
-  <a class="jsbin-embed" href="http://jsbin.com/nelucu/15/embed?output&height=470px">JS Bin</a><script src="http://static.jsbin.com/js/embed.js"></script>
+  <a class="jsbin-embed" href="https://jsbin.com/nelucu/15/embed?output&height=470px">JS Bin</a><script src="http://static.jsbin.com/js/embed.js"></script>
 
   ## Turning a widget into an input
 

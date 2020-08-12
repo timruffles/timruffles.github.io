@@ -47,7 +47,7 @@ body: |
     
   ## Experience
   
-  This series is drawn from the methods I've found most effective while developing a number of products with Backbone - an analytics dashboard for [Skimlinks](http://skimlinks.com), numerous real time games for [Picklive](http://picklive.com), a [machine learning Twitter client](http://twedar.com) and [Chrome extensions](http://arachnys.com).
+  This series is drawn from the methods I've found most effective while developing a number of products with Backbone - an analytics dashboard for [Skimlinks](https://skimlinks.com), numerous real time games for Picklive, a [machine learning Twitter client](/projects) and [Chrome extensions](http://arachnys.com).
 
   ## What will I learn?
   
