@@ -1,8 +1,8 @@
 title: Functional Posturing
+draft: true
 text: |
 
     Functional posturing is the attempt to write functional code in a non-functional language. It's posturing because the benefits accrued are - ironically - non-functional. Objective benefits like performance (the performance is worse), maintainability (the code is non-idiomatic and brittle) and correctness (I don't observe these programs being any less bug-prone) are not the goal. The goal is to align with a 'better' style of programming, where better started out pragmatic, but have become aesthetic and about status-signaling.
-
 
     First off: I like functional programming. I ran a meetup about it, I've written my share of Lisp, dabbled with Haskell, and have certainly performed some functional posturing myself. This post has nothing to say about functional code in functional languages. I'm pointing out places that enthusiasm about a tool that has many good qualities leads people to write code with lower ROI than with more pragmatic approaches.
 
