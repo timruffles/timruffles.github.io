@@ -2,11 +2,11 @@ title: Me
 date: 2011/07/09
 body: |
 
-  I'm a full stack developer at Plaid, previously GitHub, KiPlot, Cloudflare. I'm a [Google Developer Expert](https://developers.google.com/experts/people/tim-ruffles) for the web platform.
+  I'm a full stack developer at Plaid, previously GitHub, KiPlot and Cloudflare.
 
   I [speak](/speaking) at user-groups and conferences.
 
-  I used to [train developers](/developer-training) for organisations like White October Events (Angular Conf, Render etc), Google, The FT, Gilt.com and the European Bioinformations Institute.
+  I was a [Google Developer Expert](https://web.archive.org/web/20150906094654/https://developers.google.com/experts/people/tim-ruffles) for the web platform between 2014-2020. I also [trained developers](/developer-training) for organisations like White October Events (Angular Conf, Render etc), Google, The FT, Gilt.com and the European Bioinformations Institute.
 
   I ran the Functional Javascript meetup in London, and maintain the [Javascript Garden](http://bonsaiden.github.com/JavaScript-Garden/).
 
