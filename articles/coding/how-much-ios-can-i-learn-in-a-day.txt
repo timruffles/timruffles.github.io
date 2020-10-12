@@ -46,7 +46,7 @@ body: |
   <a id="day-zero"></a>
   ## Output from iOS day zero
 
-  <iframe width="420" height="315" src="http://www.youtube.com/embed/W9CZ9CrtSBo" frameborder="0" allowfullscreen></iframe>
+  <iframe width="420" height="315" src="https://www.youtube.com/embed/W9CZ9CrtSBo" frameborder="0" allowfullscreen></iframe>
   
   ## Git log
   

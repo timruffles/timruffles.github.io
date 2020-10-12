@@ -3,7 +3,7 @@
 
 <% if @next_article %>
   <p class=nav>
-    Next: <a href="<%= @next_article.link %>">
+    Next: <a href="<%= @next_article.slug %>">
       <%= @next_article.title %>
     </a>
   </p>
@@ -11,14 +11,14 @@
 
 <% if @previous_article %>
   <p class=nav>
-    Previous: <a href="<%= @previous_article.link %>">
+    Previous: <a href="<%= @previous_article.slug %>">
       <%= @previous_article.title %>
     </a>
   <p>
 <% end %>
 
 <% unless @article.category == "Ideas" or @article.ads_disabled %>
-  <p class=plug>Enjoy this? Subscribe to my <a href="http://feeds.feedburner.com/TimRufflesBlog">RSS feed</a>.</p>
+  <p class=plug>Enjoy this? Subscribe to my <a href="https://feeds.feedburner.com/TimRufflesBlog">RSS feed</a>.</p>
 <% end %>
 
 <hr />
