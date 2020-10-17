@@ -1,0 +1,12 @@
+title: Go Interface Talk
+date: 2020/10/17
+ads_disabled: true
+comments_disabled: true
+body: |
+
+    Thanks for watching!
+
+    - [Laws of reflection](https://blog.golang.org/laws-of-reflection) - once you really understand interfaces, reflection becomes a lot simpler (while still remaining fairly tricky)
+    - [Go Data Structures: Interfaces](https://research.swtch.com/interfaces) - a view on interfaces from the implementation POV
+    - [Ardan Labs on interfaces](https://www.ardanlabs.com/blog/2017/07/interface-semantics.html) - like the rest of William Kennedy's Go content, this is excellently written
+
