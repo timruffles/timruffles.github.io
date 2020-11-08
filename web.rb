@@ -169,7 +169,6 @@ get "/:article" do |perma|
     else
       Redcarpet::Markdown.new(Redcarpet::Render::HTML, footnotes: true, fenced_code_blocks: true).render(@article.body)
     end
-    puts @body
     @title, @perma, @fb_url, @footnotes = @article.title, @article.slug, @article.facebook_comment_url, (@article.footnotes || []).enum_for(:each_with_index).map {|fn,i| Footnote.new(fn.fetch("id","fn-#{i + 1}"),fn.fetch("text")) }
     erb(:show)
   else
@@ -191,7 +190,6 @@ end
 
 def find_next_and_last(article, articles)
   index = articles.index(article) 
-  puts "found #{index}" 
   if index
     [articles[index + 1], index == 0 ? nil : articles[index - 1]]
   else
