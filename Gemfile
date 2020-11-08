@@ -1,5 +1,7 @@
 source "https://rubygems.org"
 
+ruby '~> 2.6.3'
+
 gem "sinatra", "1.2.6"
 gem "json", "> 1.5.3"
 gem "redcarpet", "~> 3.4.0"
