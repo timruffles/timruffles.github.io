@@ -9,6 +9,7 @@ import {attempt} from "./language";
 import path from 'path'
 
 
+
 export class Article {
   readonly slug: string;
 
@@ -18,7 +19,8 @@ export class Article {
     readonly date: Date,
     readonly draft: boolean,
     readonly slugs: string[],
-    readonly body: string,
+    readonly bodyHTML: string,
+    readonly description: string,
     readonly category: string,
   ) {
     this.slug = slugs[0] || titleToSlug(title)
@@ -42,18 +44,15 @@ export class Article {
     }
 
     const html = attempt(() => marked(body, {
-      highlight: (code, lang, cb= () => {}) => {
-        try {
-          const r = prism.highlight(code, prism.languages[lang] || prism.languages.clike, lang)
-          cb(null, r)
-        } catch(e) {
-          cb(e)
-        }
+      highlight: (code, lang) => {
+        return prism.highlight(code, prism.languages[lang] || prism.languages.clike, lang)
       }
     }))
     if(html instanceof Error) {
       return html
     }
+
+    const description = truncate((body.match(/^.*\n/) || [])[0] || '', 256, '…');
 
 
     const dateParsed = Date.parse(date);
@@ -63,7 +62,13 @@ export class Article {
 
     const slugs = [slug, ...previousSlugs];
 
-    return new Article(p, title, new Date(dateParsed), draft, slugs, html, category)
+    return new Article(p, title, new Date(dateParsed), draft, slugs, html, description, category)
   }
 }
 
+function truncate(s: string, max: number, replace: string): string {
+  if(s.length <= max) {
+    return s
+  }
+  return s.slice(0, max) + replace;
+}

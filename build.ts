@@ -4,7 +4,7 @@ import fs from 'fs'
 import {glob} from "glob";
 import {exec} from "child_process";
 import {Article} from "./records";
-import {homePage, layout} from "./templates";
+import {homePage, layout, page, rss} from "./templates";
 
 main();
 
@@ -25,16 +25,17 @@ async function main() {
 
   pages.forEach(article => writeArticle(outputPath, article))
 
-  const forHome = pages
+  const articlesDesc = pages
     .filter(a => a.category !== 'pages')
     .sort((a,b) => +b.date - +a.date)
-    .slice(0, 15)
 
   fs.writeFileSync(`${outputPath}/index.html`,  layout({
     title: "Tim Ruffles' blog",
     slug: "",
-    content: homePage(forHome),
+    content: homePage(articlesDesc).slice(0, 15),
   }));
+
+  fs.writeFileSync(`${outputPath}/rss.xml`,  rss(articlesDesc));
 }
 
 async function loadPagesFromDirectory(dir: string): Promise<(Article | Error)[]> {
@@ -61,7 +62,7 @@ function writeArticle(outputPath: string, article: Article) {
   const html = layout({
     title: article.title,
     slug: article.slug,
-    content: article.body,
+    content: page(article)
   })
   writeHTMLPage(outputPath, article.slug, html);
 }

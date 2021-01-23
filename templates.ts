@@ -3,10 +3,10 @@ import format from "date-fns/format"
 
 
 export function layout({
-  title,
-  slug,
-  content,
-}: {
+                         title,
+                         slug,
+                         content,
+                       }: {
   title: string,
   slug: string,
   content: string,
@@ -48,10 +48,10 @@ export function layout({
             </div>
         </div>
         <div id="content" class="reading">
-           ${root && 
-            `<div class="page-header">
+           ${root ?
+    `<div class="page-header">
               <h1><a href="/me">Tim Ruffles</a>' Blog</h1>
-            </div>`}
+            </div>` : ''}
 
            <div id="body">
               ${content}
@@ -65,6 +65,29 @@ export function layout({
       </body>`
 }
 
+export function rss(articles: Article[]): string {
+  return `<?xml version="1.0" encoding="UTF-8" ?>
+  <rss version="2.0">
+  <channel>
+    <title>Tim Ruffles' blog</title>
+    <link>https://timr.co</link>
+    <description>Tim Ruffles' blog</description>
+    ${articles.map(article => `<item>
+      <title>${article.title}</title>
+      <link>https://timr.co/${article.slug}</link>
+      <pubDate>${format(article.date, 'EEE, dd MMM yyyy hh::mm:SS', {useAdditionalDayOfYearTokens:false}) + ' GMT'}</pubDate>
+      <description>${article.description}</description>
+    </item>`).join('')}
+  </channel>
+  </rss>`
+}
+
+export function page(article: Article): string {
+  return `<h1><a href="/${article.slug}">${article.title}</a></h1>
+  ${article.bodyHTML}
+  `
+}
+
 export function homePage(articles: Article[]): string {
   return `<div class="posts">
     ${articles.map(article => `
@@ -74,7 +97,6 @@ export function homePage(articles: Article[]): string {
           </h4>
           <span class=date>${formatDate(article.date)}</span>
         </a>
-      </div>
     `).join('')}
   </div>`
 }
