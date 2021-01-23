@@ -1,0 +1,70 @@
+title: Functional Posturing
+draft: true
+text: |
+
+    What if I told you exposure to functional programming ideas can make people radically worse programmers? It's because of a syndrome I call 'functional posturing'.
+
+    ## Prognosis
+
+    Functional posturing is latent until an affected programmer is working in a non-functional language, for instance JavaScript, Go, PHP etc. At this point the programmer exhibits an irrational aversion to objects. Irrational, because, as stated, these are non-functional languages which lack the tools functional languages developed (OCaml's functors, Haskell's monads, Clojure's multimethods) to provide capabilities critical to productive applications development - runtime polymorphism, dependency injection, etc.
+
+    By all commonly-accepted measures the code the posturer produces is worse. It's un-idiomatic, brittle, it takes longer to write, and it's slow. It can be remarkably hard to understand. The affected programmer however will argue this is justified as functional programming is "easier to reason about", and better in various subjective ways that don't matter for the problem they're being paid to solve.
+
+    Status-signaling and bordom with the actual task at hand have been suggested as causes.
+
+    It must be noted that functionally-inspired libraries like Redux, RxJS etc are in no way an example of posturing. They make use of the host-language's features - namely objects - to provide a functional-feeling runtime. Similarly functional languages that compile to non-functional languages are unaffected by the sympotoms described below.
+
+    ## Symptoms
+
+    ### Nightmare call stacks
+
+    In attempting to eskew objects the affected programmer will be left with only functions. All applications have to deal with configuration-time (env vars, decisions on which of a number of implementations to use), request-time (input data, resolved feature flags etc) and runtime (sub-requests, parallelism) state. The only tool the posturer to solve these are functions. All three types of state area propagated purely via paramter passing. This means all parameters trickle up the stack to their paraent functions' signatures, and the number of parameters for all top-level functions approaches the sum of all sub-functions' parameters.
+
+    Here's an example:
+
+    ```go
+    func SomeHandler(req Request, a UserTable, b AccountTable, c Config, d Redis, e FeatureFlags, f Logger, g Metrics) {
+        SubStepA(req, a, b, c, d, e, f, g)
+    }
+
+    func SubStepA(req Request, a UserTable, c Config, d Redis, e FeatureFlags, f Logger, g Metrics) {
+        // you can see that we end up passing everything down the chain because sub-components' dependencies become
+        // dependencies of their parents
+        SubStepB(req, a, b, c, d, e, f, g)
+    }
+
+    func SubStepB(req Request, b AccountTable, c Config, d Redis, e FeatureFlags, f Logger, g Metrics) {
+    }
+    ```
+
+    #### Currying arrives to make this worth
+
+    Currying is a favourite of functional posturers. Program initialization becomes a byzantine maze of curried function application:
+
+    ```go
+    /**
+     * @type
+     * ... omitted for your sanity
+     */
+    const someHandler = (req, a , b , c , d , e , f , g ) => {
+    }
+
+    const startup = () => {
+      const handler = curry(someHandler, makeG(), ...)
+
+    }
+    ```
+
+    Such programs are a striking proof of the adage that "closures are a poor person's objects", i.e, you might be able to use objects and closures to provide a poor substitute for each-other, but if you aren't forced to, don't.
+
+    This use of currying obscures the code's flow both statically and at runtime. Predicting what any given parameter function will do requires looking up the curried application of the current function, which likely itself depends on further curried applications. Since this isn't a pattern that tooling understands, walking this chain must be done via string search. At runtime the functions are opaque, with closed-over values hard or impossible to access via debuggers.
+
+    ## The Cure
+
+    Humilty and pragmatism are the cure to functional posturing - as with so many other programming maladies. Having the posturer internalise that functional-programming languages were invented precisely to enable productive programming in the functional style is a first step. Realising that inheritance and mutation are not essential to objects is a second.
+
+
+    First off: I like functional programming. I ran a meetup about it, I've written my share of Lisp, dabbled with Haskell, and have certainly performed some functional posturing myself. This post has nothing to say about functional code in functional languages. I'm pointing out places that enthusiasm about a tool that has many good qualities leads people to write code with lower ROI than with more pragmatic approaches.
+
+
+

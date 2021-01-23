@@ -1,5 +1,6 @@
 draft: true
 body: |
+
   Functional programming outside full FP languages like Haskell and OCaml should make considered use of objects. Not `{name: 'amy'}` objects, but full-blown, Alan Kay, 'behaviour and state' objects.
 
   Why?
