@@ -14,22 +14,23 @@ body: |
 
   > one difficulty: function calls are permitted to return references. This possibility is admitted purely for the sake of host objects. No built-in ECMAScript function defined by this specification returns a reference and there is no provision for a user-defined function to return a reference. 
 
+  The upshot is the spec allows assignment to function calls. A imaginary, spec-compliant DOM API could therefore expose a `windowTitle()` setter, that'd work like:
+
+  ```js
+  windowTitle() = "pear";
+  console.log(window.title); // pear
+  ```
+  
   The `Reference` spec type is effectively a base (object or environment) and a name, e.g the `window` object as a base and `"foo"` as a name. 'Host objects' are APIs not defined by the language spec, but exposed to user programs by a specific implementation, e.g a specific browser JS DOM, or Node's APIs.
 
-  `Reference` is a spec type rather than a JS type: it's merely a description of behaviour in various spec algorithms, so it'd never be visible in JS programs nor assignable where normal JS values are. For instance, the spec wouldn't have allowed for behaviour like this:
+  `Reference` is a spec type rather than a JS type: it's merely a description of behaviour in various spec algorithms, so it'd never be visible in JS programs. You couldn't store a reference in a variable, for instance, so the spec wouldn't have allowed for behaviour like this:
 
   ```js
-  var someRef = windowTitle() 
-  someRef = "pear"
-  console.log(window.title) // pear
+  var someRef = windowTitle();
+  someRef = "pear";
+  console.log(window.title); // pear
   ```
 
-  The upshot is the spec allows functions to evaluated an assignable value in the left hand of an assignment. A imaginary spec-compliant DOM API could therefore expose a `windowTitle()` setter, that'd work like:
-
-  ```js
-  windowTitle() = "pear"
-  console.log(window.title) // pear
-  ```
 
   ## History
 
