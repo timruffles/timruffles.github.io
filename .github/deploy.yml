@@ -1,0 +1,19 @@
+name: Deploy 🚀
+
+on:
+  push:
+    branches: ["master", "deploy-test"]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: mkdir gh-pages
+      - run: cp favicon.ico gh-pages
+      - run: npm install
+      - run: npm run build
+      - uses: peaceiris/actions-gh-pages@v3.7.3
+        with:
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          publish_dir: gh-pages
