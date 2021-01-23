@@ -27,7 +27,7 @@ async function main() {
 
   const forHome = pages
     .filter(a => a.category !== 'pages')
-    .sort((a,b) => b.date - a.date)
+    .sort((a,b) => +b.date - +a.date)
     .slice(0, 15)
 
   fs.writeFileSync(`${outputPath}/index.html`,  layout({

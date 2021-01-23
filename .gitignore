@@ -4,3 +4,6 @@
 *.swo
 vendor
 .bundle
+gh-pages
+gh-pages
+node_modules/
