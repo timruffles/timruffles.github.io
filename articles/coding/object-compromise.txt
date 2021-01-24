@@ -1,13 +1,13 @@
 title: "The Object Compromise"
 date: "2021/01/23"
-text: |
+body: |
     
-    I’ve observed a pattern I call the ‘object compromise’. It's an architecture which emerges when its authors believe aspects of traditional object-oriented programming are harmful, but are not using a fully functional language[1] (and don't wish to attempt the Pyrrhic task of emulating one).
+    I’ve observed a pattern I call the ‘object compromise’. It's an architecture which emerges when its authors believe aspects of traditional object-oriented programming are harmful, but are not using a fully functional language<a href="#langs">¹</a> (and don't wish to attempt the Pyrrhic task of emulating one).
 
     The ’rules’ that define the compromise are:
 
     1. application data is modelled with [values, not objects](#values)
-    2. use methods for all code that perform side-effects[2] (and nowhere else)
+    2. use methods for all code that perform side-effects<a href="#side-effects">²</a> (and nowhere else)
     3. pass objects' dependencies in constructors
     4. never use inheritance in application code
     5. construct all objects at application startup time (except where impossible)
@@ -72,5 +72,5 @@ text: |
 
     Probably, but there is no general definition of good object-oriented style 😁. This pattern is largely equivalent to the style and nomenclature of [Growing Object-Oriented Software Guided by Tests](http://www.growing-object-oriented-software.com). However, that book defines it in abstract terms (“Compose objects to describe system behaviour”). I find a concrete, bottom-up, definition based on which language language features to use, and what for, provides a more precise (and easy to follow) definition.
 
-    - [1] I’ve had most experience of this style writing Go at GitHub and Plaid, and TypeScript for my own projects. Both JavaScript and Go have functional features, but compared to, say, Haskell or Clojure, they clearly lack core primitives for handling state in a functional way (monads or atoms etc respectively), and aren’t idiomatically functional ‘in the large’ (i.e beyond Array.reduce)
-    - [2] including method calls on objects. Aside from that, the usual: network, logging, metrics, disk, databases, randomness, etc.
+    1. <a id=langs></a> I’ve had most experience of this style writing Go at GitHub and Plaid, and TypeScript for my own projects. Both JavaScript and Go have functional features, but compared to, say, Haskell or Clojure, they clearly lack core primitives for handling state in a functional way (monads or atoms etc respectively), and aren’t idiomatically functional ‘in the large’ (i.e beyond Array.reduce)
+    2. <a id=side-effects></a> including method calls on objects. Aside from that, the usual: network, logging, metrics, disk, databases, randomness, etc.

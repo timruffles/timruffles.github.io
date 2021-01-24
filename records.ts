@@ -67,7 +67,7 @@ export class Article {
     }
 
     function prepareHref(href: string) {
-      return /^(http|www)/.test(href) ? href : `${cfg.baseURL}${trimSlashPrefix(href)}`;
+      return /^(http|www|#)/.test(href) ? href : `${cfg.baseURL}${trimSlashPrefix(href)}`;
     }
 
     // ![${text}](href)
