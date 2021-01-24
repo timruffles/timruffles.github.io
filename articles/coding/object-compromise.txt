@@ -15,8 +15,6 @@ body: |
     This results in [flat system of stateless collaborative objects](#collaboration-emerges), with behaviour implemented via [methods not mutation](#orchestrate-with-methods-not-mutation). The object system is sparse as well as flat: there are [fewer objects](#fewer-deeper-objects) - on a type and instance basis - than in trad OO. Persistence is necessarily [explicit](#persistence-is-explicit) - the Active Record pattern is completely contrary to the rules above.
 
     You end up with a lot of objects that have verb-y names. Behaviour is organised around use-cases, not data type. That's a good thing - you don't end up with your User and `$MostImportantDataType` (e.g `Tweet` for Twitter) data-types growing unstoppably, which is what happens if you organise operations by data type.
-    
-    If there's interest, I'd be happy to write a small demonstration app in this style.
 
     ## Collaboration emerges
 
