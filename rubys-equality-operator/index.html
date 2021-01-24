@@ -1,0 +1,76 @@
+<!doctype html>
+      <head>
+        <title>Ruby's === equality operator</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" href="/css/normalize.css" type="text/css">
+        <link rel="stylesheet" href="/css/style.css" type="text/css">
+        <link rel="stylesheet" href="/css/prism-ghcolors.css" type="text/css">
+        <script type="text/javascript">
+          var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-24335480-1']);
+          _gaq.push(['_trackPageview']);
+
+          function asyncScript(src) {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = src;
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          }
+          asyncScript(('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js');
+        </script>
+        <link rel="alternate" type="application/rss+xml" title="Subscribe to RSS feed" href="/rss.xml" />
+      </head>
+      <body class="article">
+        <div id="mast">
+          <div class='top-bar reading'>
+              <div class="links logical">
+                <div class="navigation logical">
+                  <a href="/">Home</a>
+                  <a href="https://feeds.feedburner.com/TimRufflesBlog">RSS</a>
+                  <a href="/me">
+                      Tim Ruffles
+                  </a>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div id="content" class="reading">
+           
+
+           <div id="body">
+              <h1><a href="/rubys-equality-operator">Ruby's === equality operator</a></h1>
+  <p>Ruby’s <code>===</code> operator is often called the ‘case equality’ operator, which is indicative of where it is used, but not how it works. I realised I hadn’t quite grokked the how when I read <a href="http://joncanady.com/2010/07/05/switching-on-object-class-in-ruby/" >Jon Canady&#39;s post</a>.</p>
+<p>Jon was confused that the follow switch statement didn’t work as he’d expected - it wasn’t matching even though obj was an instance of ActiveRecord::Base.</p>
+<pre><code>case obj<span class="token punctuation">.</span>class
+  <span class="token class-name">when</span> ActiveRecord<span class="token punctuation">:</span><span class="token punctuation">:</span>Base
+  <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+end</code></pre>
+<p>I knew that this was because <code>obj.class</code> evaluates to <code>ActiveRecord::Base</code>, which is an instance of <code>Class</code>, not of <code>ActiveRecord::Base</code>.</p>
+<p>But I realised I didn’t know the mechanics of how the correct version (simply ‘case obj’) worked! Looking in the <a href="http://ruby-doc.org/core/classes/Object.html" >faithful RDocs</a> for , I found that <code>===</code> is normally passed directly to <code>==</code>, which normally checks if two objects have equivalent value. However overriding <code>===</code> is suggested to provide “provide meaningful semantics in case statements”. So what would these be?</p>
+<p>I fired up IRB and had a go. First thing to realise is that in case statements, the receiver of the <code>===</code> operator is the expression in the when clause, not in the case clause. Second is that to remember it’s therefore being called on a Class object - a class method.</p>
+<p>So in Jon’s correct example, the method call is <code>ActiveRecord::Base.===(obj)</code>. Look at the API docs for ActiveRecord, and you’ll see <code>===</code> returns the result of calling is_a? on the object passed to <code>===</code>, with the receiver of <code>===</code> itself as argument. Thus in Jon’s incorrect example the value of <code>===</code> would evaluate to the predicate <code>Class.is_a?(ActiveRecord::Base)</code>, which of course it isn’t, as Class is a superclass of ActiveRecord.</p>
+<p>That’s the common pattern for <code>===</code> AFAIK. As a class method, it’ll normally be equivalent to asking the receiver, ‘is this argument an instance of yourself?’. As an instance method, it’ll normally be equivalent to ==, value equality.</p>
+<p>So a quick demo of <code>===</code> as a class method:</p>
+<pre><code><span class="token operator">></span><span class="token operator">></span> String <span class="token operator">===</span> <span class="token string">"a"</span>
+<span class="token operator">></span><span class="token operator">></span> <span class="token boolean">true</span> # <span class="token string">"a"</span> is a String
+<span class="token operator">></span><span class="token operator">></span> <span class="token string">"a"</span><span class="token punctuation">.</span>is_a<span class="token operator">?</span><span class="token punctuation">(</span>String<span class="token punctuation">)</span>
+<span class="token operator">></span><span class="token operator">></span> <span class="token boolean">true</span> # different way of asking the above</code></pre>
+<p>and for instance methods, demonstrating it is normally a value comparison, rather than an object comparison:</p>
+<pre><code><span class="token operator">></span><span class="token operator">></span> <span class="token string">"a"</span> <span class="token operator">===</span> <span class="token string">"b"</span>
+<span class="token operator">=</span><span class="token operator">></span> <span class="token boolean">false</span> # different values<span class="token punctuation">,</span> different objects
+<span class="token operator">></span><span class="token operator">></span> <span class="token string">"a"</span> <span class="token operator">===</span> <span class="token string">"a"</span>
+<span class="token operator">=</span><span class="token operator">></span> <span class="token boolean">true</span> # same values
+<span class="token operator">></span><span class="token operator">></span> <span class="token string">"a"</span><span class="token punctuation">.</span>equal<span class="token operator">?</span><span class="token punctuation">(</span><span class="token string">"a"</span><span class="token punctuation">)</span>
+<span class="token operator">=</span><span class="token operator">></span> <span class="token boolean">false</span> # different objects
+<span class="token operator">></span><span class="token operator">></span> <span class="token punctuation">:</span>a<span class="token punctuation">.</span>equal<span class="token operator">?</span> <span class="token punctuation">:</span>a
+<span class="token operator">=</span><span class="token operator">></span> <span class="token boolean">true</span> # same objects</code></pre>
+
+  
+            </div>
+        </div>
+        <div class="footer reading">
+          <div class="container">
+            <p>📩 hello＠timr · co</p>
+          </div>
+        </div>
+      </body>

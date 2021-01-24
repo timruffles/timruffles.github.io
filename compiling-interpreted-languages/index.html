@@ -1,0 +1,235 @@
+<!doctype html>
+      <head>
+        <title>Compiling Interpreted Languages</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" href="/css/normalize.css" type="text/css">
+        <link rel="stylesheet" href="/css/style.css" type="text/css">
+        <link rel="stylesheet" href="/css/prism-ghcolors.css" type="text/css">
+        <script type="text/javascript">
+          var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-24335480-1']);
+          _gaq.push(['_trackPageview']);
+
+          function asyncScript(src) {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = src;
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          }
+          asyncScript(('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js');
+        </script>
+        <link rel="alternate" type="application/rss+xml" title="Subscribe to RSS feed" href="/rss.xml" />
+      </head>
+      <body class="article">
+        <div id="mast">
+          <div class='top-bar reading'>
+              <div class="links logical">
+                <div class="navigation logical">
+                  <a href="/">Home</a>
+                  <a href="https://feeds.feedburner.com/TimRufflesBlog">RSS</a>
+                  <a href="/me">
+                      Tim Ruffles
+                  </a>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div id="content" class="reading">
+           
+
+           <div id="body">
+              <h1><a href="/compiling-interpreted-languages">Compiling Interpreted Languages</a></h1>
+  <p>I think a few years back I’d have been confused by the concept of compiling JavaScript. I would have assumed that compiled and interpreted languages were fundamentally different beasts. Reading <a href="https://mitpress.mit.edu/sites/default/files/sicp/index.html" >SICP</a> taught me that on a deep level, programs in any language can be implemented correctly via compilation or interpretation. I started to think as programs as descriptions of desired behaviour, given a particular language definition.</p>
+<p>Given that programs are descriptions, we can fulfil it however we like! Either we can use the program text as runtime input to an existing host-native program which will interpret it, or we can compile that program into a equivalent program in another language.[^1] </p>
+<p>[^1]: Still further, we could mix both, interpreting and compiling - as interpreters with just-in-time (JIT) compilers do.</p>
+<p>Let’s demonstrate this for a simple language with two operations, <code>VAR</code> and <code>PRINT</code>, with strings are its only data-type. Here’s a program in that language:</p>
+<pre><code>VAR name <span class="token string">"Melody"</span>
+VAR name2 name
+VAR name <span class="token string">"Ada"</span>
+PRINT <span class="token string">"Hello"</span> name name2</code></pre>
+<p>Running this program correct implementation of our spec should output &quot;Hello Ada Melody&quot;.</p>
+<p>As with most languages, parts of this specification rely on some operations being provided as primitives by the host language or execution environment. Our <code>PRINT</code> operation cannot be defined within the language, we&#39;ll require support from our hosting interpreter or compiler, which in turn will use primitive operations provided by the target machine.</p>
+<p>Here&#39;s a spec for the operations:</p>
+<ul>
+<li><code>VAR &lt;identifier&gt; &lt;value&gt;</code> variable assignment - after this runs, references to <code>identifier</code> will evaluate to <code>value</code></li>
+<li><code>PRINT &lt;value&gt; ... &lt;value&gt;</code> prints the values of previously assigned variables, or string literals, space separated</li>
+</ul>
+<p>Here&#39;s a rough grammar definition:</p>
+<pre><code>program <span class="token operator">=</span> operation<span class="token operator">+</span>
+operation <span class="token operator">=</span> var <span class="token operator">|</span> print
+var <span class="token operator">=</span> VAR identifier value
+print <span class="token operator">=</span> PRINT value<span class="token operator">+</span>
+
+value <span class="token operator">=</span> string <span class="token operator">|</span> identifier
+identifier <span class="token operator">=</span> \w<span class="token operator">+</span>
+string <span class="token operator">=</span> <span class="token string">" [^"</span><span class="token punctuation">]</span><span class="token operator">+</span> "</code></pre>
+<p> We can implement this spec with either an interpreter or a compiler. Our interpreter will take in the program text at runtime, analyse it, and call methods in our host environment to fulfil the spec. Our compiler will take the program text and output an equivalent program in another language that, when run, will perform the behaviour described by the program.</p>
+<h2 id="parsing">Parsing</h2>
+<p>First we&#39;ll want to transform our program&#39;s text into a data structure we can analyse - a syntax tree. This is called parsing - a necessary process for any interpreter or compiler. Our language is simple, and this means our parser is too:</p>
+<pre><code><span class="token keyword">function</span> <span class="token function">parse</span><span class="token punctuation">(</span>text<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> text<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">'\n'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>operationParse<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">function</span> <span class="token function">operationParse</span><span class="token punctuation">(</span>text<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  const <span class="token punctuation">[</span>_<span class="token punctuation">,</span> type<span class="token punctuation">,</span> expression<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token operator">/</span><span class="token punctuation">(</span>VAR<span class="token operator">|</span>PRINT<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token operator">+</span><span class="token punctuation">)</span>$<span class="token operator">/</span><span class="token punctuation">.</span><span class="token function">exec</span><span class="token punctuation">(</span>text<span class="token punctuation">)</span>
+  <span class="token keyword">return</span> <span class="token punctuation">{</span>type<span class="token punctuation">,</span> operands<span class="token punctuation">:</span> <span class="token function">operandParse</span><span class="token punctuation">(</span>expression<span class="token punctuation">)</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">function</span> <span class="token function">operandParse</span><span class="token punctuation">(</span>text<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> text<span class="token punctuation">.</span><span class="token function">match</span><span class="token punctuation">(</span><span class="token operator">/</span><span class="token string">"[^"</span><span class="token punctuation">]</span><span class="token operator">+</span>"<span class="token operator">|</span>\w<span class="token operator">+</span><span class="token operator">/</span>g<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>tokenParse<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">function</span> <span class="token function">tokenParse</span><span class="token punctuation">(</span>token<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> token<span class="token punctuation">.</span><span class="token function">startsWith</span><span class="token punctuation">(</span><span class="token string">'"'</span><span class="token punctuation">)</span>
+    <span class="token operator">?</span> <span class="token punctuation">{</span>type<span class="token punctuation">:</span> <span class="token string">'string'</span><span class="token punctuation">,</span> text<span class="token punctuation">:</span> token<span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">}</span>
+    <span class="token punctuation">:</span> <span class="token punctuation">{</span>type<span class="token punctuation">:</span> <span class="token string">'identifier'</span><span class="token punctuation">,</span> id<span class="token punctuation">:</span> token<span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>This&#39;ll give us the following tree for the above program:</p>
+<pre><code><span class="token punctuation">[</span><span class="token punctuation">{</span><span class="token string">"type"</span><span class="token punctuation">:</span><span class="token string">"VAR"</span><span class="token punctuation">,</span><span class="token string">"operands"</span><span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token punctuation">{</span><span class="token string">"type"</span><span class="token punctuation">:</span><span class="token string">"identifier"</span><span class="token punctuation">,</span><span class="token string">"id"</span><span class="token punctuation">:</span><span class="token string">"name"</span><span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span><span class="token string">"type"</span><span class="token punctuation">:</span><span class="token string">"string"</span><span class="token punctuation">,</span><span class="token string">"text"</span><span class="token punctuation">:</span><span class="token string">"Melody"</span><span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span><span class="token string">"type"</span><span class="token punctuation">:</span><span class="token string">"VAR"</span><span class="token punctuation">,</span><span class="token string">"operands"</span><span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token punctuation">{</span><span class="token string">"type"</span><span class="token punctuation">:</span><span class="token string">"identifier"</span><span class="token punctuation">,</span><span class="token string">"id"</span><span class="token punctuation">:</span><span class="token string">"name2"</span><span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span><span class="token string">"type"</span><span class="token punctuation">:</span><span class="token string">"identifier"</span><span class="token punctuation">,</span><span class="token string">"id"</span><span class="token punctuation">:</span><span class="token string">"name"</span><span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span><span class="token string">"type"</span><span class="token punctuation">:</span><span class="token string">"VAR"</span><span class="token punctuation">,</span><span class="token string">"operands"</span><span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token punctuation">{</span><span class="token string">"type"</span><span class="token punctuation">:</span><span class="token string">"identifier"</span><span class="token punctuation">,</span><span class="token string">"id"</span><span class="token punctuation">:</span><span class="token string">"name"</span><span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span><span class="token string">"type"</span><span class="token punctuation">:</span><span class="token string">"string"</span><span class="token punctuation">,</span><span class="token string">"text"</span><span class="token punctuation">:</span><span class="token string">"Ada"</span><span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span><span class="token string">"type"</span><span class="token punctuation">:</span><span class="token string">"PRINT"</span><span class="token punctuation">,</span><span class="token string">"operands"</span><span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token punctuation">{</span><span class="token string">"type"</span><span class="token punctuation">:</span><span class="token string">"string"</span><span class="token punctuation">,</span><span class="token string">"text"</span><span class="token punctuation">:</span><span class="token string">"Hello"</span><span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span><span class="token string">"type"</span><span class="token punctuation">:</span><span class="token string">"identifier"</span><span class="token punctuation">,</span><span class="token string">"id"</span><span class="token punctuation">:</span><span class="token string">"name"</span><span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span><span class="token string">"type"</span><span class="token punctuation">:</span><span class="token string">"identifier"</span><span class="token punctuation">,</span><span class="token string">"id"</span><span class="token punctuation">:</span><span class="token string">"name2"</span><span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">}</span><span class="token punctuation">]</span></code></pre>
+<p>After that let&#39;s write an interpreter for it. We&#39;re leaning as heavily as we can on our host environment - JavaScript - to implement our spec. For instance we can use a JS object to implement variable assignments and re-assignments as the behaviour matches our spec. <code>console.log</code> happens to implement the space separation we require too!</p>
+<pre><code><span class="token keyword">function</span> <span class="token function">iterpretProgram</span><span class="token punctuation">(</span>ast<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  const env <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+  ast<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>n <span class="token operator">=</span><span class="token operator">></span> <span class="token function">interpretOperation</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> n<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">function</span> <span class="token function">interpretOperation</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> node<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  switch <span class="token punctuation">(</span>node<span class="token punctuation">.</span>type<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    case <span class="token string">'VAR'</span><span class="token punctuation">:</span> <span class="token keyword">return</span> <span class="token function">assign</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> node<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    case <span class="token string">'PRINT'</span><span class="token punctuation">:</span>
+      <span class="token keyword">return</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>node<span class="token punctuation">.</span>operands<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>n <span class="token operator">=</span><span class="token operator">></span> <span class="token function">interpretNode</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> n<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    default<span class="token punctuation">:</span> <span class="token keyword">throw</span> <span class="token function">Error</span><span class="token punctuation">(</span>`unknown node $<span class="token punctuation">{</span>node<span class="token punctuation">.</span>type<span class="token punctuation">}</span>`<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">function</span> <span class="token function">interpretNode</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> node<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  switch <span class="token punctuation">(</span>node<span class="token punctuation">.</span>type<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    case <span class="token string">'identifier'</span><span class="token punctuation">:</span> <span class="token keyword">return</span> <span class="token function">lookup</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> node<span class="token punctuation">.</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    case <span class="token string">'string'</span><span class="token punctuation">:</span> <span class="token keyword">return</span> node<span class="token punctuation">.</span>text
+    default<span class="token punctuation">:</span> <span class="token keyword">throw</span> <span class="token function">Error</span><span class="token punctuation">(</span>`unknown node $<span class="token punctuation">{</span>node<span class="token punctuation">.</span>type<span class="token punctuation">}</span>`<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">function</span> <span class="token function">assign</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> <span class="token punctuation">{</span>operands<span class="token punctuation">:</span> <span class="token punctuation">[</span>name<span class="token punctuation">,</span> value<span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>err<span class="token punctuation">]</span><span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>err<span class="token punctuation">.</span>length <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token keyword">throw</span> <span class="token function">Error</span><span class="token punctuation">(</span><span class="token string">'Too many arguments to operation VAR'</span><span class="token punctuation">)</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>name<span class="token punctuation">.</span>type <span class="token operator">!==</span> <span class="token string">'identifier'</span><span class="token punctuation">)</span>
+    <span class="token keyword">throw</span> <span class="token function">Error</span><span class="token punctuation">(</span><span class="token string">'Name in VAR must be an identifier'</span><span class="token punctuation">)</span>
+  <span class="token keyword">return</span> env<span class="token punctuation">[</span>name<span class="token punctuation">.</span>id<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">interpretNode</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> value<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">function</span> <span class="token function">lookup</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> id<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token punctuation">(</span>id <span class="token keyword">in</span> env<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">throw</span> <span class="token function">Error</span><span class="token punctuation">(</span>`Undeclared variable $<span class="token punctuation">{</span>id<span class="token punctuation">}</span>`<span class="token punctuation">)</span>
+  <span class="token keyword">return</span> env<span class="token punctuation">[</span>id<span class="token punctuation">]</span>
+<span class="token punctuation">}</span></code></pre>
+<p>We can run our program as follows:</p>
+<pre><code>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">iterpretProgram</span><span class="token punctuation">(</span><span class="token function">parse</span><span class="token punctuation">(</span>sourceCode<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>  </code></pre>
+<h2 id="compiler">Compiler</h2>
+<p>We can see the symmetries between compilation and interpretation when directly translating our interpreter to our compiler. Rather than immediately performing operations, we&#39;ll now output equivalent program text in our target language - whether that&#39;s in machine code (binary format), or a higher level language like C or Go.</p>
+<p>The choice of target host/language will decide how much we need to implement ourselves. For instance, targeting C lets us rely on C&#39;s existing function call mechanism, which handles short lived data on the stack. Conversely, targeting LLVM, assembler or machine code would require us to do far, far more.</p>
+<p>We&#39;re going to target Go, again leaning on what it provides us as much as we can. Implementing our <code>VAR</code> operation is easy: since our language only supports strings as values our environment will simply be a <code>map[string]string</code> - a map of string keys and values. Again, its semantics match that of our spec so we may as well keep it simple.</p>
+<pre><code><span class="token keyword">function</span> <span class="token function">compileProgram</span><span class="token punctuation">(</span>ast<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  const env <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span> <span class="token comment">// our compiler is too simple to need a compile-time environment, but let's keep the function signatures equivalent</span>
+  <span class="token keyword">return</span> `package main
+
+  import <span class="token string">"fmt"</span>
+
+  func <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      env <span class="token punctuation">:</span><span class="token operator">=</span> <span class="token function">make</span><span class="token punctuation">(</span>map<span class="token punctuation">[</span>string<span class="token punctuation">]</span>string<span class="token punctuation">)</span>
+      $<span class="token punctuation">{</span>ast<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>n <span class="token operator">=</span><span class="token operator">></span> <span class="token function">compileOperation</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> n<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">'\n'</span><span class="token punctuation">)</span><span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>`
+<span class="token punctuation">}</span>
+
+<span class="token keyword">function</span> <span class="token function">compileOperation</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> node<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  switch <span class="token punctuation">(</span>node<span class="token punctuation">.</span>type<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    case <span class="token string">'VAR'</span><span class="token punctuation">:</span> <span class="token keyword">return</span> <span class="token function">compileAssign</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> node<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    case <span class="token string">'PRINT'</span><span class="token punctuation">:</span>
+      <span class="token keyword">return</span> `fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>$<span class="token punctuation">{</span>node<span class="token punctuation">.</span>operands<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>n <span class="token operator">=</span><span class="token operator">></span> <span class="token function">compileNode</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> n<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">', '</span><span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token punctuation">)</span>`
+    default<span class="token punctuation">:</span> <span class="token keyword">throw</span> <span class="token function">Error</span><span class="token punctuation">(</span>`unknown node $<span class="token punctuation">{</span>node<span class="token punctuation">.</span>type<span class="token punctuation">}</span>`<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">function</span> <span class="token function">compileNode</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> node<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  switch <span class="token punctuation">(</span>node<span class="token punctuation">.</span>type<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    case <span class="token string">'identifier'</span><span class="token punctuation">:</span> <span class="token keyword">return</span> <span class="token function">compileLookup</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> node<span class="token punctuation">.</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    case <span class="token string">'string'</span><span class="token punctuation">:</span> <span class="token keyword">return</span> `<span class="token string">"${node.text}"</span>`
+    default<span class="token punctuation">:</span> <span class="token keyword">throw</span> <span class="token function">Error</span><span class="token punctuation">(</span>`unknown node $<span class="token punctuation">{</span>node<span class="token punctuation">.</span>type<span class="token punctuation">}</span>`<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">function</span> <span class="token function">compileAssign</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> <span class="token punctuation">{</span>operands<span class="token punctuation">:</span> <span class="token punctuation">[</span>name<span class="token punctuation">,</span> value<span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>err<span class="token punctuation">]</span><span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>err<span class="token punctuation">.</span>length <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> 
+    <span class="token keyword">throw</span> <span class="token function">Error</span><span class="token punctuation">(</span><span class="token string">'Too many arguments to operation VAR'</span><span class="token punctuation">)</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>name<span class="token punctuation">.</span>type <span class="token operator">!==</span> <span class="token string">'identifier'</span><span class="token punctuation">)</span>
+    <span class="token keyword">throw</span> <span class="token function">Error</span><span class="token punctuation">(</span><span class="token string">'Name in VAR must be an identifier'</span><span class="token punctuation">)</span>
+  <span class="token keyword">return</span> `env<span class="token punctuation">[</span><span class="token string">"${name.id}"</span><span class="token punctuation">]</span> <span class="token operator">=</span> $<span class="token punctuation">{</span><span class="token function">compileNode</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> value<span class="token punctuation">)</span><span class="token punctuation">}</span>`
+<span class="token punctuation">}</span>
+
+<span class="token keyword">function</span> <span class="token function">compileLookup</span><span class="token punctuation">(</span>_env<span class="token punctuation">,</span> id<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> `env<span class="token punctuation">[</span><span class="token string">"${id}"</span><span class="token punctuation">]</span>`
+<span class="token punctuation">}</span></code></pre>
+<p>This would compile our program above into:</p>
+<pre><code>package main
+
+import <span class="token string">"fmt"</span>
+
+func <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  env <span class="token punctuation">:</span><span class="token operator">=</span> <span class="token function">make</span><span class="token punctuation">(</span>map<span class="token punctuation">[</span>string<span class="token punctuation">]</span>string<span class="token punctuation">)</span>
+  env<span class="token punctuation">[</span><span class="token string">"name"</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">"Melody"</span>
+  env<span class="token punctuation">[</span><span class="token string">"name2"</span><span class="token punctuation">]</span> <span class="token operator">=</span> env<span class="token punctuation">[</span><span class="token string">"name"</span><span class="token punctuation">]</span>
+  env<span class="token punctuation">[</span><span class="token string">"name"</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">"Ada"</span>
+  fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"Hello"</span><span class="token punctuation">,</span> env<span class="token punctuation">[</span><span class="token string">"name"</span><span class="token punctuation">]</span><span class="token punctuation">,</span> env<span class="token punctuation">[</span><span class="token string">"name2"</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<p><a href="https://play.golang.org/p/ArzVZvoxAUT" >Running this</a> on the Go playground gives us the expected output!</p>
+<h2 id="runtime-vs-compile-time">Runtime vs compile time</h2>
+<p>Languages do differ in how much we must do at runtime, but that doesn’t prevent us for compiling large swathes of it.</p>
+<p>For an example of some behaviour that mandates runtime support, consider:</p>
+<pre><code>const name <span class="token operator">=</span> fs<span class="token punctuation">.</span><span class="token function">readFileSync</span><span class="token punctuation">(</span>‘<span class="token punctuation">.</span><span class="token operator">/</span>property’<span class="token punctuation">,</span> <span class="token punctuation">{</span> encoding<span class="token punctuation">:</span> ‘utf8’ <span class="token punctuation">}</span><span class="token punctuation">)</span>
+const fn <span class="token operator">=</span> global<span class="token punctuation">[</span>name<span class="token punctuation">]</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>global<span class="token punctuation">[</span><span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span></code></pre>
+<p>You can see here that the method to be called (<code>name</code>) depends on input outside the program, and the value of <code>global[name]</code> does too. How much of such a dynamic program could we meaningfully compile?</p>
+<p>One immediate benefit if we compiled our example program is avoiding re-parsing the program on re-running. The text of the program doesn’t change at runtime after all.</p>
+<p>Beyond that we can optimise the program itself, trading more work at compile time for less work at runtime. This can be the same kind of program manipulations we could do manually. For instance we can see in the below example, even without declaring variables <code>const</code>, that <code>multiple</code> does not vary across iterations:</p>
+<pre><code>let a <span class="token operator">=</span> <span class="token number">10</span>
+let b <span class="token operator">=</span> <span class="token number">20</span>
+let sum <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token keyword">for</span><span class="token punctuation">(</span>const x of xs<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  let multiple <span class="token operator">=</span> a <span class="token operator">+</span> b<span class="token punctuation">;</span>
+  sum <span class="token operator">+</span><span class="token operator">=</span> x <span class="token operator">*</span> multiple
+<span class="token punctuation">}</span></code></pre>
+<p>So we could rewrite (or a compiler could do it for us) to this equivalent but more efficient code:</p>
+<pre><code>let sum <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token keyword">for</span><span class="token punctuation">(</span>const x of xs<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  sum <span class="token operator">+</span><span class="token operator">=</span> x <span class="token operator">*</span> <span class="token number">30</span>
+<span class="token punctuation">}</span></code></pre>
+<p>Beyond that, many optimisations work below the level that we as language users have access to. This kind of optimisation implements the same behaviour or semantics more efficiently. For instance, we can make variable access in JavaScript involve fewer branches, by compiling in the exact lexical scope a particular variable is written or read from. For instance:</p>
+<pre><code><span class="token keyword">function</span> <span class="token function">A</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+   let count <span class="token operator">=</span> <span class="token number">0</span>
+   <span class="token keyword">return</span> <span class="token keyword">function</span> <span class="token function">B</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      count <span class="token operator">+</span><span class="token operator">=</span> <span class="token number">1</span>
+      <span class="token keyword">return</span> count
+   <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>We can tell at compile-time that the <code>count</code> variable exists in <code>A</code>&#39;s scope. A faithful runtime implementation of variable lookup in JavaScript - which could form part of a JS interpreter or runtime library written in JS - could look like this:</p>
+<pre><code><span class="token keyword">function</span> <span class="token function">lookup</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> property<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">while</span><span class="token punctuation">(</span>env<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>env<span class="token punctuation">.</span><span class="token function">has</span><span class="token punctuation">(</span>property<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+       <span class="token keyword">return</span> env<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>property<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    env <span class="token operator">=</span> env<span class="token punctuation">.</span>parent
+  <span class="token punctuation">}</span>
+  <span class="token keyword">return</span> undefined
+<span class="token punctuation">}</span></code></pre>
+<p>However, since we know <code>count</code> exists in <code>A</code>&#39;s scope, we will incur less runtime work than if we call our <code>lookup</code> function at runtime by instead compiling our program to deterministically access the variable in the correct scope:</p>
+<pre><code>envB<span class="token punctuation">.</span>parent<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'count'</span><span class="token punctuation">)</span></code></pre>
+<p>Interestingly, this is precisely the type of optimisations just-in-time compilers (JITs) perform. JITs are another reminder that dynamic languages can profit greatly from compilation. There&#39;s nothing theoretically stopping us from doing lots at runtime in compiled implementations, or lots of compilation in interpreted ones. Those decisions are trade-offs, and will decide how much of the pros/cons of each approach we&#39;ll get depending on where we sit between the two extremes.</p>
+<p>In my next post, I&#39;ll outline the high-level architectural approach I&#39;ll take in writing my JS to C compiler.</p>
+
+  
+            </div>
+        </div>
+        <div class="footer reading">
+          <div class="container">
+            <p>📩 hello＠timr · co</p>
+          </div>
+        </div>
+      </body>
