@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "build": "ts-node build.ts"
+    "build": "BASE_URL='/blog' ts-node build.ts"
   },
   "dependencies": {
     "@types/date-fns": "^2.6.0",
