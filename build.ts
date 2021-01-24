@@ -51,7 +51,7 @@ async function main() {
     slug: "404",
     baseURL: baseURL,
     content: `<h2>I'm sure I put that here</h2>
-<p><a href="https://www.google.com/search?as_sitesearch=www.truffles.me.uk">Have a search</a>.</p>
+<p><a href="https://www.google.com/search?as_sitesearch=www.timr.co">Have a search</a>.</p>
 <blockquote>And even if by chance he were to utter the final truth, he would not know it: for all is but a woven web of guesses.</blockquote>
 <p>Xenophanes</p>`
   }));
