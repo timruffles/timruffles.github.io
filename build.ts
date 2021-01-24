@@ -14,9 +14,9 @@ async function main() {
   const outputPath = "./gh-pages/"
 
   const loaded = (await Promise.all(pageFolders.map(loadPagesFromDirectory))).flatMap(x => x)
-  const errors = loaded.filter(e => e instanceof Error)
+  const errors = loaded.filter((e: Article | Error): e is Error => e instanceof Error)
   if(errors.length) {
-    console.error("Articles with errors", errors)
+    console.error("Articles with errors", errors.map(a => a.message))
   }
   const pages = loaded.filter(isArticle)
     .filter(a => !a.draft)

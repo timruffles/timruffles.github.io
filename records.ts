@@ -9,6 +9,12 @@ import {attempt} from "./language";
 import path from 'path'
 
 
+class ArticleError extends Error {
+  constructor(mesage: string, readonly path: string) {
+    super()
+  }
+}
+
 
 export class Article {
   readonly slug: string;
@@ -40,7 +46,7 @@ export class Article {
 
     const missing = ['title', 'date', 'body'].filter(k => !raw[k])
     if (missing.length) {
-      return Error(`missing required fields: ${missing.join(' ')}`)
+      return Error(`${p}: missing required fields: ${missing.join(' ')}`)
     }
 
     const html = attempt(() => marked(body, {
@@ -49,7 +55,7 @@ export class Article {
       }
     }))
     if(html instanceof Error) {
-      return html
+      return Error(`${p}: ${html.message}`)
     }
 
     const description = truncate((body.match(/^.*\n/) || [])[0] || '', 256, '…');
@@ -57,7 +63,7 @@ export class Article {
 
     const dateParsed = Date.parse(date);
     if (isNaN(dateParsed)) {
-      return Error(`invalid date ${date}`)
+      return Error(`${p}: invalid date ${date}`)
     }
 
     const slugs = [slug, ...previousSlugs];
