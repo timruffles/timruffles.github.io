@@ -1,0 +1,118 @@
+<!doctype html>
+      <head>
+        <title>Representing JS Values in C</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" href="/blogcss/normalize.css" type="text/css">
+        <link rel="stylesheet" href="/blogcss/style.css" type="text/css">
+        <link rel="stylesheet" href="/blogcss/prism-ghcolors.css" type="text/css">
+        <script type="text/javascript">
+          var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-24335480-1']);
+          _gaq.push(['_trackPageview']);
+
+          function asyncScript(src) {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = src;
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          }
+          asyncScript(('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js');
+        </script>
+      </head>
+      <body class="article">
+        <div id="mast">
+          <div class='top-bar reading'>
+              <div class="links logical">
+                <div class="navigation logical">
+                  <a href="/blog">Home</a>
+                  <a href="https://feeds.feedburner.com/TimRufflesBlog">RSS</a>
+                  <a href="/blogme">
+                      Tim Ruffles
+                  </a>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div id="content" class="reading">
+           
+
+           <div id="body">
+              <h1><a href="/blogrepresenting-js-values-in-c">Representing JS Values in C</a></h1>
+  <p>When implementing JS a primary decision is how to represent JS values - the objects, numbers and strings that make up JS programs. Since I&#39;m targeting C, there&#39;s a lot of flexibility in how to do this.</p>
+<p>There are 8 primitive types in JS that we&#39;ll need to store:</p>
+<ul>
+<li>string</li>
+<li>number</li>
+<li>null </li>
+<li>undefined</li>
+<li>boolean</li>
+<li>object</li>
+<li>array</li>
+<li>function</li>
+</ul>
+<p>The decision on representation will balance efficiency with ease of implementation. Highly-optimised implementations, like V8, will have multiple representations for a single type, for instance dense and sparse arrays. The immutable types can also be implemented differently to the mutable types: for instance, assignment of number values can be implemented by copying rather than referencing, as the number value can never change.</p>
+<p>Note: this article will not explain the C language.</p>
+<p>Functions, strings, objects and arrays will get a post to themselves; this time let&#39;s discuss the root <code>JsValue</code> type, numbers, and the boolean and null/undefined types.</p>
+<h2 id="jsvalue-struct">JsValue struct</h2>
+<p>All JS values in js-to-c are represented by the <code>JsValue</code> struct, which looks like:</p>
+<pre><code class="language-c">union JsValueValue <span class="token punctuation">{</span>
+   double number<span class="token punctuation">;</span>
+   void<span class="token operator">*</span> pointer<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+typedef struct JsValue <span class="token punctuation">{</span>
+    int type<span class="token punctuation">;</span> 
+    union JsValueValue value<span class="token punctuation">;</span>
+<span class="token punctuation">}</span> JsValue<span class="token punctuation">;</span></code></pre>
+<p><code>type</code> and <code>value</code> are the key: by looking up the <code>type</code> field we know the type of the value in the <code>value</code> union.</p>
+<p>The <code>value</code> union differentiates between numbers where the value is embedded in the struct itself, and other values where the value is referenced via a pointer - strings, functions etc. <code>undefined</code>, <code>null</code>, <code>NaN</code> and <code>true</code> and <code>false</code> don&#39;t need a value stored; they&#39;re all immutable and implemented as singletons. A pointer equality will determine if a boolean value is true or false. Embedding number values makes them more efficient - <code>x * y</code> becomes <code>x-&gt;value * y-&gt;value</code> rather than <code>*x-&gt;value-&gt;pointer * *x-&gt;value-&gt;pointer</code>, saving two pointer dereferences.</p>
+<p>The struct is kept private as otherwise refactoring it would likely touch the whole system. To create and manipulate values the <code>language.h</code> exposes a number of factory and getter/setter functions. Let&#39;s have a look at creating a number:</p>
+<pre><code class="language-c">JsValue <span class="token operator">*</span><span class="token function">jsValueCreateNumber</span><span class="token punctuation">(</span>double number<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    JsValue<span class="token operator">*</span> val <span class="token operator">=</span> <span class="token function">gcAllocate</span><span class="token punctuation">(</span><span class="token function">sizeof</span><span class="token punctuation">(</span>JsValue<span class="token punctuation">)</span><span class="token punctuation">,</span> NUMBER_TYPE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    val<span class="token operator">-</span><span class="token operator">></span>value<span class="token punctuation">.</span>number <span class="token operator">=</span> number<span class="token punctuation">;</span>
+    <span class="token keyword">return</span> val<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>You can see we allocate a value (<code>gcAllocate</code> allocates to the managed heap that is used to implemented garbage-collection) and then store the passed <code>double</code> in our value union. Since JS has <a href="https://en.wikipedia.org/wiki/IEEE_754" >IEEE-754</a> floating-point arithmetic, <code>double</code> gives us the 64 bit floating-point semantics we need. Code that needs to get at the value will call the <code>jsValueNumber(JsValue)</code> getter:</p>
+<pre><code class="language-c">double <span class="token function">jsValueNumber</span><span class="token punctuation">(</span>JsValue<span class="token operator">*</span> val<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> val<span class="token operator">-</span><span class="token operator">></span>value<span class="token punctuation">.</span>number<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>For complex types and strings the <code>pointer</code> union member will point at another struct that contains the value, accessed via the <code>jsValuePointer(*JsValue) *void</code> method. </p>
+<h2 id="null-undefined-booleans">Null, undefined, booleans</h2>
+<p>I&#39;ve implemented each of these by defining constants - that way the cost of a null, undefined, or bool value is a single pointer. I&#39;ve put them behind inlineable <code>getTrue()</code> methods. I might eventually get around to checking if the efficiency is sufficient: next time!</p>
+<pre><code class="language-js"><span class="token keyword">var</span> num1 <span class="token operator">=</span> <span class="token number">42.7</span>
+<span class="token keyword">var</span> num2 <span class="token operator">=</span> <span class="token number">17</span> <span class="token operator">+</span> num1
+<span class="token keyword">var</span> num3 <span class="token operator">=</span> <span class="token boolean">true</span> <span class="token operator">*</span> num2
+<span class="token keyword">var</span> val <span class="token operator">=</span> <span class="token punctuation">(</span>num3 <span class="token operator">></span> <span class="token number">5</span><span class="token punctuation">)</span> <span class="token operator">===</span> <span class="token boolean">true</span></code></pre>
+<p>Ends up as:</p>
+<pre><code class="language-c"><span class="token function">envDeclare</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> interned_1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+JsValue<span class="token operator">*</span> init_2 <span class="token operator">=</span> <span class="token punctuation">(</span>internedNumber_3 <span class="token comment">/* 42.7 */</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">envSet</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> interned_1<span class="token punctuation">,</span> init_2<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">envDeclare</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> interned_4<span class="token punctuation">)</span><span class="token punctuation">;</span>
+JsValue<span class="token operator">*</span> left_6 <span class="token operator">=</span> <span class="token punctuation">(</span>internedNumber_8 <span class="token comment">/* 17 */</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+JsValue<span class="token operator">*</span> right_7 <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token function">envGet</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> interned_1 <span class="token comment">/* num1 */</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+JsValue<span class="token operator">*</span> init_5 <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token function">addOperator</span><span class="token punctuation">(</span>left_6<span class="token punctuation">,</span> right_7<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">envSet</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> interned_4<span class="token punctuation">,</span> init_5<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">envDeclare</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> interned_9<span class="token punctuation">)</span><span class="token punctuation">;</span>
+JsValue<span class="token operator">*</span> left_11 <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token function">getTrue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+JsValue<span class="token operator">*</span> right_12 <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token function">envGet</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> interned_4 <span class="token comment">/* num2 */</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+JsValue<span class="token operator">*</span> init_10 <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token function">multiplyOperator</span><span class="token punctuation">(</span>left_11<span class="token punctuation">,</span> right_12<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">envSet</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> interned_9<span class="token punctuation">,</span> init_10<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">envDeclare</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> interned_13<span class="token punctuation">)</span><span class="token punctuation">;</span>
+JsValue<span class="token operator">*</span> left_17 <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token function">envGet</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> interned_9 <span class="token comment">/* num3 */</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+JsValue<span class="token operator">*</span> right_18 <span class="token operator">=</span> <span class="token punctuation">(</span>internedNumber_19 <span class="token comment">/* 5 */</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+JsValue<span class="token operator">*</span> left_15 <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token function">GTOperator</span><span class="token punctuation">(</span>left_17<span class="token punctuation">,</span> right_18<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+JsValue<span class="token operator">*</span> right_16 <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token function">getTrue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+JsValue<span class="token operator">*</span> init_14 <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token function">strictEqualOperator</span><span class="token punctuation">(</span>left_15<span class="token punctuation">,</span> right_16<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">envSet</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> interned_13<span class="token punctuation">,</span> init_14<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token punctuation">;</span></code></pre>
+<p>You can see the numbers are &#39;interned&#39; - which is literal numbers in the source-code are pre-allocated at program startup, and are not part of garbage-checking.</p>
+<p>Next time I&#39;ll dig into the more complex types: objects, arrays, functions and strings.</p>
+
+  
+            </div>
+        </div>
+        <div class="footer reading">
+          <div class="container">
+            <p>📩 hello＠timr · co</p>
+          </div>
+        </div>
+      </body>

@@ -1,0 +1,57 @@
+<!doctype html>
+      <head>
+        <title>Twedar - machine learning side project</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" href="/blogcss/normalize.css" type="text/css">
+        <link rel="stylesheet" href="/blogcss/style.css" type="text/css">
+        <link rel="stylesheet" href="/blogcss/prism-ghcolors.css" type="text/css">
+        <script type="text/javascript">
+          var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-24335480-1']);
+          _gaq.push(['_trackPageview']);
+
+          function asyncScript(src) {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = src;
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          }
+          asyncScript(('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js');
+        </script>
+      </head>
+      <body class="article">
+        <div id="mast">
+          <div class='top-bar reading'>
+              <div class="links logical">
+                <div class="navigation logical">
+                  <a href="/blog">Home</a>
+                  <a href="https://feeds.feedburner.com/TimRufflesBlog">RSS</a>
+                  <a href="/blogme">
+                      Tim Ruffles
+                  </a>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div id="content" class="reading">
+           
+
+           <div id="body">
+              <h1><a href="/blogtwedar-machine-learning-side-project">Twedar - machine learning side project</a></h1>
+  <p><a href="http://twedar.herokuapp.com" >Twedar</a> is a little side-project I built about two years back with <a href="https://twitter.com/philip_cole" >Philip Cole</a>. It&#39;s a live-updated Twitter search, with the power to filter out any noise from unrelated subjects that match your keywords. If you&#39;re interested in the <a href="https://www.ruby-lang.org" >Ruby programming language</a> and search Twitter for &#39;Ruby&#39; you&#39;ll get loads of unrelated tweets about rubies in jewellery, people called ruby, ruby in song lyrics, etc. Twedar lets you cut them out.</p>
+<p>Behinds the scenes is a really simple version of a technology like the spam filters in Gmail that stops you hearing about all those anatomy enhancement products.</p>
+<p>It was fun to build, but we never released it properly! So I&#39;m doing that now - have a play and tell us what you think.</p>
+<h2 id="filtering-tweets">Filtering tweets</h2>
+<p>Twedar uses a naive bayes classifier. Bayes rule is a lovely little idea that&#39;s surprisingly intuitive. Here&#39;s a <a href="http://www.slideshare.net/timruffles1/naturallanguage-processing-with-naive-bayes" >presentation</a> I made about using Bayesian filtering for classifications; there are definitely <a href="https://www.coursera.org/course/nlp" >better</a> <a href="https://www.udacity.com/course/cs271" >resources</a> out there!</p>
+<h2 id="have-a-look-at-the-code">Have a look at the code</h2>
+<p>Read through the <a href="https://github.com/timruffles/twitter_ml_processes" >code</a> - it was the first real node app I wrote. The <a href="https://github.com/timruffles/houses" >front-end</a> is written in Backbone &amp; Rails.</p>
+
+  
+            </div>
+        </div>
+        <div class="footer reading">
+          <div class="container">
+            <p>📩 hello＠timr · co</p>
+          </div>
+        </div>
+      </body>

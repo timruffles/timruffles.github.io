@@ -1,0 +1,79 @@
+<!doctype html>
+      <head>
+        <title>How much iOS can you learn in a day?</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" href="/blogcss/normalize.css" type="text/css">
+        <link rel="stylesheet" href="/blogcss/style.css" type="text/css">
+        <link rel="stylesheet" href="/blogcss/prism-ghcolors.css" type="text/css">
+        <script type="text/javascript">
+          var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-24335480-1']);
+          _gaq.push(['_trackPageview']);
+
+          function asyncScript(src) {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = src;
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          }
+          asyncScript(('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js');
+        </script>
+      </head>
+      <body class="article">
+        <div id="mast">
+          <div class='top-bar reading'>
+              <div class="links logical">
+                <div class="navigation logical">
+                  <a href="/blog">Home</a>
+                  <a href="https://feeds.feedburner.com/TimRufflesBlog">RSS</a>
+                  <a href="/blogme">
+                      Tim Ruffles
+                  </a>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div id="content" class="reading">
+           
+
+           <div id="body">
+              <h1><a href="/bloghow-much-ios-can-you-learn-in-a-day">How much iOS can you learn in a day?</a></h1>
+  <div class="summary">
+  <h3>Summary</h3>
+  <p>In one day, starting with no Objective C/iOS knowledge, what can you make? Using O'Reilly's <a href="http://my.safaribooksonline.com/9781449327088/" title="Programming iOS">Programming iOS</a>, the quick <a href="http://cocoadevcentral.com/d/learn_objectivec/">Objective C guide</a> and <a href="http://www.raywenderlich.com/5138/beginning-storyboards-in-ios-5-part-1">Matthijs Hollemans's</a> guide to iOS, it's quite plausible to have built a simple <a href="/blogabout:blank#day-zero">add items to a list</a> app by the day's end. Kudos Apple!</p>
+</div>
+
+<p>I wanted to make an app that helps you achieve your goals. Mobile seemed the only sensible way to deliver a goal tracking application, as when you&#39;ve just finished your run you&#39;d want to tick it off then and there.</p>
+<h2 id="why-not-html5">Why not HTML5?</h2>
+<p>I had a look for HTML5 frameworks but all of their UIs seemed sluggish and ugly. I know how hard it is to match the level of interaction and detail iOS has. I&#39;ve previously made a performance focussed mobile framework for an unreleased game with <a href="http://picklive.com" >Picklive</a>. It ran smoothly only by cheating: it didn&#39;t have to emulate scrolling as all views fit the screen.</p>
+<p>Since this app would have lots of lists, it seemed like 90% of the work would be reimplementing (badly) views iOS gave you for free (which look beautiful). I decided to take a peek to see how quickly I could get up to speed.</p>
+<h2 id="memory-management-in-2012">Memory management: in 2012?!</h2>
+<p>The reason I persevered is probably <code>@autoreleasepool</code>. This <a href="http://developer.apple.com/library/ios/#releasenotes/ObjectiveC/RN-TransitioningToARC/Introduction/Introduction.html#//apple_ref/doc/uid/TP40011226" >rather magic compiler addition</a> allows you to get your hands dirty without being faced with the additional yak-shaving of memory management piled top of learning a new language and the rather sizeable Cocoa APIs. It&#39;s a new feature of iOS 5, and during the  admittedly simple work I did it worked without a hitch.</p>
+<h2 id="xcode">XCode</h2>
+<p>I&#39;m normally a vim user, so booting up the IDE was a bit of a shock. That said, it&#39;s a lot faster than I remember Eclipse or NetBeans, and has Apple slickness aplently.</p>
+<p>The Storyboard is impressive. Drag to bind UI actions to transitions, or generate code that obtains references to UI widgets by dragging. Interface Builder is also drag&#39;n&#39;drop, with pallets to modify fonts, colours etc. </p>
+<img alt="Storyboard view" src="/blogimg/storyboard.png">
+
+<p>It&#39;s great. I&#39;ve done a fair bit of work with Flex in the past and I enjoyed this approach a lot more. Flex had an interface builder which output <a href="http://en.wikipedia.org/wiki/MXML" >MXML</a>. This markup was used to bind data and events. It felt a lot clunkier. I prefer this approach: view implementation hidden away in the .board rather than in an additional markup layer, and doing anything complicated in code.</p>
+<p>That said, I&#39;ve only done extremely simply work so far, and perhaps there are storyboard monsters lurking for more complicated apps.</p>
+<h2 id="objective-c">Objective C</h2>
+<p>The language is a little ugly, but if you take 10 minutes to carefully peruse the message passing the biggest obstacle is overcome. I made 2.5k words of notes on the language features and API so there&#39;s a fair bit to learn. It&#39;s pleasantly modern: you get proper enumerators rather than old-skool <code>for(int i ...)</code> loops, <code>object.property</code> notation (not silly <code>object-&gt;property</code>), and inline <a href="http://developer.apple.com/library/ios/#documentation/cocoa/Conceptual/Blocks/Articles/bxGettingStarted.html#//apple_ref/doc/uid/TP40007502-CH7-SW1" >lambda/blocks</a>.</p>
+<h2 id="progress">Progress</h2>
+<p>So all in all I&#39;m dead impressed. It was pretty steady going to get my head around grabbing the <code>ViewControllers</code>, wiring up events and segues (transitions) and creating and sharing a simple mutable array as the model, storing my <code>Project</code>s.</p>
+<p>XCode hides a lot of verbosity and boiler plate from you. I&#39;d much prefer to read complicated or algorithmic code in another language (take your pick of Haskell, Ruby, Python, Coffeescript), but Objective C is OK. Its message-passing nature has a nice quirk in making methods self-documenting in the extreme. Message names include a colon for each parameter, so <code>makeTriple:::</code>. It&#39;s nice to give hints to the arguments, so <code>colorWithRed: (int) red green: (int) green blue: (int) blue</code>.</p>
+<p>I can&#39;t see any barriers to getting the app done fast, and, best of all, I&#39;m spending all of my time implementing the app rather than re-implementing generic UI elements. Yay! I&#39;m planning to rewrite what I&#39;ve got with CoreData, and then press on with integrating it with the Rails-based backend.</p>
+<p><a id="day-zero" href="/blog"></a></p>
+<h2 id="output-from-ios-day-zero">Output from iOS day zero</h2>
+<iframe width="420" height="315" src="https://www.youtube.com/embed/W9CZ9CrtSBo" frameborder="0" allowfullscreen=""></iframe>
+
+<h2 id="git-log">Git log</h2>
+
+  
+            </div>
+        </div>
+        <div class="footer reading">
+          <div class="container">
+            <p>📩 hello＠timr · co</p>
+          </div>
+        </div>
+      </body>
