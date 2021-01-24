@@ -35,6 +35,7 @@ export function layout({
           }
           asyncScript(('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js');
         </script>
+        <link rel="alternate" type="application/rss+xml" title="Subscribe to RSS feed" href="${baseURL}rss.xml" />
       </head>
       <body class="${root ? "root" : "article"}">
         <div id="mast">
