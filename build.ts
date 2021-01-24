@@ -39,6 +39,9 @@ async function main() {
     .filter(a => a.category !== 'pages')
     .sort((a,b) => +b.date - +a.date)
 
+  // needs to exist on the gh-pages branch, so write each time
+  fs.writeFileSync(`${outputPath}/CNAME`, 'www.timr.co')
+
   fs.writeFileSync(`${outputPath}/index.html`,  layout({
     title: "Tim Ruffles' blog",
     slug: "",
