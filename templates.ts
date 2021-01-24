@@ -8,11 +8,13 @@ export function layout({
  slug,
  baseURL,
  content,
+  description = '',
 }: {
   title: string,
   slug: string,
   baseURL: string,
   content: string,
+  description?: string,
 }) {
   const root = slug === ""
   return `<!doctype html>
@@ -20,6 +22,7 @@ export function layout({
         <title>${title}</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta name="viewport" content="width=device-width">
+        ${description ? `<meta name="description" content="${escape(description)}" >` : ''}
         <link rel="stylesheet" href="${baseURL}css/normalize.css" type="text/css">
         <link rel="stylesheet" href="${baseURL}css/style.css" type="text/css">
         <link rel="stylesheet" href="${baseURL}css/prism-ghcolors.css" type="text/css">

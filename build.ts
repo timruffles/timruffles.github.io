@@ -46,6 +46,7 @@ async function main() {
     title: "Tim Ruffles' blog",
     slug: "",
     baseURL: baseURL,
+    description: "Tim  Ruffles' blog - software engineering and data-visualization",
     content: homePage(articlesDesc.slice(0, 15)),
   }));
 
@@ -87,7 +88,8 @@ function writeArticle(outputPath: string, article: Article, cfg: Config) {
     title: article.title,
     slug: article.slug,
     baseURL: cfg.baseURL,
-    content: page(article, cfg)
+    content: page(article, cfg),
+    description: article.description,
   })
   writeHTMLPage(outputPath, article.slug, html);
 }
