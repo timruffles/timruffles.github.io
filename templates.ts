@@ -43,7 +43,7 @@ export function layout({
               <div class="links logical">
                 <div class="navigation logical">
                   <a href="${baseURL}">Home</a>
-                  <a href="https://feeds.feedburner.com/TimRufflesBlog">RSS</a>
+                  <a href="${baseURL}rss.xml">RSS</a>
                   <a href="${baseURL}me">
                       ${root ? 'Me' : 'Tim Ruffles'}
                   </a>
