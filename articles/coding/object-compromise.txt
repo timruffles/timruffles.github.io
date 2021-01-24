@@ -2,12 +2,12 @@ title: "The Object Compromise"
 date: "2021/01/23"
 body: |
     
-    I’ve observed a pattern I call the ‘object compromise’. It's an architecture which emerges when its authors believe aspects of traditional object-oriented programming are harmful, but are not using a fully functional language<a href="#langs">¹</a> (and don't wish to attempt the Pyrrhic task of emulating one).
+    I’ve observed a pattern I call the ‘object compromise’. It's an architecture which emerges when its authors believe aspects of traditional object-oriented programming are harmful, but are not using a fully functional language[1](#langs) (and don't wish to attempt the Pyrrhic task of emulating one).
 
     The ’rules’ that define the compromise are:
 
     1. application data is modelled with [values, not objects](#values)
-    2. use methods for all code that perform side-effects<a href="#side-effects">²</a> (and nowhere else)
+    2. use methods for all code that perform side-effects[2](#side-effects) (and nowhere else)
     3. pass objects' dependencies in constructors
     4. never use inheritance in application code
     5. construct all objects at application startup time (except where impossible)

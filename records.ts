@@ -57,13 +57,17 @@ export class Article {
         el.src = prepareHref(el.src)
       }
       for(const el of dom.querySelectorAll('a')) {
-        el.href = prepareHref(el.href)
+        el.href = prepareHref(el.href.replace(/about:blank/, ''))
       }
       return dom.body.innerHTML
     }
 
     function link(href: string, title: string, text: string) {
-      return `<a href="${prepareHref(href)}" ${title ? `title="${title} ` : ''}>${text}</a>`
+      // add sup to footnote only links
+      if(/^\s*\d+\s*$/.test(text)) {
+        text = `<sup>${text}</sup>`
+      }
+      return `<a href="${prepareHref(href)}" ${title ? `title="${title}" ` : ''}>${text}</a>`
     }
 
     function prepareHref(href: string) {
