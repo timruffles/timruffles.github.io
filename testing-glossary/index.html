@@ -48,12 +48,12 @@
   </dt>
   <dd>
     &lt;%= (value['text'] || value).gsub(/\[([^\]]+)\]\(([^\)]+)\)/) {
-      "<a href="/about:blank#{$2}">#{$1}</a>"
+      "<a href="#{$2}">#{$1}</a>"
     }.gsub(/\[([^\]]+)\]/) do  
-      "<a href="/about:blank##{$1}">#{$1}</a>"
+      "<a href="##{$1}">#{$1}</a>"
     end %&gt;
     &lt;% if value.is_a?(Hash) &amp;&amp; syn = value['also'] %&gt;
-      <span class="see-also">Also called: <a href="/about:blank#%3C%=%20syn%20%%3E"> &lt;%= syn %&gt;</a>.</span>
+      <span class="see-also">Also called: <a href="#%3C%=%20syn%20%%3E"> &lt;%= syn %&gt;</a>.</span>
     &lt;% end %&gt;
   </dd>
 &lt;% end %&gt;

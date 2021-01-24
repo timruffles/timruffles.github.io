@@ -1,0 +1,95 @@
+<!doctype html>
+      <head>
+        <title>The Object Compromise</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width">
+        <meta name="description" content="%0A" >
+        <link rel="stylesheet" href="/css/normalize.css" type="text/css">
+        <link rel="stylesheet" href="/css/style.css" type="text/css">
+        <link rel="stylesheet" href="/css/prism-ghcolors.css" type="text/css">
+        <script type="text/javascript">
+          var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-24335480-1']);
+          _gaq.push(['_trackPageview']);
+
+          function asyncScript(src) {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = src;
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          }
+          asyncScript(('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js');
+        </script>
+        <link rel="alternate" type="application/rss+xml" title="Subscribe to RSS feed" href="/rss.xml" />
+      </head>
+      <body class="article">
+        <div id="mast">
+          <div class='top-bar reading'>
+              <div class="links logical">
+                <div class="navigation logical">
+                  <a href="/">Home</a>
+                  <a href="/rss.xml">RSS</a>
+                  <a href="/me">
+                      Tim Ruffles
+                  </a>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div id="content" class="reading">
+           
+
+           <div id="body">
+              <h1><a href="/the-object-compromise">The Object Compromise</a></h1>
+  <p>I’ve observed a pattern I call the ‘object compromise’. It&#39;s an architecture which emerges when its authors believe aspects of traditional object-oriented programming are harmful, but are not using a fully functional language<a href="#langs" ><sup>1</sup></a> (and don&#39;t wish to attempt the Pyrrhic task of emulating one).</p>
+<p>The ’rules’ that define the compromise are:</p>
+<ol>
+<li>application data is modelled with <a href="#values" >values, not objects</a></li>
+<li>use methods for all code that perform side-effects<a href="#side-effects" ><sup>2</sup></a> (and nowhere else)</li>
+<li>pass objects&#39; dependencies in constructors</li>
+<li>never use inheritance in application code</li>
+<li>construct all objects at application startup time (except where impossible)</li>
+</ol>
+<p>This results in <a href="#collaboration-emerges" >flat system of stateless collaborative objects</a>, with behaviour implemented via <a href="#orchestrate-with-methods-not-mutation" >methods not mutation</a>. The object system is sparse as well as flat: there are <a href="#fewer-deeper-objects" >fewer objects</a> - on a type and instance basis - than in trad OO. Persistence is necessarily <a href="#persistence-is-explicit" >explicit</a> - the Active Record pattern is completely contrary to the rules above.</p>
+<p>You end up with a lot of objects that have verb-y names. Behaviour is organised around use-cases, not data type. That&#39;s a good thing - you don&#39;t end up with your User and <code>$MostImportantDataType</code> (e.g <code>Tweet</code> for Twitter) data-types growing unstoppably, which is what happens if you organise operations by data type.</p>
+<p>If there&#39;s interest, I&#39;d be happy to write a small demonstration app in this style.</p>
+<h2 id="collaboration-emerges">Collaboration emerges</h2>
+<p>Rule 4 means you have no inheritance hierarchy. That naturally forces you to structure you code via collaboration. You’ll model a flow which has multiple similar implementations by moving the shared logic into additional, smaller objects, and encode more logic in values.</p>
+<h2 id="statelessness-emerges">Statelessness emerges</h2>
+<p>Rule 5 ensures you wire up your graph of collaborators at application startup time. That makes it clear what is a runtime and what is a startup/config time dependency. I find for 95% of use-cases (e.g for only 5% of your app&#39;s API endpoints) there is no need to create objects at runtime.</p>
+<p>Having the grand majority of wiring done at startup time enables comprehensive unit-testing: you can mock your collaborators. Collaborators organized in layers should prevent you from having too many (e.g a HTTP or gRPC controller might talk only to domain objects, rather than the lower-level persistence and service-client layer).</p>
+<p>The last 5% of cases cover two requirements. Firstly if you need polymorphism based on runtime data - e.g you load a flag from a database, and determine which implementation you need. Secondly for runtime state too complex to be handled by local variables and a sequence of method calls, that isn&#39;t better held in a memory store like Redis. Both are handled by adding factory methods to your service-lifespan objects to construct these short lived objects.</p>
+<h2 id="orchestrate-with-methods-not-mutation">Orchestrate with methods, not mutation</h2>
+<p>Methods orchestrate stateful processes with the help of multiple collaborators, and runtime state is handled by variables (or parameter passing). That&#39;s fine, as most applications keep application state outside the system in databases or in-memory stores.</p>
+<p>The few places that emerge that do want runtime state therefore stand out - rather than being just another object with mutable fields. You&#39;ll construct them explicitly via factory methods, and they&#39;ll be passed between methods.</p>
+<h2 id="fewer-deeper-objects">Fewer, deeper objects</h2>
+<p>There are fewer objects relative to size of the system vs traditional OO style - both in number of constructors/classes but also in the number of instances. Behaviour that would traditionally be implemented using many objects will be handled by a single object orchestrating values returned from and passed into many collaborating objects (representing remote services, databases, etc).</p>
+<h2 id="persistence-is-explicit">Persistence is explicit</h2>
+<p>This pattern completely rules out the active-record pattern. Your application data are values, they do not have behaviour attached. The benefit is that code which writes persistent application state becomes explicit - especially if you prefer <code>const</code> in TypeScript or avoid reassignment in Go. However, this is more work than having powerful (which must mean implicit) entity objects which can manage their own state.</p>
+<p>This style is also more amenable to the extraction of services when necessary. Your logic doesn’t get written with assumptions about how data is persisted and retrieved. Attempting to add services to complex logic in - for instance - a Rails app which makes heavy use of reads and writes via model relationships will require a rewrite of that use-case. Here, you’ll change the implementation of some object collaborators to be remote, and only have to add RPC error-handling logic to callers.</p>
+<h2 id="faq">FAQ</h2>
+<h3 id="but-objects-mean-otherthing">But objects mean ${otherThing}</h3>
+<p>When I say object I have in mind Alan Kay’s conception of <a href="https://wiki.c2.com/?AlanKayOnMessaging" >code that communicates via messages</a>, not by exposing internals for reading or mutation. I don’t mean JavaScript (or Java’s) <code>Object</code>, or a mutable hash-map. I am referring to the ‘communicate via messages’ pattern which can be implemented in many ways in many languages (e.g Erlang has real messages with an inbox, JavaScript emulates it simply by functions which refer to <code>this</code>, Ruby has a distinct dispatch step for message/method sends).</p>
+<p>Objects do not have value semantics - the instance you have matters, regardless of whether its replies to messages are currently the same as another object. This is essential to object behaviour - two objects with ‘the same’ value now may be in the midst of two very different stateful processes talking to different collaborators, and treating them as interchangeable would be disastrous.</p>
+<p>Mutable fields violate the clarity of communication via messages in Kay’s vision. Setters and getters are symptoms of a procedural style of OO, which is likely to be using objects as mutable data-structures not collaborators.</p>
+<p>Inheritance - most perniciously when combined with mutable fields - makes analysing and extending object-oriented systems harder due to the intimate but implicit coupling it involves. Collaboration has proved to be the better approach.</p>
+<h3 id="what-are-values">What are values?</h3>
+<p><a id="values" href="/"></a></p>
+<p>Values are data which are equal if their component parts are equal. For instance, <code>let a = 1; let b = 1; a == b</code> is a simple example of value semantics: data in different memory locations is equal. Complex data can also have value semantics - for instance two address structs with the same street, town and country. Value semantics can also be thought of as the opposite of object semantics: object equality semantics mean objects are only equal to themselves, i.e comparison of two references to the same place in memory.</p>
+<h3 id="is-this-just-the-functional-core-imperative-shell">Is this just the functional core, imperative shell?</h3>
+<p>Somewhat, except there isn’t much of a functional core, i.e I haven’t observed a meaningful amount of application logic implemented as functions and values which is then manipulated by objects. Here application logic is interwoven in methods on objects. I’ve not seen a large functional-core imperative-shell application so I’ll not comment on whether that would be ‘better’, I think the pro/cons would be depend on the domain and project/team maturity.</p>
+<h3 id="is-it-just-good-object-oriented-style">Is it just good object-oriented style?</h3>
+<p>Probably, but there is no general definition of good object-oriented style 😁. This pattern is largely equivalent to the style and nomenclature of <a href="http://www.growing-object-oriented-software.com" >Growing Object-Oriented Software Guided by Tests</a>. However, that book defines it in abstract terms (“Compose objects to describe system behaviour”). I find a concrete, bottom-up, definition based on which language language features to use, and what for, provides a more precise (and easy to follow) definition.</p>
+<ol>
+<li><a id="langs" href="/"></a> I’ve had most experience of this style writing Go at GitHub and Plaid, and TypeScript for my own projects. Both JavaScript and Go have functional features, but compared to, say, Haskell or Clojure, they clearly lack core primitives for handling state in a functional way (monads or atoms etc respectively), and aren’t idiomatically functional ‘in the large’ (i.e beyond Array.reduce)</li>
+<li><a id="side-effects" href="/"></a> including method calls on objects. Aside from that, the usual: network, logging, metrics, disk, databases, randomness, etc.</li>
+</ol>
+
+  
+            </div>
+        </div>
+        <div class="footer reading">
+          <div class="container">
+            <p>📩 hello＠timr · co</p>
+          </div>
+        </div>
+      </body>
