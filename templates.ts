@@ -108,6 +108,7 @@ export function homePage(articles: Article[]): string {
   return `<div class="posts">
     ${articles.map(article => `
         <a href="${article.slug}" class=post title="${article.title}">
+        
           <h4>
             ${article.title}
           </h4>
