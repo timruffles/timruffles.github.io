@@ -1,0 +1,77 @@
+<!doctype html>
+      <head>
+        <title>The Weirdest JavaScript syntax</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" href="/css/normalize.css" type="text/css">
+        <link rel="stylesheet" href="/css/style.css" type="text/css">
+        <link rel="stylesheet" href="/css/prism-ghcolors.css" type="text/css">
+        <script type="text/javascript">
+          var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-24335480-1']);
+          _gaq.push(['_trackPageview']);
+
+          function asyncScript(src) {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = src;
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          }
+          asyncScript(('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js');
+        </script>
+      </head>
+      <body class="article">
+        <div id="mast">
+          <div class='top-bar reading'>
+              <div class="links logical">
+                <div class="navigation logical">
+                  <a href="/">Home</a>
+                  <a href="https://feeds.feedburner.com/TimRufflesBlog">RSS</a>
+                  <a href="/me">
+                      Tim Ruffles
+                  </a>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div id="content" class="reading">
+           
+
+           <div id="body">
+              <h1><a href="/the-weirdest-javascript-syntax">The Weirdest JavaScript syntax</a></h1>
+  <p>I have bad news. The following is valid, spec compliant JS syntax:</p>
+<pre><code class="language-js"><span class="token function">foo</span><span class="token punctuation">(</span><span class="token string">"bar"</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token number">42</span><span class="token punctuation">;</span></code></pre>
+<p>What in the Crockford is going on?</p>
+<p>Working on my <a href="https://github.com/timruffles/js-to-c">JS to C compiler</a> I&#39;ve spent a fair bit of time reading and implementing the ECMAScript spec, specifically ES5 strict mode as it&#39;s small(er). It&#39;s in ES5 and earlier that this weird syntax exists - it <a href="http://ecma-international.org/ecma-262/6.0/#sec-additions-and-changes-that-introduce-incompatibilities-with-prior-editions">was removed in ES2015</a>. If you read the ES1-5 specs on function calls, <a href="https://www.ecma-international.org/ecma-262/5.1/#sec-8.7">you&#39;ll find</a> functions can return an internal spec type called a <code>Reference</code></p>
+<blockquote>
+<p>one difficulty: function calls are permitted to return references. This possibility is admitted purely for the sake of host objects. No built-in ECMAScript function defined by this specification returns a reference and there is no provision for a user-defined function to return a reference. </p>
+</blockquote>
+<p>The upshot is the spec allows assignment to function calls. A imaginary, spec-compliant DOM API could therefore expose a <code>windowTitle()</code> setter, that&#39;d work like:</p>
+<pre><code class="language-js"><span class="token function">windowTitle</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token string">"pear"</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>window<span class="token punctuation">.</span>title<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// pear</span></code></pre>
+<p>The <code>Reference</code> spec type is effectively a base (object or environment) and a name, e.g the <code>window</code> object as a base and <code>&quot;foo&quot;</code> as a name. &#39;Host objects&#39; are APIs not defined by the language spec, but exposed to user programs by a specific implementation, e.g a specific browser JS DOM, or Node&#39;s APIs.</p>
+<p><code>Reference</code> is a spec type rather than a JS type: it&#39;s merely a description of behaviour in various spec algorithms, so it&#39;d never be visible in JS programs. You couldn&#39;t store a reference in a variable, for instance, so the spec wouldn&#39;t have allowed for behaviour like this:</p>
+<pre><code class="language-js"><span class="token keyword">var</span> someRef <span class="token operator">=</span> <span class="token function">windowTitle</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+someRef <span class="token operator">=</span> <span class="token string">"pear"</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>window<span class="token punctuation">.</span>title<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// pear</span></code></pre>
+<h2 id="history">History</h2>
+<p>I had to find out more - when and why did this end up in the spec? Digging through the archives, this feature was part of the very first <a href="https://www.ecma-international.org/publications/files/ECMA-ST-ARCH/ECMA-262,%201st%20edition,%20June%201997.pdf">ES1 spec</a> from 1997, which was capturing all the craziness that emerged from the early days of JS. The wording stays unchanged in the ES5 spec.</p>
+<p>I had to track down some examples of this feature being used. I found lots of references to people saying it was required by &quot;old DOM APIs&quot;, in IE specifically. Then, in the ESDiscuss archive, Brendan Eich gave <a href="https://esdiscuss.org/topic/a-random-collection-of-es4-draft-spec-surprises-and-thoughts#content-4">an example</a> in a discussion about cleaning up the spec for the never-to-be-released ES4:</p>
+<blockquote>
+<p>Indeed, IE JScript (for VBScript compatibility) long ago added support for &quot;Reference&quot; type return values from certain native (&quot;host object&quot;) methods. This enabled <code>domNode.item(i) = j</code>, e.g. SpiderMonkey added support because someone embedding its open source wanted to support code written for JScript.</p>
+</blockquote>
+<p>So the complete history of this feature goes: VBScript to IE JScript to Mozilla JavaScript to the spec.</p>
+<p>I also found a <a href="https://stackoverflow.com/questions/16686974/can-a-functions-return-value-be-an-lvalue-in-javascript">complete code example</a> of the kind of, I assume, VBScript inspired APIs this&#39;d support (can&#39;t find an official API guide for this though, frustratingly):</p>
+<pre><code class="language-js"><span class="token keyword">var</span> sh <span class="token operator">=</span> WScript<span class="token punctuation">.</span><span class="token function">CreateObject</span><span class="token punctuation">(</span><span class="token string">"Wscript.Shell"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> env <span class="token operator">=</span> sh<span class="token punctuation">.</span><span class="token function">Environment</span><span class="token punctuation">(</span><span class="token string">"PROCESS"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">env</span><span class="token punctuation">(</span><span class="token string">"TEST"</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token string">"testvalue"</span><span class="token punctuation">;</span></code></pre>
+<p>Absolutely no reason this couldn&#39;t have been implemented via <code>sh.Environment(&quot;Process&quot;).Set(&quot;TEST&quot;,&quot;testvalue&quot;)</code>, but one fateful day in the 90s someone made a different call. That it affected five generations of the language spec teaches us syntax is the slowest thing to change out there: language designers beware!</p>
+
+  
+            </div>
+        </div>
+        <div class="footer reading">
+          <div class="container">
+            <p>📩 hello＠timr · co</p>
+          </div>
+        </div>
+      </body>

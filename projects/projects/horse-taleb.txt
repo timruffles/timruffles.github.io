@@ -1,9 +1,0 @@
-title: HorseTaleb
-date: "13/08/2013"
-code_url: https://github.com/timruffles/horse-taleb
-body: |
-
-  HorseTaleb generates random Nassim-Taleb-eqsue tweets via a Markov Chain. It was written to experiment with Clojure and machine-learning techniques.
-
-
-

@@ -1,5 +1,0 @@
-title: "Stubs, mocks and faking in Javascript testing"
-body: |
-  However, this technique can be overused. Since we're not testing real methods, our tests for this component will still pass if we change the API of the stubbed component. Tests that stub are true unit tests - they really only test whether a component works according to a version of the system API. If that API changes, we've got out of date unit tests and the integration problems will only appear if we have functional tests.
-  
-  For that reason I prefer to stub only when strictly necessary. Since one of our core principles is that we'll not have full test coverage, and that we want the biggest bang out of our testing buck, not stubbing everything gives you partial integrations tests between components. They will fail when you change the API.

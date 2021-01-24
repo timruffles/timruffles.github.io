@@ -1,0 +1,83 @@
+<!doctype html>
+      <head>
+        <title>Server-Side Rendering is a Thiel Truth</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" href="/css/normalize.css" type="text/css">
+        <link rel="stylesheet" href="/css/style.css" type="text/css">
+        <link rel="stylesheet" href="/css/prism-ghcolors.css" type="text/css">
+        <script type="text/javascript">
+          var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-24335480-1']);
+          _gaq.push(['_trackPageview']);
+
+          function asyncScript(src) {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = src;
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          }
+          asyncScript(('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js');
+        </script>
+      </head>
+      <body class="article">
+        <div id="mast">
+          <div class='top-bar reading'>
+              <div class="links logical">
+                <div class="navigation logical">
+                  <a href="/">Home</a>
+                  <a href="https://feeds.feedburner.com/TimRufflesBlog">RSS</a>
+                  <a href="/me">
+                      Tim Ruffles
+                  </a>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div id="content" class="reading">
+           
+
+           <div id="body">
+              <h1><a href="/server-side-rendering-is-a-thiel-truth">Server-Side Rendering is a Thiel Truth</a></h1>
+  <p>I recently pondered how I&#39;d answer <a href="https://www.goodreads.com/quotes/1478492-what-important-truth-do-very-few-people-agree-with-you">Peter Thiel&#39;s</a> interview question if my answer had to relate to software:</p>
+<blockquote>
+<p>What important truth do very few people agree with you on?</p>
+</blockquote>
+<p>My answer: server-side rendering is a better choice for many applications:</p>
+<ol>
+<li>it&#39;s cheaper to implement</li>
+<li>it&#39;s easier to make correct</li>
+<li>it&#39;s often as fast, or its performance characteristics are different but acceptable.</li>
+<li>users would prefer your app as a website</li>
+</ol>
+<p>Does it feel uncontroversial to you? I&#39;m glad, but ask yourself: how often you encounter React &#39;apps&#39; that are a couple of forms? Links you can&#39;t open in new tab? Loading spinners before a deep link on an e-commerce site renders? It certainly appears the industry disagrees in practice.</p>
+<p>Client-side rendering has boomed for the decade I&#39;ve been in the industry (and I&#39;ve done lots of client-side). People newer to the industry might never have built a server-side rendered app, so it&#39;s not an open question for them. As a result, for most client-side rendering is uncontroversially the &#39;right&#39; way to build software.</p>
+<p>I think they&#39;re wrong: server-side rendering is more often the better choice.</p>
+<h2 id="why">Why?</h2>
+<h3 id="cheaper">Cheaper</h3>
+<p>You will need a backend anyway. It&#39;ll need to expose data to users. Exposing it as HTML is no harder than doing it via JSON or GraphQL. The data to HTML transformation is still required with client-side rendering, so client-side saves no work, but imposes its own costs.</p>
+<h3 id="correctness-is-easier">Correctness is easier</h3>
+<p>You avoid the hard problems particular to client-side rendering. Your client-side will have its own state to consider on top of the state in your backend, and state is what makes programming hard. It&#39;s long-lived state (versus an HTTP request handler), so resource leaks and inconsistency will be more of a problem. You are writing a distributed system: the state on the client and server are not magically in sync.</p>
+<p>The less this all seems scary to you, the less complex your client-side is, and thus the less justification there is for client-side rendering.</p>
+<h3 id="as-fast-or-faster">As fast, or faster</h3>
+<p>Client-side apps are wads of Javascript that must be loaded and parsed before it can load and parse JSON which it can then transformed into HTML. Precisely nothing about this is <a href="https://hpbn.co/">optimal for browsers and networks</a>. Many applications are used infrequently and browser caches are not magic (and disagree with you about how important you app is), therefore arguing &#39;each user only has to load it once&#39; is bullshit.</p>
+<p>Unless your app is something used frequently and for a decent period, with lots of low-latency interaction (forms do not count: think editing, iterating), it will certainly be faster server-side rendered.</p>
+<h3 id="people-dont-want-to-install-your-app">People don&#39;t want to install your app</h3>
+<p>Many important, profitable, applications aren&#39;t used enough to make a native mobile app worthwhile. Most online shops, banking, festival ticketing, government forms, etc. Therefore you will not have to support both server-side rendering and an API for your native apps</p>
+<h2 id="takeaways">Takeaways</h2>
+<p>Client-side rendering is (obviously) <strong>necessary</strong> to support complex interactions with extremely low-latency: Figma or Google Docs could only be client side apps.</p>
+<p>It is <strong>useful</strong> for write-heavy applications people use interactively for long periods: email, chat.</p>
+<p>It is <strong>harmful</strong> for read-only, or read-mostly applications. Harmful to the implementors as it imposes unnecessary cost, harmful to users as it&#39;s likely slower, less likely to use the web platform correctly and less accessible. Inappropriate use of client-side rendering is why to find out my electricity bill I have to wait ~10 seconds while a big React app loads and then hits up 5 REST endpoints.</p>
+<p>So is your app mostly forms or displaying content? User preference panels? Mortgage applications? Implement it with server-side rendering with a sprinkling of JS to implement widgets the web lacks. If only part of your app requires low-latency interactions, use client-side rendering only there.</p>
+<p>p.s don&#39;t believe it can be fast? Have a quick wander around the <a href="https://forum.dlang.org/">D Forum</a> - it&#39;s many, many times faster than most client-side rendered apps I use. Oh and GitHub (source: <a href="/me">I worked there</a>) is overwhelmingly server-side rendered (with Rails, gasp), and <a href="https://en.wikipedia.org/w/index.php?title=Stack_Overflow&amp;oldid=952002932#Technology">so is StackOverflow</a>. It&#39;s quite surprising that this is a Thiel truth.</p>
+<hr>
+<p>Thanks to <a href="https://twitter.com/appltn">Andy Appleton</a> for review and suggestions.</p>
+
+  
+            </div>
+        </div>
+        <div class="footer reading">
+          <div class="container">
+            <p>📩 hello＠timr · co</p>
+          </div>
+        </div>
+      </body>

@@ -1,6 +1,0 @@
-
-  ## Fork you!
-
-  Forking requires a sacrifice on the part of the new maintainer: it's not totally their code, so it's less fun; the existing maintainer may not cooperate; and the repetitional rewards are lower.
-
-  That said: if you do fork an abandoned projects may the coding gods smile upon you. Double karma!

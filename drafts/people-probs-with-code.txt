@@ -1,8 +1,0 @@
-
-  ## Solving people problems with code
-
-  This is probably too complex a phenomenon for an engineering solution, but there are some existing attempts. The [Ruby toolbox](https://www.ruby-toolbox.com/categories/SQL_Database_Adapters) has an interesting solution with stats for update frequency which I've based library choices on before. 
-
-  <a href="https://www.ruby-toolbox.com/categories/SQL_Database_Adapters"><img alt="Ruby toolbox measures project activity" src="/img/ruby-toolbox.png" class="high_res" /></a>
-
-  The speed at which pull-requests and issues are answered, closed or solved would be another great one. To me the definition of a failed, land-grabbing project would be one with lots of stars & users, but with heaps of unclosed issues and pull-requests months old.

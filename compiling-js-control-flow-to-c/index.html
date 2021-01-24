@@ -1,0 +1,182 @@
+<!doctype html>
+      <head>
+        <title>Compiling JS control-flow to C</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" href="/css/normalize.css" type="text/css">
+        <link rel="stylesheet" href="/css/style.css" type="text/css">
+        <link rel="stylesheet" href="/css/prism-ghcolors.css" type="text/css">
+        <script type="text/javascript">
+          var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-24335480-1']);
+          _gaq.push(['_trackPageview']);
+
+          function asyncScript(src) {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = src;
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          }
+          asyncScript(('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js');
+        </script>
+      </head>
+      <body class="article">
+        <div id="mast">
+          <div class='top-bar reading'>
+              <div class="links logical">
+                <div class="navigation logical">
+                  <a href="/">Home</a>
+                  <a href="https://feeds.feedburner.com/TimRufflesBlog">RSS</a>
+                  <a href="/me">
+                      Tim Ruffles
+                  </a>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div id="content" class="reading">
+           
+
+           <div id="body">
+              <h1><a href="/compiling-js-control-flow-to-c">Compiling JS control-flow to C</a></h1>
+  <p>Let&#39;s look at how I implemented JS&#39;s <code>if</code> statement in the <a href="https://github.com/timruffles/js-to-c/"><code>js-to-c</code></a> compiler. First, let&#39;s write a JS <code>if</code>:</p>
+<pre><code class="language-js"><span class="token keyword">if</span> <span class="token punctuation">(</span>Math<span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">></span> <span class="token number">0.5</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'heads'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'tails'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>This is very simple JS, but here are the steps any JS implementation will have to perform to implement the above:</p>
+<ul>
+<li>1.evaluate the conditional</li>
+<li>1.1 evaluate the Math.random() call</li>
+<li>1.1.1 evaluate <code>Math</code></li>
+<li>1.1.2 evaluate dereferencing <code>&#39;random&#39;</code> from Math</li>
+<li>1.1.3 attempt to call the dereferenced value</li>
+<li>1.2 run <code>&gt;</code> with the result and 0.5</li>
+<li>1.3 check truthiness of the result</li>
+<li><ol start="2">
+<li>run first block if it&#39;s truthy</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>run second block if it&#39;s not, and there is a second block to run</li>
+</ol>
+</li>
+</ul>
+<p>Let&#39;s have a look at the resulting C. There&#39;s a lot of code, but you should be able to track back from the C to the steps above:</p>
+<pre><code class="language-c">  <span class="token comment">/* if */</span>
+  JsValue<span class="token operator">*</span> object_5 <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token function">envGet</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> interned_7 <span class="token comment">/* Math */</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  JsValue<span class="token operator">*</span> property_6 <span class="token operator">=</span> <span class="token punctuation">(</span>interned_8 <span class="token comment">/* random */</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  JsValue<span class="token operator">*</span> callee_4 <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token function">objectGet</span><span class="token punctuation">(</span>object_5<span class="token punctuation">,</span> property_6<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  JsValue<span class="token operator">*</span><span class="token operator">*</span> args_4 <span class="token operator">=</span> NULL<span class="token punctuation">;</span>
+  JsValue<span class="token operator">*</span> left_2 <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token function">functionRunWithArguments</span><span class="token punctuation">(</span>
+      callee_4<span class="token punctuation">,</span> 
+      args_4<span class="token punctuation">,</span>
+      <span class="token number">0</span>
+      <span class="token punctuation">,</span>NULL
+  <span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  JsValue<span class="token operator">*</span> right_3 <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token function">jsValueCreateNumber</span><span class="token punctuation">(</span><span class="token number">0.5</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  JsValue<span class="token operator">*</span> conditionalPredicate_1 <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token function">GTOperator</span><span class="token punctuation">(</span>left_2<span class="token punctuation">,</span> right_3<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">isTruthy</span><span class="token punctuation">(</span>conditionalPredicate_1<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    JsValue<span class="token operator">*</span> call9Arg_0<span class="token punctuation">;</span>
+    JsValue<span class="token operator">*</span> object_10 <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token function">envGet</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> interned_12 <span class="token comment">/* console */</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    JsValue<span class="token operator">*</span> property_11 <span class="token operator">=</span> <span class="token punctuation">(</span>interned_13 <span class="token comment">/* log */</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    JsValue<span class="token operator">*</span> callee_9 <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token function">objectGet</span><span class="token punctuation">(</span>object_10<span class="token punctuation">,</span> property_11<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    call9Arg_0 <span class="token operator">=</span> <span class="token punctuation">(</span>interned_14 <span class="token comment">/* heads */</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    JsValue<span class="token operator">*</span> args_9<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span>call9Arg_0<span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token function">functionRunWithArguments</span><span class="token punctuation">(</span>
+        callee_9<span class="token punctuation">,</span> 
+        args_9<span class="token punctuation">,</span>
+        <span class="token number">1</span>
+        <span class="token punctuation">,</span>NULL
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token punctuation">}</span>  <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    JsValue<span class="token operator">*</span> call15Arg_0<span class="token punctuation">;</span>
+      JsValue<span class="token operator">*</span> object_16 <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token function">envGet</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> interned_12 <span class="token comment">/* console */</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      JsValue<span class="token operator">*</span> property_17 <span class="token operator">=</span> <span class="token punctuation">(</span>interned_13 <span class="token comment">/* log */</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      JsValue<span class="token operator">*</span> callee_15 <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token function">objectGet</span><span class="token punctuation">(</span>object_16<span class="token punctuation">,</span> property_17<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      call15Arg_0 <span class="token operator">=</span> <span class="token punctuation">(</span>interned_18 <span class="token comment">/* tails */</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      JsValue<span class="token operator">*</span> args_15<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span>call15Arg_0<span class="token punctuation">}</span><span class="token punctuation">;</span>
+      <span class="token function">functionRunWithArguments</span><span class="token punctuation">(</span>
+          callee_15<span class="token punctuation">,</span> 
+          args_15<span class="token punctuation">,</span>
+          <span class="token number">1</span>
+          <span class="token punctuation">,</span>NULL
+      <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>This code was output from the compiler processing an <code>IfStatement</code> node. You can see it defines an intermediate variable to store the result of the conditional. Once we&#39;ve evaluated the conditional and stored it, we can use C&#39;s own <code>if</code> statement with the <code>ifTruthy()</code> js2c runtime function, which turns a JsValue into a c <code>bool</code>. Since only <code>0</code> is false in C, all <code>JsValue</code> structs would evaluate to true in C. We have compiled the consequent and alternate blocks into C code that lives inside the branches of the C <code>if</code>.</p>
+<pre><code class="language-ts"><span class="token keyword">function</span> <span class="token function">compileIfStatement</span><span class="token punctuation">(</span>node<span class="token operator">:</span> IfStatement<span class="token punctuation">,</span> state<span class="token operator">:</span> CompileTimeState<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> testResultTarget <span class="token operator">=</span> 
+      <span class="token keyword">new</span> <span class="token class-name">IntermediateVariableTarget</span><span class="token punctuation">(</span>
+        state<span class="token punctuation">.</span><span class="token function">getNextSymbol</span><span class="token punctuation">(</span><span class="token string">'conditionalPredicate'</span><span class="token punctuation">)</span>
+      <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> testSrc <span class="token operator">=</span> <span class="token function">compile</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>test<span class="token punctuation">,</span> state<span class="token punctuation">.</span><span class="token function">childState</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        target<span class="token operator">:</span> testResultTarget<span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">const</span> consequentSrc <span class="token operator">=</span> <span class="token function">compile</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>consequent<span class="token punctuation">,</span> state<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> alternateSrc <span class="token operator">=</span> node<span class="token punctuation">.</span>alternate
+        <span class="token operator">?</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string"> else {
+          </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token function">compile</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>alternate<span class="token punctuation">,</span> state<span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">
+        }</span><span class="token template-punctuation string">`</span></span>
+        <span class="token operator">:</span> <span class="token string">''</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">/* if */
+            </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>testSrc<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">
+            if(isTruthy(</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>testResultTarget<span class="token punctuation">.</span>id<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">)) {
+                </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>consequentSrc<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">
+            } </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>alternateSrc<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span>
+<span class="token punctuation">}</span></code></pre>
+<h2 id="loops">Loops</h2>
+<p>Compiling JS&#39;s <code>for</code> loop was interesting. A for loop is comprised of three statements aside from its body block:</p>
+<ul>
+<li><p>initialiser, e.g <code>var i = 0</code></p>
+</li>
+<li><p>test <code>i &lt; xs.length</code></p>
+</li>
+<li><p>update <code>i++</code></p>
+<p>Way too much is going on in each of those updates from the point of view of the compiled C code for us to directly piggy-back on top of C&#39;s <code>for</code>. Remember how many steps were involved in finding out the result of the <code>if</code> conditional above. So instead we compile to an infinite C loop, and break out of it if required.</p>
+</li>
+</ul>
+<pre><code class="language-c"><span class="token keyword">function</span> <span class="token function">compileForStatement</span><span class="token punctuation">(</span>node<span class="token punctuation">:</span> ForStatement<span class="token punctuation">,</span> state<span class="token punctuation">:</span> CompileTimeState<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    const testVariable <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">IntermediateVariableTarget</span><span class="token punctuation">(</span>state<span class="token punctuation">.</span><span class="token function">getNextSymbol</span><span class="token punctuation">(</span><span class="token string">'testResult'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    const initSrc <span class="token operator">=</span> node<span class="token punctuation">.</span>init <span class="token operator">?</span> <span class="token function">compile</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>init<span class="token punctuation">,</span> state<span class="token punctuation">)</span> <span class="token punctuation">:</span> <span class="token string">'/* no init */'</span><span class="token punctuation">;</span>
+    const testSrc <span class="token operator">=</span> node<span class="token punctuation">.</span>test
+        <span class="token operator">?</span> <span class="token function">compile</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>test<span class="token punctuation">,</span> state<span class="token punctuation">.</span><span class="token function">childState</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+            target<span class="token punctuation">:</span> testVariable
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">:</span> `<span class="token comment">// no test`;</span>
+    const testBranchSrc <span class="token operator">=</span> node<span class="token punctuation">.</span>test
+        <span class="token operator">?</span> `<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">isTruthy</span><span class="token punctuation">(</span>$<span class="token punctuation">{</span>testVariable<span class="token punctuation">.</span>id<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>`
+        <span class="token punctuation">:</span> <span class="token string">''</span><span class="token punctuation">;</span>
+    const updateSrc <span class="token operator">=</span> node<span class="token punctuation">.</span>update <span class="token operator">?</span> <span class="token function">compile</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>update<span class="token punctuation">,</span> state<span class="token punctuation">)</span> <span class="token punctuation">:</span> `<span class="token comment">/* no update */</span>`<span class="token punctuation">;</span>
+    const bodySrc <span class="token operator">=</span> <span class="token function">compile</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>body<span class="token punctuation">,</span> state<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> `<span class="token comment">/* for loop */</span>
+            $<span class="token punctuation">{</span>initSrc<span class="token punctuation">}</span>
+            <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                $<span class="token punctuation">{</span>testSrc<span class="token punctuation">}</span>
+                $<span class="token punctuation">{</span>testBranchSrc<span class="token punctuation">}</span>
+                $<span class="token punctuation">{</span>bodySrc<span class="token punctuation">}</span>
+                $<span class="token punctuation">{</span>updateSrc<span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>`
+<span class="token punctuation">}</span></code></pre>
+<p>A cool thing to note is how we can implement JS&#39;s <code>break</code> and <code>continue</code>:</p>
+<pre><code><span class="token keyword">function</span> <span class="token function">compileBreakStatement</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> `<span class="token keyword">break</span><span class="token punctuation">;</span>` <span class="token punctuation">}</span>
+<span class="token keyword">function</span> <span class="token function">compileContinueStatement</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> `<span class="token keyword">continue</span><span class="token punctuation">;</span>` <span class="token punctuation">}</span></code></pre>
+<p>In the <code>for</code> example, you can see all of the JS <code>test</code> <code>body</code> <code>update</code> steps are in the C <code>while</code>&#39;s body, so <code>continue</code> and <code>break</code> will work as expected by being compiled one-to-one with their C equivalent. Take a look at the <code>forIn</code> and <code>while</code> loops in the js2c source and you&#39;ll see the same is true of them. Compiling an imperative language into another imperative language has let us piggy-back off the target language&#39;s constructs. There&#39;s something deep and satisfying about the logic of that translation.</p>
+
+  
+            </div>
+        </div>
+        <div class="footer reading">
+          <div class="container">
+            <p>📩 hello＠timr · co</p>
+          </div>
+        </div>
+      </body>
