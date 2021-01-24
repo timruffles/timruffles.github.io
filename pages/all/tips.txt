@@ -2,6 +2,7 @@ title: "JS tips and tutorials"
 link: tips
 ads_disabled: true
 comments_disabled: true
+archived: true
 date: 2016/04/16
 body: |
 

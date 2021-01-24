@@ -24,7 +24,7 @@ export class Article {
     readonly filePath: string,
     readonly title: string,
     readonly date: Date,
-    readonly draft: boolean,
+    readonly status: 'active' | 'archived' | 'draft',
     readonly slug: string,
     readonly bodyHTML: string,
     readonly description: string,
@@ -39,10 +39,11 @@ export class Article {
       draft = false,
       slug = '',
       body = '',
+      archived = false,
       previousSlugs = [],
     } = raw;
 
-    const category = path.basename(path.dirname(p))
+    const category = p.split('/')[0] || 'missing';
 
     const missing = ['title', 'date', 'body'].filter(k => !raw[k])
     if (missing.length) {
@@ -102,7 +103,9 @@ export class Article {
     const slugs = [slug, ...previousSlugs];
     const slugBased = `${cfg.baseURL}${slugs[0] || titleToSlug(title)}`
 
-    return new Article(p, title, new Date(dateParsed), draft, slugBased, html, description, category)
+    const status = archived ? 'archived' : draft ? 'draft' : 'active';
+
+    return new Article(p, title, new Date(dateParsed), status, slugBased, html, description, category)
   }
 }
 

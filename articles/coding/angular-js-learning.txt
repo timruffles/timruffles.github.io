@@ -1,4 +1,5 @@
 title: 'AngularJS 1.x - best practices for larger apps'
+archived: true
 previous_slugs:
 - "angularjs-1x-best-practises-for-larger-apps"
 date: "2015/08/04"

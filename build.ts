@@ -29,7 +29,7 @@ async function main() {
     console.error("Articles with errors", errors.map(a => a.message))
   }
   const pages = loaded.filter(isArticle)
-    .filter(a => !a.draft)
+    .filter(a => a.status === 'active')
 
   exec(`cp -R public/* gh-pages`)
 
