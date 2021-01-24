@@ -1,4 +1,4 @@
-import {titleToSlug} from "./build";
+import {Config, titleToSlug} from "./build";
 import marked from 'marked'
 import prism from 'prismjs'
 import 'prismjs/components/prism-typescript'
@@ -7,6 +7,8 @@ import 'prismjs/components/prism-go'
 import 'prismjs/components/prism-shell-session'
 import {attempt} from "./language";
 import path from 'path'
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom
 
 
 class ArticleError extends Error {
@@ -16,23 +18,21 @@ class ArticleError extends Error {
 }
 
 
-export class Article {
-  readonly slug: string;
 
+export class Article {
   constructor(
     readonly filePath: string,
     readonly title: string,
     readonly date: Date,
     readonly draft: boolean,
-    readonly slugs: string[],
+    readonly slug: string,
     readonly bodyHTML: string,
     readonly description: string,
     readonly category: string,
   ) {
-    this.slug = slugs[0] || titleToSlug(title)
   }
 
-  static fromObject(p: string, raw: { [k: string]: any }): Article | Error {
+  static fromObject(p: string, raw: { [k: string]: any }, cfg: Config): Article | Error {
     const {
       title = '',
       date = '',
@@ -48,6 +48,39 @@ export class Article {
     if (missing.length) {
       return Error(`${p}: missing required fields: ${missing.join(' ')}`)
     }
+
+    // rewrite all links
+    function htmlRenderer(fragment: string) {
+      const dom = new JSDOM(`<!DOCTYPE html>${fragment}`).window.document;
+      for(const el of dom.querySelectorAll('img')) {
+        el.src = prepareHref(el.src)
+      }
+      for(const el of dom.querySelectorAll('a')) {
+        el.href = prepareHref(el.href)
+      }
+      return dom.body.innerHTML
+    }
+
+    function link(href: string, title: string, text: string) {
+      return `<a href="${prepareHref(href)}" ${title ? `title="${title} ` : ''}>${text}</a>`
+    }
+
+    function prepareHref(href: string) {
+      return /^(http|www)/.test(href) ? href : `${cfg.baseURL}${trimSlashPrefix(href)}`;
+    }
+
+    // ![${text}](href)
+    function image(srcURL: string, title: string, text: string) {
+      return `<img src="${prepareHref(srcURL)}" alt="${text || title || ''}" />`
+    }
+
+    marked.use({
+      renderer: {
+        link,
+        html: htmlRenderer,
+        image,
+      },
+    } as any /* typings wrong, merged in  */)
 
     const html = attempt(() => marked(body, {
       highlight: (code, lang) => {
@@ -67,8 +100,9 @@ export class Article {
     }
 
     const slugs = [slug, ...previousSlugs];
+    const slugBased = `${cfg.baseURL}${slugs[0] || titleToSlug(title)}`
 
-    return new Article(p, title, new Date(dateParsed), draft, slugs, html, description, category)
+    return new Article(p, title, new Date(dateParsed), draft, slugBased, html, description, category)
   }
 }
 
@@ -77,4 +111,8 @@ function truncate(s: string, max: number, replace: string): string {
     return s
   }
   return s.slice(0, max) + replace;
+}
+
+function trimSlashPrefix(href: string) {
+  return href.replace(/^[/]/, '')
 }

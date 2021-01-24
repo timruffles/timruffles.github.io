@@ -6,14 +6,24 @@ import {exec} from "child_process";
 import {Article} from "./records";
 import {homePage, layout, page, rss} from "./templates";
 
+export class Config {
+  constructor(readonly baseURL: string) {
+  }
+}
+
 main();
 
+
 async function main() {
+  const baseURL = process.env.BASE_URL || "/";
+
   const pageFolders = ["articles", "blogs", "pages"];
+
+  const config = new Config(baseURL)
 
   const outputPath = "./gh-pages/"
 
-  const loaded = (await Promise.all(pageFolders.map(loadPagesFromDirectory))).flatMap(x => x)
+  const loaded = (await Promise.all(pageFolders.map(p => loadPagesFromDirectory(p, config)))).flatMap(x => x)
   const errors = loaded.filter((e: Article | Error): e is Error => e instanceof Error)
   if(errors.length) {
     console.error("Articles with errors", errors.map(a => a.message))
@@ -23,7 +33,7 @@ async function main() {
 
   exec(`cp -R public/* gh-pages`)
 
-  pages.forEach(article => writeArticle(outputPath, article))
+  pages.forEach(article => writeArticle(outputPath, article, config))
 
   const articlesDesc = pages
     .filter(a => a.category !== 'pages')
@@ -32,16 +42,17 @@ async function main() {
   fs.writeFileSync(`${outputPath}/index.html`,  layout({
     title: "Tim Ruffles' blog",
     slug: "",
-    content: homePage(articlesDesc).slice(0, 15),
+    baseURL: baseURL,
+    content: homePage(articlesDesc.slice(0, 15)),
   }));
 
   fs.writeFileSync(`${outputPath}/rss.xml`,  rss(articlesDesc));
 }
 
-async function loadPagesFromDirectory(dir: string): Promise<(Article | Error)[]> {
+async function loadPagesFromDirectory(dir: string, config: Config): Promise<(Article | Error)[]> {
   const files = await promisify(glob)(`${dir}/**/*.txt`)
 
-  const results = await Promise.all(files.map(loadPage))
+  const results = await Promise.all(files.map(p => loadPage(p, config)))
 
   return results
 }
@@ -58,19 +69,20 @@ function writeHTMLPage(outputPath: string, slug: string, html: string) {
   fs.writeFileSync(`${dir}/index.html`, html)
 }
 
-function writeArticle(outputPath: string, article: Article) {
+function writeArticle(outputPath: string, article: Article, cfg: Config) {
   const html = layout({
     title: article.title,
     slug: article.slug,
-    content: page(article)
+    baseURL: cfg.baseURL,
+    content: page(article, cfg)
   })
   writeHTMLPage(outputPath, article.slug, html);
 }
 
-async function loadPage(path: string): Promise<Article | Error> {
+async function loadPage(path: string, cfg: Config): Promise<Article | Error> {
   const found = fs.readFileSync(path, {encoding: 'utf8'})
   try {
-    return Article.fromObject(path, yaml.parse(found))
+    return Article.fromObject(path, yaml.parse(found), cfg)
   } catch(e) {
     return e
   }

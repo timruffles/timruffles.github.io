@@ -1,14 +1,17 @@
 import {Article} from "./records";
 import format from "date-fns/format"
+import {Config} from "./build";
 
 
 export function layout({
-                         title,
-                         slug,
-                         content,
-                       }: {
+ title,
+ slug,
+ baseURL,
+ content,
+}: {
   title: string,
   slug: string,
+  baseURL: string,
   content: string,
 }) {
   const root = slug === ""
@@ -17,9 +20,9 @@ export function layout({
         <title>${title}</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta name="viewport" content="width=device-width">
-        <link rel="stylesheet" href="/css/normalize.css" type="text/css">
-        <link rel="stylesheet" href="/css/style.css" type="text/css">
-        <link rel="stylesheet" href="/css/prism-ghcolors.css" type="text/css">
+        <link rel="stylesheet" href="${baseURL}css/normalize.css" type="text/css">
+        <link rel="stylesheet" href="${baseURL}css/style.css" type="text/css">
+        <link rel="stylesheet" href="${baseURL}css/prism-ghcolors.css" type="text/css">
         <script type="text/javascript">
           var _gaq = _gaq || [];
           _gaq.push(['_setAccount', 'UA-24335480-1']);
@@ -38,9 +41,9 @@ export function layout({
           <div class='top-bar reading'>
               <div class="links logical">
                 <div class="navigation logical">
-                  <a href="/">Home</a>
+                  <a href="${baseURL}">Home</a>
                   <a href="https://feeds.feedburner.com/TimRufflesBlog">RSS</a>
-                  <a href="/me">
+                  <a href="${baseURL}me">
                       ${root ? 'Me' : 'Tim Ruffles'}
                   </a>
                 </div>
@@ -48,9 +51,8 @@ export function layout({
             </div>
         </div>
         <div id="content" class="reading">
-           ${root ?
-    `<div class="page-header">
-              <h1><a href="/me">Tim Ruffles</a>' Blog</h1>
+           ${root ? `<div class="page-header">
+              <h1><a href="${baseURL}me">Tim Ruffles</a>' Blog</h1>
             </div>` : ''}
 
            <div id="body">
@@ -73,17 +75,30 @@ export function rss(articles: Article[]): string {
     <link>https://timr.co</link>
     <description>Tim Ruffles' blog</description>
     ${articles.map(article => `<item>
-      <title>${article.title}</title>
-      <link>https://timr.co/${article.slug}</link>
-      <pubDate>${format(article.date, 'EEE, dd MMM yyyy hh::mm:SS', {useAdditionalDayOfYearTokens:false}) + ' GMT'}</pubDate>
-      <description>${article.description}</description>
+      <title>${escapeXML(article.title)}</title>
+      <link>https://timr.co${article.slug}</link>
+      <pubDate>${format(article.date, 'EEE, dd MMM yyyy hh::mm:SS', {useAdditionalDayOfYearTokens: false}) + ' GMT'}</pubDate>
+      <description>${escapeXML(article.description)}</description>
     </item>`).join('')}
   </channel>
   </rss>`
 }
 
-export function page(article: Article): string {
-  return `<h1><a href="/${article.slug}">${article.title}</a></h1>
+function escapeXML(unsafe: string): string {
+  return unsafe.replace(/[<>&'"]/g, (c: string): string => {
+    switch (c) {
+      case '<': return '&lt;';
+      case '>': return '&gt;';
+      case '&': return '&amp;';
+      case '\'': return '&apos;';
+      case '"': return '&quot;';
+    }
+    return c
+  });
+}
+
+export function page(article: Article, cfg: Config): string {
+  return `<h1><a href="${article.slug}">${article.title}</a></h1>
   ${article.bodyHTML}
   `
 }
