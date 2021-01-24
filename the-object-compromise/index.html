@@ -51,7 +51,6 @@
 </ol>
 <p>This results in <a href="#collaboration-emerges" >flat system of stateless collaborative objects</a>, with behaviour implemented via <a href="#orchestrate-with-methods-not-mutation" >methods not mutation</a>. The object system is sparse as well as flat: there are <a href="#fewer-deeper-objects" >fewer objects</a> - on a type and instance basis - than in trad OO. Persistence is necessarily <a href="#persistence-is-explicit" >explicit</a> - the Active Record pattern is completely contrary to the rules above.</p>
 <p>You end up with a lot of objects that have verb-y names. Behaviour is organised around use-cases, not data type. That&#39;s a good thing - you don&#39;t end up with your User and <code>$MostImportantDataType</code> (e.g <code>Tweet</code> for Twitter) data-types growing unstoppably, which is what happens if you organise operations by data type.</p>
-<p>If there&#39;s interest, I&#39;d be happy to write a small demonstration app in this style.</p>
 <h2 id="collaboration-emerges">Collaboration emerges</h2>
 <p>Rule 4 means you have no inheritance hierarchy. That naturally forces you to structure you code via collaboration. You’ll model a flow which has multiple similar implementations by moving the shared logic into additional, smaller objects, and encode more logic in values.</p>
 <h2 id="statelessness-emerges">Statelessness emerges</h2>
