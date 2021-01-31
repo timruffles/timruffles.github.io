@@ -4,7 +4,7 @@ import fs from 'fs'
 import {glob} from "glob";
 import {exec} from "child_process";
 import {Article} from "./records";
-import {homePage, layout, page, rss} from "./templates";
+import {ArticleForRendering, homePage, layout, page, rss} from "./templates";
 
 export class Config {
   constructor(readonly baseURL: string) {
@@ -12,6 +12,8 @@ export class Config {
 }
 
 main();
+
+
 
 
 async function main() {
@@ -33,7 +35,8 @@ async function main() {
 
   exec(`cp -R public/* gh-pages`)
 
-  pages.forEach(article => writeArticle(outputPath, article, config))
+  const forRendering = withNextLast(pages)
+  forRendering.forEach(article => writeArticle(outputPath, article, config))
 
   const articlesDesc = pages
     .filter(a => a.category !== 'pages')
@@ -83,7 +86,7 @@ function writeHTMLPage(outputPath: string, slug: string, html: string) {
   fs.writeFileSync(`${dir}/index.html`, html)
 }
 
-function writeArticle(outputPath: string, article: Article, cfg: Config) {
+function writeArticle(outputPath: string, article: ArticleForRendering, cfg: Config) {
   const html = layout({
     title: article.title,
     slug: article.slug,
@@ -105,6 +108,21 @@ async function loadPage(path: string, cfg: Config): Promise<Article | Error> {
 
 export function titleToSlug(title: string) {
   return title.replace(/ /g,'-').toLowerCase().replace(/[^a-z0-9-]/g,'').replace(/-+/,'-')
+}
+
+function withNextLast(pages: Article[]): ArticleForRendering[] {
+  return pages.map((page, i) => {
+    const r: ArticleForRendering = {...pages[i]}
+    const prev = i - 1;
+    const next = i + 1;
+    if(prev >= 0) {
+      r.previous = pages[prev]
+    }
+    if(next <= pages.length - 1) {
+      r.next = pages[next]
+    }
+    return r;
+  })
 }
 
 function isArticle(e: any): e is Article {return e instanceof Article}

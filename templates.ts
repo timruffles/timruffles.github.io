@@ -101,10 +101,24 @@ function escapeXML(unsafe: string): string {
   });
 }
 
-export function page(article: Article, cfg: Config): string {
+function footer(article: ArticleForRendering, cfg: Config) {
+  return `
+  ${ article.next ? `<p class=nav>
+    Next: <a href="${ article.next.slug }">
+      ${ article.next.title }
+    </a>
+    </p>` : ''}
+  ${ article.previous ? `<p class=nav>
+    Next: <a href="${article.previous.slug}">
+      ${article.previous.title}
+    </a>
+    </p>` : ''}`
+}
+
+export function page(article: ArticleForRendering, cfg: Config): string {
   return `<h1><a href="${article.slug}">${article.title}</a></h1>
   ${article.bodyHTML}
-  `
+  ${footer(article, cfg)}`
 }
 
 export function homePage(articles: Article[]): string {
@@ -123,4 +137,9 @@ export function homePage(articles: Article[]): string {
 
 function formatDate(date: Date) {
   return format(date, "dd MMM yy")
+}
+
+export interface ArticleForRendering extends Article {
+  next?: ArticleForRendering
+  previous?: ArticleForRendering
 }
