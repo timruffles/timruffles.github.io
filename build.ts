@@ -4,7 +4,7 @@ import fs from 'fs'
 import {glob} from "glob";
 import {exec} from "child_process";
 import {Article} from "./records";
-import {ArticleForRendering, homePage, layout, page, rss} from "./templates";
+import {ArticleForRendering, homePage, layout, renderArticle, renderPage, rss} from "./templates";
 
 export class Config {
   constructor(readonly baseURL: string) {
@@ -35,12 +35,16 @@ async function main() {
 
   exec(`cp -R public/* gh-pages`)
 
-  const forRendering = withNextLast(pages)
-  forRendering.forEach(article => writeArticle(outputPath, article, config))
+  pages
+    .filter(a => a.category === 'pages')
+    .forEach(p => writePage(outputPath, p, config))
 
   const articlesDesc = pages
     .filter(a => a.category !== 'pages')
     .sort((a,b) => +b.date - +a.date)
+
+  const forRendering = withNextLast(articlesDesc)
+  forRendering.forEach(article => writeArticle(outputPath, article, config))
 
   // needs to exist on the gh-pages branch, so write each time
   fs.writeFileSync(`${outputPath}/CNAME`, 'www.timr.co')
@@ -50,7 +54,7 @@ async function main() {
     slug: "",
     baseURL: baseURL,
     description: "Tim  Ruffles' blog - software engineering and data-visualization",
-    content: homePage(articlesDesc.slice(0, 15)),
+    content: homePage(articlesDesc.slice(0, 20)),
   }));
 
   fs.writeFileSync(`${outputPath}/404.html`,  layout({
@@ -74,7 +78,7 @@ async function loadPagesFromDirectory(dir: string, config: Config): Promise<(Art
   return results
 }
 
-function writeHTMLPage(outputPath: string, slug: string, html: string) {
+function writeHTML(outputPath: string, slug: string, html: string) {
   const dir = `${outputPath}/${slug}`
   try {
     fs.mkdirSync(dir)
@@ -86,15 +90,27 @@ function writeHTMLPage(outputPath: string, slug: string, html: string) {
   fs.writeFileSync(`${dir}/index.html`, html)
 }
 
+function writePage(outputPath: string, article: Article, cfg: Config) {
+  const html = layout({
+    title: article.title,
+    slug: article.slug,
+    baseURL: cfg.baseURL,
+    content: renderPage(article, cfg),
+    description: article.description,
+  })
+  writeHTML(outputPath, article.slug, html);
+}
+
+
 function writeArticle(outputPath: string, article: ArticleForRendering, cfg: Config) {
   const html = layout({
     title: article.title,
     slug: article.slug,
     baseURL: cfg.baseURL,
-    content: page(article, cfg),
+    content: renderArticle(article, cfg),
     description: article.description,
   })
-  writeHTMLPage(outputPath, article.slug, html);
+  writeHTML(outputPath, article.slug, html);
 }
 
 async function loadPage(path: string, cfg: Config): Promise<Article | Error> {
@@ -110,16 +126,18 @@ export function titleToSlug(title: string) {
   return title.replace(/ /g,'-').toLowerCase().replace(/[^a-z0-9-]/g,'').replace(/-+/,'-')
 }
 
-function withNextLast(pages: Article[]): ArticleForRendering[] {
-  return pages.map((page, i) => {
-    const r: ArticleForRendering = {...pages[i]}
-    const prev = i - 1;
-    const next = i + 1;
-    if(prev >= 0) {
-      r.previous = pages[prev]
+function withNextLast(articlesDescAge: Article[]): ArticleForRendering[] {
+  return articlesDescAge.map((page, i) => {
+    const r: ArticleForRendering = {...articlesDescAge[i]}
+    const prevI = i - 1;
+    const nextI = i + 1;
+
+    // prev is newer - descending order
+    if(prevI >= 0) {
+      r.next = articlesDescAge[prevI]
     }
-    if(next <= pages.length - 1) {
-      r.next = pages[next]
+    if(nextI <= articlesDescAge.length - 1) {
+      r.previous = articlesDescAge[nextI]
     }
     return r;
   })

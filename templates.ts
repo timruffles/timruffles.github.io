@@ -109,13 +109,18 @@ function footer(article: ArticleForRendering, cfg: Config) {
     </a>
     </p>` : ''}
   ${ article.previous ? `<p class=nav>
-    Next: <a href="${article.previous.slug}">
+    Previous: <a href="${article.previous.slug}">
       ${article.previous.title}
     </a>
     </p>` : ''}`
 }
 
-export function page(article: ArticleForRendering, cfg: Config): string {
+export function renderPage(article: Article, cfg: Config): string {
+  return `<h1><a href="${article.slug}">${article.title}</a></h1>
+  ${article.bodyHTML}`
+}
+
+export function renderArticle(article: ArticleForRendering, cfg: Config): string {
   return `<h1><a href="${article.slug}">${article.title}</a></h1>
   ${article.bodyHTML}
   ${footer(article, cfg)}`
