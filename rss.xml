@@ -5,6 +5,12 @@
     <link>https://timr.co</link>
     <description>Tim Ruffles' blog</description>
     <item>
+      <title>Vim quickfix hack for IntelliJ</title>
+      <link>https://timr.co/vim-quickfix-hack-for-intellij</link>
+      <pubDate>Wed, 24 Feb 2021 12::00:00 GMT</pubDate>
+      <description>Vim’s quickfix mode is very useful during complex refactors. For instance, I wrote an AST-based tool to identify locations that needed a manual refactor. But how could I navigate through all the matches to perform it?
+</description>
+    </item><item>
       <title>The Object Compromise</title>
       <link>https://timr.co/the-object-compromise</link>
       <pubDate>Sat, 23 Jan 2021 12::00:00 GMT</pubDate>
