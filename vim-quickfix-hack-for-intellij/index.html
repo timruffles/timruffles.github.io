@@ -45,10 +45,10 @@
 <p>I realised though that IntelliJ’s CLI launcher had <code>—line</code>, so I could get a reasonable hack together inside a IntelliJ terminal window:</p>
 <pre><code class="language-sh">$ refactor<span class="token operator">-</span>tool <span class="token operator">></span> <span class="token operator">/</span>tmp<span class="token operator">/</span>quickfix<span class="token punctuation">.</span>list
 $ ttyv<span class="token operator">=</span>`tty`<span class="token punctuation">;</span> cat <span class="token operator">/</span>tmp<span class="token operator">/</span>quickfix <span class="token operator">|</span> <span class="token keyword">while</span> read f<span class="token punctuation">;</span> <span class="token keyword">do</span>
-   idea $<span class="token punctuation">{</span>f<span class="token operator">%</span><span class="token punctuation">:</span><span class="token operator">*</span><span class="token punctuation">}</span> <span class="token operator">--</span>line $<span class="token punctuation">{</span>f#<span class="token operator">*</span><span class="token punctuation">:</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
-   echo next<span class="token operator">?</span><span class="token punctuation">;</span>
-   each done $f
-   read y <span class="token operator">&lt;</span> $ttyv<span class="token punctuation">;</span>
+   echo $f
+   idea $<span class="token punctuation">{</span>f<span class="token operator">%</span><span class="token punctuation">:</span><span class="token operator">*</span><span class="token punctuation">}</span> <span class="token operator">--</span>line $<span class="token punctuation">{</span>f#<span class="token operator">*</span><span class="token punctuation">:</span><span class="token punctuation">}</span>
+   echo hit any key to advance
+   read y <span class="token operator">&lt;</span> $ttyv
 done</code></pre>
 <p>The tool output in a <code>path/to/file:linenumber</code> format, e.g <code>tools/foo.go:123</code>. <code>${f%:*}</code> is using <code>%</code> bash expansion, which returns f without the shortest match of the pattern at the end of the string. <code>#</code> is the same but removes matches from the start. I capture the tty and read from it to avoid just reading the next line from STDIN.</p>
 <p>I’m excited to see IntelliJ’s <a href="https://gist.github.com/gregsh/b7ef2e4ebbc4c4c11ee9" >scripting layer mature</a>, which’ll enable much more powerful instances of ad-hoc scriptability.</p>
