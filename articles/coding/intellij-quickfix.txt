@@ -10,10 +10,10 @@ body: |
     ```sh
     $ refactor-tool > /tmp/quickfix.list
     $ ttyv=`tty`; cat /tmp/quickfix | while read f; do
-       idea ${f%:*} --line ${f#*:};
-       echo next?;
-       each done $f
-       read y < $ttyv;
+       echo $f
+       idea ${f%:*} --line ${f#*:}
+       echo hit any key to advance
+       read y < $ttyv
     done
     ```
 
