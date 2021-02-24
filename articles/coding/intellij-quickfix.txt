@@ -1,0 +1,22 @@
+title: Vim quickfix hack for IntelliJ
+date: 2021/02/24
+body: |
+    Vim’s quickfix mode is very useful during complex refactors. For instance, I wrote an AST-based tool to identify locations that needed a manual refactor. But how could I navigate through all the matches to perform it?
+
+    With vim it’s easy: `$ some-tool | vim -q`, which starts vim in [quickfix](http://vimdoc.sourceforge.net/htmldoc/quickfix.html) mode and reads the locations from stdin. You can jump around using the quick-fix list or use `:cnext` to sequentially visit each match. I switched to IntelliJ + IdeaVIM years ago though, and IdeaVIM doesn’t have quick-fix support.
+
+    I realised though that IntelliJ’s CLI launcher had `—line`, so I could get a reasonable hack together inside a IntelliJ terminal window:
+
+    ```sh
+    $ refactor-tool > /tmp/quickfix.list
+    $ ttyv=`tty`; cat /tmp/quickfix | while read f; do
+       idea ${f%:*} --line ${f#*:};
+       echo next?;
+       each done $f
+       read y < $ttyv;
+    done
+    ```
+
+    The tool output in a `path/to/file:linenumber` format, e.g `tools/foo.go:123`. `${f%:*}` is using `%` bash expansion, which returns f without the shortest match of the pattern at the end of the string. `#` is the same but removes matches from the start. I capture the tty and read from it to avoid just reading the next line from STDIN.
+
+    I’m excited to see IntelliJ’s [scripting layer mature](https://gist.github.com/gregsh/b7ef2e4ebbc4c4c11ee9), which’ll enable much more powerful instances of ad-hoc scriptability.
