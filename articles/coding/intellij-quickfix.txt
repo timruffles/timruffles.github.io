@@ -9,7 +9,8 @@ body: |
 
     ```sh
     $ refactor-tool > /tmp/quickfix.list
-    $ ttyv=`tty`; cat /tmp/quickfix | while read f; do
+    $ ttyv=`tty`
+    $ cat /tmp/quickfix | while read f; do
        echo $f
        idea ${f%:*} --line ${f#*:}
        echo hit any key to advance
