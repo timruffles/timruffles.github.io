@@ -45,7 +45,8 @@
 <p>With vim it’s easy: <code>vim -q</code>, which starts vim in <a href="http://vimdoc.sourceforge.net/htmldoc/quickfix.html" >quickfix</a>, and you can pipe in the locations from stdin or a file. You can then jump around using the quick-fix list or use <code>:cnext</code> to sequentially visit each match. I switched to IntelliJ + IdeaVIM years ago though, and IdeaVIM doesn’t have quick-fix support.</p>
 <p>I realised though that IntelliJ’s CLI launcher had <code>—line</code>, so I could get a reasonable hack together inside a IntelliJ terminal window that let me navigate stepwise through the list:</p>
 <pre><code class="language-sh">$ refactor<span class="token operator">-</span>tool <span class="token operator">></span> <span class="token operator">/</span>tmp<span class="token operator">/</span>quickfix<span class="token punctuation">.</span>list
-$ ttyv<span class="token operator">=</span>`tty`<span class="token punctuation">;</span> cat <span class="token operator">/</span>tmp<span class="token operator">/</span>quickfix <span class="token operator">|</span> <span class="token keyword">while</span> read f<span class="token punctuation">;</span> <span class="token keyword">do</span>
+$ ttyv<span class="token operator">=</span>`tty`
+$ cat <span class="token operator">/</span>tmp<span class="token operator">/</span>quickfix <span class="token operator">|</span> <span class="token keyword">while</span> read f<span class="token punctuation">;</span> <span class="token keyword">do</span>
    echo $f
    idea $<span class="token punctuation">{</span>f<span class="token operator">%</span><span class="token punctuation">:</span><span class="token operator">*</span><span class="token punctuation">}</span> <span class="token operator">--</span>line $<span class="token punctuation">{</span>f#<span class="token operator">*</span><span class="token punctuation">:</span><span class="token punctuation">}</span>
    echo hit any key to advance
