@@ -3,9 +3,9 @@ date: 2021/02/24
 body: |
     Vim’s quickfix mode is very useful during complex refactors. For instance, I wrote an AST-based tool to identify locations that needed a manual refactor. But how could I navigate through all the matches to perform it?
 
-    With vim it’s easy: `$ some-tool | vim -q`, which starts vim in [quickfix](http://vimdoc.sourceforge.net/htmldoc/quickfix.html) mode and reads the locations from stdin. You can jump around using the quick-fix list or use `:cnext` to sequentially visit each match. I switched to IntelliJ + IdeaVIM years ago though, and IdeaVIM doesn’t have quick-fix support.
+    With vim it’s easy: `vim -q`, which starts vim in [quickfix](http://vimdoc.sourceforge.net/htmldoc/quickfix.html), and you can pipe in the locations from stdin or a file. You can then jump around using the quick-fix list or use `:cnext` to sequentially visit each match. I switched to IntelliJ + IdeaVIM years ago though, and IdeaVIM doesn’t have quick-fix support.
 
-    I realised though that IntelliJ’s CLI launcher had `—line`, so I could get a reasonable hack together inside a IntelliJ terminal window:
+    I realised though that IntelliJ’s CLI launcher had `—line`, so I could get a reasonable hack together inside a IntelliJ terminal window that let me navigate stepwise through the list:
 
     ```sh
     $ refactor-tool > /tmp/quickfix.list
