@@ -61,46 +61,41 @@
 <li>I couldn&#39;t pass <code>[]User</code> as an <code>[]interface{}</code></li>
 <li>I couldn&#39;t pass <code>*User</code> as <code>*Named</code></li>
 </ul>
-<p>
-</p><details>
+<details>
   <summary>Here's a fuller example demonstrating all of these cases.</summary>
-
-</details><p>  <code></code><pre></pre>
-  package main
+  <code></code><pre><code>  package main
   import "fmt"
   func main() {
-    users := []User{User{"alice"}, User{"bob"}}</p>
-<pre><code><span class="token function">getName</span><span class="token punctuation">(</span>users<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-
-<span class="token comment">// cannot use users (type []User) as type []Named in </span>
-<span class="token comment">// argument to getNames</span>
-<span class="token function">getNames</span><span class="token punctuation">(</span>users<span class="token punctuation">)</span>
-<span class="token comment">// cannot use users (type []User) as type []interface </span>
-<span class="token comment">// {} in argument to countSlice</span>
-<span class="token function">countSlice</span><span class="token punctuation">(</span>users<span class="token punctuation">)</span>
-<span class="token comment">// cannot (type *User) as type *Named in argument </span>
-<span class="token comment">// to switchNamed:</span>
-<span class="token function">switchNamed</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>users<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>users<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span></code></pre>
-<p>  }</p>
-<p>  func getName(n Named) string { 
+    users := []User{User{"alice"}, User{"bob"}}
+    getName(users[0])
+    // cannot use users (type []User) as type []Named in
+    // argument to getNames
+    getNames(users)
+    // cannot use users (type []User) as type []interface 
+    // {} in argument to countSlice
+    countSlice(users)
+    // cannot (type *User) as type *Named in argument 
+    // to switchNamed:
+    switchNamed(&amp;users[0], &amp;users[1])
+  }
+  func getName(n Named) string {
      return n.name() 
   }
   func getNames(ns []Named) []string    { /* ... */ }
   func countSlice(ns []interface{}) int {
     return len(ns) 
   }
-  func switchNamed(a,b <em>Named) { /</em> ... */ }</p>
-<p>  type User struct {
+  func switchNamed(a,b *Named) { /* ... */ }
+  type User struct {
     fullName string
   }
-  func (u User) name() string { return u.fullName }</p>
-<p>  type Named interface {
+  func (u User) name() string { return u.fullName }
+  type Named interface {
     name() string
   }
-  </p>
-<p><a href="https://play.golang.org/p/TXe-4OTwNho">Runnable code</a></p>
-
-<p></p>
+  </code></pre>
+  <p><a href="https://play.golang.org/p/TXe-4OTwNho">Runnable code</a></p>
+</details>
 
 <h2 id="why-cant-go-be-like-language">Why can&#39;t Go be like <code>$language</code>?</h2>
 <p>It felt inconsistent. It was also very different from languages like TypeScript and Java, where if <code>User</code> implemented <code>Named</code>, as well as being able to pass <code>User</code> to a method accepting <code>Named</code>:</p>
@@ -215,8 +210,7 @@ u1 <span class="token operator">:=</span> User<span class="token punctuation">{<
 <span class="token function">switchNamed</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>u1<span class="token punctuation">)</span></code></pre>
 <details>
   <summary>Spoiler</summary>
-
-</details><p>Much like with the slice example above, <code>switchNamed(&amp;u1)</code> to work Go would have to automatically allocate an interface value. If it did, and passed that into the function, assignments to that fresh <code></code>*Named would have no affect on the original <code></code>*User, and so no visibility outside the function. So instead it&#39;s a compile-time type error:</p>
+Much like with the slice example above, `switchNamed(&amp;u1)` to work Go would have to automatically allocate an interface value. If it did, and passed that into the function, assignments to that fresh <code>*Named</code> would have no affect on the original <code>*User</code>, and so no visibility outside the function. So instead it's a compile-time type error:
 <pre>// this compiles fine
 var f1 Named = User{"alice"}
 var f2 Named = User{"bob"}
@@ -224,24 +218,21 @@ fmt.Println(f1, f2) // {"alice", "bob"}
 switchNamed(&amp;f1, &amp;f2)
 fmt.Println(f1, f2) // {"bob", "alice"}
 
-u1 := User{"charlie"}
-u2 := User{"denise"}
-fmt.Println(u1, u2) // {"charlie", "denise"}
-
-// this won't compile - 'can't use type *User as *Named'
-// switchNamed(&amp;u1, &amp;u2)
-
-// because if we implicitly generated new *Named values
+</pre></details><p>u1 := User{&quot;charlie&quot;}
+u2 := User{&quot;denise&quot;}
+fmt.Println(u1, u2) // {&quot;charlie&quot;, &quot;denise&quot;}</p>
+<p>// this won&#39;t compile - &#39;can&#39;t use type *User as *Named&#39;
+// switchNamed(&amp;u1, &amp;u2)</p>
+<p>// because if we implicitly generated new *Named values
 // for the &amp;u1, &amp;u2 passed to the method...
 var n1 Named = u1
 var n2 Named = u2
 switchNamed(&amp;n1, &amp;n2)
-// ....we'd end up with u1 and u2 unaffected!
-fmt.Println(u1, u2) // {"charlie", "denise"}
+// ....we&#39;d end up with u1 and u2 unaffected!
+fmt.Println(u1, u2) // {&quot;charlie&quot;, &quot;denise&quot;}
 
-</pre>
 
-<p>Note: pointers to interfaces are fairly rare in practise.</p>
+Note: pointers to interfaces are fairly rare in practise.</p>
 <p>Thanks to <a href="https://mobile.twitter.com/camsmorgan">Campbell Morgan</a>, <a href="https://iheanyi.com/">Iheanyi Ekechukwu</a> and <a href="https://bradshaw.io/">Stephen Bradshaw</a> for reviewing this and offering their wisdom!</p>
 
   
