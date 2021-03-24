@@ -186,6 +186,15 @@ pre {
     }
 }
 
+details[open] {
+    padding-left: 2em;
+}
+
+details[open] summary {
+    position: relative;
+    left: -2em;
+}
+
 #comments h3 {
     margin-top: 0.5em;
 }
