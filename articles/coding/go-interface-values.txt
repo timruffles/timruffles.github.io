@@ -171,7 +171,9 @@ body: |
 
   The implicit allocation would stop `switchItems` from working as we'd only be affecting the newly allocated slice/backing array - `ns` in the example above where I showed you what Go would have to do to make it work.
 
-  Again, Go's helpful implicit conversions can make this confusing - for `append(ns, n)` we could just do `append(ns, u)`, but now we know Go must be allocating the interface value for us.
+  Again, Go's helpful implicit conversions can make this confusing. In the loop above where we create a `[]Named` from a `[]User`, the `var n Named = u` is unnecessary, we could just do `append(ns, u /* u is a User value */)`. Now we know that's because Go can safely, and implicitly, create the required interface value for us.
+
+
 
   ## Takeaways
 
