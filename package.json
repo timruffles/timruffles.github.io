@@ -1,7 +1,8 @@
 {
   "scripts": {
     "build": "BASE_URL='/' ts-node build.ts",
-    "watch": "concurrently 'chokidar \"*.ts\" \"**/*.txt\" -c \"npm run -s build\"' 'http-server gh-pages'"
+    "watch": "concurrently 'chokidar \"*.ts\" \"**/*.txt\" \"public/{css,img,js}/*\" -c \"npm run -s build\"' 'http-server gh-pages'",
+    "start": "npm run -s watch"
   },
   "dependencies": {
     "@types/date-fns": "^2.6.0",

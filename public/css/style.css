@@ -50,7 +50,6 @@ body, input[type=text], input[type=submit] {
     .footer, .article #content, .reading {
         width: auto;
         padding: 0 1rem;
-        overflow: visible;
     }
 }
 
@@ -98,6 +97,9 @@ ul ul {
 }
 
 /* layout */
+body {
+    overflow: auto;
+}
 #mast {
     width: 100%;
     padding: 0.6em 0 0 0;
@@ -163,6 +165,10 @@ ul ul {
 
 .root .sub_title {
     display: block;
+}
+
+#content code {
+    white-space: pre-wrap;
 }
 
 pre {
@@ -244,7 +250,6 @@ details[open] summary {
     .posts .post {
         width: auto;
         padding: 0 1rem;
-        overflow: visible;
     }
 }
 .posts .post:hover {
