@@ -18,7 +18,7 @@
     "glob": "^7.1.6",
     "http-server": "^0.12.3",
     "jsdom": "^16.4.0",
-    "marked": "^1.2.7",
+    "marked": "^2.0.0",
     "prismjs": "^1.23.0",
     "ts-node": "^9.1.1",
     "typescript": "^4.1.3",
