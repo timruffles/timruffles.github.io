@@ -37,13 +37,12 @@ It'd be quite reasonable to think it should compile, because:
 
 But we know from the error that we're missing something. But what?
 
-## More experiments
+## What's different about generics
 
-Let's try out something else on generics (or [just skip to why](#why)). Type-assertions let us
-check if a value typed using `interface { frob() }` is a specific concrete type. You will note we're using the same type
-
-- `type frobber interface{ frob() }` to constrain the
-  `f` parameter of both `normal` and `generic` functions. Where will the compiler complain in the below?
+Since `func one[S []E, E any](s S)` is using generics, what about them is causing this? If we had
+a look at the spec updates when generics were added, we'd notice that we can't do some things
+to values of an interface type, when that type is in a type parameter, that we could do with other
+interface values. Like type assertions:
 
 ```go
 package main
@@ -77,13 +76,48 @@ If you run this you'll see `normal` compiles, but `generic` has a compile error:
 generics/frob.go:15:15: invalid operation: cannot use type assertion on type parameter value f (variable of type F constrained by interface{frob()})
 ```
 
+This is again quite surprising, `normal` and `generic` appear to have almost exactly the
+same type-signature.
+
 If we refer to the [spec](https://go.dev/ref/spec#Type_assertions), we'd see that explicitly bans type assertions on
 type parameters.
 
 > For an expression x of interface type, but not a type parameter, and a type T, the primary expression
 
 But while it tells us that what we're doing is against the rules, it doesn't explain why that rule exists. Why can't we
-use a value of an interface type (`frobber`) like other an interface values?
+use a value of an interface type (`frobber`) like other an interface values? Why is `f` in `generic[F frobber](f F)` so different
+to `normal(f frobber)`?
+
+## How do generics work?
+
+Go's generics can be thought of as working by copy-pasting for you. If you have a function that you want to work
+on a set of types, it'll copy-paste one function for each type with the type replaced. Critically, the type of
+the parameter in each of the concrete function will be a concrete type, for example:
+
+```go
+package main
+
+import "fmt"
+
+type intOrString interface{ int | string }
+
+func add[T intOrString](a, b T) T {
+	return a + b
+}
+
+func main() {
+	fmt.Println(add(42, 1), add("42", "1"))
+}
+```
+
+the compiler will generate us implementations of the `add` function for all the
+types that fulfil `addable`, giving us soemthing like this:
+
+```go
+// compiler generates
+func compiled_addInt(a,b int) int { return a.Add(b) }
+func compiled_addString(a,b string) int { return a.Add(b) }
+```
 
 
 ## Type parameters overload the meaning of `interface`
@@ -116,25 +150,6 @@ an interface types. And `[T any]`
 in a parameter will take a different concrete type in each of the automatically 'pasted' implementations, but, again,
 not an interface type:
 
-```
-package main
-
-import "fmt"
-
-type intOrString interface{ int | string }
-
-func add[T intOrString](a, b T) T {
-	return a + b
-}
-
-func main() {
-	fmt.Println(add(42, 1), add("42", "1"))
-}
-
-// compiler generates
-func compiled_addInt(a,b int) int { return a + b }
-func compiled_addString(a,b string) int { return a + b }
-```
 
 You can see that neither of the compiled functions has any parameters of interface value. So that's why you can't
 type-assert on them: type-assertions are something that can only operate on a interface _value_, by checking if the
