@@ -81,7 +81,7 @@ export function rss(articles: Article[]): string {
     ${articles.map(article => `<item>
       <title>${escapeXML(article.title)}</title>
       <link>https://timr.co${article.slug}</link>
-      <pubDate>${format(article.date, 'EEE, dd MMM yyyy hh::mm:SS', {useAdditionalDayOfYearTokens: false}) + ' GMT'}</pubDate>
+      <pubDate>${format(article.date, 'EEE, dd MMM yyyy hh:mm:SS', {useAdditionalDayOfYearTokens: false}) + ' GMT'}</pubDate>
       <description>${escapeXML(article.description)}</description>
     </item>`).join('')}
   </channel>
