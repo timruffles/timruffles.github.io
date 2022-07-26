@@ -4,6 +4,9 @@
     "watch": "concurrently 'chokidar \"*.ts\" \"**/*.txt\" \"public/{css,img,js}/*\" -c \"npm run -s build\"' 'http-server gh-pages'",
     "start": "npm run -s watch"
   },
+  "resolutions": {
+     "yargs-parser": "15.0.1"
+  },
   "dependencies": {
     "@types/date-fns": "^2.6.0",
     "@types/glob": "^7.1.3",
