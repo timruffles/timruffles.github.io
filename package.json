@@ -5,10 +5,10 @@
     "start": "npm run -s watch"
   },
   "resolutions": {
-     "yargs-parser": "15.0.1"
+    "yargs-parser": "15.0.1"
   },
   "devDependencies": {
-     "http-server": "^0.12.3"
+    "http-server": "^0.12.3"
   },
   "dependencies": {
     "@types/date-fns": "^2.6.0",
