@@ -31,16 +31,16 @@ It doesn't compile, with this error:
 
 It'd be quite reasonable to think it should compile, because:
 
-1. in `one`, we read `[S []E, E any]`
+1. `one` has the type parameter `[S []E, E any]`
 2. by substitution, `S = []E` = `[]any`, surely?
 3. therefore `S` can be passed from `one` to `two` for its `[]any` parameter
 
-But we know from the error that we're missing something. But what?
+But we know from the error that we're missing something. But what? It's not a `~` (tilde) btw: we'll
+come back to that but believe me that it's not important yet.
 
-## What's different about generics
+## Type parameters share a syntax but not behaviour
 
-Since `func one[S []E, E any](s S)` is using generics, what about them is causing this? If we had
-a look at the spec updates when generics were added, we'd notice that we can't do some things
+If we had a look at the spec updates when generics were added, we'd notice that we can't do some things
 to values of an interface type, when that type is in a type parameter, that we could do with other
 interface values. Like type assertions:
 
@@ -79,20 +79,20 @@ generics/frob.go:15:15: invalid operation: cannot use type assertion on type par
 This is again quite surprising, `normal` and `generic` appear to have almost exactly the
 same type-signature.
 
-If we refer to the [spec](https://go.dev/ref/spec#Type_assertions), we'd see that explicitly bans type assertions on
+If we refer to the [spec](https://go.dev/ref/spec#Type_assertions), we'd see that the compile error might be expected: the spec explicitly bans type assertions on
 type parameters.
 
 > For an expression x of interface type, but not a type parameter, and a type T, the primary expression
 
-But while it tells us that what we're doing is against the rules, it doesn't explain why that rule exists. Why can't we
+But while this tells us that what trying to do is against the rules, it doesn't explain why that rule exists. Why can't we
 use a value of an interface type (`frobber`) like other an interface values? Why is `f` in `generic[F frobber](f F)` so different
 to `normal(f frobber)`?
 
 ## How do generics work?
 
-Go's generics can be thought of as working by copy-pasting for you. If you have a function that you want to work
-on a set of types, it'll copy-paste one function for each type with the type replaced. Critically, the type of
-the parameter in each of the concrete function will be a concrete type, for example:
+Go's generics can be thought of as working by copy-pasting ('instantiating') for you. If you have a function that you want to work
+on a set of types, it'll copy-paste one function for each type, specialised for that type. Critically, the type of
+the parameter in each of those function will be a different type, for example:
 
 ```go
 package main
@@ -111,7 +111,7 @@ func main() {
 ```
 
 the compiler will generate us implementations of the `add` function for all the
-types that fulfil `addable`, giving us soemthing like this:
+types that fulfil `addable`, giving us something like this:
 
 ```go
 // compiler generates
@@ -119,51 +119,45 @@ func compiled_addInt(a,b int) int { return a.Add(b) }
 func compiled_addString(a,b string) int { return a.Add(b) }
 ```
 
+The critical point is: in neither of these functions is the type of parameter an interface type. And we [know](/go-interfaces-the-tricky-parts/) that
+interface values are a completely different _kind_ of value in Go to concrete values. Type assertions
+in Go only work on interface values. There's no interface
+value to contain a dynamic type because it's unnecessary here: the types have been made concrete already, there's
+no dynamic type to determine at runtime. So there's both no need for type assertions in the generated functions - the type is set - and no mechanism for it - Go's type assertions work on interface _values_.
+
+## Back to our example
+
+Does this explain `S` from `[S []E, E any]` not being `[]any`?
+
+1. first - [recall (or grok)](/go-interfaces-the-tricky-parts/) that interface are containers that hold concrete values in Go
+2. therefore `[]any` is "a slice of interface containers holding any concrete values", not "a slice of any concrete value"
+3. next recall that `[E any]` in a generic function will end up as a number of 'copy-pasted' functions, one for each concrete type in E's type-set
+4. combine these understandings: `S` is the set of all slice types (e.g. `[]int`, `[]*os.File`), and not all of them are interface types (`[]io.Reader`)
+
+Point 4 is worth digging into: _one_ of the types in `S`'s type-set is `[]any`. And equally that set includes many other concrete slice-types where the element type is an interface, e.g. `[]io.Reader`. _All_ slices of interface types
+in S would be fine to pass as `[]any` - as all (basic) interfaces as assignable to `any`.
+_However_, since the type-set can include slices of non-interfaces (`[]int`), it would not be correct for the compile to allow us to pass `S` into a non-generic function accepting `[]any`.
 
 ## Type parameters overload the meaning of `interface`
 
-Interface types in type parameters are not the same as in normal parameters. And values whose type is defined by a type
-parameter are not interface values, even if they look the same.
+This has taught us something surprising, and perhaps unfortunate. Interface types from type parameters are not the same as those from normal parameters. And values whose type is defined by a type
+parameter are not always interface values, and thus can't be used like interface values, even if they look the same.
 
-Generics overloaded the meaning of `interface{}` (shorthand: `any`). Whereas before, you could be sure a `interface{}`
+Therefore generics have overloaded the meaning of `any` (a shorthand for `intreface{}`). Whereas before, you could be sure a `any`/`interface{}`
 meant an interface value, this is no longer true, specifically whenever you're inside a function or method with a type
-parameter. This is a big change, and makes the, IMO, trickiest part of Go even trickier. The explanation in the Go blog
-is good - that now `interface{}` defines type sets - but it doesn't change that the behaviour of a value of type
-parameter constrained by a `interface { frob()}` behaves totally differently to a value of a normal parameter
-constrained by the same interface.
+parameter. This makes the trickiest, IMO, part of Go even trickier. The behaviour of a value of type
+parameter constrained by `interface { frob() }` behaves totally differently to a value of a normal parameter
+constrained by the same interface. But they share a keyword.
 
-With generics, we now have four big 'flavours' of types in Go:
+We now have three big 'flavours' of types in Go:
 
 1. concrete types: `int`, structs, etc
-2. interface types: `error`, `interface{}`, `any`.
+2. 'basic' interface types: `error`, `interface{}`, `any`.
 3. generic type parameters
 
 2 and 3 are different and behave differently. So it's a bit of a WAT that we use the same keywords - `interface{}`
-and `any` to express both in Go's syntax.
+and `any` - to express both in Go's syntax.
 
-How can we figure this out so it's no longer going to trip us up? A good intuition for Go's generics is that they're
-like automatic-copy paste, where a version of the function is pasted for every type that fulfils the interface with the
-type parameter replaced with that concrete type. A good intuition for interface values for non-type parameters is that
-they're little boxes that hold a pair: a value of a concrete type, and its type. So you can probably see why we firstly
-can't use `[S []E, E any]` as a `[]any`: `S` is a slice of a specific concrete type, but it's absolutely not a slice of
-an interface types. And `[T any]`
-in a parameter will take a different concrete type in each of the automatically 'pasted' implementations, but, again,
-not an interface type:
-
-
-You can see that neither of the compiled functions has any parameters of interface value. So that's why you can't
-type-assert on them: type-assertions are something that can only operate on a interface _value_, by checking if the
-dynamic value contained within is a specific concrete type. Values with types from a type-parameter will always have one
-specific concrete type per generated function, so there's no 'box' to look within.
-
-To really understand errors of this kind you first need to understand what interface values are in Go, vs values with a
-concrete type, and then understand what generic types are. I've written
-a [previous post](/go-interfaces-the-tricky-parts/) about interface values, but I'll reprise it here faster.
-
-## Second example
-
-
-TODO - challenge
 
 ## What is a WAT?
 
