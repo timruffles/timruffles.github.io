@@ -53,7 +53,7 @@ async function main() {
     title: "Tim Ruffles' blog",
     slug: "",
     baseURL: baseURL,
-    description: "Tim  Ruffles' blog - software engineering and data-visualization",
+    description: "Tim  Ruffles' blog - software engineering",
     content: homePage(articlesDesc.slice(0, 20)),
   }));
 
