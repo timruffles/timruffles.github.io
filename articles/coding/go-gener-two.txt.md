@@ -38,34 +38,69 @@ It'd be quite reasonable to think it should compile, because:
 But we know from the error that we're missing something. But what? Note: it's not a `~` (tilde), we'll
 come back to tilde but it's not important here and we have enough to cover.
 
+Being able to confidently explain what's going on here is worth the effort. If you follow me on this
+journey I'm certain you'll be way above the average Go developer in their grasp of how generics, and
+interfaces, really work.
+
+## The two flavours of `any` 
+
+If you recall, `any` arrived in Go along with generics. It's a synonym for `interface{}`: they're interchangable
+so anything you say about `any` applies to `interface{}`.
+
+The tricky thing is, `any` comes in two flavours, depending on whether we're in generic or non-generic code:
+
+1. in non-generic code (or pre 1.18): any interface value
+2. in generic code: any type at all
+
+You might ask: why? And also, what's the difference?
+
 ## Why did Go add generics?
 
-Let's quickly remind ourselves why Go added generics. Without generics we couldn't certain types of
-functions in a type-safe way, for example: "return the first item in a slice". Pre-generics, the
+Let's remind ourselves why Go added generics. Without generics we couldn't write certain types of
+functions in a type-safe way, for example: "filter a slice". Pre-generics, the
 closest we could have got was:
 
 ```go
-func firstAny(s []any) any { return s[0] }
+func filterAny(s []any, predicate func(a any) bool) []any { /* ... */ }
 ```
 
 with generics we can write:
 
 ```go
-func firstGeneric[S []E, E any](s S) E { return s[0] }
+func filterGeneric[S []E, E any](s S, predicate func(a E) bool) []E { /* ... */ }
 ```
 
-An important difference? Type-safety: we get back `E` not `any`. But there's another important difference: `firstGeneric` can work with all slices, `firstAny` cannot:
+There are some important differences, however. 
+
+First, `filterAny` lacks type-safety. The predicate function in accepts an `any`: even if we pass in `[]interface{ id() string }` we would have to
+use a type-assertion to access the `id()` method. In `filterGeneric` it accepts the type-argument, so we can write
+a type-safe predicate.
 
 ```go
-ints := []int{1,2,3}
-var a int = firstAny(ints)
-// cannot use ints (variable of type []int) as type []any in argument to firstAny
-var b any = firstGeneric(ints)
+// TODO
 ```
 
-`[]int` is a slice of concrete values, and is not assignable to `[]any` (whereas a slice of any interface type, e.g. `[]io.Reader`, would be). If that's confusing at all, don't worry, I found it confusing too and wrote a post [explaining how interfaces work in Go](/go-interfaces-the-tricky-parts/). Read that first, and come back.
+Secondly, the `filterAny` function can only work with slices where the element type is an interface, e.g.:
 
+```go
+files := []*os.File{}
+readers := []io.ReadCloser{}
 
+// won't compile - we get back []any
+var filtered []*os.File = filterAny(files, filterFile)
+
+// cannot use files (variable of type []*os.File) as type []any in argument to filterAny
+_ = filterAny(files, filterFile)
+_ = filterAny(readers, filterReader)
+```
+
+The compile error in second restriction might look familiar.
+
+a different shape to concrete values. It takes a little time to get your head around, and I've got another post that [explains how interfaces work in Go](/go-interfaces-the-tricky-parts/). If you can't explain why `filterAny` can't accept `[]int`, read the post and come back.
+
+Okay, so we know that `[]any` looks totally different to a `[]int`: one is a slice of interface values, which are always
+two-pointer containers, and the other is a slice of ints. They have totally different representations in memory, so aren't
+interchangable.
 
 
 ## How do generics work?
