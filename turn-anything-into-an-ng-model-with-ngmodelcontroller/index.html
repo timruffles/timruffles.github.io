@@ -1,0 +1,163 @@
+<!doctype html>
+      <head>
+        <title>Turn anything into an ng-model with ngModelController</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width">
+        <meta name="description" content="
+" >
+        <link rel="stylesheet" href="/css/normalize.css" type="text/css">
+        <link rel="stylesheet" href="/css/style.css" type="text/css">
+        <link rel="stylesheet" href="/css/prism-ghcolors.css" type="text/css">
+        <script type="text/javascript">
+          var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-24335480-1']);
+          _gaq.push(['_trackPageview']);
+
+          function asyncScript(src) {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = src;
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          }
+          asyncScript(('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js');
+        </script>
+        <link rel="alternate" type="application/rss+xml" title="Subscribe to RSS feed" href="/rss.xml" />
+      </head>
+      <body class="article">
+        <div id="mast">
+          <div class='top-bar reading'>
+              <div class="links logical">
+                <div class="navigation logical">
+                  <a href="/">Home</a>
+                  <a href="/rss.xml">RSS</a>
+                  <a href="/me">
+                      Tim Ruffles
+                  </a>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div id="content" class="reading">
+           
+
+           <div id="body">
+              <h1><a href="/turn-anything-into-an-ng-model-with-ngmodelcontroller">Turn anything into an ng-model with ngModelController</a></h1>
+  <p>Few people realise that <code>ng-model</code> can turn any interactive component into a fully-working input for use in Angular&#39;s <code>form</code> system. This saves you a heap of time in reinventing wheels - very often I see 100s of lines of codes in controllers managing state that Angular&#39;s <code>ng-model</code> desperately wants to manage for you.</p>
+<p>To demo this we&#39;ll plug a non-Angular SVG clock into <code>ng-model</code>.</p>
+<p>Try dragging the sun, editing the input and hitting &#39;start&#39;. As you can see, we&#39;ll achieve full ng-model functionality with a very unusual input.</p>
+<p><a class="jsbin-embed" href="https://jsbin.com/nelucu/15/embed?output&amp;height=470px"></a>JS Bin</p>
+<h2 id="turning-a-widget-into-an-input">Turning a widget into an input</h2>
+<p>First off - here&#39;s our template. A standard Angular form, with two-way binding between our input and the value of <code>input.time</code> via <code>ng-model</code>:</p>
+<pre><code><span class="token operator">&lt;</span>form name<span class="token operator">=</span>timeForm<span class="token operator">></span>
+
+  <span class="token operator">&lt;</span>svg width<span class="token operator">=</span><span class="token number">1000</span> height<span class="token operator">=</span><span class="token number">1000</span><span class="token operator">></span>
+
+    <span class="token operator">&lt;</span><span class="token operator">!</span><span class="token operator">--</span> here we bind our clock to item<span class="token punctuation">.</span>time <span class="token operator">--</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>g clock<span class="token operator">-</span>input 
+       ng<span class="token operator">-</span>model<span class="token operator">=</span>item<span class="token punctuation">.</span>time 
+       name<span class="token operator">=</span>time<span class="token operator">></span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>g<span class="token operator">></span>
+
+    <span class="token operator">&lt;</span><span class="token operator">!</span><span class="token operator">--</span> view the value of our input  <span class="token operator">--</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>text x<span class="token operator">=</span><span class="token number">500</span> y<span class="token operator">=</span><span class="token number">500</span><span class="token operator">></span>
+      <span class="token punctuation">{</span><span class="token punctuation">{</span> item<span class="token punctuation">.</span>time <span class="token operator">|</span> date<span class="token punctuation">:</span><span class="token string">"shortTime"</span> <span class="token punctuation">}</span><span class="token punctuation">}</span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>text<span class="token operator">></span>
+    <span class="token operator">&lt;</span>text x<span class="token operator">=</span><span class="token number">500</span> y<span class="token operator">=</span><span class="token number">550</span> ng<span class="token operator">-</span>click<span class="token operator">=</span><span class="token string">"toggle()"</span><span class="token operator">></span>
+      <span class="token punctuation">{</span><span class="token punctuation">{</span> ticking <span class="token operator">?</span> <span class="token string">"Stop"</span> <span class="token punctuation">:</span> <span class="token string">"Start"</span> <span class="token punctuation">}</span><span class="token punctuation">}</span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>text<span class="token operator">></span>
+
+  <span class="token operator">&lt;</span><span class="token operator">/</span>svg<span class="token operator">></span>
+
+<span class="token operator">&lt;</span><span class="token operator">/</span>form<span class="token operator">></span></code></pre>
+<p>To get this template working we&#39;ll next need to:</p>
+<ol>
+<li>create the <code>clock-input</code> directive that initialises our clock widget</li>
+<li>access the controller of the <code>ng-model</code> within our directive</li>
+<li>implement two-way binding with our widget via the controller&#39;s API</li>
+</ol>
+<h2 id="step-1">Step 1</h2>
+<p>We&#39;ve got a <code>donutClock()</code> widget to instantiate, so let&#39;s write a wrapper directive:</p>
+<pre><code>module<span class="token punctuation">.</span><span class="token function">directive</span><span class="token punctuation">(</span><span class="token string">"clock-input"</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token function">clock</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token punctuation">{</span>
+    link<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span>scope<span class="token punctuation">,</span> el<span class="token punctuation">,</span> attrs<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+      <span class="token comment">// initialize the non-angular widget</span>
+      var clock <span class="token operator">=</span> <span class="token function">donutClock</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        onInput<span class="token punctuation">:</span> view2model<span class="token punctuation">,</span>
+        el<span class="token punctuation">:</span> el<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+      <span class="token keyword">function</span> <span class="token function">view2model</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// placeholder</span>
+      <span class="token punctuation">}</span>
+
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>As you can see - the code in <code>donutClock</code> is going to remain ignorant of <code>ng-model</code>, meaning it&#39;s in no way coupled to Angular.</p>
+<h2 id="step-2">Step 2</h2>
+<p>To get at the controller instance for our <code>ng-model</code>, we request it in our directive definition via the <code>require:</code> key. Without a prefix, it&#39;ll ensure an instance of the <code>ng-model</code> directive is present on the same element as our <code>clock-input</code>, and pass the <code>ng-model</code>&#39;s controller to our linking function.</p>
+<pre><code>module<span class="token punctuation">.</span><span class="token function">directive</span><span class="token punctuation">(</span><span class="token string">"clock-input"</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token function">clock</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token punctuation">{</span>
+    require<span class="token punctuation">:</span> <span class="token string">"ngModel"</span><span class="token punctuation">,</span>
+    <span class="token comment">/* ngModel instance passed as forth param to link */</span>
+    link<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span>scope<span class="token punctuation">,</span> el<span class="token punctuation">,</span> attrs<span class="token punctuation">,</span> ngModel<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// ...</span></code></pre>
+<p>In this post we&#39;ll only be using <code>require</code> with <code>ngModel</code>, but I recommend reading the docs and thinking about how your own directive controllers could help clean up your code.</p>
+<h2 id="step-3">Step 3</h2>
+<p>We&#39;re now going to implement two way binding in our <code>link</code> function: getting view values into the model, and getting updated model values into the view.</p>
+<p><code>ngModelController</code> is the important API here. It&#39;s the abstract representation of an input&#39;s logical state, with various APIs for you to hook into the 2-way binding process.</p>
+<p>We inform the controller of updated time values from the widget via <code>ngModel.$setViewValue(newValue)</code>. This&#39;ll update the model after it&#39;s been parsed and validated, and update the form object&#39;s state variables (e.g <code>timeForm.time.$pristine)</code>.</p>
+<p>To control how updates from the model side are presented by the view we override <code>ngModel.$render()</code>, which is called when a change is detected to the model:</p>
+<pre><code>link<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span>scope<span class="token punctuation">,</span> el<span class="token punctuation">,</span> attrs<span class="token punctuation">,</span> ngModel<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+  <span class="token comment">// initialize the non-angular widget, and</span>
+  <span class="token comment">// pass in our model updating function</span>
+  var clock <span class="token operator">=</span> <span class="token function">donutClock</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    onInput<span class="token punctuation">:</span> view2model<span class="token punctuation">,</span>
+    el<span class="token punctuation">:</span> el<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">function</span> <span class="token function">view2model</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    ngModel<span class="token punctuation">.</span>$<span class="token function">setViewValue</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment">// when angular detects a change to the model,</span>
+  <span class="token comment">// we update our widget</span>
+  ngModel<span class="token punctuation">.</span>$render <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token function">model2view</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    clock<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span>ngModel<span class="token punctuation">.</span>$viewValue<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span></code></pre>
+<p>That&#39;s it - the <a href="https://gist.github.com/timruffles/bfbc53c5d7444a506470"></a>full source has the code for the clock etc.</p>
+<p>You can do lots more with <code>ngModelController</code> - adding validators to the <code>$validators</code> object, changing how the values are parsed from the view, or formatted for it, with the <code>$parsers</code> and <code>$formatters</code> arrays - but that&#39;s a story for another blog post.</p>
+<h2 id="three-cheers">Three cheers</h2>
+<p>I really like this API! One API to turn anything - D3 visualisations, React components, random non-Angular widgets, <code>&lt;canvas&gt;</code>, the audio input or accelerometer - into an ng-model. A great example of a well designed abstraction promoting reuse.</p>
+<h2 id="summary">Summary</h2>
+<ul>
+<li>wrap components that capture user interactions with a directive and <code>require</code> <code>ngModel</code></li>
+<li>use the <code>ngModelController</code> APIs to control how your widget updates the model, and renders updates to its value</li>
+<li>via <code>ngModelController</code> you can also control formatting of values to display in the widget, and the parsing and validation of values read from it</li>
+<li>if you see a heap of <code>$watch</code>es in your controller handling the state of user input, think: is there a <code>ng-model</code> missing somewhere?</li>
+</ul>
+<h3 id="thanks">Thanks</h3>
+<p><a href="https://twitter.com/charlotteis"></a>@charlotteis for awesome proof reading!</p>
+
+  
+  <p class=nav>
+    Next: <a href="/directive-communication-in-angular">
+      Directive communication in Angular
+    </a>
+    </p>
+  <p class=nav>
+    Previous: <a href="/keeping-easy-things-easy">
+      Keeping easy things easy
+    </a>
+    </p>
+            </div>
+        </div>
+        <div class="footer reading">
+          <div class="container">
+            <p>📩 hello＠timr · co</p>
+          </div>
+        </div>
+      </body>
