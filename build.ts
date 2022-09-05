@@ -30,21 +30,22 @@ async function main() {
   if(errors.length) {
     console.error("Articles with errors", errors.map(a => a.message))
   }
-  const pages = loaded.filter(isArticle)
-    .filter(a => a.status === 'active')
+  const allPages = loaded.filter(isArticle)
 
   exec(`cp -R public/* gh-pages`)
 
-  pages
+  allPages
     .filter(a => a.category === 'pages')
     .forEach(p => writePage(outputPath, p, config))
 
-  const articlesDesc = pages
+  const articlesDesc = allPages
     .filter(a => a.category !== 'pages')
     .sort((a,b) => +b.date - +a.date)
 
   const forRendering = withNextLast(articlesDesc)
   forRendering.forEach(article => writeArticle(outputPath, article, config))
+
+  const activeArticles = articlesDesc.filter(a => a.status === 'active')
 
   // needs to exist on the gh-pages branch, so write each time
   fs.writeFileSync(`${outputPath}/CNAME`, 'www.timr.co')
@@ -54,7 +55,7 @@ async function main() {
     slug: "",
     baseURL: baseURL,
     description: "Tim  Ruffles' blog - software engineering and data-visualization",
-    content: homePage(articlesDesc.slice(0, 20)),
+    content: homePage(activeArticles.slice(0, 20)),
   }));
 
   fs.writeFileSync(`${outputPath}/404.html`,  layout({
@@ -67,7 +68,7 @@ async function main() {
 <p>Xenophanes</p>`
   }));
 
-  fs.writeFileSync(`${outputPath}/rss.xml`,  rss(articlesDesc));
+  fs.writeFileSync(`${outputPath}/rss.xml`,  rss(activeArticles));
 }
 
 async function loadPagesFromDirectory(dir: string, config: Config): Promise<(Article | Error)[]> {
