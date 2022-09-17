@@ -34,11 +34,10 @@ body: |
     2. by substitution, `S = []E`, `E = any`, so `S = []any`, surely?
     3. therefore we should be able to pass `S` into a function accepting `[]any`?
 
-    <p>But we know from the error that this reasoning is missing something. But what? It's not
-    tilde<sup><a href="#tilde">1</a></sup>.</p>
+    But we know from the error that this reasoning is missing something. But what?
 
-    Figuring out what's going on here is worth it. If you follow me through this post I'm certain you'll end up with
-    an understanding of how generics and interfaces really work that's way deeper than the average Go developer's.
+    Figuring out this puzzle is worth it. If you follow me through this post I'm certain you'll end up with
+    an understanding of how generics and interfaces work that goes way deeper than the average Go developer's.
 
     ## Why did Go add generics?
 
@@ -60,7 +59,7 @@ body: |
     with generics we can use type-parameters:
 
     ```go
-    func reverseGeneric[S []E, E any](s S) bool) []E { /* ... */ }
+    func reverseGeneric[S []E, E any](s S) bool) S { /* ... */ }
     ```
 
     The `reverseGeneric` version is better for two reasons. First, the `reverseOld` approach loses type information: even
@@ -113,7 +112,7 @@ body: |
 
     ## How are generics implemented?
 
-    We've learned type-parameters let us write a much broader set of generic functions that interfaces alone did. Now let's
+    We've learned type-parameters let us write a much broader set of generic functions than interfaces alone did. Now let's
     have a look into how Go compiles generic code. After that, we'll have enough to solve our puzzle.
 
     Go's generics can be thought of as working by doing some copy-pasting - called 'instantiating' in the spec - for you. If
