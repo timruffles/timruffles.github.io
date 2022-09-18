@@ -1,0 +1,31 @@
+    ## Post-scripts
+
+    ### Tilde
+
+    Tilde means "types with the underlying type of X", e.g. `~int` is "types with the underlying type of int", and allows generic code to work with new types. Adding tilde to `one` would
+    us pass in types like `type MySlice []somepkg.Something`. `MySlice` is a distinct type: and that's how we can attach methods to it. But its
+    _underlying_ type is `[]somepkg.Something`. Since `one` lacks a tilde in `[S []E, E any]`, we couldn't pass
+    in `MySlice` because it's a distinct type, and thus not a slice type. But adding the tilde - `[S ~[]E, E any]` -
+    fixes this, because `MySlice`'s underlying type is a slice:
+
+    ```go
+    type MySlice []somepkg.Something
+
+    func one[S []E, E any](s S) {}
+    func oneTilde[S ~[]E, E any](s S) {}
+
+    // Cannot use 'MySlice{}' (type MySlice) as the type S
+    one(MySlice{})
+    // fine
+    oneTilde(MySlice{})
+    ```
+
+    So in practice when using generics we'll almost always want the tilde.
+
+    ### Formal
+
+    Some readers might feel like I'm missing some formal language from type-theory or programming language design. I've
+    avoided them firstly because it's another layer of concepts in the way of someone understanding this, if they aren't already familar with them. I think you'll agree, there's
+    plenty to learn already. Secondly, and more importantly, because names are _labels_ not _explanations_. Using a distinct name for something doesn't tell us why it works the way it does. Often, when you've learned names at the same time as learning explanations, names bring to mind explanation. But if you don't already have the explanation, they're just
+    another thing to learn. If you haven't already, do check out Richard Feynman talking about the difference between [knowing the names of birds, and real knowledge about birds](https://fs.blog/richard-feynman-knowing-something/).
+

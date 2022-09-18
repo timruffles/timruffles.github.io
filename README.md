@@ -8,19 +8,15 @@ I built a blog. Why reinvent this wheel?
 ## Install
 
 ```
-make install
+npm install
 ```
 
-## Run
+## Run
 
 ```
-make run
-``` 
+npm start
+```
 
 ## Deploy
 
-Hosted on Heroku - deploy is as easy as:
-
-```
-make deploy
-```
+Via GitHub Actions - see .github/workflows.
