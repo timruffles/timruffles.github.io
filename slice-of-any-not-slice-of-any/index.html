@@ -40,9 +40,9 @@
            
 
            <div id="body">
-              <h1><a href="/when-is-a-slice-of-any-not-a-slice-of-any">When is a slice of any not a slice of any?</a></h1>
+              <h1><a href="/slice-of-any-not-slice-of-any">When is a slice of any not a slice of any?</a></h1>
   <p>When is <code>[]any</code> not <code>[]any</code>? When generics get involved!</p>
-<p>Will the following compile? If not, why?</p>
+<p>Will the below compile? If not, why?</p>
 <pre><code class="language-go"><span class="token keyword">package</span> main
 
 <span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -68,65 +68,56 @@
 <li>by substitution, <code>S = []E</code>, <code>E = any</code>, so <code>S = []any</code>, surely?</li>
 <li>therefore we should be able to pass <code>S</code> into a function accepting <code>[]any</code>?</li>
 </ol>
-<p>But we know from the error that this reasoning is missing something. But what? It's not
-tilde<sup><a href="#tilde">1</a></sup>.</p>
-
-<p>Figuring out what&#39;s going on here is worth it. If you follow me through this post I&#39;m certain you&#39;ll end up with
-an understanding of how generics and interfaces really work that&#39;s way deeper than the average Go developer&#39;s.</p>
-<h2 id="why-did-go-add-generics">Why did Go add generics?</h2>
-<p>First up, let&#39;s remind ourselves why Go added generics. Without generics we couldn&#39;t write certain types of functions in
-a type-safe way, for example: &quot;reverse a slice&quot;.</p>
 <blockquote>
 <p>Quick note: <code>any</code> is <a href="https://github.com/golang/go/blob/master/src/builtin/builtin.go#L94" >&#39;an alias for <code>interface{}</code> and is equivalent in all ways&#39;</a>. Though it landed alongside generics in Go 1.18, <code>any</code>
 is just <code>interface{}</code>.</p>
 </blockquote>
-<p>Pre-generics, to attempt to write a generic reverse we&#39;d have to have written something that sacrificed compile-time type-safety in some way. Either writing a
-function accepting <code>[]any</code> for a little compile-time help (ensuring we&#39;re at least working with a slice), or
-just <code>any</code> (which would require reflection). I&#39;ll discuss just the first approach, <code>reverseOld</code>, here:</p>
+<p>But we know from the error that this reasoning is missing something. But what?</p>
+<h2 id="why-did-go-add-generics">Why did Go add generics?</h2>
+<p>First up, let&#39;s remind ourselves why Go added generics. Without generics we couldn&#39;t write certain types of functions in
+a type-safe way, for example: &quot;reverse a slice&quot;. Pre-generics, we&#39;d have to have written something that sacrificed compile-time type-safety in some way. Either a function accepting <code>any</code> (AKA <code>interface{}</code>) and using reflection, or you might have tried writing a function accepting <code>[]any</code>. I&#39;ll discuss just the second approach, <code>reverseOld</code>:</p>
 <pre><code class="language-go"><span class="token comment">// technically it would have been []interface{} pre-Go 1.18</span>
 <span class="token keyword">func</span> <span class="token function">reverseOld</span><span class="token punctuation">(</span>s <span class="token punctuation">[</span><span class="token punctuation">]</span>any<span class="token punctuation">)</span> <span class="token builtin">bool</span><span class="token punctuation">)</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>any <span class="token punctuation">{</span> <span class="token comment">/* ... */</span> <span class="token punctuation">}</span></code></pre>
-<p>with generics we can use type-parameters:</p>
-<pre><code class="language-go"><span class="token keyword">func</span> reverseGeneric<span class="token punctuation">[</span>S <span class="token punctuation">[</span><span class="token punctuation">]</span>E<span class="token punctuation">,</span> E any<span class="token punctuation">]</span><span class="token punctuation">(</span>s S<span class="token punctuation">)</span> <span class="token builtin">bool</span><span class="token punctuation">)</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>E <span class="token punctuation">{</span> <span class="token comment">/* ... */</span> <span class="token punctuation">}</span></code></pre>
+<p>Here&#39;s the generic version:</p>
+<pre><code class="language-go"><span class="token keyword">func</span> reverseGeneric<span class="token punctuation">[</span>S <span class="token punctuation">[</span><span class="token punctuation">]</span>E<span class="token punctuation">,</span> E any<span class="token punctuation">]</span><span class="token punctuation">(</span>s S<span class="token punctuation">)</span> <span class="token builtin">bool</span><span class="token punctuation">)</span> S <span class="token punctuation">{</span> <span class="token comment">/* ... */</span> <span class="token punctuation">}</span></code></pre>
 <p>The <code>reverseGeneric</code> version is better for two reasons. First, the <code>reverseOld</code> approach loses type information: even
 when we pass in a slice with a non-any type like <code>[]io.Reader</code> we get back <code>[]any</code>:</p>
 <pre><code class="language-go">readers <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>io<span class="token punctuation">.</span>Reader<span class="token punctuation">{</span><span class="token punctuation">}</span>
 
 <span class="token comment">// won't compile - we get back []any</span>
 <span class="token keyword">var</span> rev <span class="token punctuation">[</span><span class="token punctuation">]</span>io<span class="token punctuation">.</span>Reader <span class="token operator">=</span> <span class="token function">reverseOld</span><span class="token punctuation">(</span>readers<span class="token punctuation">)</span>
-<span class="token comment">// works fine - we keep the type</span>
+<span class="token comment">// with generics  we keep the type</span>
 <span class="token keyword">var</span> revGen <span class="token punctuation">[</span><span class="token punctuation">]</span>io<span class="token punctuation">.</span>Reader <span class="token operator">=</span> <span class="token function">reverseGeneric</span><span class="token punctuation">(</span>readers<span class="token punctuation">)</span></code></pre>
 <p>Secondly, the <code>reverseOld</code> function can&#39;t work with all slices, but <code>reverseGeneric</code> can. <code>reverseOld</code> can only accept
 slices whose element type is an interface type:</p>
-<pre><code class="language-go">files <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">*</span>os<span class="token punctuation">.</span>File<span class="token punctuation">{</span><span class="token punctuation">}</span>
-readers <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>io<span class="token punctuation">.</span>ReadCloser<span class="token punctuation">{</span><span class="token punctuation">}</span>
+<pre><code class="language-go">files <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">*</span>os<span class="token punctuation">.</span>File<span class="token punctuation">{</span><span class="token operator">&amp;</span>os<span class="token punctuation">.</span>File<span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">}</span>
+readers <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>io<span class="token punctuation">.</span>ReadCloser<span class="token punctuation">{</span><span class="token operator">&amp;</span>os<span class="token punctuation">.</span>File<span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">}</span>
 
-<span class="token comment">// cannot use files (variable of type []*os.File) as type []any in argument to reverseOld</span>
+<span class="token comment">// works</span>
+<span class="token boolean">_</span> <span class="token operator">=</span> <span class="token function">reverseOld</span><span class="token punctuation">(</span>readers<span class="token punctuation">)</span>
+<span class="token comment">// fails: cannot use files (variable of type []*os.File) as type []any in argument to reverseOld</span>
 <span class="token boolean">_</span> <span class="token operator">=</span> <span class="token function">reverseOld</span><span class="token punctuation">(</span>files<span class="token punctuation">)</span>
-<span class="token comment">// works fine</span>
+
+<span class="token comment">// works</span>
 <span class="token boolean">_</span> <span class="token operator">=</span> <span class="token function">reverseGeneric</span><span class="token punctuation">(</span>files<span class="token punctuation">)</span>
 <span class="token boolean">_</span> <span class="token operator">=</span> <span class="token function">reverseGeneric</span><span class="token punctuation">(</span>readers<span class="token punctuation">)</span></code></pre>
-<p>If it&#39;s completely baffling to you that <code>reverseOld</code> can&#39;t accept <code>[]*os.File</code>, that&#39;s probably because you&#39;re
-thinking &#39;Huh? But doesn&#39;t <code>[]any</code> mean &quot;any slice&quot;?&#39;. If so - you are not alone. Read the next section. If that
-behaviour already makes total sense to you, <a href="/TODO" >skip ahead</a>.</p>
+<p>This second restriction might not surprise you at all - if so, <a href="#how-are-generics-implemented" >skip ahead</a>. But if you&#39;re thinking something like  &#39;Huh?! But doesn&#39;t <code>[]any</code> mean &quot;any slice&quot;?&#39;, you are not alone: read on.</p>
 <h2 id="any-has-never-meant-any-slice"><code>[]any</code> has never meant any slice</h2>
 <p>Even before generics, <code>[]interface{}</code> (exactly equivalent to <code>[]any</code>) did not mean &quot;any slice&quot;.</p>
 <p>Values with an interface type in Go are <em>containers</em> for concrete types, not the concrete types themselves. They&#39;re
 boxed types. Go does a lot to hide this from you for convenience, and that &#39;magic&#39; also makes it really easy to write a
 lot of Go without being aware of this distinction. This is very different from how other languages handle this - e.g.
 TypeScript.</p>
-<p>So <code>[]any</code> in Go, before and after generics landed, means &quot;a slice of interface boxes&quot;. Since the empty interface - <code>any</code>/<code>interface{}</code> -
-has no methods, every type fulfils it. But, as said, we need those boxes: a slice of concrete values
-  like <code>[]int</code> or <code>[]string</code> looks totally different in memory and therefore can&#39;t be used with code that
-  accepts <code>[]any</code>.</p>
+<p><code>[]any</code> in Go, before and after generics, means &quot;a slice of interface boxes&quot;. Although every type can be place inside a &#39;box&#39; of the <code>any</code>/<code>interface{}</code>, this doesn&#39;t imply every type is boxed. This means elements of slice of non-interface values
+  like <code>[]int</code> or <code>[]string</code> are unboxed, so can&#39;t be assigned to <code>[]any</code>. But <code>[]io.Reader</code> or <code>[]interface{ foo() }</code> have boxed elements, so can be assigned to <code>[]any</code>.</p>
 <p>This took me ages to get my head around. If this quick explanation hasn&#39;t clicked with you, I&#39;ve
 written <a href="/go-interfaces-the-tricky-parts/" >another post</a> that explains why interfaces work like this in Go (even pre
 generics).</p>
 <h2 id="how-are-generics-implemented">How are generics implemented?</h2>
-<p>We&#39;ve learned type-parameters let us write a much broader set of generic functions that interfaces alone did. Now let&#39;s
+<p>We&#39;ve learned type-parameters let us write a much broader set of generic functions than interfaces alone did. Now let&#39;s
 have a look into how Go compiles generic code. After that, we&#39;ll have enough to solve our puzzle.</p>
-<p>Go&#39;s generics can be thought of as working by doing some copy-pasting - called &#39;instantiating&#39; in the spec - for you. If
-you have a function that you want to work on a set of types, it&#39;ll copy-paste one specialised function for each type,
-replacing the type parameters with specific types. Taking a function with the signature of our <code>one</code> function from the
+<p>Go&#39;s generics can be thought of as working by doing some copy-pasting - called &#39;instantiation&#39; in the spec - for you. If
+you have a function that you want to work on a set of types, it&#39;ll &#39;copy-paste&#39; specialised functions where the type parameters are replaced with specific types. Taking a function with the signature of our <code>one</code> function from the
 puzzle:</p>
 <pre><code class="language-go"><span class="token keyword">package</span> main
 
@@ -137,12 +128,12 @@ puzzle:</p>
     <span class="token function">one</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">string</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
     <span class="token function">one</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span>any<span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
 <span class="token punctuation">}</span></code></pre>
-<p>the compiler will generate us implementations of the <code>one</code> function for all the types assignable to <code>E</code>/<code>S</code> (the spec
-calls this the &quot;type set&quot;). In theory for <code>any</code> that&#39;s every type we include, a huge amount to compile! But in reality
+<p>the compiler will generate us implementations of the <code>one</code> function for all the types assignable to <code>S</code> (the spec
+calls this the &quot;type set&quot;). In theory for <code>any</code> that&#39;s every type, a huge amount to compile! But in reality
 Go does this only for the subset of types that we actually pass into <code>one</code> in our program). The compiled functions will
-look a bit like this (use the <a href="https://godbolt.org/z/e63579sqM" >compiler explorer</a> to see the real output), and you can
+look a bit like this (use the <a href="https://godbolt.org/z/e63579sqM" >compiler explorer</a> to see real output), and you can
 see the type parameter has been replaced with the specific types we used:</p>
-<pre><code class="language-go"><span class="token comment">// compiler generates</span>
+<pre><code class="language-go"><span class="token comment">// compiler generates the following implementations for us</span>
 <span class="token keyword">func</span> <span class="token function">compiled_one</span><span class="token punctuation">(</span>s <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
 <span class="token keyword">func</span> <span class="token function">compiled_one</span><span class="token punctuation">(</span>s <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
 <span class="token keyword">func</span> <span class="token function">compiled_one</span><span class="token punctuation">(</span>s <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token keyword">interface</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span></code></pre>
@@ -151,23 +142,24 @@ slices of a specific concrete type.</p>
 <p>So to correct our reasoning from the start of the post:</p>
 <ol>
 <li><code>one</code> has the type parameter <code>[S []E, E any]</code></li>
-<li>we know <code>any</code> here has a type-set that covers non-interface types</li>
-<li>therefore we can&#39;t pass <code>S</code> into a non-generic function accepting <code>[]any</code>. <code>S</code> is a superset of <code>[]any</code>: <code>[]any</code> only
-covers slices of interface types</li>
+<li>we know <code>any</code> here has a type-set that covers non-interface types (we saw that&#39;s the point of generics)</li>
+<li>we know that although if some type <code>T</code> can be assigned to <code>any</code>, if <code>T</code> is not an interface type <code>[]T</code> isn&#39;t assignable to <code>[]any</code></li>
+<li>therefore we can&#39;t pass <code>S</code> into a non-generic function accepting <code>[]any</code>. <code>S</code> is a superset of <code>[]any</code> because <code>[]any</code> only
+includes slices of interface types</li>
 </ol>
 <p>This makes sense! As said, a major motivation for generics was exactly that, writing functions that can work with all
-slices.</p>
+slices, including slices of concrete types.</p>
 <h2 id="the-two-flavours-of-interface">The two flavours of interface</h2>
 <p>Solving this mystery has taught us something important, and perhaps unfortunate: types like <code>any</code>, <code>interface{}</code>
 or <code>io.Reader</code> means something very different in generic and non-generic code:</p>
 <ul>
-<li>in generic code, e.g. <code>[S []E, E any]</code>, <code>any</code> really means &quot;any type&quot;, so <code>E</code> can be a concrete type in the &#39;instantiated&#39; code</li>
-<li>in non-generic code, e.g. <code>s []any</code>, <code>any</code> means &quot;any interface type&quot;, and the elements of <code>s</code> will be interface values (boxed)</li>
+<li>in generic code, e.g. <code>x any</code>, <code>any</code> really means &quot;any type&quot;, so <code>x</code> can be a non-interface (unboxed) type in the &#39;instantiated&#39; code at runtime</li>
+<li>in non-generic code, e.g. <code>x any</code>, <code>any</code> means &quot;any interface type&quot;, and <code>x</code> will always be boxed at runtime</li>
 </ul>
 <p>Let&#39;s look at another implication of this difference: type-assertions.</p>
 <h2 id="type-assertions-and-generics">Type-assertions and generics</h2>
 <p>In Go, we can use type-assertions to determine the concrete type of value of interface type at runtime. Or, at least, you can outside of
-generic code: you can probably see why. For instance:</p>
+generic code: with what you&#39;ve learned, you should be able to figure out why. For instance:</p>
 <pre><code class="language-go"><span class="token keyword">package</span> main
 
 <span class="token keyword">import</span> <span class="token string">"fmt"</span>
@@ -221,12 +213,12 @@ learned also means you understand <em>why</em> this rule is in the spec.</p>
 
 <span class="token keyword">func</span> <span class="token function">withIntString</span><span class="token punctuation">(</span>is intString<span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span></code></pre>
 <p>We will get compile errors in two places here, because the only place you can use interfaces that have type constraints
-is in type-parameters. So we have a flavour of interface that cannot be used anywhere but generic code.</p>
-<p>The spec tell us there are now two types of interface, &#39;basic&#39; and &#39;general&#39;:</p>
+is in type-parameters. Huh - our <code>intString</code> interface uses the same <code>interface</code> keyword as other interfaces, but clearly works very differently!</p>
+<p>Indeed, the spec tell us there are now two types of interface, &#39;basic&#39; and &#39;general&#39;:</p>
 <blockquote>
 <p>Interfaces that are not basic may only be used as type constraints, or as elements of other interfaces used as constraints. They cannot be the types of values or variables, or components of other, non-interface types.</p>
 </blockquote>
-<p>After generics, Go now has &#39;basic&#39; and &#39;general&#39; interface types sharing the same syntax, and, as we&#39;ve seen, &quot;basic&quot; interfaces types
+<p>After generics, Go now has &#39;basic&#39; and &#39;general&#39; interface types sharing the same syntax, and, as we&#39;ve discussed above in this post, &quot;basic&quot; interfaces types
 behave completely differently in generic and non-generic code:</p>
 <table>
 <thead>
@@ -238,13 +230,13 @@ behave completely differently in generic and non-generic code:</p>
 </thead>
 <tbody><tr>
 <td>Basic interface type</td>
-<td>Interface value, type-assertions</td>
-<td>Concrete and interface values, no type-assertions</td>
+<td>Always boxed value, type-assertions</td>
+<td>Both boxed/unboxed values, no type-assertions</td>
 </tr>
 <tr>
 <td>General interface type</td>
 <td>Not allowed</td>
-<td>Concrete and interface values, no type-assertions</td>
+<td>Both boxed/unboxed values, no type-assertions</td>
 </tr>
 </tbody></table>
 <h2 id="tradeoffs">Tradeoffs</h2>
@@ -257,35 +249,8 @@ discussions:</p>
 <blockquote>
 <p>I remain concerned that this proposal overloads words (and keywords!) that formerly had very clear meanings — specifically the words type and interface and their corresponding keywords — such that they each now refer to two mostly-distinct concepts that really ought to instead have their own names</p>
 </blockquote>
-<p>This post isn&#39;t claiming this tradeoff was the wrong one, nor that there&#39;s an obviously better alternative. But I hope
-it does help you understand how the concept of interface has ended up overloaded, and helps you navigate the confusing
-implications.</p>
-<h2 id="post-scripts">Post-scripts</h2>
-<h3 id="tilde">Tilde</h3>
-<p>The tilde isn&#39;t important here. Tilde means &quot;types with the underlying type of X&quot;, e.g. <code>~int</code> is &quot;types with the underlying type of int&quot;, and allows generic code to work with new types. Adding tilde to <code>one</code> would
-us pass in types like <code>type MySlice []somepkg.Something</code>. <code>MySlice</code> is a distinct type: and that&#39;s how we can attach methods to it. But its
-<em>underlying</em> type is <code>[]somepkg.Something</code>. Since <code>one</code> lacks a tilde in <code>[S []E, E any]</code>, we couldn&#39;t pass
-in <code>MySlice</code> because it&#39;s a distinct type, and thus not a slice type. But adding the tilde - <code>[S ~[]E, E any]</code> -
-fixes this, because <code>MySlice</code>&#39;s underlying type is a slice:</p>
-<pre><code class="language-go"><span class="token keyword">type</span> MySlice <span class="token punctuation">[</span><span class="token punctuation">]</span>somepkg<span class="token punctuation">.</span>Something
-
-<span class="token keyword">func</span> one<span class="token punctuation">[</span>S <span class="token punctuation">[</span><span class="token punctuation">]</span>E<span class="token punctuation">,</span> E any<span class="token punctuation">]</span><span class="token punctuation">(</span>s S<span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
-<span class="token keyword">func</span> oneTilde<span class="token punctuation">[</span>S ~<span class="token punctuation">[</span><span class="token punctuation">]</span>E<span class="token punctuation">,</span> E any<span class="token punctuation">]</span><span class="token punctuation">(</span>s S<span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
-
-<span class="token comment">// Cannot use 'MySlice{}' (type MySlice) as the type S</span>
-<span class="token function">one</span><span class="token punctuation">(</span>MySlice<span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
-<span class="token comment">// fine</span>
-<span class="token function">oneTilde</span><span class="token punctuation">(</span>MySlice<span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
-<p>So in practice when using generics we&#39;ll almost always want the tilde.</p>
-<h3 id="formal">Formal</h3>
-<p>Some readers might feel like I&#39;m missing some formal language from type-theory or programming language design. I&#39;ve
-avoided that as it&#39;s another layer of concepts for someone to learn if they lack them. I think you&#39;ll agree, there&#39;s
-plenty to learn already.</p>
-<p>Another reason: names are <em>labels</em> not an <em>explanations</em>. They tell us
-what something is, but not why it works that way. Often, when you&#39;ve learned them at the same time as learning
-how the things named work they bring to mind the explanation. But if you don&#39;t already have the explanation, they&#39;re just
-another thing to learn. I think it&#39;s much more important to understand the mechanics than
-the labels - a bit like Richard Feynman&#39;s distinction between <a href="https://fs.blog/richard-feynman-knowing-something/" >knowing the names of birds, and useful knowledge about those birds</a>.</p>
+<p>I&#39;m not stating this tradeoff was the wrong one, nor that there&#39;s an obviously better alternative. But it certainly has some curious implications.</p>
+<p>Anyway, I hope this helps you understand the now overloaded meaning of &#39;interface&#39;, and you&#39;ve deepened your understanding of Go.</p>
 
   
   
