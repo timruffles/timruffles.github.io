@@ -1,7 +1,6 @@
 title: When is a slice of any not a slice of any?
 date: "2022/09/04"
 slug: slice-of-any-not-slice-of-any
-draft: true
 body: |
     When is `[]any` not `[]any`? When generics get involved!
 
@@ -20,7 +19,6 @@ body: |
 
     func two(s []any) []any { return s }
     ```
-
 
     <details>
      <summary>See answer 👀</summary><p>It doesn't compile, with this error:
@@ -93,12 +91,14 @@ body: |
     Even before generics, `[]interface{}` (exactly equivalent to `[]any`) did not mean "any slice".
 
     Values with an interface type in Go are _containers_ for concrete types, not the concrete types themselves. They're
-    boxed types. Go does a lot to hide this from you for convenience, and that 'magic' also makes it really easy to write a
+    boxed types - you may have heard that at runtime they're a pair of pointers, one to the type of the value inside, and one to the value itself. Go does a lot to hide this from you for convenience, and that 'magic' also makes it really easy to write a
     lot of Go without being aware of this distinction. This is very different from how other languages handle this - e.g.
     TypeScript.
 
-    `[]any` in Go, before and after generics, means "a slice of interface boxes". Although every type can be place inside a 'box' of the `any`/`interface{}`, this doesn't imply every type is boxed. This means elements of slice of non-interface values
+    This implies `[]any`, before and after generics, means "a slice of interface boxes". Although every type can be place inside a 'box' of the `any`/`interface{}`, this doesn't imply every type is boxed. This means elements of slice of non-interface values
       like `[]int` or `[]string` are unboxed, so can't be assigned to `[]any`. But `[]io.Reader` or `[]interface{ foo() }` have boxed elements, so can be assigned to `[]any`.
+
+    ![go slices of concrete vs interface types](./img/go-slices-ivals.png)
 
     This took me ages to get my head around. If this quick explanation hasn't clicked with you, I've
     written [another post](/go-interfaces-the-tricky-parts/) that explains why interfaces work like this in Go (even pre
@@ -109,7 +109,7 @@ body: |
     We've learned type-parameters let us write a much broader set of generic functions than interfaces alone did. Now let's
     have a look into how Go compiles generic code. After that, we'll have enough to solve our puzzle.
 
-    Go's generics can be thought of as working by doing some copy-pasting - called 'instantiation' in the spec - for you. If
+    Intuitively, Go's generics can be thought of as working by doing some copy-pasting - called 'instantiation' in the spec - for you. If
     you have a function that you want to work on a set of types, it'll 'copy-paste' specialised functions where the type parameters are replaced with specific types. Taking a function with the signature of our `one` function from the
     puzzle:
 
@@ -144,10 +144,9 @@ body: |
     So to correct our reasoning from the start of the post:
 
     1. `one` has the type parameter `[S []E, E any]`
-    2. we know `any` here has a type-set that covers non-interface types (we saw that's the point of generics)
-    3. we know that although if some type `T` can be assigned to `any`, if `T` is not an interface type `[]T` isn't assignable to `[]any`
-    4. therefore we can't pass `S` into a non-generic function accepting `[]any`. `S` is a superset of `[]any` because `[]any` only
-       includes slices of interface types
+    2. we know `E` here can be a concrete type an runtime, rather than an interface 'box' (we saw that's the point of generics)
+    3. we know that type `[]T` isn't assignable to `[]any`, if `T` is a concrete type, as a slice of interface values is a different shape to a slice of concrete types
+    4. therefore we can't pass `S` into `two`, a non-generic function accepting `[]any`. `S` is a superset of `[]any` because `[]any` only includes slices of interface types
 
     This makes sense! As said, a major motivation for generics was exactly that, writing functions that can work with all
     slices, including slices of concrete types.
@@ -155,56 +154,40 @@ body: |
     ## The two flavours of interface
 
     Solving this mystery has taught us something important, and perhaps unfortunate: types like `any`, `interface{}`
-    or `io.Reader` means something very different in generic and non-generic code:
-
-    * in generic code, e.g. `x any`, `any` really means "any type", so `x` can be a non-interface (unboxed) type in the 'instantiated' code at runtime
-    * in non-generic code, e.g. `x any`, `any` means "any interface type", and `x` will always be boxed at runtime
-
-    Let's look at another implication of this difference: type-assertions.
-
-    ## Type-assertions and generics
-
-    In Go, we can use type-assertions to determine the concrete type of value of interface type at runtime. Or, at least, you can outside of
-    generic code: with what you've learned, you should be able to figure out why. For instance:
+    or `io.Reader` means something very different if they appear in type-parameters vs elsewhere. Let's look at another way `(t any)` and `[T any](t T)` differ: type-assertions. In Go, we can use type-assertions to identify the specific concrete type of value in an interface 'box' at runtime. Or, at least, at least if you're not using an interface type in a type-parameter (with what you've learned, perhaps you can figure out why?). For instance:
 
     ```go
     package main
 
-    import "fmt"
+    import ("fmt"; "io"; "os")
 
-    type frobber interface{ frob() }
-
-    type mytype int
-
-    func (_ mytype) frob() {}
-
-    var _ frobber = mytype(0)
-
-    func normal(f frobber) {
-        if iv, ok := f.(mytype); ok {
+    func normal(f io.Reader) {
+        if iv, ok := f.(*os.File); ok {
             fmt.Println("unwrapped you!", iv)
         }
     }
 
-    func generic[F frobber](f F) {
-        if iv, ok := f.(mytype); ok {
+    func generic[F io.Reader](f F) {
+        if iv, ok := f.(*os.File); ok {
             fmt.Println("unwrapped you!", iv)
         }
     }
     ```
 
-    If you run this you'll see `normal` compiles, but `generic` has a compile error:
+    If you run this you'll see `normal` compiles (as `*os.File` can be assigned to `io.Reader`), but `generic` has a compile error:
 
     ```
-    generics/frob.go:15:15: invalid operation: cannot use type assertion on type parameter value f (variable of type F constrained by interface{frob()})
+    invalid operation: cannot use type assertion on type parameter
+      value f (variable of type F constrained by io.Reader)
     ```
 
-    This shouldn't surprise us, because we now know that interface means something different in generic and non-generic
-    code. In non-generic code, the value is always
-    boxed in an interface value. In generic code it's a type-constraint, but the value may be concrete. Since we need the 'box' (interface value) to perform type-assertions, it makes sense that we can't use a
-    type-assertion. This is captured in [the spec](https://go.dev/ref/spec#Type_assertions), where the spec states
-    type-assertions can be used only on an expression "of interface type, but not a type parameter". But what you've
-    learned also means you understand _why_ this rule is in the spec.
+    This is captured in [the spec](https://go.dev/ref/spec#Type_assertions), where the spec states
+        type-assertions can be used only on an expression "of interface type, but not a type parameter". But with what
+        we've learned we can explain _why_ this rule is in the spec. In non-generic code, the value is always
+    boxed in an interface value. In generic code we may use an interface type to constrain the type-parameter, but the value can be concrete at runtime in the instantiated functions. So there's simply no interface 'box' to look inside,
+    and
+
+    <TODO >
 
     ## Far from basic
 
@@ -213,9 +196,13 @@ body: |
     ```go
     package main
 
-    type intString interface {
-        // the ~ means newtypes with the underlying type of int
-        ~int
+    import "fmt"
+
+    type stringableNumeric interface {
+        // Listing concrete types means only the types in that set
+        // which also implement all the methods are in intString's type set.
+        // ~T means types with the underlying type of T, e.g. ~int includes printableInt below
+        ~int | ~float32 | ~float64
         fmt.Stringer
     }
 
@@ -226,26 +213,25 @@ body: |
     }
 
     func main() {
-        var pi intString = 10
+        // error
+        var pi stringableNumeric = printableInt(10)
     }
 
-    func withIntString(is intString) {}
+    // error
+    func withStringableNumeric(is stringableNumeric) {}
     ```
 
-    We will get compile errors in two places here, because the only place you can use interfaces that have type constraints
-    is in type-parameters. Huh - our `intString` interface uses the same `interface` keyword as other interfaces, but clearly works very differently!
-
-    Indeed, the spec tell us there are now two types of interface, 'basic' and 'general':
+    The compile errors demonstrate that although our `numericString` interface uses the same `interface` keyword as other interfaces, it clearly works differently. Indeed, the spec tell us interfaces are now split into 'general' - those with concrete type constraints - and 'basic' - those with only method constraints:
 
     > Interfaces that are not basic may only be used as type constraints, or as elements of other interfaces used as constraints. They cannot be the types of values or variables, or components of other, non-interface types.
 
-    After generics, Go now has 'basic' and 'general' interface types sharing the same syntax, and, as we've discussed above in this post, "basic" interfaces types
+    After generics, Go now has 'basic' and 'general' interface types, which share the same syntax, and, as we've discussed above in this post, "basic" interfaces types
     behave completely differently in generic and non-generic code:
 
-    |                        | Non-generic code                 | Generic code                                      |
+    | Category of interface | Non-generic code                 | Generic code                                      |
     |------------------------|----------------------------------|---------------------------------------------------|
-    | Basic interface type   | Always boxed value, type-assertions | Both boxed/unboxed values, no type-assertions |
-    | General interface type | Not allowed                      | Both boxed/unboxed values, no type-assertions |
+    | Basic | Always boxed value, type-assertions | Both boxed/unboxed values, no type-assertions |
+    | General | Not allowed                      | Both boxed/unboxed values, no type-assertions |
 
 
     ## Tradeoffs
@@ -260,9 +246,5 @@ body: |
     > I remain concerned that this proposal overloads words (and keywords!) that formerly had very clear meanings — specifically the words type and interface and their corresponding keywords — such that they each now refer to two mostly-distinct concepts that really ought to instead have their own names
 
     I'm not stating this tradeoff was the wrong one, nor that there's an obviously better alternative. But it certainly has some curious implications.
-
-    Anyway, I hope this helps you understand the now overloaded meaning of 'interface', and you've deepened your understanding of Go.
-
-
 
 

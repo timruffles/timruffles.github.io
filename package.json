@@ -10,6 +10,9 @@
   "devDependencies": {
     "http-server": "^0.12.3"
   },
+  "engines": {
+    "node": ">= 16"
+  },
   "dependencies": {
     "@types/date-fns": "^2.6.0",
     "@types/glob": "^7.1.3",
