@@ -1,7 +1,8 @@
 {
   "scripts": {
+    "// ": "currently doesn't compile sass",
     "build": "BASE_URL='/' ts-node build.ts",
-    "watch": "concurrently 'chokidar \"*.ts\" \"**/*.txt\" \"public/{css,img,js}/*\" -c \"npm run -s build\"' 'http-server gh-pages'",
+    "watch": "concurrently 'chokidar \"*.ts\" \"**/*.txt\" \"views/**/*\" \"public/{img,js}/*\" -c \"npm run -s build\"' 'http-server gh-pages'",
     "start": "npm run -s watch"
   },
   "resolutions": {

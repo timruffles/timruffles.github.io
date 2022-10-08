@@ -343,6 +343,10 @@ details[open] summary {
     margin: 0;
 }
 
+.nav {
+    margin-top: 2.5em;
+}
+
 #content img, #content video, #content iframe {
     /* scale the image proportionally, but never larger than container */
     max-width: 100%;

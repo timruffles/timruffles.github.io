@@ -2,11 +2,11 @@ title: Me
 date: 2011/07/09
 body: |
 
-  I'm a full stack developer at Plaid, previously GitHub, KiPlot and Cloudflare.
+  I'm an engineer at Plaid, previously at GitHub and Cloudflare.
 
   I [speak](/speaking) at user-groups and conferences.
 
-  I was a [Google Developer Expert](https://web.archive.org/web/20170715082055/https://developers.google.com/experts/people/tim-ruffles) for the web platform between 2014-2020. I also [trained developers](/developer-training) for organisations like White October Events (Angular Conf, Render etc), Google, The FT, Gilt.com and the European Bioinformations Institute.
+  I was a [Google Developer Expert](https://web.archive.org/web/20170715082055/https://developers.google.com/experts/people/tim-ruffles) for the web platform between 2014-2020. I also [trained developers](/developer-training) for organisations like The FT, White October Events (Angular Conf, Render etc), Gilt.com and the European Bioinformatics Institute.
 
   <a id='zzz'>Get in touch</a>.
 
@@ -21,6 +21,4 @@ body: |
     
   </script>
 
-  ![Tim Ruffles, Software Engineer](/img/tim-ruffles.jpeg)
-  
-  
+
