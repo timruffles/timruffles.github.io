@@ -1,3 +1,4 @@
+// NOTE - this currently isn't being recompiled by build, TODO
 @import base
 @import print
 @import prettify
@@ -78,14 +79,14 @@ h1, h2, h3, h4
   background: #FFF7F7
   margin: 0 0 1em 0
   h3
-    margin: 0 0 1em 0 
-    
+    margin: 0 0 1em 0
+
 ul ul
   padding: 1em
 
 
 /* layout */
-  
+
 #mast
   width: 100%
   padding: .6em 0 0 0
@@ -105,7 +106,7 @@ ul ul
 
 .footer
   clear: both
-  
+
 .sub
   font-size: 0.7em
   font-style: italic
@@ -119,25 +120,25 @@ ul ul
   display: inline
 
 
-  
+
 #mast
   background: url(../img/mast.png) 0 0 repeat-x
   a
     padding: .15em .3em
     &:first-child
       padding-left: 0
-  ul 
+  ul
     padding: 0
     margin: 0
     li
       list-style-type: none
       float: left
       margin: 0 .5em
-      
+
 
 .root .sub_title
   display: block
-    
+
 
 
 // code formatting
@@ -161,7 +162,7 @@ pre
   h3
     margin-top: 0.5em
   input[type=text]
-    width: 95% 
+    width: 95%
     padding: .25em
   input[type=text], textarea
     font-size: 1em
@@ -214,12 +215,22 @@ pre
     border-color: #a7ff2a
     &:hover
       background: #a7ff2a
-  
 
-  
+// not yet tested
+//table
+//  td:first-child
+//    border-left: none
+//  td:last-child
+//    border-right: none
+//  tr:first-child td
+//    border-top: none
+//  tr:last-child td
+//    border-bottom: none
+//  border: 1px solid #eeeeee
+
 // one off
 .post_mortem, .key
-  li 
+  li
     list-style-type: none
   .why
     padding-left: 2em
@@ -244,7 +255,7 @@ pre
   background: #F8C6AF
 .good
   background: #C0F8AF
-  
+
 .smiley
   font-family: "Helvetica"
   font-size: 4em
