@@ -5,6 +5,12 @@
     <link>https://timr.co</link>
     <description>Tim Ruffles' blog</description>
     <item>
+      <title>When is a slice of any not a slice of any?</title>
+      <link>https://timr.co/slice-of-any-not-slice-of-any</link>
+      <pubDate>Sun, 04 Sep 2022 12:00:00 GMT</pubDate>
+      <description>When is `[]any` not `[]any`? When generics get involved!
+</description>
+    </item><item>
       <title>Vim quickfix hack for IntelliJ</title>
       <link>https://timr.co/vim-quickfix-hack-for-intellij</link>
       <pubDate>Wed, 24 Feb 2021 12:00:00 GMT</pubDate>
