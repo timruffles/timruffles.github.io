@@ -1,5 +1,5 @@
 title: When is a slice of any not a slice of any?
-date: "2022/09/04"
+date: "2022/10/11"
 slug: slice-of-any-not-slice-of-any
 body: |
     When is `[]any` not `[]any`? When generics get involved!
