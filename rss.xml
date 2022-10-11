@@ -7,7 +7,7 @@
     <item>
       <title>When is a slice of any not a slice of any?</title>
       <link>https://timr.co/slice-of-any-not-slice-of-any</link>
-      <pubDate>Sun, 04 Sep 2022 12:00:00 GMT</pubDate>
+      <pubDate>Tue, 11 Oct 2022 12:00:00 GMT</pubDate>
       <description>When is `[]any` not `[]any`? When generics get involved!
 </description>
     </item><item>
