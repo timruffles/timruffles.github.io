@@ -248,3 +248,6 @@ body: |
     I'm not stating this tradeoff was obviously bad. But it certainly has curious implications!
 
 
+    ------
+    
+    Thanks to Andy Appleton, Hayden Faulds, Juan Alberto Sanchez and Vik Tomas for reading and providing feedback.
