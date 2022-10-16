@@ -2,7 +2,7 @@ title: When is a slice of any not a slice of any?
 date: "2022/10/11"
 slug: slice-of-any-not-slice-of-any
 body: |
-    When is `[]any` not `[]any`? When generics get involved!
+    When is `[]any` not `[]any` in Go? When generics get involved!
 
     Will the below compile? If not, why?
 
