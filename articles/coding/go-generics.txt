@@ -94,7 +94,7 @@ body: |
 
     <img style='height:250px' title="go interface values are a pair of pointers" src="./img/go-interface-values.png" />
 
-    You should be starting to see that although every concrete value can be place inside a 'box' of the `any`/`interface{}`, this doesn't imply concrete values are boxed. And therefore `[]any`, before and after generics, means "a slice of interface boxes". The diagram below shows that a slice of three `int32` is a completely different size and layout vs a slice of interface values containing the same `int32` values:
+    You should be starting to see that although every concrete value can be place inside a 'box' of the `any`/`interface{}`, this doesn't imply concrete values are boxed. And therefore `[]any`, before and after generics, means "a slice of interface boxes". The diagram below shows that the backing array for a slice of three `int32` is a completely different size and layout vs the array backing a slice of interface values containing the same `int32` values:
 
     ![go slices of concrete vs interface types](./img/go-slices-ivals.png)
 
