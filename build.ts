@@ -75,7 +75,8 @@ async function main() {
 async function loadPagesFromDirectory(dir: string, config: Config): Promise<(Article | Error)[]> {
   const files = await promisify(glob)(`${dir}/**/*.txt`)
 
-  const results = await Promise.all(files.map(p => loadPage(p, config)))
+  const results = (await Promise.all(files.map(p => loadPage(p, config))))
+      .filter(e => e instanceof Error ? true : e.status === 'active')
 
   return results
 }
