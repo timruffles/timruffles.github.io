@@ -25,7 +25,8 @@ async function main() {
 
   const outputPath = "./gh-pages/"
 
-  const loaded = (await Promise.all(pageFolders.map(p => loadPagesFromDirectory(p, config)))).flatMap(x => x)
+  const loaded = (await Promise.all(pageFolders.map(p =>
+      loadPagesFromDirectory(p, config)))).flatMap(x => x)
   const errors = loaded.filter((e: Article | Error): e is Error => e instanceof Error)
   if(errors.length) {
     console.error("Articles with errors", errors.map(a => a.message))
@@ -119,7 +120,13 @@ async function loadPage(path: string, cfg: Config): Promise<Article | Error> {
   try {
     return Article.fromObject(path, yaml.parse(found), cfg)
   } catch(e) {
-    return e
+    return new ArticleError(e.message, path)
+  }
+}
+
+class ArticleError extends Error {
+  constructor(msg: string, readonly fileName: string) {
+    super(fileName + ":" + msg)
   }
 }
 
