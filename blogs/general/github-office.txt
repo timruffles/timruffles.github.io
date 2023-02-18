@@ -1,0 +1,26 @@
+title: "Github's shrine to focus"
+date: "2023/02/12"
+body: |
+  Hearing Github [is closing](https://techcrunch.com/2023/02/09/github-lays-off-10-and-goes-fully-remote/) its offices made me want to share my favourite thing about their HQ. Out of all the
+  offices I've worked from, it was the one that made me feel like it was designed
+  by and for makers.
+
+  There was a lot to like. Clocks showing epoch time, hammock room, an amazing bar, and of course the room everyone's heard about: the secret one. But none of that was what made fall in love with the place.
+
+  It was the library:
+
+  ![github office library](./img/gh/library.jpeg)
+
+  On joining, you were asked for a book to put in the library. Looking through the range of books people had picked made me feel even more that Githubbers were my kind of people (I chose ‘The Tartar Steppe’):
+
+  <img src="./img/gh/hubber-books.jpeg" title="Iain M Banks, Borges, Soul of a New Machine, Eco, Three Body Problem: so many good books" />
+
+  The shelf of O'Reilly books also made me happy. I started
+  learning backend development from a copy of 'PHP and MySQL' (the one with a platypus) found in the freebie bin outside a bookshop in Paris. To this day I learn best sitting down with a hard copy, probably adorned with some obscure creature. Seeing a whole rack of the books spoke to me of why I love being a developer: the breadth and depth of the field, the stream of new tools we have to build cool things with, and the joy of learning them.
+
+  The library walls were lined with niches for focused work. It's mystifying to me how few companies truly do anything to lionise
+  and defend focused work. The whole room felt like a physical demonstration that GH valued it:
+
+  ![github library niche](./img/gh/niche.jpeg)
+
+  I'm remote now, but if anything would tempt me back, it’d be interesting work at a company whose office had a library...
