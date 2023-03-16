@@ -1,0 +1,7 @@
+name: "comment-issues"
+author: "Tim Ruffles"
+description: "Use GitHub issues to add comments to your site"
+
+runs:
+  using: 'node16'
+  main: 'dist/index.js'

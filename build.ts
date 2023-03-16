@@ -5,6 +5,9 @@ import {glob} from "glob";
 import {exec} from "child_process";
 import {Article} from "./records";
 import {ArticleForRendering, homePage, layout, renderArticle, renderPage, rss} from "./templates";
+import {IssueComment} from "./comments";
+import {Issue} from "./issues";
+import path from "path";
 
 export class Config {
   constructor(readonly baseURL: string) {
@@ -13,17 +16,15 @@ export class Config {
 
 main();
 
-
-
-
 async function main() {
   const baseURL = process.env.BASE_URL || "/";
+
 
   const pageFolders = ["articles", "blogs", "pages"];
 
   const config = new Config(baseURL)
 
-  const outputPath = "./gh-pages/"
+  const outputPath = `${__dirname}/gh-pages/`
 
   const loaded = (await Promise.all(pageFolders.map(p =>
       loadPagesFromDirectory(p, config)))).flatMap(x => x)
@@ -32,6 +33,7 @@ async function main() {
     console.error("Articles with errors", errors.map(a => a.message))
   }
   const allPages = loaded.filter(isArticle)
+
 
   exec(`cp -R public/* gh-pages`)
 
@@ -43,10 +45,16 @@ async function main() {
     .filter(a => a.category !== 'pages')
     .sort((a,b) => +b.date - +a.date)
 
+  const commentsBySlug = await gatherComments(articlesDesc.map(a => a.slug))
   const forRendering = withNextLast(articlesDesc)
+    .map(a => ({...a, comments: commentsBySlug.get(a.slug) || []}))
+
   forRendering.forEach(article => writeArticle(outputPath, article, config))
 
   const activeArticles = articlesDesc.filter(a => a.status === 'active')
+
+
+
 
   // needs to exist on the gh-pages branch, so write each time
   fs.writeFileSync(`${outputPath}/CNAME`, 'www.timr.co')
@@ -81,8 +89,8 @@ async function loadPagesFromDirectory(dir: string, config: Config): Promise<(Art
   return results
 }
 
-function writeHTML(outputPath: string, slug: string, html: string) {
-  const dir = `${outputPath}/${slug}`
+function writeHTML(outputPath: string, slugWithSlash: string, html: string) {
+  const dir = path.join(outputPath, slugWithSlash);
   try {
     fs.mkdirSync(dir)
   } catch (e) {
@@ -90,7 +98,7 @@ function writeHTML(outputPath: string, slug: string, html: string) {
       throw e
     }
   }
-  fs.writeFileSync(`${dir}/index.html`, html)
+  fs.writeFileSync(path.join(dir, "index.html"), html)
 }
 
 function writePage(outputPath: string, article: Article, cfg: Config) {
@@ -112,6 +120,8 @@ function writeArticle(outputPath: string, article: ArticleForRendering, cfg: Con
     baseURL: cfg.baseURL,
     content: renderArticle(article, cfg),
     description: article.description,
+    // TODO
+    comments: (article as any).comments,
   })
   writeHTML(outputPath, article.slug, html);
 }
@@ -132,7 +142,11 @@ class ArticleError extends Error {
 }
 
 export function titleToSlug(title: string) {
-  return title.replace(/ /g,'-').toLowerCase().replace(/[^a-z0-9-]/g,'').replace(/-+/,'-')
+  return title
+    .replace(/ +/g,'-')
+    .toLowerCase()
+    .replace(/[^a-z0-9-]+/g,'')
+    .replace(/-+/,'-')
 }
 
 function withNextLast(articlesDescAge: Article[]): ArticleForRendering[] {
@@ -150,6 +164,17 @@ function withNextLast(articlesDescAge: Article[]): ArticleForRendering[] {
     }
     return r;
   })
+}
+
+async function gatherComments(strings: string[])  {
+  const files = await promisify(glob)(`./.github/actions/issue-comments/cache/*.json`);
+  const res = new Map<string, IssueComment[]>();
+  for(const f of files) {
+    const data = fs.readFileSync(f, {encoding: "utf8"})
+    const parsed = JSON.parse(data) as { id: string, issue: Issue, comments: IssueComment[] };
+    res.set(parsed.id, parsed.comments)
+  }
+  return res;
 }
 
 function isArticle(e: any): e is Article {return e instanceof Article}

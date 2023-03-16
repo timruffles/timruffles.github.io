@@ -1,0 +1,7 @@
+title: 'Server-side rendered comments'
+slug: example-blog-post-comments
+date: "2023/03/15"
+body: |
+    This is an example post
+
+    hi.

@@ -25,6 +25,7 @@ export class Article {
     readonly title: string,
     readonly date: Date,
     readonly status: 'active' | 'archived' | 'draft',
+    // includes leading slash
     readonly slug: string,
     readonly bodyHTML: string,
     readonly description: string,

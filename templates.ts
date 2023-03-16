@@ -1,6 +1,7 @@
 import {Article} from "./records";
 import format from "date-fns/format"
 import {Config} from "./build";
+import {IssueComment} from "./comments";
 
 
 export function layout({
@@ -9,12 +10,14 @@ export function layout({
  baseURL,
  content,
   description = '',
+  comments = [],
 }: {
   title: string,
   slug: string,
   baseURL: string,
   content: string,
   description?: string,
+  comments?: IssueComment[],
 }) {
   const root = slug === ""
   return `<!doctype html>
@@ -63,6 +66,11 @@ export function layout({
               ${content}
             </div>
         </div>
+        <div class="comments">
+        <code><pre>
+            ${JSON.stringify(comments, null, 4) }
+</pre></code>
+       </div>
         <div class="footer reading">
           <div class="container">
             <p>📩 hello＠timr · co</p>
