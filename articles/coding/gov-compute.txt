@@ -5,7 +5,7 @@ body: |
 
     It’d also increase the accessibility of some services to people who can’t currently afford them. E.g. now you’d have a way to allow everyone in society to run an AI assistant.
 
-    The government wouldn’t have to run the data-centres etc themselves, they could create competitive bidding for public clouds to get their business. But larger governments probably already do have good expertise at running large amounts of compute though: presumedly MI5 etc doesn’t run on AWS…
+    The government wouldn’t have to run the data-centres etc themselves, they could create competitive bidding for public clouds to get their business. But larger governments probably already do have some expertise at running large amounts of compute (though [perhaps not](https://www.theregister.com/2021/10/26/uk_security_services_aws/)).
 
     Obviously there are things you wouldn’t want governments to see, but a) end-to-end encryption should solve this b) if the software running on the compute was OSS the source would be visible so you could trust it, c) a bad government already has the power of life and death over you. The key thing is to keep your government basically good. I’m totally unconvinced that technology is the thing to worry about if your government is already bad or you’re worried about it becoming so: fix the politics or escape the country! Finally, if there was an assumption that people owned their own compute, there’d be nothing to stop you self-hosting or going to a private provider.
 
