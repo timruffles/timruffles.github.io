@@ -2,22 +2,25 @@ import {Article} from "./records";
 import format from "date-fns/format"
 import {Config} from "./build";
 import {IssueComment} from "./comments";
+import {Issue} from "./issues";
 
 
 export function layout({
- title,
- slug,
- baseURL,
- content,
-  description = '',
-  comments = [],
-}: {
+                         title,
+                         slug,
+                         baseURL,
+                         content,
+                         description = '',
+                         comments = [],
+                         commentHostIssue,
+                       }: {
   title: string,
   slug: string,
   baseURL: string,
   content: string,
   description?: string,
   comments?: IssueComment[],
+  commentHostIssue?: Issue | undefined,
 }) {
   const root = slug === ""
   return `<!doctype html>
@@ -66,17 +69,41 @@ export function layout({
               ${content}
             </div>
         </div>
-        <div class="comments">
-        <code><pre>
-            ${JSON.stringify(comments, null, 4) }
-</pre></code>
-       </div>
+        ${commentHostIssue
+    ? renderComments(commentHostIssue, comments)
+    : ""}
         <div class="footer reading">
           <div class="container">
             <p>📩 hello＠timr · co</p>
           </div>
         </div>
       </body>`
+}
+
+function renderComments(issue: Issue, comments: IssueComment[]) {
+  return `<div class="comments">
+        <p class="comment-help">Comment via Github on <a href="${issue.html_url}" title="Comments handled via Github">this issue</a>.</p>
+        ${comments.map(renderComment).join("\n")}
+  </div>`;
+}
+
+function renderComment(comment: IssueComment) {
+  return `<div class="comment">
+  <div class="comment-heading">
+    <img src="${comment.user.avatar_url}" width="32" height="32" />
+    <div class="comment-info">
+      <a href="${comment.user.html_url}" class="comment-author">${comment.user.login}</span></a>
+      <span class="comment-time">${
+    format(new Date(Date.parse(comment.created_at)), 'dd MMM yy, h:sbbb') + ' UTC'
+  }</span>
+    </div>
+  </div>
+  <div class="comment-body">
+    <p>
+      ${comment.body}
+    </p>
+  </div>
+</div>`
 }
 
 export function rss(articles: Article[]): string {
@@ -99,24 +126,29 @@ export function rss(articles: Article[]): string {
 function escapeXML(unsafe: string): string {
   return unsafe.replace(/[<>&'"]/g, (c: string): string => {
     switch (c) {
-      case '<': return '&lt;';
-      case '>': return '&gt;';
-      case '&': return '&amp;';
-      case '\'': return '&apos;';
-      case '"': return '&quot;';
+      case '<':
+        return '&lt;';
+      case '>':
+        return '&gt;';
+      case '&':
+        return '&amp;';
+      case '\'':
+        return '&apos;';
+      case '"':
+        return '&quot;';
     }
     return c
   });
 }
 
-function footer(article: ArticleForRendering, cfg: Config) {
+function footer(article: PaginatedArticle, cfg: Config) {
   return `
-  ${ article.next ? `<p class=nav>
-    Next: <a href="${ article.next.slug }">
-      ${ article.next.title }
+  ${article.next ? `<p class=nav>
+    Next: <a href="${article.next.slug}">
+      ${article.next.title}
     </a>
     </p>` : ''}
-  ${ article.previous ? `<p class=nav>
+  ${article.previous ? `<p class=nav>
     Previous: <a href="${article.previous.slug}">
       ${article.previous.title}
     </a>
@@ -128,7 +160,7 @@ export function renderPage(article: Article, cfg: Config): string {
   ${article.bodyHTML}`
 }
 
-export function renderArticle(article: ArticleForRendering, cfg: Config): string {
+export function renderArticle(article: PaginatedArticle, cfg: Config): string {
   return `<h1><a href="${article.slug}">${article.title}</a></h1>
   ${article.bodyHTML}
   ${footer(article, cfg)}`
@@ -152,7 +184,15 @@ function formatDate(date: Date) {
   return format(date, "dd MMM yy")
 }
 
-export interface ArticleForRendering extends Article {
-  next?: ArticleForRendering
-  previous?: ArticleForRendering
+export interface PaginatedArticle extends Article {
+  next?: PaginatedArticle
+  previous?: PaginatedArticle
+}
+
+export interface ArticleCommentData {
+  comments: IssueComment[]
+  commentHostIssue: Issue | undefined
+}
+
+export interface ArticleForRendering extends PaginatedArticle, ArticleCommentData {
 }

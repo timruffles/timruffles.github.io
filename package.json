@@ -1,7 +1,9 @@
 {
   "scripts": {
     "// ": "currently doesn't compile sass",
-    "build": "BASE_URL='/' ts-node build.ts",
+    "build": "npm run -s build-ts && npm run -s build-sass",
+    "build-ts": "BASE_URL='/' ts-node build.ts",
+    "build-sass": "node-sass --recursive --output public/css/ --source-map true --source-map-contents views/css",
     "watch": "concurrently 'chokidar \"*.ts\" \"**/*.txt\" \"views/**/*\" \"public/{img,js}/*\" -c \"npm run -s build\"' 'http-server gh-pages'",
     "start": "npm run -s watch"
   },
@@ -9,7 +11,8 @@
     "yargs-parser": "15.0.1"
   },
   "devDependencies": {
-    "http-server": "^0.12.3"
+    "http-server": "^0.12.3",
+    "node-sass": "^8.0.0"
   },
   "engines": {
     "node": ">= 16"

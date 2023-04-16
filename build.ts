@@ -4,7 +4,16 @@ import fs from 'fs'
 import {glob} from "glob";
 import {exec} from "child_process";
 import {Article} from "./records";
-import {ArticleForRendering, homePage, layout, renderArticle, renderPage, rss} from "./templates";
+import {
+  PaginatedArticle,
+  homePage,
+  layout,
+  renderArticle,
+  renderPage,
+  rss,
+  ArticleForRendering,
+  ArticleCommentData
+} from "./templates";
 import {IssueComment} from "./comments";
 import {Issue} from "./issues";
 import path from "path";
@@ -47,7 +56,11 @@ async function main() {
 
   const commentsBySlug = await gatherComments(articlesDesc.map(a => a.slug))
   const forRendering = withNextLast(articlesDesc)
-    .map(a => ({...a, comments: commentsBySlug.get(a.slug) || []}))
+    .map((a: PaginatedArticle): ArticleForRendering => ({
+      ...a,
+      comments: (commentsBySlug.get(a.slug)?.comments) || [],
+      commentHostIssue: commentsBySlug.get(a.slug)?.commentHostIssue,
+    }))
 
   forRendering.forEach(article => writeArticle(outputPath, article, config))
 
@@ -120,8 +133,8 @@ function writeArticle(outputPath: string, article: ArticleForRendering, cfg: Con
     baseURL: cfg.baseURL,
     content: renderArticle(article, cfg),
     description: article.description,
-    // TODO
-    comments: (article as any).comments,
+    comments: article.comments || [],
+    commentHostIssue: article.commentHostIssue,
   })
   writeHTML(outputPath, article.slug, html);
 }
@@ -149,9 +162,9 @@ export function titleToSlug(title: string) {
     .replace(/-+/,'-')
 }
 
-function withNextLast(articlesDescAge: Article[]): ArticleForRendering[] {
+function withNextLast(articlesDescAge: Article[]): PaginatedArticle[] {
   return articlesDescAge.map((page, i) => {
-    const r: ArticleForRendering = {...articlesDescAge[i]}
+    const r: PaginatedArticle = {...articlesDescAge[i]}
     const prevI = i - 1;
     const nextI = i + 1;
 
@@ -168,11 +181,14 @@ function withNextLast(articlesDescAge: Article[]): ArticleForRendering[] {
 
 async function gatherComments(strings: string[])  {
   const files = await promisify(glob)(`./.github/actions/issue-comments/cache/*.json`);
-  const res = new Map<string, IssueComment[]>();
+  const res = new Map<string, ArticleCommentData>();
   for(const f of files) {
     const data = fs.readFileSync(f, {encoding: "utf8"})
     const parsed = JSON.parse(data) as { id: string, issue: Issue, comments: IssueComment[] };
-    res.set(parsed.id, parsed.comments)
+    res.set(parsed.id, {
+      comments: parsed.comments,
+      commentHostIssue: parsed.issue,
+    })
   }
   return res;
 }

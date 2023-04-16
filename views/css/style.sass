@@ -1,4 +1,3 @@
-// NOTE - this currently isn't being recompiled by build, TODO
 @import base
 @import print
 @import prettify
@@ -38,6 +37,44 @@ body, input[type="text"], input[type="submit"]
 
 /* typographical layout */
 
+.comment
+  position: relative
+  margin: 20px auto
+
+.comment-heading
+  height: 50px
+  font-size: 14px
+
+  display: flex
+
+  img
+    object-fit: cover
+    border-radius: 50%
+    height: 32px
+    width: 32px
+
+.comment-info
+  display: flex
+  flex-direction: column
+
+  margin-left: .5em
+
+.comment-author
+  color: rgba(0, 0, 0, 0.85)
+  font-weight: bold
+  text-decoration: none
+
+  &:hover
+    text-decoration: underline
+
+.comment-info
+  color: rgba(0, 0, 0, 0.5)
+
+
+.comment-help
+  color: rgba(0, 0, 0, 0.5)
+  font-style: italic
+
 =reading_gutter
   width: 42rem
   margin: 0 auto
@@ -47,13 +84,15 @@ body, input[type="text"], input[type="submit"]
     padding: 0 1rem
     overflow: visible
 
-.footer, .article #content, .reading
+
+.footer, .article #content, .reading, .comments
   +reading_gutter
 
 h1
   margin: .5rem 0 1.5rem 0
   @media(max-width: #{$small-width})
     margin: 0 0 .25rem 0
+
 
 
 /* links */
