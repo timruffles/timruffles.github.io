@@ -4,7 +4,7 @@ date: 2023/05/09
 draft: true
 body: |
 
-    In the “The Moon’s a Harsh Mistress” someone explaining humour to a computer mentions that most jokes are “funny once”: after you’ve heard them, they’re never funny again. That’s the most extreme version of something that’s true for all creative work. If an image, advert, film or piece of music strikes you as unoriginal, it doesn’t matter how technically perfect it is, it’s boring. Not only will you not want to pay for it, you'll actively avoid boring work.
+    In the “The Moon’s a Harsh Mistress” someone explaining humour to a computer mentions that most jokes are “funny once”: after you’ve heard them, they’re never funny again. That’s the most extreme version of something that’s true for all creative work. If an image, advert, film or piece of music strikes you as unoriginal, it doesn’t matter how technically perfect it is, it’s boring. Boring creative work is worth less than zero.
 
     ChatGPT & LLMs, and image generators like Midjourney, can do cool things. Their output resembles work done by creatives. Many people infer from this that soon creative workers will be out of a job. But they’re missing the lesson of ‘funny once’.
 
