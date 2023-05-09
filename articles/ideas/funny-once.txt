@@ -19,7 +19,7 @@ body: |
 
     ## Pastiche becomes too cheap to meter
 
-    Better technology simply fast-forwards this inescapable dynamic by making it easier to generate new derivative work. Brian Eno was playing around with generative music back in the 90s and thought a fair bit about what technology meant for creativity. His take was:
+    Better technology simply fast-forwards this inescapable dynamic. Brian Eno was playing around with generative music back in the 90s and thought a fair bit about what technology meant for creativity. His take was:
 
     > by the time a whole technology exists for something it probably isn’t the most interesting thing to be doing
 
@@ -35,10 +35,11 @@ body: |
 
     ## Counter arguments
 
-    It might be argued that generative-AI is a power pool which will allow the top creatives to do 10x more work and replace their less talented peers. However, generative AI by its statistical nature is doesn’t appear to be a power-tool for originality: it’s good at ‘more of the same’. That’s likely because coming up with something original which that tickles the brains of your target audience is inherently an ‘unknown unknown’: a search at the edge of the design space for novelty which we actually like. Generative AI only scales the more predictable work of turning those original ideas into reality, which the creative elite could already have outsourced! From [Amdahl’s law](https://en.wikipedia.org/wiki/Amdahl%27s_law) we can predict that if a creative’s output is still bottlenecked on originality, they’re not going to be able to scale up enough to replace 10x less talented peers.
+    It might be argued that generative-AI is a power pool which will allow the top creatives to do 10x more work and replace their less talented peers. However, generative AI doesn't appear to be a power-tool for originality: by its statistical nature, it’s good at ‘more of the same’.
+
+   Generative AI only scales the more predictable work of turning those original ideas into reality, which the creative elite could already have outsourced! From [Amdahl’s law](https://en.wikipedia.org/wiki/Amdahl%27s_law) we can predict that if a creative’s output is still bottlenecked on originality, they’re not going to be able to scale up enough to replace 10x less talented peers.
 
     I also accept that originality is less prized in more commercial art like graphic design or advertising jingles. But there’s still plenty of evidence it’s still highly prized! Consider that you have already been able to buy website designs for $29 for decades, but then you get a website that looks like everyone else’s, including some scam site set up in an hour or two. Companies still pay lots to hire real designers to take the time to discover a new look which makes visitors take notice (perhaps this is perceived subconsciously as ‘proof of reserves’/proof you’re a company success enough, and invested in the long term, to pay for a novel look. The digital equivalent of banks having a giant empty lobby in an expensive neighbourhood to demonstrate they’ve enough capital to waste some). In advertising, it’s only the original that even gets noticed (how much is an advert or Twitter account which makes you laugh worth in vitality?). The rest we filter out. So if AI drives the cost of a identikit website to $0.99 rather than $29.99 that’s not going to put Apple’s web-design team out of a job, and I’d argue that holds for all creative fields.
-
 
     ## Will super-intelligent AI be dumb enough to work for free?
 
