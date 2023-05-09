@@ -11,7 +11,7 @@ body: |
 
     The ‘art’ bit of fine art, music, novels is originality. Specifically, ‘good’ originality: there are also an infinity of ways to be original in bad or uninteresting ways. This is why being a master of old forms like oil-painter or jazz musician isn’t going to guarantee you fame, or even a living wage, today. This is a timeless phenomenon: back in the 1920s, Gustav Klimt graduated as a fine neo-classical painter. But we know his name because he didn’t’ bother churning out more neo-classical work like all his fellow graduates, he found an original form people liked. Technique has always been necessary but not sufficient to produce work that avoids the “funny once” trap. Today, top fine artists with the ability to find fertile new forms simply hire MFA grads to learn the technique they need.
 
-    ## Free pastiche isn’t worth the price
+    ## Pastiche becomes too cheap to meter
 
     Better technology simply fast-forwards this inescapable dynamic by making it easier to generate new derivative work. Brian Eno was playing around with generative music back in the 90s and thought a fair bit about what technology meant for creativity. His take was:
 
