@@ -10,7 +10,7 @@ jobs:
     environment: github-pages
     steps:
       - uses: actions/checkout@v2
-      - run: mkdir gh-pages
+      - run: mkdir -p gh-pages
       - run: npm install --production
       - run: BASE_URL="/blog" npm run -s build
       - uses: peaceiris/actions-gh-pages@v3.7.3
