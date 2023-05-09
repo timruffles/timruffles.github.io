@@ -1,6 +1,7 @@
 name: Deploy 🚀
 
 on:
+  issue_comment:
   push:
     branches: ["master", "deploy-test"]
 
@@ -8,6 +9,9 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     environment: github-pages
+    if: ${{ env.GITHUB_EVENT_NAME == 'push' }}
+    # synchronise comment state before generating
+    needs: update-comments
     steps:
       - uses: actions/checkout@v2
       - run: mkdir gh-pages
@@ -17,3 +21,11 @@ jobs:
         with:
           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           publish_dir: gh-pages
+  update-comments:
+    name: Update Comments
+    runs-on: ubuntu-latest
+    # TODO filter - unfortunately https://github.com/actions/runner/issues/409
+    steps:
+      - uses: ./actions/gha-blog-comments
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}

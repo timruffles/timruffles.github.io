@@ -1,0 +1,40 @@
+query fetchIssues($name: String!,$owner:String!,$issueLabel:[String!]) {
+  repository(owner: $owner, name: $name) {
+    issues(labels: $issueLabel, first: 100) {
+      edges {
+        node {
+          id
+          number
+          comments(first: 100) {
+            edges {
+              node {
+                id
+                body
+                bodyHTML
+                author {
+                  avatarUrl
+                  login
+                  url
+                }
+                createdAt
+                updatedAt
+                url
+            		minimizedReason
+              }
+            }
+          }
+          body
+          author {
+            avatarUrl
+            login
+          }
+          state
+          stateReason
+          createdAt
+          updatedAt
+          url
+        }
+      }
+    }
+  }
+}

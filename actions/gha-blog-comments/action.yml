@@ -1,0 +1,10 @@
+name: 'Github Action Comments'
+description: 'Comments via Github and Github Actions'
+inputs:
+  repoToken:
+    description: 'Github token - use GITHUB_TOKEN'
+    required: true
+outputs:
+runs:
+  using: 'node16'
+  main: 'build/index.js'

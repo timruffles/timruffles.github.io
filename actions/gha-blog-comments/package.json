@@ -1,0 +1,21 @@
+{
+  "name": "gha-blog-comments",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "@actions/core": "^1.10.0",
+    "@actions/github": "^5.1.1",
+    "graphql": "^16.6.0",
+    "graphql-request": "^6.0.0",
+    "ts-node": "^10.9.1",
+    "tsc": "^2.0.4"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^3.3.0",
+    "@graphql-codegen/typescript": "^3.0.3",
+    "@graphql-codegen/typescript-graphql-request": "^4.5.9",
+    "@graphql-codegen/typescript-operations": "^3.0.3",
+    "@types/node": "^18.14.0"
+  }
+}
