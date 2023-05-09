@@ -1,4 +1,5 @@
 title: Funny once ain’t enough: generative AI will not replace creatives
+slug: funny-once-generative-ai-and-creatives
 date: 2023/05/09
 draft: true
 body: |
