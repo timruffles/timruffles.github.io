@@ -27,6 +27,7 @@ async function main() {
 
   const loaded = (await Promise.all(pageFolders.map(p =>
       loadPagesFromDirectory(p, config)))).flatMap(x => x)
+
   const errors = loaded.filter((e: Article | Error): e is Error => e instanceof Error)
   if(errors.length) {
     console.error("Articles with errors", errors.map(a => a.message))
@@ -76,7 +77,6 @@ async function loadPagesFromDirectory(dir: string, config: Config): Promise<(Art
   const files = await promisify(glob)(`${dir}/**/*.txt`)
 
   const results = (await Promise.all(files.map(p => loadPage(p, config))))
-      .filter(e => e instanceof Error ? true : e.status === 'active')
 
   return results
 }

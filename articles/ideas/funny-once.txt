@@ -1,16 +1,21 @@
-title: Funny once ain’t enough: generative AI will not replace creatives
+title: "Funny once ain’t enough: generative AI will not replace creatives"
 slug: funny-once-generative-ai-and-creatives
 date: 2023/05/09
 draft: true
 body: |
 
-    In Heinlein’s “The Moon’s a Harsh Mistress”, someone tries to explain humour to a computer. He tells it most jokes are “funny once”: after you’ve heard them, they’re never funny again. That’s the most extreme version of something that’s true for all creative work. If an image, advert, film or piece of music strikes you as unoriginal, it doesn’t matter how technically perfect it is, it’s boring. Not only will you probably not want to pay for it, once it’s boring you’ll actively take steps to avoid being exposed to it.
+    In the “The Moon’s a Harsh Mistress” someone explaining humour to a computer mentions that most jokes are “funny once”: after you’ve heard them, they’re never funny again. That’s the most extreme version of something that’s true for all creative work. If an image, advert, film or piece of music strikes you as unoriginal, it doesn’t matter how technically perfect it is, it’s boring. Not only will you not want to pay for it, you'll actively avoid boring work.
 
-    ChatGPT & LLMs, and image tools like Midjourney, can do cool things. The output often resembles work done by creatives. Many people infer from this that soon creative workers will be out of a job. But they’re missing the lesson of ‘funny once’.
+    ChatGPT & LLMs, and image generators like Midjourney, can do cool things. Their output resembles work done by creatives. Many people infer from this that soon creative workers will be out of a job. But they’re missing the lesson of ‘funny once’.
 
     ## Can I sell you this genuine vintage originality?
 
-    The ‘art’ bit of fine art, music, novels is originality. Specifically, ‘good’ originality: there are also an infinity of ways to be original in bad or uninteresting ways. This is why being a master of old forms like oil-painter or jazz musician isn’t going to guarantee you fame, or even a living wage, today. This is a timeless phenomenon: back in the 1920s, Gustav Klimt graduated as a fine neo-classical painter. But we know his name because he didn’t’ bother churning out more neo-classical work like all his fellow graduates, he found an original form people liked. Technique has always been necessary but not sufficient to produce work that avoids the “funny once” trap. Today, top fine artists with the ability to find fertile new forms simply hire MFA grads to learn the technique they need.
+    The ‘art’ part of visual art, music, novels is originality. Specifically, ‘good’ originality: there are also an infinity of ways to be original in lame ways. Therefore being a master of old forms like oil-painter or jazz musician isn’t going to make you famous, or even a living wage, today. This is a timeless phenomenon: Gustav Klimt graduated school as a fine neo-classical painter. But would you have known his name if he kept doing work like the below instead of 'The Kiss'?
+
+    ![gustav klimit did not get famous as a as yet-another neo-classical painter](./img/boring-klimt.jpeg)
+
+     Unlike his fellow graduates, Klimt worked to find an original form people liked. Technique has always been necessary but not sufficient to produce work that avoids the “funny once” trap. Today, top fine artists with the ability to find fertile new forms simply [hire](https://hyperallergic.com/189692/wanna-work-for-damien-hirst/) and [fire](https://news.artnet.com/art-world/damien-hirst-staff-layoffs-1993976) MFA grads with the techniques they need.
+
 
     ## Pastiche becomes too cheap to meter
 
@@ -18,25 +23,25 @@ body: |
 
     > by the time a whole technology exists for something it probably isn’t the most interesting thing to be doing
 
-    Therefore if there are six competing Ableton plugins to make a signature sound of a new genre, then they’re near worthless: it’s likely already time to pick another genre.
+    If there are six competing AI based Ableton-plugins to churn out the signature sound of a new genre, then they’re near worthless: it’s likely already time to pick another genre.
 
     That people are already bored of, and actively call out as lame, [ChatGPT forum responses](https://news.ycombinator.com/item?id=34190704) and obvious ideas for AI art reminds me of the “10,000 bowls of oatmeal problem” [coined](https://www.tumblr.com/galaxykate0/139774965871/so-you-want-to-build-a-generator#:~:text=10%2C000%20Bowls%20of%20Oatmeal%20problem) by Kate Compton:
 
     > 10,000 Bowls of Oatmeal problem. I can easily generate 10,000 bowls of plain oatmeal, with each oat being in a different position and different orientation, and mathematically speaking they will all be completely unique. But the user will likely just see a lot of oatmeal.
 
-    Midjourney and ChatGPT are great at producing art and text from prompts. But coming up with ideas was always the hard part.
+    Midjourney and ChatGPT are great at producing "plain oatmeal" art and text from prompts. But coming up with spicy new ideas was always the hard part.
 
-    In the hands of the unoriginal  or tasteless, LLM-style creativity - taking a huge set of data and generate things that look statistically similar - is simply a pastiche generator. Derivative garbage in, derivative garbage out. Pastiche is the lamest form of creativity. Take fan-fin: there is an infinity of knock-off Harry Potter, Star War. Lots of people want to write it, who wants to pay for it? If being able to churn-out variations on popular novels was valuable, there’d be a lot of rich fan-ficcers out there! The missing ingredient is originality, and scarcity - copying something original is much easier than originating it: there’ll be many copies, but the person recognised as the ‘original’ will take the lion’s share of the reward.
+    In the hands of the unoriginal  or tasteless, LLM-style creativity - taking a huge set of data and generate things that look statistically similar - is simply a pastiche generator. [Derivative garbage in, derivative garbage out](https://en.wikipedia.org/wiki/Garbage_in,_garbage_out). Pastiche is the lamest form of creativity. Take fan-fin: there is an infinity of knock-off Harry Potter, Star War. Lots of people want to write it, who wants to pay for it? If being able to churn-out variations on popular novels was valuable, there’d be a lot of rich fan-ficcers out there! The missing ingredient is originality, and scarcity - copying something original is much easier than originating it: there’ll be many copies, but the person recognised as the ‘original’ will take the lion’s share of the reward.
 
     ## Counter arguments
 
-    It might be argued that generative-AI is a power pool which will allow the top creatives to do 10x more work and replace their less talented peers. However, generative AI by its statistical nature is doesn’t appear to be a power-tool for originality: it’s good at ‘more of the same’. That’s likely because coming up with something original which that tickles the brains of your target audience is inherently an ‘unknown unknown’: a search at the edge of the design space for novelty which we actually like. Generative AI only scales the more predictable work of turning those original ideas into reality, which the creative elite could already have outsourced! From Amdal’s law  we can predict that if a creative’s output is still bottlenecked on originality, they’re not going to be able to scale up enough to replace 10x less talented peers.
+    It might be argued that generative-AI is a power pool which will allow the top creatives to do 10x more work and replace their less talented peers. However, generative AI by its statistical nature is doesn’t appear to be a power-tool for originality: it’s good at ‘more of the same’. That’s likely because coming up with something original which that tickles the brains of your target audience is inherently an ‘unknown unknown’: a search at the edge of the design space for novelty which we actually like. Generative AI only scales the more predictable work of turning those original ideas into reality, which the creative elite could already have outsourced! From [Amdahl’s law](https://en.wikipedia.org/wiki/Amdahl%27s_law) we can predict that if a creative’s output is still bottlenecked on originality, they’re not going to be able to scale up enough to replace 10x less talented peers.
 
     I also accept that originality is less prized in more commercial art like graphic design or advertising jingles. But there’s still plenty of evidence it’s still highly prized! Consider that you have already been able to buy website designs for $29 for decades, but then you get a website that looks like everyone else’s, including some scam site set up in an hour or two. Companies still pay lots to hire real designers to take the time to discover a new look which makes visitors take notice (perhaps this is perceived subconsciously as ‘proof of reserves’/proof you’re a company success enough, and invested in the long term, to pay for a novel look. The digital equivalent of banks having a giant empty lobby in an expensive neighbourhood to demonstrate they’ve enough capital to waste some). In advertising, it’s only the original that even gets noticed (how much is an advert or Twitter account which makes you laugh worth in vitality?). The rest we filter out. So if AI drives the cost of a identikit website to $0.99 rather than $29.99 that’s not going to put Apple’s web-design team out of a job, and I’d argue that holds for all creative fields.
 
     True artificial intelligence isn’t relevant to this discussion
 
-    By the way, the above is not arguing nor relying on a belief that a future AI will never be able to play the game of originality at the level of human creatives, only that generative AI can’t. A ‘true’ AI, AGI, obviously could! But it appears to me that at that point the question ceases to be ‘will AI replace creative work’, and  becomes ‘how can we make AI want to do that job?’. Which sounds like a problem with a similar practical, and ethical, solution to the problem of managing people: they’d want something in return, both in resources and meaning.
+    By the way, the above is not arguing nor relying on a belief that a future AI will never be able to play the game of originality at the level of human creatives, only that generative AI can’t. A ‘true’ AI, AGI, obviously could! But it appears to me that at that point the question ceases to be ‘will AI replace creative work’, and  becomes ‘how can we make AI want to do that job?’. Which sounds like a problem with a similar practical, and ethical, solution to the problem of managing people: true AIs would want something in return for their labour, both in resources and meaning.
 
     ## Prediction
 
