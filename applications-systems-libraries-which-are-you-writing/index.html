@@ -1,0 +1,82 @@
+<!doctype html>
+      <head>
+        <title>Applications, systems, libraries: which are you writing?</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width">
+        <meta name="description" content="A lot of coding &apos;rules&apos; - should structs should be aligned - and arguments about languages - is Python &apos;too slow&apos; - miss an important piece of context: is this about writing systems, applications or libraries? They&apos;re very different things.
+" >
+        <link rel="stylesheet" href="/css/normalize.css" type="text/css">
+        <link rel="stylesheet" href="/css/style.css" type="text/css">
+        <link rel="stylesheet" href="/css/prism-ghcolors.css" type="text/css">
+        <script type="text/javascript">
+          var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-24335480-1']);
+          _gaq.push(['_trackPageview']);
+
+          function asyncScript(src) {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = src;
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          }
+          asyncScript(('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js');
+        </script>
+        <link rel="alternate" type="application/rss+xml" title="Subscribe to RSS feed" href="/rss.xml" />
+      </head>
+      <body class="article">
+        <div id="mast">
+          <div class='top-bar reading'>
+              <div class="links logical">
+                <div class="navigation logical">
+                  <a href="/">Home</a>
+                  <a href="/rss.xml">RSS</a>
+                  <a href="/me">
+                      Tim Ruffles
+                  </a>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div id="content" class="reading">
+           
+
+           <div id="body">
+              <h1><a href="/applications-systems-libraries-which-are-you-writing">Applications, systems, libraries: which are you writing?</a></h1>
+  <p>A lot of coding &#39;rules&#39; - should structs should be aligned - and arguments about languages - is Python &#39;too slow&#39; - miss an important piece of context: is this about writing systems, applications or libraries? They&#39;re very different things.</p>
+<p>Applications are to do a specific thing for a group of users. Delighting these user by taking away drudgery, informing them, letting them buy stocks, etc, is the goal. Complexity is the hard part. The number of features grows, old behaviour is supported behind branches to avoid breaking backwards compatibility, and the different types of users (enterprise vs individual, free trial vs paid vs in arrears), and the configurability they&#39;re given, increase branching everywhere. For SaaS, it&#39;s also usual for it always to be the case that multiple experiments are in play at any one time, and that many &#39;temporary&#39; feature-flags end up outliving the team that authored them.  Fighting against the tenancy of complexity to drag your velocity down to zero is the most important thing to consider when discussing tradeoffs, at least at all the SaaSs I&#39;ve worked for (and looks to be true for desktop too).</p>
+<p>Systems solve problems a layer below the reason a user is engaging with software: a HTTP server serves up funny gifs, a database stores metadata on the gifs, a repository stores the source-code for the HTTP server, an operating system run on both the client and server. Here the work is well specified (often formally, e.g. RFCxxx), changes slowly (next version). But the hard part is that  the implementation must be totally correct and, generally, extremely fast.</p>
+<p>Libraries are reusable utilities forming part of apps or systems, not full programs themselves. Further, there are two important types of libraries that should split up:</p>
+<ul>
+<li>general libraries: standard library or open-source code, e.g. Rust crates, Ruby gems.</li>
+<li>application libraries: code to support a single application</li>
+</ul>
+<p>General and standard libraries should make as few assumptions as possible, to allow them to be reused. e.g. they shouldn&#39;t make decisions on things like logging so they can be embedded in any application, accepting some adapter for the apps&#39; logging strategy. It&#39;s often a plus if they have few dependencies, as that again makes them easier to adopt (some language can&#39;t have multiple versions of one dep in play, so they fewer deps, the less likely your lib will end up conflicting with the app or another lib). General libraries need to be general, i.e. consider all edge-cases. Sometimes they also share the need of systems to be fast.</p>
+<p>Application libraries can, and probably should, accept far more coupling to the application&#39;s assumptions (e.g. make use of many other libraries). They can also solve just the subset of the problem the application needs. i.e. it&#39;s fine to not consider HTTP PATCH in some app library that never use it.</p>
+<h2 id="does-the-rule-make-sense-for-what-youre-doing">Does the rule make sense for what you&#39;re doing?</h2>
+<p>As an example, in Go we hear that types should have a useful zero value, i.e. an uninitialized value of a type shoudl be useful and safe. This works really well for some some built-in or standard-library types. For instance a nil slice can be appended to, and a nil mutex is unlocked:</p>
+<pre><code class="language-go"><span class="token keyword">var</span> things <span class="token punctuation">[</span><span class="token punctuation">]</span>any
+<span class="token comment">// this is fine, no panic</span>
+things <span class="token operator">=</span> <span class="token function">append</span><span class="token punctuation">(</span>things<span class="token punctuation">,</span> <span class="token string">"hi"</span><span class="token punctuation">)</span></code></pre>
+<p>But how well does this work for application data-types? What&#39;s a useful zero <code>BankAccountClient</code>? Does it just return an error on all sends (is that more useful than failing loudly, e.g. panicking?), or does it block and perform service discovery? If you pass it a zero <code>CloseAccountRequest</code> I hope it doesn&#39;t close whatever account maps to the zero value of <code>AccountID</code>. How could you make your <code>Server</code> zero value useful? Recursively that&#39;d generally mean we&#39;d need a useful zero value for networking clients, database clients, and useful zero values for all configuration.</p>
+<p>Attempting to design and rely on useful zero values for application types sounds more like an experiment in emergent behaviour than good design. I imagine calling <code>server.Listen</code> and then awaiting the random requests firing off as the various useful zero-values interact.</p>
+<p>But I don&#39;t think the Go authors meant this advice to be applied to applications, I think it applies only to library code foremost, and the type of data-structures we see more in systems programming (concurrency). Applications generally want to encapsulate data-structure initialization to fight complexity (e.g. always mandate constructors), so generally you don&#39;t want to worry about having zero types of your application types, and at least you know you&#39;ve hit a bug if you find one.</p>
+<h2 id="does-the-advice-matter-to-you">Does the advice matter to you?</h2>
+
+  
+  <p class=nav>
+    Next: <a href="/should-governments-give-citizens-compute">
+      Should governments give citizens compute?
+    </a>
+    </p>
+  <p class=nav>
+    Previous: <a href="/githubs-shrine-to-focus">
+      Github's shrine to focus
+    </a>
+    </p>
+            </div>
+        </div>
+        <div class="footer reading">
+          <div class="container">
+            <p>📩 hello＠timr · co</p>
+          </div>
+        </div>
+      </body>
