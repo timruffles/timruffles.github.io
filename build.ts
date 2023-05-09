@@ -44,10 +44,16 @@ async function main() {
     .filter(a => a.category !== 'pages')
     .sort((a,b) => +b.date - +a.date)
 
-  const forRendering = withNextLast(articlesDesc)
-  forRendering.forEach(article => writeArticle(outputPath, article, config))
-
   const activeArticles = articlesDesc.filter(a => a.status === 'active')
+
+  // output active articles with next/last
+  withNextLast(activeArticles)
+    .forEach(article => writeArticle(outputPath, article, config))
+
+  // drafts get written but don't get linked to
+  articlesDesc.filter(a => a.status === 'draft')
+      .forEach(article => writeArticle(outputPath, article, config))
+
 
   // needs to exist on the gh-pages branch, so write each time
   fs.writeFileSync(`${outputPath}/CNAME`, 'www.timr.co')
