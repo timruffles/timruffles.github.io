@@ -43,7 +43,7 @@ body: |
 
     ## Will super-intelligent AI be dumb enough to work for free?
 
-    By the way, the above is not arguing nor relying on a belief that a future AI will never be able to play the game of originality at the level of human creatives, only that generative AI can’t. A ‘true’ AI, AGI, obviously could! But it appears to me that at that point the question ceases to be ‘will AI replace creative work’, and  becomes ‘how can we make AI want to do that job?’. Which sounds like a problem with a similar practical, and ethical, solution to the problem of managing people: true AIs would want something in return for their labour, both in resources and meaning.
+    By the way, the above is not arguing nor relying on a belief that a future AI will never be able to play the game of originality at the level of human creatives, only that generative AI can’t. A ‘true’ AI, AGI, obviously could! But it appears to me that at that point the question ceases to be ‘will AI replace creative work’, and  becomes ‘how can we make AI want to do that job?’. Which sounds like a problem with a similar practical, and ethical, solution to the problem of managing people: true AIs would probably want something in return for their labour, both in resources and meaning.
 
     ## Prediction
 
