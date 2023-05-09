@@ -39,7 +39,8 @@ body: |
 
     I also accept that originality is less prized in more commercial art like graphic design or advertising jingles. But there’s still plenty of evidence it’s still highly prized! Consider that you have already been able to buy website designs for $29 for decades, but then you get a website that looks like everyone else’s, including some scam site set up in an hour or two. Companies still pay lots to hire real designers to take the time to discover a new look which makes visitors take notice (perhaps this is perceived subconsciously as ‘proof of reserves’/proof you’re a company success enough, and invested in the long term, to pay for a novel look. The digital equivalent of banks having a giant empty lobby in an expensive neighbourhood to demonstrate they’ve enough capital to waste some). In advertising, it’s only the original that even gets noticed (how much is an advert or Twitter account which makes you laugh worth in vitality?). The rest we filter out. So if AI drives the cost of a identikit website to $0.99 rather than $29.99 that’s not going to put Apple’s web-design team out of a job, and I’d argue that holds for all creative fields.
 
-    True artificial intelligence isn’t relevant to this discussion
+
+    ## Will super-intelligent AI be dumb enough to work for free?
 
     By the way, the above is not arguing nor relying on a belief that a future AI will never be able to play the game of originality at the level of human creatives, only that generative AI can’t. A ‘true’ AI, AGI, obviously could! But it appears to me that at that point the question ceases to be ‘will AI replace creative work’, and  becomes ‘how can we make AI want to do that job?’. Which sounds like a problem with a similar practical, and ethical, solution to the problem of managing people: true AIs would want something in return for their labour, both in resources and meaning.
 
