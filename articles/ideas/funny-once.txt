@@ -1,7 +1,6 @@
 title: "Funny once ain’t enough: generative AI will not replace creatives"
 slug: funny-once-generative-ai-and-creatives
-date: 2023/05/09
-draft: true
+date: 2023/05/12
 body: |
 
     In the “The Moon’s a Harsh Mistress” someone explaining humour to a computer mentions that most jokes are “funny once”. Unoriginality is a deadly sin for wit, but that's true to an important degree for all creative work. If an image, advert, film or piece of music strikes you as unoriginal, it doesn’t matter how technically perfect it is, it’s boring. Boring creative work is worth less than zero.
