@@ -43,7 +43,7 @@ body: |
 
     It might be argued that generative-AI is a power tool which will allow the top creatives to do 10x more work and replace many of their peers, decimating the workforce. But generative AI doesn't appear to be a power-tool for originality: by its statistical nature, it’s good at ‘more of the same’.
 
-    As argued above, AI only further commodifies the already commodified, and out-sourceable, technique! From [Amdahl’s law](https://en.wikipedia.org/wiki/Amdahl%27s_law) we can predict that if a creative’s output is still bottlenecked on originality, they’re not going to be able to scale up enough to replace 10x less talented peers.
+    As argued above, AI only further commodifies the already commodified, and out-sourceable, technique! From [Amdahl’s law](https://en.wikipedia.org/wiki/Amdahl%27s_law) we can predict that if a creative’s output is still bottlenecked on originality, they’re not going to be able to scale up enough to replace ten less talented peers.
 
     ## Will super-intelligent AI be dumb enough to work for free?
 
