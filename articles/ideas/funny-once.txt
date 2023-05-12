@@ -5,7 +5,7 @@ body: |
 
     In the “The Moon’s a Harsh Mistress” someone explaining humour to a computer mentions that most jokes are “funny once”. Unoriginality is a deadly sin for wit, but that's true to an important degree for all creative work. If an image, advert, film or piece of music strikes you as unoriginal, it doesn’t matter how technically perfect it is, it’s boring. Boring creative work is worth less than zero.
 
-    Generative AI - text generators like ChatGPT and image generators like Midjourney - let anyone produce work that _resembles_ the work done by creatives. Many people infer from this that soon creative workers will be out of a job. But they’re missing the lesson of ‘funny once’: originality and taste are mostly what they're paid for, and generative AI can't help provide either.
+    Generative AI - text generators like ChatGPT and image generators like Midjourney - let anyone produce work that _resembles_ the work done by creatives. Many people infer from this that soon creative workers will be out of a job. But they’re missing the lesson of ‘funny once’: originality and taste are mostly what they're paid for, and generative AI can't provide either.
 
     ## Being able to draw doesn't make you an artist
 
