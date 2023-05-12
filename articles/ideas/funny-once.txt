@@ -51,4 +51,4 @@ body: |
 
     ## Prediction
 
-    Due to the above, I predict the proportion of people working in commercial creative fields in 2 and 5 years' time as now, as a percentage of total employment, will stay steady or increase vs today. [Take my (internet) money](https://manifold.markets/TimRuffles/will-5-of-writers-and-designers-los) if you don't agree.
+    Due to the above, I predict the proportion of people working in commercial creative fields in 2 and 5 years' time as now will stay steady or increase vs today. [Take my (internet) money](https://manifold.markets/TimRuffles/will-5-of-writers-and-designers-los) if you don't agree.
