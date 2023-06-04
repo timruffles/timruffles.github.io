@@ -12,8 +12,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: mkdir gh-pages
-      - run: npm install --production
-      - run: "ts-node list-comments > ${{env.GITHUB_WORKSPACE}}/site.json"
+      - run: npm install --omit=dev
+      - run: "./node_modules/.bin/ts-node ./list-articles > ${{env.GITHUB_WORKSPACE}}/site.json"
       - uses: ./.github/actions/issue-comments
         with:
           content-path: "${{env.GITHUB_WORKSPACE}}/site.json"

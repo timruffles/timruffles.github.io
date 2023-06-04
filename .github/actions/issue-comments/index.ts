@@ -7,7 +7,6 @@ import {scope} from "arktype";
 import {CheckResult} from "arktype/dist/types/traverse/traverse";
 import * as util from "util";
 
-
 const commentLabel = 'ghs-comments' as const;
 
 export const types = scope({
