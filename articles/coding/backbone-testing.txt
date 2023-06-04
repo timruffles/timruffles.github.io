@@ -1,5 +1,5 @@
 title: How to test Backbone apps
-archive: true
+archived: true
 date: 2012/04/22
 body: |
   

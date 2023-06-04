@@ -1,6 +1,6 @@
 import {Article} from "./records";
 import format from "date-fns/format"
-import {Config} from "./build";
+import {Config} from "./build-system";
 import {IssueComment} from "./comments";
 import {Issue} from "./issues";
 
@@ -32,18 +32,6 @@ export function layout({
         <link rel="stylesheet" href="${baseURL}css/normalize.css" type="text/css">
         <link rel="stylesheet" href="${baseURL}css/style.css" type="text/css">
         <link rel="stylesheet" href="${baseURL}css/prism-ghcolors.css" type="text/css">
-        <script type="text/javascript">
-          var _gaq = _gaq || [];
-          _gaq.push(['_setAccount', 'UA-24335480-1']);
-          _gaq.push(['_trackPageview']);
-
-          function asyncScript(src) {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = src;
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-          }
-          asyncScript(('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js');
-        </script>
         <link rel="alternate" type="application/rss+xml" title="Subscribe to RSS feed" href="${baseURL}rss.xml" />
       </head>
       <body class="${root ? "root" : "article"}">
@@ -82,8 +70,12 @@ export function layout({
 
 function renderComments(issue: Issue, comments: IssueComment[]) {
   return `<div class="comments">
-        <p class="comment-help">Comment via Github on <a href="${issue.html_url}" title="Comments handled via Github">this issue</a>.</p>
         ${comments.map(renderComment).join("\n")}
+        <p class="comment-help">
+            <a href="${issue.html_url}" title="Comments handled via Github">
+              Leave a comment via Github
+            </a>
+        </p>
   </div>`;
 }
 

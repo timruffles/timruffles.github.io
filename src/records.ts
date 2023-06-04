@@ -1,12 +1,13 @@
-import {Config, titleToSlug} from "./build";
+import {Config, titleToSlug} from "./build-system";
 import marked from 'marked'
 import prism from 'prismjs'
 import 'prismjs/components/prism-typescript'
 import 'prismjs/components/prism-ruby'
 import 'prismjs/components/prism-go'
 import 'prismjs/components/prism-shell-session'
-import {attempt} from "./language";
+import {attempt} from "../language";
 import path from 'path'
+import crypto from "crypto";
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom
 
@@ -20,6 +21,9 @@ class ArticleError extends Error {
 
 
 export class Article {
+
+  readonly commentId: string
+
   constructor(
     readonly filePath: string,
     readonly title: string,
@@ -30,7 +34,11 @@ export class Article {
     readonly bodyHTML: string,
     readonly description: string,
     readonly category: string,
+    commentIdRaw = slug,
   ) {
+    // id is used for the comment system. It's currently using the slug. May want to add
+    // ability
+    this.commentId =  crypto.createHash('md5').update(commentIdRaw).digest().toString('base64url' as any);
   }
 
   static fromObject(p: string, raw: { [k: string]: any }, cfg: Config): Article | Error {
@@ -38,13 +46,17 @@ export class Article {
       title = '',
       date = '',
       draft = false,
-      slug = '',
+      slug: rawSlug = '',
       body = '',
       archived = false,
+      // set commentId to provide stability if slug changes after publication
+      commentId = undefined,
       previousSlugs = [],
     } = raw;
 
-    const category = p.split('/')[0] || 'missing';
+    const currentSlug = rawSlug || titleToSlug(title);
+
+    const categoryFromPath = p.split('/')[0] || 'missing';
 
     const missing = ['title', 'date', 'body'].filter(k => !raw[k])
     if (missing.length) {
@@ -105,12 +117,13 @@ export class Article {
       return Error(`${p}: invalid date ${date}`)
     }
 
-    const slugs = [slug, ...previousSlugs];
-    const slugBased = `${cfg.baseURL}${slugs[0] || titleToSlug(title)}`
+    const slugs = [currentSlug, ...previousSlugs];
+    const slugBased = `${cfg.baseURL}${currentSlug}`
 
     const status = archived ? 'archived' : draft ? 'draft' : 'active';
 
-    return new Article(p, title, new Date(dateParsed), status, slugBased, html, description, category)
+    return new Article(p, title, new Date(dateParsed), status, slugBased, html, description, categoryFromPath,
+      commentId || currentSlug)
   }
 }
 

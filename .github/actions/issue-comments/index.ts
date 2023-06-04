@@ -1,13 +1,38 @@
-import core from "@actions/core"
 import {Octokit} from "@octokit/action"
+import * as core from "@actions/core"
 import fs from "fs"
-import {
-  GetResponseTypeFromEndpointMethod,
-  GetResponseDataTypeFromEndpointMethod,
-} from "@octokit/types"
-import {
-  RestEndpointMethodTypes
-} from "@octokit/plugin-rest-endpoint-methods/dist-types/generated/parameters-and-response-types";
+import {GetResponseDataTypeFromEndpointMethod,} from "@octokit/types"
+import * as mustache from "mustache"
+import {scope} from "arktype";
+import {CheckResult} from "arktype/dist/types/traverse/traverse";
+import * as util from "util";
+
+
+const commentLabel = 'ghs-comments' as const;
+
+export const types = scope({
+  config: {
+    contentPath: 'string>1',
+    // commentTitleHandlebars for the issue title
+    issueTitleHandlebars: 'string>1',
+    // commentHandlebars template defines the template for creating the body
+    // of a comment
+    issueBodyHandlebars: 'string>1'
+  },
+  contentItem: {
+    id: '0<string<51',
+    title: '0<string<255',
+    url: '0<string<2048',
+  },
+  siteConfig: {
+    content: 'contentItem[]',
+  },
+}).compile()
+
+export type ContentItem = typeof types.contentItem.infer;
+export type SiteConfig = typeof types.siteConfig.infer;
+export type Config = typeof types.config.infer
+
 
 main();
 
@@ -15,7 +40,7 @@ function main() {
   if (process.env.LOCAL_DEV) {
     return localDev()
       .catch(e => {
-        console.error("unexpected error", e)
+        console.error("unexpected error", util.inspect(e, false, 10))
         process.exitCode = 1;
       })
   }
@@ -27,47 +52,130 @@ type IssueComment = GetResponseDataTypeFromEndpointMethod<Octokit["issues"]["lis
 
 async function localDev() {
   process.env.GITHUB_ACTION = "true";
-  return await synchronise(["/example/path"])
+  process.env['INPUT_ISSUE-BODY-HANDLEBARS'] = `The comment thread for [{{title}}]({{url}}). Leave a comment below and it'll appear on the site in a few minutes.`
+  process.env['INPUT_ISSUE-TITLE-HANDLEBARS'] = `Comments for '{{title}}'`
+  return await action()
+}
+
+function must<T>(contentItem: CheckResult<T>): T {
+  if (contentItem.problems) {
+    throw Error("parse error: " + contentItem.problems.join(","))
+  }
+  return contentItem.data
+}
+
+async function action() {
+  // TODO input
+
+  const bodyTpl = core.getInput("issue-body-handlebars")
+  const titleTpl = core.getInput("issue-title-handlebars")
+  const input = must(types.config({
+    contentPath: core.getInput('content-path'),
+    issueBodyHandlebars: bodyTpl,
+    issueTitleHandlebars: titleTpl,
+  }))
+
+  const jsonStr = fs.readFileSync(input.contentPath, {encoding: "utf8"})
+  const configRaw = JSON.parse(jsonStr)
+  const siteConfig = must(types.siteConfig(configRaw))
+
+  return await synchronise(
+    siteConfig,
+    input,
+  )
+}
+
+interface IssueCreateInput {
+  title: string
+  body: string
+  labels: string[]
 }
 
 
 async function synchronise(
-  contentPaths: string[],
+  site: SiteConfig,
+  config: Config,
 ) {
-  // sync:
-  // - accept validate content URL
-  // - ensure existing issues for all of them
   const api = new Octokit()
 
   const repoNWO = process.env.GITHUB_REPOSITORY;
   if (!repoNWO) throw Error("GITHUB_REPOSITORY unset")
-  const [owner, repoName] = repoNWO.split("/")
+  const parts = repoNWO.split("/");
+  if (parts.length !== 2) throw Error("unexpected GITHUB_REPOSITORY value")
+  const [owner = "", repoName = ""] = parts;
 
   const issues = await api.issues.listForRepo({
     owner,
     repo: repoName,
-    labels: "gha-blog-comments",
+    labels: commentLabel,
+    state: "open",
   });
 
   const issuesOnly = issues.data.filter(i => !i.pull_request);
 
-  const byPath = issuesOnly.reduce((a, i) => {
+  const byId = issuesOnly.reduce((a, i) => {
     const pathLabels = i.labels.map(l =>
       (typeof l === "string" ? l : l.name) || "");
-    const hasPath = pathLabels.find(p => p.startsWith("path:"));
-    if (!hasPath) {
+    const hasId = pathLabels.find(p => p.startsWith("id:"));
+    if (!hasId) {
       return a
     }
-    const pathData = hasPath.replace(/^path:/, "")
-    a[pathData] = i;
+    const idValue = hasId.replace(/^id:/, "")
+    a[idValue] = i;
     return a;
   }, {} as { [k: string]: Issue });
 
-  const missing = contentPaths.filter(p => !byPath[p]);
-  //   - generate new issues if missing
-  console.log("need to generate issues for", missing)
+  const missing = site.content.filter(p => !byId[p.id]);
 
-  const issuesByURL = new Map(issuesOnly.map(i => [i.url, i]));
+  mustache.parse(config.issueTitleHandlebars);
+  mustache.parse(config.issueBodyHandlebars);
+
+  const createInputAndErrors = missing.map((item): Error | IssueCreateInput => {
+    try {
+      return {
+        title: mustache.render(config.issueTitleHandlebars, item),
+        body: mustache.render(config.issueBodyHandlebars, item),
+        labels: [
+          commentLabel,
+          `id:${item.id}`,
+        ],
+      };
+    } catch (e) {
+      return e instanceof Error ? e : Error(`${e}`)
+    }
+  });
+
+  const errs = createInputAndErrors.filter(a => a instanceof Error)
+  if (errs.length) {
+    console.error("failed to generate issues: ", errs.join("\n"))
+    process.exit(1)
+  }
+
+  const createInputs = createInputAndErrors.filter((a): a is IssueCreateInput => !(a instanceof Error))
+
+  async function createIssues() {
+    for (const input of createInputs) {
+      const res = await api.issues.create({
+        repo: repoName,
+        owner,
+        title: input.title,
+        body: input.body,
+        labels: input.labels,
+      })
+      console.log("created comment issue", {
+        title: input.title,
+        url: res.data.html_url,
+      })
+      // store issue so we can cache it below
+      byId[res.data.id] = res.data;
+    }
+  }
+
+  console.log("generating issues for", createInputs.length, "content items")
+
+  await createIssues()
+
+  console.log("downloading and caching issues for site build")
 
   // TODO pagination
   const comments = await api.issues.listCommentsForRepo({
@@ -85,15 +193,13 @@ async function synchronise(
     commentsByIssueID.get(cmt.issue_url)!.push(cmt)
   }
 
-  // - identify new comments to download
-  for (const [path, issue] of Object.entries(byPath)) {
+  for (const [path, issue] of Object.entries(byId)) {
     fs.writeFileSync(`./cache/${issue.node_id}.json`, JSON.stringify({
       id: path,
       issue,
       comments: commentsByIssueID.get(issue.url) || [],
     }, null, 4), {encoding: "utf-8"})
   }
-  // - run build with comment data
 }
 
 
@@ -102,6 +208,7 @@ export interface CachedResponse {
   issue: Issue
   comments: IssueComment[]
 }
+
 
 // V2: storage
 // storage:

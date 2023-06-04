@@ -8,4 +8,4 @@ gh-pages
 !gh-pages/.gitkeep
 node_modules/
 .idea
-timruffles.github.io.iml
+*.iml
