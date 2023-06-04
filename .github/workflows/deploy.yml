@@ -14,7 +14,7 @@ jobs:
       - run: mkdir gh-pages
       - run: npm install --production
       - run: "ts-node list-comments > ${env.GITHUB_WORKSPACE}/site.json"
-      - run: .github/actions/issue-comments
+      - uses: .github/actions/issue-comments
         with:
           content-path: "${env.GITHUB_WORKSPACE}/site.json"
       - run: BASE_URL="/blog" npm run -s build
