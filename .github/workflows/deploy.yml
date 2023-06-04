@@ -14,10 +14,10 @@ jobs:
       - run: mkdir gh-pages
       - run: npm install --production
       - run: "ts-node list-comments > ${env.GITHUB_WORKSPACE}/site.json"
-      - uses: .github/actions/issue-comments
+      - uses: ./.github/actions/issue-comments
         with:
           content-path: "${env.GITHUB_WORKSPACE}/site.json"
-      - run: BASE_URL="/blog" npm run -s build
+      - run: BASE_URL="/" npm run -s build
       - uses: peaceiris/actions-gh-pages@v3.7.3
         with:
           deploy_key: ${{ secrets.GITHUB_TOKEN }}
