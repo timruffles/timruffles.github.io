@@ -3,6 +3,7 @@
     "build": "npm run -s build-ts && npm run -s build-sass",
     "build-ts": "BASE_URL='/' ts-node build.ts",
     "build-sass": "node-sass --recursive --output public/css/ --source-map true --source-map-contents views/css",
+    "local": "act",
     "watch": "concurrently 'chokidar \"*.ts\" \"src/*.ts\" \"**/*.txt\" \"views/**/*\" \"public/{img,js}/*\" -c \"npm run -s build\"' 'http-server -c-1 gh-pages'",
     "start": "npm run -s watch"
   },

@@ -5,9 +5,9 @@ import 'prismjs/components/prism-typescript'
 import 'prismjs/components/prism-ruby'
 import 'prismjs/components/prism-go'
 import 'prismjs/components/prism-shell-session'
-import {attempt} from "../language";
 import path from 'path'
 import crypto from "crypto";
+import {attempt} from "./language";
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom
 

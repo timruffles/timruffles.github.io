@@ -1,6 +1,12 @@
 * X create issues
 * X download issues
-* test locally with necko act
+* W test locally with necko act
+    * need to figure out packaging for action
+    * could make it a composite action in dev for now, include npm install
+    * options:
+      * start working in seperate repo now, check in node_modules
+      * ncc? more deps...
+* BASE_URL - was set to '/blog'? Still working ok?
 * write docs
 * publish comments on my site
 * share and test
