@@ -1,5 +1,4 @@
 const { build } = require("esbuild");
-const { dependencies } = require('./package.json');
 const { Generator } = require('npm-dts');
 
 new Generator({
@@ -14,7 +13,6 @@ build({
   minify: false,
   target: "node16",
   sourcemap: "inline",
-  external: Object.keys(dependencies || {}),
   platform: 'node', // for CJS
   outfile: "dist/index.js",
 });

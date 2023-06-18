@@ -12,3 +12,8 @@ env 'INPUT_CONTENT-PATH'=`pwd`/../../../site.json  \
   LOCAL_DEV=1 \
   node  --enable-source-maps dist/index.js path/to/site.json 
 ```
+
+
+## node_modules
+
+Everything is in devDependencies because it's rolled up into a single action.
