@@ -62,7 +62,7 @@ export function layout({
             <p>📩 hello＠timr · co</p>
           </div>
         </div>
-      </body>`
+      </body><!-- built from ${process.env.GITHUB_SHA || 'unknown version'} -->`
 }
 
 function renderComments(issue: Issue, comments: IssueComment[]) {
