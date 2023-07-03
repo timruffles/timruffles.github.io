@@ -12,7 +12,6 @@
   },
   "devDependencies": {
     "http-server": "^0.12.3",
-    "node-sass": "^8.0.0"
   },
   "engines": {
     "node": ">= 16"
@@ -33,6 +32,7 @@
     "glob": "^7.1.6",
     "jsdom": "^16.4.0",
     "marked": "^1.2.7",
+    "node-sass": "^8.0.0",
     "prismjs": "^1.23.0",
     "ts-node": "^9.1.1",
     "typescript": "^4.1.3",
