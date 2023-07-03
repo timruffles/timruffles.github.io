@@ -5,4 +5,7 @@
 vendor
 .bundle
 gh-pages
+!gh-pages/.gitkeep
 node_modules/
+.idea
+*.iml

@@ -1,9 +1,6 @@
-# truffles.me.uk
+# timr.co
 
-I built a blog. Why reinvent this wheel?
-
-1. writing code is more fun than learning frameworks
-1. a blog is small enough to make the time cost very comparable
+Source code and content for my blog, timr.co.
 
 ## Install
 
@@ -20,3 +17,8 @@ npm start
 ## Deploy
 
 Via GitHub Actions - see .github/workflows.
+
+## Comments
+
+Comments hosted on github issues on this repo, and handled
+via actions.

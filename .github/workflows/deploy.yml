@@ -3,6 +3,8 @@ name: Deploy 🚀
 on:
   push:
     branches: ["master", "deploy-test"]
+  issue_comment:
+    # redeploy when new comments are left
 
 jobs:
   deploy:
@@ -11,8 +13,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: mkdir -p gh-pages
-      - run: npm install --production
-      - run: BASE_URL="/blog" npm run -s build
+      - run: npm install --omit=dev
+      - run: "./node_modules/.bin/ts-node ./generate-content-for-comments.ts > ${{env.GITHUB_WORKSPACE}}/site.json"
+      - uses: ./.github/actions/issue-comments
+        with:
+          content-path: "${{env.GITHUB_WORKSPACE}}/site.json"
+      - run: BASE_URL="/" npm run -s build
       - uses: peaceiris/actions-gh-pages@v3.7.3
         with:
           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}

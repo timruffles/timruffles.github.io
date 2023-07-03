@@ -1,3 +1,0 @@
-title: "bdd vs"
-body: |
-  I prefer testing with asserts - there are lots of 'sugar' options out there that make tests read like English, but I'd rather not waste time learning them and write good test names instead.

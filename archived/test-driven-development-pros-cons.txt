@@ -1,0 +1,33 @@
+title: "Pros and cons of test driven development (TDD)"
+link: "test-driven-development-tdd-pros-cons"
+body: |
+  
+   Like all new ideas this was over-applied and over-hyped. It's still a powerful tool however, and I've found it works when the following is true, in order of importance:
+     
+    1. you have a good understanding of the problem
+    1. the code is strongly mathematical/algorithmic - perhaps a set of rules for filtering a list, or defining the rules of a game
+    
+    The first is vital. Test code is still code you write, so 'exploratory' development with tests takes longer. The best example of this is to compare a TDD attempt at writing a Sudoku solver, with Peter Norvig's ([great discussion here](http://ravimohan.blogspot.co.uk/2007/04/learning-from-sudoku-solvers.html). Norvig thought about the problem first and gained an understanding of the problem that he then implemented in code. The TDD attempt attempts to 'think' via writing tests, without first understanding what the system required. He ends up testing (specifying behaviour of his system) things that upon analysis prove to be non-solutions anyway.
+    
+    This demonstrates two things for me: tests can't deliver real insight into what is required, and writing code before you understand the problem is a painfully futile endeavour.
+    
+    In contrast,if you already have a working implementation for a Sudoku solver, test driven development will be an excellent way of implementing it in code. You'll have a good grip on your progress and will by definition be writing well tested code.
+    
+    The second is a recognition that test-driven development will involve writing a lot of tests. For mathematical/algorithmic code there is a strong cost-benefit argument in favour of tests, so this high test coverage will likely be worth it:
+      
+    1. it can be difficult code to write
+    1. it is easy to specify (often straight functions that take and return something with no state)
+    1. it can be non-obvious that it is correctly implemented without tests (especially to others who don't understand the maths/algorithm)
+    1. the behaviour specified is unlikely to change (eg - a `sqrt` function has one definition)
+    
+    An example might be the [Coffeescript AST](an example - the [Coffeescript AST](http://coffeescript.org/documentation/docs/nodes.html) and [accompanying tests](https://github.com/jashkenas/coffee-script/tree/master/test).
+    
+    For front-end Javascript code in particular, you have a code profile that looks like the mirror image:
+      
+    1. easy code to write (animation, DOM, event handlers) 
+    1. difficult to specify (animation, "feel", DOM setup, event handlers)
+    1. perhaps easier to check it's correct via inspection
+    1. the behaviour is likely to change
+    
+    So front end code _should_ be tested, but it must be recognised that tests come with a cost, and some tests cost more than others. Therefore I'd suggest in most cases TDD is likely to be unprofitable for front-end code. Write tests strategically for where the is code with some complex behaviour, or where it's fairly easy to specify.
+  

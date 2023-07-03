@@ -1,4 +1,0 @@
-
-Testing JS has often been thought difficult. It needn't be. JS is difficult to test when it's written in the "big glob of code" style. With a little structure, however, it's one of the best languages for testing.
-
-Now Backbone has brought modular code into the mainstream of JS development (not that it's anything new - libraries like Dojo were there years ago, but Dojo in particular seems to be the Betamax of JS libraries - always first, never adopted), we should see the above myth vanish. Backbone's core components split applications into easily testable chunks.

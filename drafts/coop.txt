@@ -1,0 +1,20 @@
+title: "DWeb isn't the answer, cooperatives are"
+draft: true
+date: "2019/08/18"
+body: |
+
+  I think cooperatives may be a better alternative to centralised, FANG(M)-style, software than current distributed web (DWeb) solutions.
+
+  Distributed software is a 'solve people/culture/legal problems with software' move that hasn't, and can't work. DWeb solutions will always have a worse user-experience compared to centralised software, and non-developers (or even developers, as users) don't care enough about the risks of centralisation to accept that.
+
+  Cooperatives could have as good a user-experience, without centralisation. Build a OSS platform, host it, and charge for it. License the software in a way that restricts it to other cooperatives. Let's consider a cooperative gmail alternative. Users pay in $1 a month for a hosted version of an open-sourced gmail-like service. All software is open-source, and anyone is free to fork and create their own cooperative (has to be a cooperative), so there's no lock-in. The cooperative has some democratic system to determine who is paid to work on the software, which features are developed, etc.
+
+  Without the need to decentralised it can be built with standard tools. Further, because the cooperative's interests are aligned with users, cooperative software is a much safer platform for independent software vendors to build on. There would be no reason to lock-down/deprecate/charge for platform APIs like Twitter etc.
+
+  Let's say we find a team of 5 developers/designers etc who are willing to accept $80k P/A to work fully remote on cooperative, open-source software. I haven't a clue about the hosting cost of gmail, let's just wildly guess $100k P/A to support 42k users. $400k salaries + $100k hosting = $500k P/A, which could be paid for by 42k users at $1 a month.
+
+  My gut feel is finding a small, passionate team of those worried about centralisation (we know they exist, they're building the DWeb after all), that can compete vs centralised software on equal terms, is more likely to succeed than a large unpaid mass of developers trying to compete with the huge UX handicap of centralisation.
+  
+  
+
+

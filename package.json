@@ -1,20 +1,24 @@
 {
   "scripts": {
-    "// ": "currently doesn't compile sass",
-    "build": "BASE_URL='/' ts-node build.ts",
-    "watch": "concurrently 'chokidar \"*.ts\" \"**/*.txt\" \"views/**/*\" \"public/{img,js}/*\" -c \"npm run -s build\"' 'http-server gh-pages'",
+    "build": "npm run -s build-ts && npm run -s build-sass",
+    "build-ts": "BASE_URL='/' ts-node build.ts",
+    "build-sass": "node-sass --recursive --output public/css/ --source-map true --source-map-contents views/css",
+    "local": "act",
+    "watch": "concurrently 'chokidar \"*.ts\" \"src/*.ts\" \"**/*.txt\" \"views/**/*\" \"public/{img,js}/*\" -c \"npm run -s build\"' 'http-server -c-1 gh-pages'",
     "start": "npm run -s watch"
   },
   "resolutions": {
     "yargs-parser": "15.0.1"
   },
   "devDependencies": {
-    "http-server": "^0.12.3"
+    "http-server": "^0.12.3",
+    "node-sass": "^8.0.0"
   },
   "engines": {
     "node": ">= 16"
   },
   "dependencies": {
+    "@actions/core": "^1.10.0",
     "@types/date-fns": "^2.6.0",
     "@types/glob": "^7.1.3",
     "@types/jsdom": "^16.2.6",
@@ -22,6 +26,7 @@
     "@types/node": "^14.14.22",
     "@types/prismjs": "^1.16.2",
     "@types/yaml": "^1.9.7",
+    "arktype": "^1.0.14-alpha",
     "chokidar-cli": "^2.1.0",
     "concurrently": "^5.3.0",
     "date-fns": "^2.16.1",

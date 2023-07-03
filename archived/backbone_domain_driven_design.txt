@@ -1,0 +1,116 @@
+title: Backbone.js domain driven design
+body: |
+
+  I find spending a good chunk of time thinking about your domain when creating a Backbone application has a very large payoff. Everything below applies to all JS frameworks, it's just Backbone is a) popular b) what I'm using this minute.
+
+  Backbone has two main tools for modelling - Models and Collections. I use value objects extensively as well, and they can be trivially implemented using models. 
+
+  ## Value objects
+
+  A value object is a domain object that is defined only by its value. A time period, for instance, is [fungible](http://oxforddictionaries.com/definition/english/fungible?q=fungible) - it is entirely defined by its value. You don't care _which_ object representing Monday-Thursday June 2012 it is, and it wouldn't make sense to give it an id. If you create two value objects with the same value there are _the same_ object in your application's eyes.
+
+  A common pattern of code they can clean up are pairs (or larger sets) of attributes that are listened to together. The time period example is:
+
+      booking.on("change:from change:to",this.updateCost);
+
+  The issue arises when we change both - suddenley we fire updateCosts twice. This is a mistmatch between our model of the domain and the essence - in our domain we are changing from one time period to a completely different one. However we implement it, we're trying to achieve `booking.on("change:period")`, and that's exactly what we can do if we explicitly think periods as VOs rather than a set of fields.
+
+  Value objects also do not change - they are swapped. No matter how complex a value object is, it is immutable. You can only switch the value object a parent object holds. This makes value objects with lots of fields a pain to update. Therefore, you'll want to create a constructor that can use an existing value object as a base, and create a new one with a few fields specified.
+
+      var Report = Backbone.Model.extend({
+        constructor: function(attrs,opts) {
+          var base = opts.base || {};
+          _.defaults(attrs,base.attributes); 
+          return this;
+        }
+      })
+
+      report = new Report({ domain: "foobar.com", dimension: "visits", filter: "/login/*" });
+      
+      // user updates report, changing the dimension, but wanting the rest of the filters created to stay the same
+      report2 = new Report({ dimension: "bounce" },{base: report});
+
+  Notice I've overridden constructor here. This is to give us one other nice property: if I construct two value object with a given set of attributes, I'd like them to be _identical_ in use. In Javascript, I'd therefore like them to be `===`. Overriding the constructor allows us to return an existing instance rather than a new object. Using a collection allows us to do this pretty simply - implement this more efficiently if you're going to be changing value objects a lot (making the id a JSON string of the attributes could work).
+
+      Query = Backbone.Model.extend({
+        constructor: function(attrs,opts) {
+          var base = opts.base || {};
+          _.defaults(attrs,base); 
+          var existing;
+          if(existing = Query.all.get(attrs)) return existing;
+          Query.instances.add(this);
+          return this;
+        }
+      })
+      Query.instances = new Collection;
+
+  The next implementation detail with value objects takes us neatly into the next idea from Domain Driven Design I've found invaluable with Backbone: layering.
+
+  ## Layering
+
+  Our model layer should be a nice clean representation of our domain. We use value objects to encapsulate stateless values that can be set. A problem arises however when we persist our models - how do we serialise our VOs for the server, and unserialise them so models always handle VOs not serialised values?
+
+  Backbone has a `parse` method, but I've found it preferably not to use it. Backbone's `sync` interface is extremely well designed, and is a clean break between our model and persistence layer. Keeping all the details of how to store and retrieve value objects in the persistence layer lets me keep my model layer all about the problem - simple, not complected.
+
+  The immediately benefit is avoiding complecting our model and persistence concerns. So time periods are represented in our DB as unix timestamps. Why have this data munging code in our model when it does not relate to our domain, instead being an implementation detail of our persistence? We've immediately give the class two solid reasons to change - a change in our domain, and in our persistence layer. To me it's just simpler to keep it all in one obvious place, which makes for cohesive, obvious code.
+
+  So how would we go about doing this? If our model needs to have value objects in certain fields, let's note that in our code. We can either note the types we want in the domain code or the persistence - personally I think we should define them with our domain, as they're value objects.
+
+      Game = Backbone.Model.extend({
+        types: {
+          period: Period
+        }
+      })
+
+  We've marked that the period attr uses the period constructor. We then define methods in the persistence layer to serialise and unserialise periods:
+
+      var forSync = [
+        period: {
+          to: function(period) {
+            return toIso8601Interval(period.from,period.to);
+          },
+          from: function(isoString,constructor) {
+            var toFrom = fromIso8601Interval(isoString);
+            return {
+              from: toFrom[0],
+              to: toFrom[1]
+            };
+          }
+        }
+      ];
+
+  Great - now lets extend our `sync` method to be aware of this, and only give the model layer domain objects that are ready to go.
+
+      var originalSync = Backbone.sync;
+      Backbone.sync = function(method,model,options) {
+
+        // backbone's original hook which'll give us untyped attributes from our store
+        var originalSuccess = options.success; 
+
+        options.success = function(attrs) {
+          _.each(model.types,function(constructor,key) {
+            if(forSync[key]) {
+              attrs[key] = constructor(forSync[key].from(attrs[key]))
+            }
+          });
+          originalSuccess(attrs,model,options);
+        };
+
+        var typedParams = _.reduce(model.attributes,function(typed,value,key) {
+          if(forSync[key]) {
+            typed[key] = forSync[key].to(value)
+          } else {
+            typed[key] = value;
+          }
+          return typed;
+        },{});
+
+        options.data = JSON.stringify(typedParams);
+        options.dataType = "application/json";
+
+        originalSync.call(this,method,model,options);
+      };
+
+  Backbone is quite a lot of structure to bring to web sites. Likewise, layering might be a lot of structure to bring to small web apps. However, as you are handling persisting to a couple of data stores (perhaps a REST backend, and real-time web sockets), you'll have a lot of code that's handling serialising to and from them. To me, it should live in the persistence layer, rather than in the models that relate only to our domain. You can implement this in a couple of nice clean functions, rather than specific/inherited code in all of your models.
+
+    

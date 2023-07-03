@@ -1,0 +1,19 @@
+name: "abc"
+author: "Tim Ruffles"
+description: "GitHub Actions blog comments - abc. Use GitHub Actions to power a comment system for your blog or other site"
+
+inputs:
+  content-path:
+    description: "Location of your site.json. You generate this from your blogging tool - e.g. Jekyll. It lists items of content you'd like to receive comments on."
+    require: true
+  issue-body-handlebars:
+    description: 'The template for the issue opened for each piece of content'
+    default: >
+      The comment thread for [{{title}}]({{url}}). Leave a comment below and it'll appear on the site in a few minutes.
+  issue-title-handlebars:
+    description: 'The template for the title of the issue opened for each piece of content'
+    default: "Comments for '{{title}}'"
+
+runs:
+  using: 'node16'
+  main: 'dist/index.js'

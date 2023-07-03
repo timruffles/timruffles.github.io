@@ -1,5 +1,0 @@
-ActiveSupport::Deprecation.behavior = lambda do |msg, stack| 
-  unless /LIBRARY_NAME/ =~ msg
-    ActiveSupport::Deprecation::DEFAULT_BEHAVIORS[:stderr].call(msg,stack) # whichever handlers you want - this is the default
-  end
-end
