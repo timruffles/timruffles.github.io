@@ -19,7 +19,7 @@ jobs:
         with:
           content-path: "${{github.workspace}}/site.json"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.COMMENT_API_TOKEN }}
       - run: BASE_URL="/" npm run -s build
       - uses: peaceiris/actions-gh-pages@v3.7.3
         with:
