@@ -24,6 +24,7 @@ jobs:
           output-path: "${{github.workspace}}/comments"
         env:
           GITHUB_TOKEN: ${{ secrets.COMMENT_API_TOKEN }}
+      - run: ls "${{github.workspace}}/comments"
       - run: npm run -s build
         env:
           COMMENT_PATH: "${{github.workspace}}/comments"
