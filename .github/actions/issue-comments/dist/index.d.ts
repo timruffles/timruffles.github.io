@@ -1,9 +1,13 @@
 declare module 'undefined/index' {
   import { Octokit } from "@octokit/action";
   import { GetResponseDataTypeFromEndpointMethod } from "@octokit/types";
+  export type ContentItem = typeof types.contentItem.infer;
+  export type SiteContent = typeof types.siteContent.infer;
+  export type BuildConfig = typeof types.config.infer;
   export const types: import("arktype").Space<{
       config: {
           contentPath: string;
+          outputPath: string;
           issueTitleHandlebars: string;
           issueBodyHandlebars: string;
       };
@@ -12,7 +16,7 @@ declare module 'undefined/index' {
           title: string;
           url: string;
       };
-      siteConfig: {
+      siteContent: {
           content: {
               id: string;
               title: string;
@@ -20,9 +24,6 @@ declare module 'undefined/index' {
           }[];
       };
   }>;
-  export type ContentItem = typeof types.contentItem.infer;
-  export type SiteConfig = typeof types.siteConfig.infer;
-  export type Config = typeof types.config.infer;
   type Issue = GetResponseDataTypeFromEndpointMethod<Octokit["issues"]["listForRepo"]>[number];
   type IssueComment = GetResponseDataTypeFromEndpointMethod<Octokit["issues"]["listComments"]>[number];
   export interface CachedResponse {

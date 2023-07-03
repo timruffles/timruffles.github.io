@@ -309,6 +309,9 @@ body, input[type="text"], input[type="submit"] {
     height: 32px;
     width: 32px; }
 
+.article-footer {
+  border-top: 1px solid #bbb; }
+
 .comment-info {
   display: flex;
   flex-direction: column;
@@ -325,8 +328,13 @@ body, input[type="text"], input[type="submit"] {
   color: rgba(0, 0, 0, 0.5); }
 
 .comment-help {
-  color: rgba(0, 0, 0, 0.5);
-  font-style: italic; }
+  text-align: right;
+  color: rgba(0, 0, 0, 0.5); }
+  .comment-help a {
+    font-style: italic; }
+
+.comment-body p:first-child {
+  margin-top: 0; }
 
 .footer, .article #content, .reading, .comments {
   width: 42rem;

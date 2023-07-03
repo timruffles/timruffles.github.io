@@ -71,7 +71,7 @@ function renderComments(issue: Issue, comments: IssueComment[]) {
         <p class="comment-help">
             <a href="${issue.html_url}" title="Comments handled via Github">
               Leave a comment via Github
-            </a>
+            </a> 💬 
         </p>
   </div>`;
 }
