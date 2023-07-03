@@ -16,7 +16,7 @@ npm start
 
 ## Deploy
 
-Via GitHub Actions - see .github/workflows.
+Via GitHub Actions - see .github/workflows - and classic 'gh-pages' branch Github pages workflow.
 
 ## Comments
 
