@@ -6,6 +6,9 @@ inputs:
   content-path:
     description: "Location of your site.json. You generate this from your blogging tool - e.g. Jekyll. It lists items of content you'd like to receive comments on."
     require: true
+  output-path:
+    description: "Directory into which comment JSON will be written"
+    require: true
   issue-body-handlebars:
     description: 'The template for the issue opened for each piece of content'
     default: >

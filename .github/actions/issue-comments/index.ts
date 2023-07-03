@@ -71,7 +71,7 @@ async function action() {
   const titleTpl = core.getInput("issue-title-handlebars")
   const input = must(types.config({
     contentPath: core.getInput('content-path'),
-    outputPath: core.getInput('output-path') || "./cache",
+    outputPath: core.getInput('output-path'),
     issueBodyHandlebars: bodyTpl,
     issueTitleHandlebars: titleTpl,
   }))
