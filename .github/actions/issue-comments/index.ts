@@ -36,7 +36,6 @@ export const types = scope({
   },
 }).compile()
 
-main();
 
 function main() {
   (process.env.LOCAL_DEV
@@ -217,3 +216,5 @@ export interface CachedResponse {
 // storage:
 // - use a detached branch
 // - use github actions build caches (harder to develop locally)
+
+main();
