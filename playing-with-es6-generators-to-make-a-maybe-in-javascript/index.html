@@ -8,18 +8,6 @@
         <link rel="stylesheet" href="/css/normalize.css" type="text/css">
         <link rel="stylesheet" href="/css/style.css" type="text/css">
         <link rel="stylesheet" href="/css/prism-ghcolors.css" type="text/css">
-        <script type="text/javascript">
-          var _gaq = _gaq || [];
-          _gaq.push(['_setAccount', 'UA-24335480-1']);
-          _gaq.push(['_trackPageview']);
-
-          function asyncScript(src) {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = src;
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-          }
-          asyncScript(('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js');
-        </script>
         <link rel="alternate" type="application/rss+xml" title="Subscribe to RSS feed" href="/rss.xml" />
       </head>
       <body class="article">
@@ -125,7 +113,7 @@ function MaybeGenerator() {
 <p>Each time we call <code>generator.next()</code> the generator runs until it hits a <code>yield</code>. Once that happens we get a <code>{done: Boolean, value: Anything}</code> object back from the generator. We&#39;re yielding functions to apply to the value, so we apply it to the current value. If returns something one of our guard functions thinks is a Nothing, we return Nothing and we&#39;re done. Once the generator is finished (the function closes) we get a <code>{done: true, value: undefined}</code> and end the loop, returning the final value.</p>
 <p>That rounds out the implementation! I&#39;m sure there are many more interesting &amp; sensible things to do with generators, they&#39;re extremely powerful.</p>
 
-  
+  <div class="article-footer">
   <p class=nav>
     Next: <a href="/twedar-machine-learning-side-project">
       Twedar - machine learning side project
@@ -136,6 +124,8 @@ function MaybeGenerator() {
       New project: SidekickJS - Javascript code quality tool
     </a>
     </p>
+        
+    </div>
             </div>
         </div>
         <div class="footer reading">

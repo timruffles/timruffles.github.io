@@ -8,18 +8,6 @@
         <link rel="stylesheet" href="/css/normalize.css" type="text/css">
         <link rel="stylesheet" href="/css/style.css" type="text/css">
         <link rel="stylesheet" href="/css/prism-ghcolors.css" type="text/css">
-        <script type="text/javascript">
-          var _gaq = _gaq || [];
-          _gaq.push(['_setAccount', 'UA-24335480-1']);
-          _gaq.push(['_trackPageview']);
-
-          function asyncScript(src) {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = src;
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-          }
-          asyncScript(('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js');
-        </script>
         <link rel="alternate" type="application/rss+xml" title="Subscribe to RSS feed" href="/rss.xml" />
       </head>
       <body class="article">
@@ -174,7 +162,7 @@
 <span class="token keyword">function</span> <span class="token function">compileContinueStatement</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> `<span class="token keyword">continue</span><span class="token punctuation">;</span>` <span class="token punctuation">}</span></code></pre>
 <p>In the <code>for</code> example, you can see all of the JS <code>test</code> <code>body</code> <code>update</code> steps are in the C <code>while</code>&#39;s body, so <code>continue</code> and <code>break</code> will work as expected by being compiled one-to-one with their C equivalent. Take a look at the <code>forIn</code> and <code>while</code> loops in the js2c source and you&#39;ll see the same is true of them. Compiling an imperative language into another imperative language has let us piggy-back off the target language&#39;s constructs. There&#39;s something deep and satisfying about the logic of that translation.</p>
 
-  
+  <div class="article-footer">
   <p class=nav>
     Next: <a href="/the-weirdest-javascript-syntax">
       The Weirdest JavaScript syntax
@@ -185,6 +173,15 @@
       Architecture for a JS to C compiler
     </a>
     </p>
+        <div class="comments">
+        
+        <p class="comment-help">
+            <a href="https://github.com/timruffles/timruffles.github.io/issues/100" title="Comments handled via Github">
+              Leave a comment via Github
+            </a> 💬 
+        </p>
+  </div>
+    </div>
             </div>
         </div>
         <div class="footer reading">

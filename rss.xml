@@ -16,6 +16,12 @@
       <pubDate>Thu, 13 Apr 2023 12:00:00 GMT</pubDate>
       <description>If governments provided citizens some compute some interesting things could happen. Basic utilities like email could be access via running open-source software for free on your free government compute and storage, rather than by advertising funded, ‘you ar…</description>
     </item><item>
+      <title>Server-side rendered comments</title>
+      <link>https://timr.co/example-blog-post-comments</link>
+      <pubDate>Wed, 15 Mar 2023 12:00:00 GMT</pubDate>
+      <description>This is an example post
+</description>
+    </item><item>
       <title>Github&apos;s shrine to focus</title>
       <link>https://timr.co/githubs-shrine-to-focus</link>
       <pubDate>Sun, 12 Feb 2023 12:00:00 GMT</pubDate>
@@ -178,18 +184,6 @@
       <description>
 </description>
     </item><item>
-      <title>Testing Glossary</title>
-      <link>https://timr.co/testing-glossary</link>
-      <pubDate>Mon, 20 Aug 2012 12:00:00 GMT</pubDate>
-      <description>
-</description>
-    </item><item>
-      <title>How to test Backbone apps</title>
-      <link>https://timr.co/how-to-test-backbone-apps</link>
-      <pubDate>Sun, 22 Apr 2012 12:00:00 GMT</pubDate>
-      <description>
-</description>
-    </item><item>
       <title>Blurring the stock market</title>
       <link>https://timr.co/blurring-the-stock-market</link>
       <pubDate>Sun, 08 Apr 2012 12:00:00 GMT</pubDate>
@@ -204,12 +198,6 @@
       <title>The Faith Machine</title>
       <link>https://timr.co/the-faith-machine</link>
       <pubDate>Sat, 10 Sep 2011 12:00:00 GMT</pubDate>
-      <description>
-</description>
-    </item><item>
-      <title>Startup resources</title>
-      <link>https://timr.co/startup-resources</link>
-      <pubDate>Sat, 09 Jul 2011 12:00:00 GMT</pubDate>
       <description>
 </description>
     </item><item>
@@ -236,22 +224,10 @@
       <pubDate>Mon, 13 Sep 2010 12:00:00 GMT</pubDate>
       <description>Ruby’s ```===``` operator is often called the ‘case equality’ operator, which is indicative of where it is used, but not how it works. I realised I hadn’t quite grokked the how when I read [Jon Canady&apos;s post](http://joncanady.com/2010/07/05/switching-on-ob…</description>
     </item><item>
-      <title>Total Engagement, B Reeves &amp; J. Read</title>
-      <link>https://timr.co/total-engagement-b-reeves--j-read</link>
-      <pubDate>Tue, 07 Sep 2010 12:00:00 GMT</pubDate>
-      <description>
-</description>
-    </item><item>
       <title>My first experiments with R</title>
       <link>https://timr.co/my-first-experiments-with-r</link>
       <pubDate>Sat, 21 Aug 2010 12:00:00 GMT</pubDate>
       <description>I started to use R for a maths course at the Open University, and thought I&apos;d jot down my initial progress. R is pretty ugly to come to as a programming language: as far as I can tell, there is absolutely no naming convention at all. Luckily there&apos;s a REPL…</description>
-    </item><item>
-      <title>Game Based Marketing, G Zichermann &amp; J Linder</title>
-      <link>https://timr.co/game-based-marketing-g-zichermann--j-linder</link>
-      <pubDate>Tue, 03 Aug 2010 12:00:00 GMT</pubDate>
-      <description>Loyalty = Stickiness
-</description>
     </item>
   </channel>
   </rss>

@@ -8,18 +8,6 @@
         <link rel="stylesheet" href="/css/normalize.css" type="text/css">
         <link rel="stylesheet" href="/css/style.css" type="text/css">
         <link rel="stylesheet" href="/css/prism-ghcolors.css" type="text/css">
-        <script type="text/javascript">
-          var _gaq = _gaq || [];
-          _gaq.push(['_setAccount', 'UA-24335480-1']);
-          _gaq.push(['_trackPageview']);
-
-          function asyncScript(src) {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = src;
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-          }
-          asyncScript(('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js');
-        </script>
         <link rel="alternate" type="application/rss+xml" title="Subscribe to RSS feed" href="/rss.xml" />
       </head>
       <body class="article">
@@ -55,7 +43,7 @@ done</code></pre>
 <p>The tool output in a <code>path/to/file:linenumber</code> format, e.g <code>tools/foo.go:123</code>. <code>${f%:*}</code> is using <code>%</code> bash expansion, which returns f without the shortest match of the pattern at the end of the string. <code>#</code> is the same but removes matches from the start. I capture the tty and read from it to avoid just reading the next line from STDIN.</p>
 <p>I’m excited to see IntelliJ’s <a href="https://gist.github.com/gregsh/b7ef2e4ebbc4c4c11ee9" >scripting layer mature</a>, which’ll enable much more powerful instances of ad-hoc scriptability.</p>
 
-  
+  <div class="article-footer">
   <p class=nav>
     Next: <a href="/slice-of-any-not-slice-of-any">
       When is a slice of any not a slice of any?
@@ -66,6 +54,15 @@ done</code></pre>
       The Object Compromise
     </a>
     </p>
+        <div class="comments">
+        
+        <p class="comment-help">
+            <a href="https://github.com/timruffles/timruffles.github.io/issues/95" title="Comments handled via Github">
+              Leave a comment via Github
+            </a> 💬 
+        </p>
+  </div>
+    </div>
             </div>
         </div>
         <div class="footer reading">
