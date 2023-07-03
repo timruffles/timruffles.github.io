@@ -2,7 +2,7 @@ import {Octokit} from "@octokit/action"
 import * as core from "@actions/core"
 import fs from "fs"
 import {GetResponseDataTypeFromEndpointMethod,} from "@octokit/types"
-import * as mustache from "mustache"
+import mustache from "mustache"
 import {scope} from "arktype";
 import {CheckResult} from "arktype/dist/types/traverse/traverse";
 import * as util from "util";
