@@ -12,7 +12,7 @@ jobs:
     environment: github-pages
     steps:
       - uses: actions/checkout@v2
-      - run: mkdir gh-pages
+      - run: mkdir -p gh-pages
       - run: npm install --omit=dev
       - run: "./node_modules/.bin/ts-node ./generate-content-for-comments.ts > ${{env.GITHUB_WORKSPACE}}/site.json"
       - uses: ./.github/actions/issue-comments
@@ -21,5 +21,5 @@ jobs:
       - run: BASE_URL="/" npm run -s build
       - uses: peaceiris/actions-gh-pages@v3.7.3
         with:
-          deploy_key: ${{ secrets.GITHUB_TOKEN }}
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           publish_dir: gh-pages

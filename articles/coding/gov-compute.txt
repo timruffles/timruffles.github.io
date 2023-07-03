@@ -1,0 +1,12 @@
+title: Should governments give citizens compute?
+date: "2023/04/13"
+body: |
+    If governments provided citizens some compute some interesting things could happen. Basic utilities like email could be access via running open-source software for free on your free government compute and storage, rather than by advertising funded, ‘you are the customer’ models (or subscriptions). It’d also create a new market for end-user hosted software, potentially with paid-for client, i.e. iOS/Android apps, (or support) rather than paid-for backends. Data-sovereignty and privacy comes for free!
+
+    It’d also increase the accessibility of some services to people who can’t currently afford them. E.g. now you’d have a way to allow everyone in society to run an AI assistant.
+
+    The government wouldn’t have to run the data-centres etc themselves, they could create competitive bidding for public clouds to get their business. But larger governments probably already do have some expertise at running large amounts of compute (though [perhaps not](https://www.theregister.com/2021/10/26/uk_security_services_aws/)).
+
+    Obviously there are things you wouldn’t want governments to see, but a) end-to-end encryption should solve this b) if the software running on the compute was OSS the source would be visible so you could trust it, c) a bad government already has the power of life and death over you. The key thing is to keep your government basically good. I’m totally unconvinced that technology is the thing to worry about if your government is already bad or you’re worried about it becoming so: fix the politics or escape the country! Finally, if there was an assumption that people owned their own compute, there’d be nothing to stop you self-hosting or going to a private provider.
+
+    I think this model would change the balance of power somewhat between the large companies that provide some fairly basic services currently (communications especially), and our democracies (i.e. the people we can vote out). Many things start off in the private sector and then end up mostly government provided or controlled - roads, bridges, rail, electricity, health -  maybe it’s time for compute to join them?
