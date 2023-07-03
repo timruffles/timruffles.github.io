@@ -117,7 +117,6 @@ export class Article {
       return Error(`${p}: invalid date ${date}`)
     }
 
-    const slugs = [currentSlug, ...previousSlugs];
     const slugBased = `${cfg.baseURL}${currentSlug}`
 
     const status = archived ? 'archived' : draft ? 'draft' : 'active';

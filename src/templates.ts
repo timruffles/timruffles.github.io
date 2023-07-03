@@ -57,9 +57,6 @@ export function layout({
               ${content}
             </div>
         </div>
-        ${commentHostIssue
-    ? renderComments(commentHostIssue, comments)
-    : ""}
         <div class="footer reading">
           <div class="container">
             <p>📩 hello＠timr · co</p>
@@ -133,8 +130,8 @@ function escapeXML(unsafe: string): string {
   });
 }
 
-function footer(article: PaginatedArticle, cfg: Config) {
-  return `
+function articleFooter(article: ArticleForRendering, cfg: Config) {
+  return `<div class="article-footer">
   ${article.next ? `<p class=nav>
     Next: <a href="${article.next.slug}">
       ${article.next.title}
@@ -144,7 +141,11 @@ function footer(article: PaginatedArticle, cfg: Config) {
     Previous: <a href="${article.previous.slug}">
       ${article.previous.title}
     </a>
-    </p>` : ''}`
+    </p>` : ''}
+        ${article.commentHostIssue
+    ? renderComments(article.commentHostIssue, article.comments)
+    : ""}
+    </div>`
 }
 
 export function renderPage(article: Article, cfg: Config): string {
@@ -152,10 +153,10 @@ export function renderPage(article: Article, cfg: Config): string {
   ${article.bodyHTML}`
 }
 
-export function renderArticle(article: PaginatedArticle, cfg: Config): string {
+export function renderArticle(article: ArticleForRendering, cfg: Config): string {
   return `<h1><a href="${article.slug}">${article.title}</a></h1>
   ${article.bodyHTML}
-  ${footer(article, cfg)}`
+  ${articleFooter(article, cfg)}`
 }
 
 export function homePage(articles: Article[]): string {

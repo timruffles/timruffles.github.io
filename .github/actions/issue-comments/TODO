@@ -6,8 +6,7 @@
     * options:
       * start working in seperate repo now, check in node_modules
       * ncc? more deps...
-* BASE_URL - was set to '/blog'? Still working ok?
-* write docs
 * publish comments on my site
+* write docs
 * share and test
 * announce

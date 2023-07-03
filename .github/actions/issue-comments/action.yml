@@ -1,10 +1,10 @@
-name: "comment-issues"
+name: "abc"
 author: "Tim Ruffles"
-description: "Use GitHub as a comment system for your site"
+description: "GitHub Actions blog comments - abc. Use GitHub Actions to power a comment system for your blog or other site"
 
 inputs:
   content-path:
-    description: 'Location of your site.json'
+    description: "Location of your site.json. You generate this from your blogging tool - e.g. Jekyll. It lists items of content you'd like to receive comments on."
     require: true
   issue-body-handlebars:
     description: 'The template for the issue opened for each piece of content'

@@ -5,7 +5,10 @@ main()
 async function main() {
   const [config, articles] = await loadArticles();
 
+  const cutoffForComments = new Date(Date.parse('2015-01-01'));
+
   const forOutput = articles.filter(a => a.status === 'active' && a.category !== 'pages')
+    .filter(a => a.date > cutoffForComments)
     .map(a => (
       {
         title: a.title,
@@ -16,6 +19,6 @@ async function main() {
     ))
 
   console.log(JSON.stringify({
-    content: forOutput.slice(0,2),
+    content: forOutput,
   }, null, 4))
 }

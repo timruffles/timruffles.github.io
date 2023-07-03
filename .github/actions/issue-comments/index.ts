@@ -7,11 +7,19 @@ import {scope} from "arktype";
 import {CheckResult} from "arktype/dist/types/traverse/traverse";
 import * as util from "util";
 
+// label set on issues to identify them as managed by this action
 const commentLabel = 'ghs-comments' as const;
+
+export type ContentItem = typeof types.contentItem.infer;
+export type SiteContent = typeof types.siteContent.infer;
+export type BuildConfig = typeof types.config.infer
 
 export const types = scope({
   config: {
+    // where the site.json resides
     contentPath: 'string>1',
+    // where the comments will be written
+    outputPath: 'string>1',
     // commentTitleHandlebars for the issue title
     issueTitleHandlebars: 'string>1',
     // commentHandlebars template defines the template for creating the body
@@ -23,27 +31,21 @@ export const types = scope({
     title: '0<string<255',
     url: '0<string<2048',
   },
-  siteConfig: {
+  siteContent: {
     content: 'contentItem[]',
   },
 }).compile()
 
-export type ContentItem = typeof types.contentItem.infer;
-export type SiteConfig = typeof types.siteConfig.infer;
-export type Config = typeof types.config.infer
-
-
 main();
 
 function main() {
-  if (process.env.LOCAL_DEV) {
-    return localDev()
+  (process.env.LOCAL_DEV
+    ? localDev()
+    : action())
       .catch(e => {
         console.error("unexpected error", util.inspect(e, false, 10))
         process.exitCode = 1;
       })
-  }
-  throw Error("todo")
 }
 
 type Issue = GetResponseDataTypeFromEndpointMethod<Octokit["issues"]["listForRepo"]>[number];
@@ -58,7 +60,7 @@ async function localDev() {
 
 function must<T>(contentItem: CheckResult<T>): T {
   if (contentItem.problems) {
-    throw Error("parse error: " + contentItem.problems.join(","))
+    throw Error("invalid input: " + contentItem.problems.join(","))
   }
   return contentItem.data
 }
@@ -70,16 +72,18 @@ async function action() {
   const titleTpl = core.getInput("issue-title-handlebars")
   const input = must(types.config({
     contentPath: core.getInput('content-path'),
+    outputPath: core.getInput('output-path') || "./cache",
     issueBodyHandlebars: bodyTpl,
     issueTitleHandlebars: titleTpl,
   }))
 
+
   const jsonStr = fs.readFileSync(input.contentPath, {encoding: "utf8"})
   const configRaw = JSON.parse(jsonStr)
-  const siteConfig = must(types.siteConfig(configRaw))
+  const siteContent = must(types.siteContent(configRaw))
 
   return await synchronise(
-    siteConfig,
+    siteContent,
     input,
   )
 }
@@ -92,8 +96,8 @@ interface IssueCreateInput {
 
 
 async function synchronise(
-  site: SiteConfig,
-  config: Config,
+  site: SiteContent,
+  config: BuildConfig,
 ) {
   const api = new Octokit()
 
@@ -193,7 +197,7 @@ async function synchronise(
   }
 
   for (const [path, issue] of Object.entries(byId)) {
-    fs.writeFileSync(`./cache/${issue.node_id}.json`, JSON.stringify({
+    fs.writeFileSync(`${config.outputPath}/${issue.node_id}.json`, JSON.stringify({
       id: path,
       issue,
       comments: commentsByIssueID.get(issue.url) || [],
