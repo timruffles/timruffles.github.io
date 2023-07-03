@@ -18,9 +18,10 @@ jobs:
       - uses: ./.github/actions/issue-comments
         with:
           content-path: "${{github.workspace}}/site.json"
+          output-path: "${{github.workspace}}/comments"
         env:
           GITHUB_TOKEN: ${{ secrets.COMMENT_API_TOKEN }}
-      - run: BASE_URL="/" npm run -s build
+      - run: COMMENT_PATH="${{github.workspace}}/comments" BASE_URL="/" npm run -s build
       - uses: peaceiris/actions-gh-pages@v3.7.3
         with:
           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}

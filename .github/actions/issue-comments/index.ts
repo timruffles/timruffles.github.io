@@ -76,10 +76,11 @@ async function action() {
     issueTitleHandlebars: titleTpl,
   }))
 
-
   const jsonStr = fs.readFileSync(input.contentPath, {encoding: "utf8"})
   const configRaw = JSON.parse(jsonStr)
   const siteContent = must(types.siteContent(configRaw))
+
+  fs.mkdirSync(input.outputPath, {recursive: true});
 
   return await synchronise(
     siteContent,

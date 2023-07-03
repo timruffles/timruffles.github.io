@@ -181,8 +181,12 @@ function withNextLast(articlesDescAge: Article[]): PaginatedArticle[] {
   })
 }
 
+function getCommentPath() {
+  return process.env.COMMENT_PATH || "./cache"
+}
+
 async function gatherComments(strings: string[])  {
-  const files = await promisify(glob)(`./.github/actions/issue-comments/cache/*.json`);
+  const files = await promisify(glob)(`${getCommentPath()}/*.json`);
   const res = new Map<string, ArticleCommentData>();
   for(const f of files) {
     const data = fs.readFileSync(f, {encoding: "utf8"})
