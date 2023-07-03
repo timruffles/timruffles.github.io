@@ -14,10 +14,10 @@ jobs:
       - uses: actions/checkout@v2
       - run: mkdir -p gh-pages
       - run: npm install --omit=dev
-      - run: "./node_modules/.bin/ts-node ./generate-content-for-comments.ts > ${{env.GITHUB_WORKSPACE}}/site.json"
+      - run: "./node_modules/.bin/ts-node ./generate-content-for-comments.ts > ${{github.workspace}}/site.json"
       - uses: ./.github/actions/issue-comments
         with:
-          content-path: "${{env.GITHUB_WORKSPACE}}/site.json"
+          content-path: "${{github.workspace}}/site.json"
       - run: BASE_URL="/" npm run -s build
       - uses: peaceiris/actions-gh-pages@v3.7.3
         with:
