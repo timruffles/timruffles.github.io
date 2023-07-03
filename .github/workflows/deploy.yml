@@ -6,6 +6,9 @@ on:
   issue_comment:
     # redeploy when new comments are left
 
+# avoid creating duplicate issues
+concurrency: deploy
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
