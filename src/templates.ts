@@ -35,7 +35,7 @@ export function layout({
         <link rel="alternate" type="application/rss+xml" title="Subscribe to RSS feed" href="${baseURL}rss.xml" />
       </head>
       <body class="${root ? "root" : "article"}">
-        <div id="mast">
+        <div class="mast">
           <div class='top-bar reading'>
               <div class="links logical">
                 <div class="navigation logical">
@@ -48,12 +48,12 @@ export function layout({
               </div>
             </div>
         </div>
-        <div id="content" class="reading">
+        <div class="content" class="reading">
            ${root ? `<div class="page-header">
               <h1><a href="${baseURL}me">Tim Ruffles</a>' Blog</h1>
             </div>` : ''}
 
-           <div id="body">
+           <div class="body">
               ${content}
             </div>
         </div>
@@ -81,10 +81,10 @@ function renderComment(comment: IssueComment) {
   <div class="comment-heading">
     <img src="${comment.user.avatar_url}" width="32" height="32" />
     <div class="comment-info">
-      <a href="${comment.user.html_url}" class="comment-author">${comment.user.login}</span></a>
-      <span class="comment-time">${
+      <a href="${comment.user.html_url}" class="comment-author" title="See author on github">${comment.user.login}</span></a>
+      <a class="comment-time" href="${comment.html_url}" title="View comment on github">${
     format(new Date(Date.parse(comment.created_at)), 'dd MMM yy, h:sbbb') + ' UTC'
-  }</span>
+  }</a>
     </div>
   </div>
   <div class="comment-body">

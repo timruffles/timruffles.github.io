@@ -1,5 +1,4 @@
 @import base
-@import print
 @import prettify
 
 *, *:before, *:after
@@ -28,7 +27,7 @@ body, input[type="text"], input[type="submit"]
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif
   font-weight: 300
 
-#body h1
+.body h1
   font-size: 2em
   line-height: 1.25em
 
@@ -94,14 +93,14 @@ body, input[type="text"], input[type="submit"]
     overflow: visible
 
 
-.footer, .article #content, .reading, .comments
+.footer, .content, .reading, .comments
   +reading_gutter
+
 
 h1
   margin: .5rem 0 1.5rem 0
   @media(max-width: #{$small-width})
     margin: 0 0 .25rem 0
-
 
 
 /* links */
@@ -135,7 +134,7 @@ ul ul
 
 /* layout */
 
-#mast
+.mast
   width: 100%
   padding: .6em 0 0 0
   a
@@ -169,7 +168,7 @@ ul ul
 
 
 
-#mast
+.mast
   background: url(../img/mast.png) 0 0 repeat-x
   a
     padding: .15em .3em
@@ -206,7 +205,7 @@ pre
     padding: 0.5rem 1rem
 
 
-#comments
+.comments
   h3
     margin-top: 0.5em
   input[type=text]
@@ -319,7 +318,7 @@ pre
   white-space: normal
   margin: 0
 
-#content
+.content
   img, video, iframe
     /* scale the image proportionally, but never larger than container */
     max-width: 100%

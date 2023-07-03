@@ -287,7 +287,7 @@ body, input[type="text"], input[type="submit"] {
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: 300; }
 
-#body h1 {
+.body h1 {
   font-size: 2em;
   line-height: 1.25em; }
 
@@ -336,12 +336,12 @@ body, input[type="text"], input[type="submit"] {
 .comment-body p:first-child {
   margin-top: 0; }
 
-.footer, .article #content, .reading, .comments {
+.footer, .content, .reading, .comments {
   width: 42rem;
   margin: 0 auto;
   padding: 0 0.5rem; }
   @media (max-width: 600px) {
-    .footer, .article #content, .reading, .comments {
+    .footer, .content, .reading, .comments {
       width: auto;
       padding: 0 1rem;
       overflow: visible; } }
@@ -379,15 +379,15 @@ ul ul {
   padding: 1em; }
 
 /* layout */
-#mast {
+.mast {
   width: 100%;
   padding: .6em 0 0 0; }
-  #mast a {
+  .mast a {
     color: #888;
     -webkit-transition: all .4s; }
-  #mast a:hover {
+  .mast a:hover {
     color: #222; }
-  #mast .chapters {
+  .mast .chapters {
     font-size: .8em; }
 
 .top-bar {
@@ -412,16 +412,16 @@ ul ul {
 .logical {
   display: inline; }
 
-#mast {
+.mast {
   background: url(../img/mast.png) 0 0 repeat-x; }
-  #mast a {
+  .mast a {
     padding: .15em .3em; }
-    #mast a:first-child {
+    .mast a:first-child {
       padding-left: 0; }
-  #mast ul {
+  .mast ul {
     padding: 0;
     margin: 0; }
-    #mast ul li {
+    .mast ul li {
       list-style-type: none;
       float: left;
       margin: 0 .5em; }
@@ -446,17 +446,17 @@ pre {
     .plug {
       padding: 0.5rem 1rem; } }
 
-#comments h3 {
+.comments h3 {
   margin-top: 0.5em; }
 
-#comments input[type=text] {
+.comments input[type=text] {
   width: 95%;
   padding: .25em; }
 
-#comments input[type=text], #comments textarea {
+.comments input[type=text], .comments textarea {
   font-size: 1em; }
 
-#comments textarea {
+.comments textarea {
   width: 100%; }
 
 @media (min-width: 600px) {
@@ -566,7 +566,7 @@ pre {
   white-space: normal;
   margin: 0; }
 
-#content img, #content video, #content iframe {
+.content img, .content video, .content iframe {
   /* scale the image proportionally, but never larger than container */
   max-width: 100%;
   height: auto; }
