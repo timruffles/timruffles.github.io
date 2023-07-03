@@ -24,7 +24,7 @@ export const types = scope({
     issueTitleHandlebars: 'string>1',
     // commentHandlebars template defines the template for creating the body
     // of a comment
-    issueBodyHandlebars: 'string>1'
+    issueBodyHandlebars: 'string>1',
   },
   contentItem: {
     id: '0<string<51',
