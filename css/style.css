@@ -287,6 +287,10 @@ body, input[type="text"], input[type="submit"] {
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: 300; }
 
+.body {
+  /* ensure wrapping of long lines etc */
+  overflow: hidden; }
+
 .body h1 {
   font-size: 2em;
   line-height: 1.25em; }
