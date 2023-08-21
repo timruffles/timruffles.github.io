@@ -448,7 +448,7 @@ pre {
       font-size: 1em;
       padding: 0.5em 1em; } }
 
-.body code {
+.body code, .body code[class*="language-"] {
   white-space: pre-wrap; }
 
 .plug {
