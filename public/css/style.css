@@ -287,6 +287,10 @@ body, input[type="text"], input[type="submit"] {
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: 300; }
 
+.body {
+  /* ensure wrapping of long lines etc */
+  overflow: hidden; }
+
 .body h1 {
   font-size: 2em;
   line-height: 1.25em; }
@@ -378,6 +382,12 @@ h1 a, h2 a, h3 a, h4 a {
 ul ul {
   padding: 1em; }
 
+blockquote {
+  margin: 1em 0;
+  padding: 0 0 0 0.75em;
+  border-left: 2px solid #00c0ff;
+  font-size: 0.9em; }
+
 /* layout */
 .mast {
   width: 100%;
@@ -438,6 +448,9 @@ pre {
       font-size: 1em;
       padding: 0.5em 1em; } }
 
+.body code, .body code[class*="language-"] {
+  white-space: pre-wrap; }
+
 .plug {
   border: 1px solid #adc5ff;
   padding: 0.25rem 0.5rem;
@@ -458,11 +471,6 @@ pre {
 
 .comments textarea {
   width: 100%; }
-
-@media (min-width: 600px) {
-  .posts {
-    position: relative;
-    left: -6px; } }
 
 .posts h4 {
   margin: 0;
