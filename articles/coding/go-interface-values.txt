@@ -231,16 +231,16 @@ body: |
       fmt.Println(n1, n2) // {"alice", "bob"}
       switchNamed(&n1, &n2)
       fmt.Println(n1, n2) // {"bob", "alice"}
-
+      //
       // going back to our example...
       u1 := User{"charlie"}
       u2 := User{"denise"}
       fmt.Println(u1, u2) // {"charlie", "denise"}
-         
-      // ...which gave us 'can't use type *User as *Named'
+      //
+      // ...which wouldn't compile because 'can't use type *User as *Named'
       // switchNamed(&u1, &u2)
-         
-      // ...we can figure out that if the compiler accepted it by implicitly generated new *Named values
+      // 
+      // ...we can figure out that if the Go accepted it by implicitly generated new *Named values
       // for the &u1, &u2 passed to the method, e.g. like equivalent to the n3/n4 code below...
       var n3 Named = u1
       var n4 Named = u2
