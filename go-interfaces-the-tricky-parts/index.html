@@ -203,33 +203,32 @@ u2 <span class="token operator">:=</span> User<span class="token punctuation">{<
 <span class="token function">switchNamed</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>u1<span class="token punctuation">,</span> <span class="token operator">&amp;</span>u2<span class="token punctuation">)</span></code></pre>
 <details>
   <summary>Spoiler</summary>
-    Much like with the slice example above, <code>switchNamed(&amp;u1)</code> to work Go would have to automatically allocate an interface value. If it did, and passed that into the function, assignments to that fresh <code>*Named</code> would have no affect on the original <code>*User</code>, and so no visibility outside the function. So instead it's a compile-time type error:
+    Much like with the slice example above, <code>switchNamed(&amp;u1, &amp;u2)</code> to work Go would have to automatically allocate an interface value. If it did, and passed that into the function, assignments to that fresh <code>*Named</code> would have no affect on the original <code>*User</code>, and so no visibility outside the function. So instead it's a compile-time type error:
     <pre>// this compiles fine
-    var f1 Named = User{"alice"}
-    var f2 Named = User{"bob"}
-    fmt.Println(f1, f2) // {"alice", "bob"}
-    switchNamed(&amp;f1, &amp;f2)
-    fmt.Println(f1, f2) // {"bob", "alice"}
-    &nbsp;&nbsp;&nbsp;
-    u1 := User{"charlie"}
-    u2 := User{"denise"}
-    fmt.Println(u1, u2) // {"charlie", "denise"}
-    &nbsp;&nbsp;&nbsp;
-    // this won't compile - 'can't use type *User as *Named'
-    // switchNamed(&amp;u1, &amp;u2)
-    &nbsp;&nbsp;&nbsp;
-    // because if we implicitly generated new *Named values
-    // for the &amp;u1, &amp;u2 passed to the method...
-    var n1 Named = u1
-    var n2 Named = u2
+    var n1 Named = User{"alice"}
+    var n2 Named = User{"bob"}
+    fmt.Println(n1, n2) // {"alice", "bob"}
     switchNamed(&amp;n1, &amp;n2)
-    // ....we'd end up with u1 and u2 unaffected!
-    fmt.Println(u1, u2) // {"charlie", "denise"}
-    
-    </pre>
-    Note: pointers to interfaces are fairly rare in practise.
-</details>
+    fmt.Println(n1, n2) // {"bob", "alice"}
 
+</pre></details><pre><code><span class="token comment">// going back to our example...</span>
+u1 <span class="token punctuation">:</span><span class="token operator">=</span> User<span class="token punctuation">{</span><span class="token string">"charlie"</span><span class="token punctuation">}</span>
+u2 <span class="token punctuation">:</span><span class="token operator">=</span> User<span class="token punctuation">{</span><span class="token string">"denise"</span><span class="token punctuation">}</span>
+fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>u1<span class="token punctuation">,</span> u2<span class="token punctuation">)</span> <span class="token comment">// {"charlie", "denise"}</span>
+   
+<span class="token comment">// ...which gave us 'can't use type *User as *Named'</span>
+<span class="token comment">// switchNamed(&amp;u1, &amp;u2)</span>
+   
+<span class="token comment">// ...we can figure out that if the compiler accepted it by implicitly generated new *Named values</span>
+<span class="token comment">// for the &amp;u1, &amp;u2 passed to the method, e.g. like equivalent to the n3/n4 code below...</span>
+var n3 Named <span class="token operator">=</span> u1
+var n4 Named <span class="token operator">=</span> u2
+<span class="token function">switchNamed</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>n3<span class="token punctuation">,</span> <span class="token operator">&amp;</span>n4<span class="token punctuation">)</span>
+<span class="token comment">// ....we'd end up with the code not working as expected: u1 and u2 would be unaffected!</span>
+fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>u1<span class="token punctuation">,</span> u2<span class="token punctuation">)</span> <span class="token comment">// {"charlie", "denise"}</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>code<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>pre<span class="token operator">></span>
+Note<span class="token punctuation">:</span> pointers to interfaces are fairly rare <span class="token keyword">in</span> practise<span class="token punctuation">.</span></code></pre>
 <p>Thanks to <a href="https://mobile.twitter.com/camsmorgan">Campbell Morgan</a>, <a href="https://iheanyi.com/">Iheanyi Ekechukwu</a> and <a href="https://bradshaw.io/">Stephen Bradshaw</a> for reviewing this and offering their wisdom!</p>
 
   <div class="article-footer">
@@ -286,4 +285,4 @@ u2 <span class="token operator">:=</span> User<span class="token punctuation">{<
             <p>📩 hello＠timr · co</p>
           </div>
         </div>
-      </body><!-- built from 2b65e9d16b711107f92c19c5c64cd60432aa043b -->
+      </body><!-- built from ff870b472db10392726ba84c69e2c0f007750178 -->
