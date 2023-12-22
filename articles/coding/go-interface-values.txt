@@ -216,9 +216,10 @@ body: |
     *b = t
   }
 
-  u1 := User{"denise"}
+  u1 := User{"alice"}
+  u2 := User{"bob"}
   // type error
-  switchNamed(&u1)
+  switchNamed(&u1, &u2)
   ```
 
   <details>
