@@ -41,6 +41,9 @@ export function layout({
                 <div class="navigation logical">
                   <a href="${baseURL}">Home</a>
                   <a href="${baseURL}rss.xml">RSS</a>
+                  <a href="${baseURL}til">
+                    TIL
+                  </a>
                   <a href="${baseURL}me">
                       ${root ? 'Me' : 'Tim Ruffles'}
                   </a>
