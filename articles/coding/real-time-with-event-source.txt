@@ -2,14 +2,9 @@ title: "Real-time the easy way with EventSource"
 date: 2016/04/09
 body: |
 
-  <div class="summary">
-    This was originally featured on the <a href="https://web.archive.org/web/20150316213843/http://www.futureinsights.com/home/real-time-the-easy-way-with-eventsource-angularjs-and-nodejs.html">FOWA conference blog</a>, but FOWA UK was closed down ;(
-  </div>
-    
-  When people think real-time their thoughts immediately leap to web-sockets. For many use-cases there exists a more productive approach, with good browser support hitting 100% via [shims](https://github.com/Yaffle/EventSource/). Meet: [EventSource](https://developer.mozilla.org/en-US/docs/Web/API/EventSource) AKA server-sent-events!
+  When people think real-time their thoughts immediately leap to web-sockets. For many use-cases there exists a more productive approach: [EventSource](https://developer.mozilla.org/en-US/docs/Web/API/EventSource) AKA server-sent-events!
 
   EventSource is a HTTP based protocol that allows one-way evented communication from the server to the client. It avoids the overhead of polling, provides seamless reconnection without any code on your part and has an incredibly simple API.
-
 
   I'll take you through the server-sent events related parts of both the client and server-side of a chat application implemented via EventSource. We'll use AngularJS in the client and NodeJS in the server. The [full source](https://github.com/timruffles/chat-event-source) is available to read too.
 
@@ -26,7 +21,7 @@ body: |
         }
       });
 
-  Surprisingly cruft-free for a browser API! We provide the URL of the HTTP endpoint that'll be pushing the events, and then use the `addEventListener(eventName, handlerFunction)` API we know and love in the DOM. Just like in the DOM we have an event object holding event data in its properties. Here we want the data - which is sent as a string. I've chosen to encode it as JSON - so we simply parse it and place it at the start of our list of chats.
+  Surprisingly cruft-free for a browser API (and [supported everywhere](https://caniuse.com/eventsource))! We provide the URL of the HTTP endpoint that'll be pushing the events, and then use the `addEventListener(eventName, handlerFunction)` API we know and love in the DOM. Just like in the DOM we have an event object holding event data in its properties. Here we want the data - which is sent as a string. I've chosen to encode it as JSON - so we simply parse it and place it at the start of our list of chats.
 
   ## Server-sent events protocol
 
@@ -108,6 +103,10 @@ body: |
   ![simple chat with nodejs, angularjs and server-sent events](https://raw.githubusercontent.com/timruffles/chat-event-source/master/article-assets/chat.png)
 
   I hope this quick run-down whetted your appetite for `EventSource`. I think it's one of those rare browser APIs that leaves you thankful to its designers for making your life easy. Please check out the [completed example](https://github.com/timruffles/event-source-express-angular-real-time-tutorial) and have a play!
+
+  <div class="summary">
+    This was originally featured on the <a href="https://web.archive.org/web/20150316213843/http://www.futureinsights.com/home/real-time-the-easy-way-with-eventsource-angularjs-and-nodejs.html">FOWA conference blog</a>, but FOWA UK was closed down ;(
+  </div>
 
 
 
