@@ -29,11 +29,7 @@
 
            <div class="body">
               <h1><a href="/real-time-the-easy-way-with-eventsource">Real-time the easy way with EventSource</a></h1>
-  <div class="summary">
-  This was originally featured on the <a href="https://web.archive.org/web/20150316213843/http://www.futureinsights.com/home/real-time-the-easy-way-with-eventsource-angularjs-and-nodejs.html">FOWA conference blog</a>, but FOWA UK was closed down ;(
-</div>
-
-<p>When people think real-time their thoughts immediately leap to web-sockets. For many use-cases there exists a more productive approach, with good browser support hitting 100% via <a href="https://github.com/Yaffle/EventSource/" >shims</a>. Meet: <a href="https://developer.mozilla.org/en-US/docs/Web/API/EventSource" >EventSource</a> AKA server-sent-events!</p>
+  <p>When people think real-time their thoughts immediately leap to web-sockets. For many use-cases there exists a more productive approach: <a href="https://developer.mozilla.org/en-US/docs/Web/API/EventSource" >EventSource</a> AKA server-sent-events!</p>
 <p>EventSource is a HTTP based protocol that allows one-way evented communication from the server to the client. It avoids the overhead of polling, provides seamless reconnection without any code on your part and has an incredibly simple API.</p>
 <p>I&#39;ll take you through the server-sent events related parts of both the client and server-side of a chat application implemented via EventSource. We&#39;ll use AngularJS in the client and NodeJS in the server. The <a href="https://github.com/timruffles/chat-event-source" >full source</a> is available to read too.</p>
 <h2 id="eventsource-api">EventSource API</h2>
@@ -46,7 +42,7 @@ chatEvents<span class="token punctuation">.</span><span class="token function">a
     chats<span class="token punctuation">.</span><span class="token function">unshift</span><span class="token punctuation">(</span>chat<span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>Surprisingly cruft-free for a browser API! We provide the URL of the HTTP endpoint that&#39;ll be pushing the events, and then use the <code>addEventListener(eventName, handlerFunction)</code> API we know and love in the DOM. Just like in the DOM we have an event object holding event data in its properties. Here we want the data - which is sent as a string. I&#39;ve chosen to encode it as JSON - so we simply parse it and place it at the start of our list of chats.</p>
+<p>Surprisingly cruft-free for a browser API (and <a href="https://caniuse.com/eventsource" >supported everywhere</a>)! We provide the URL of the HTTP endpoint that&#39;ll be pushing the events, and then use the <code>addEventListener(eventName, handlerFunction)</code> API we know and love in the DOM. Just like in the DOM we have an event object holding event data in its properties. Here we want the data - which is sent as a string. I&#39;ve chosen to encode it as JSON - so we simply parse it and place it at the start of our list of chats.</p>
 <h2 id="server-sent-events-protocol">Server-sent events protocol</h2>
 <p>The server-side is not much more complex. The simplicity of the API is hidden in the spec, so I&#39;ll show you the full text of a session, first up the request:</p>
 <pre><code>GET <span class="token operator">/</span>rooms<span class="token operator">/</span>demo<span class="token operator">/</span>events HTTP<span class="token operator">/</span><span class="token number">1.1</span>
@@ -109,6 +105,9 @@ data<span class="token punctuation">:</span> <span class="token punctuation">{</
 <p>Once we boot up the server we have a functional, if incredibly simple, chat application!</p>
 <p><img src="https://raw.githubusercontent.com/timruffles/chat-event-source/master/article-assets/chat.png" alt="simple chat with nodejs, angularjs and server-sent events" /></p>
 <p>I hope this quick run-down whetted your appetite for <code>EventSource</code>. I think it&#39;s one of those rare browser APIs that leaves you thankful to its designers for making your life easy. Please check out the <a href="https://github.com/timruffles/event-source-express-angular-real-time-tutorial" >completed example</a> and have a play!</p>
+<div class="summary">
+  This was originally featured on the <a href="https://web.archive.org/web/20150316213843/http://www.futureinsights.com/home/real-time-the-easy-way-with-eventsource-angularjs-and-nodejs.html">FOWA conference blog</a>, but FOWA UK was closed down ;(
+</div>
 
   <div class="article-footer">
   <p class=nav>
@@ -137,4 +136,4 @@ data<span class="token punctuation">:</span> <span class="token punctuation">{</
             <p>📩 hello＠timr · co</p>
           </div>
         </div>
-      </body><!-- built from ae7b7e79e2c8da05718b887f02d13c5a5806a558 -->
+      </body><!-- built from 6c707350171a65ab0ff49012b720703030c58129 -->
