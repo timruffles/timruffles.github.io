@@ -2,7 +2,7 @@ title: "Real-time the easy way with EventSource"
 date: 2016/04/09
 body: |
 
-  When people think real-time their thoughts immediately leap to web-sockets. For many use-cases there exists a more productive approach: [EventSource](https://developer.mozilla.org/en-US/docs/Web/API/EventSource) AKA server-sent-events!
+  When people think real-time their thoughts immediately leap to web-sockets. For many use-cases there exists a more productive approach: [server-sent-events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events) & [EventSource](https://developer.mozilla.org/en-US/docs/Web/API/EventSource)!
 
   EventSource is a HTTP based protocol that allows one-way evented communication from the server to the client. It avoids the overhead of polling, provides seamless reconnection without any code on your part and has an incredibly simple API.
 
