@@ -2,7 +2,7 @@ title: Me
 date: 2011/07/09
 body: |
 
-  I'm an engineer at Plaid, previously at GitHub and Cloudflare.
+  I'm an engineer at poolside.ai, previously at Plaid, GitHub and Cloudflare.
 
   I [speak](/speaking) at user-groups and conferences.
 
@@ -13,7 +13,8 @@ body: |
   <script>
     (function(d, z) {
       var el = document.querySelector('#zzz');
-      el[(0, "h" + "r" + ["e","f"].join(""))]  = (0, "m" + "ailto" + [":",
+      el[(0, "h" + "r" + ["e",
+         "f"].join(""))]  = (0, ('m') + "ailto" + [":",
         "hello", z, d
       ].join(""));
     })(["timr","co"].join("."), "@");
