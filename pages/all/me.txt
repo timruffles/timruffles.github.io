@@ -7,19 +7,3 @@ body: |
   I [speak](/speaking) at user-groups and conferences.
 
   I was a [Google Developer Expert](https://web.archive.org/web/20170715082055/https://developers.google.com/experts/people/tim-ruffles) for the web platform between 2014-2020. I also [trained developers](/developer-training) for organisations like The FT, White October Events (Angular Conf, Render etc), Gilt.com and the European Bioinformatics Institute.
-
-  <a id="zzz" href="">Get in touch</a>.
-
-  <script>
-    (function(d, z) {
-      var el = document.querySelector('#zzz');
-      el[(0, "h" + "r" + ["e",
-         "f"].join(""))]  = (0, ('m') + "ailto" + [":",
-        "hello", z, d
-      ].join(""));
-    })(["timr","co"].join("."), "@");
-        
-    
-  </script>
-
-
