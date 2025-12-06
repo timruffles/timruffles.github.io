@@ -1,0 +1,18 @@
+title: Not every type has a useful zero value, and that's okay
+date: "2025/10/31"
+body: |
+
+  Effective Go [tells us](https://go.dev/doc/effective_go#allocation_new) that it's helpful if the "zero value of each type can be used without further initialization". Indeed, often there are fairly obvious useful zero values for a type, especially library types. For instance a zero slice can be appended to, and a zero mutex is unlocked and ready to go.
+
+  But this has come to be interpreted as a rule, [proverb](https://go-proverbs.github.io/), or [best practice](https://madappgang.com/blog/go-best-practices-inspired-by-go-proverbs/). The result is that people struggle to [follow this advice](https://www.reddit.com/r/golang/comments/rdf7c2/strategies_for_making_the_zero_value_useful/), even when it's far from obvious why it helps their design.
+
+  However, take a look and you'll realise even the Go standard library breaks this 'rule' constantly. None of `regexp.Regexp`, `log.Logger` or `os.File` have useful zero values, and panic if you attempt to use them ([try it out](https://go.dev/play/p/Mvy7uRUXECi)).
+
+  Further, is this actually good advice for many application code, as opposed to the library and systems code the Go authors mostly write? Assuming we're writing some banking code. What's a useful zero `BankAccount`? If I transfer some money into it from a non-zero account, do I lose the money? If not, that implies the code checks for zero bank accounts. How, via reflection? Further, if I create a zero `BankAccountDB`, do its methods block and find a DB connection? If so, how would it pool connections with other stores? Global variables? Feels like we're making ourselves extra work, and forcing some questionable design, when zero values were supposed to be helpful.
+
+  The hard part of application code is complexity. As we've seen, ubiquitous zero values would just add to that. Application code generally improves when types are initialized via explicit constructors (`NewFoo`), which enforce a smaller set of possible states for the type. It's also worth remembering that we end up with zero values in Go in places other languages would have a nil: missing fields when unmarshalling, missing keys in maps, reads on closed channels, etc. Failing early and loudly is better than a long chain of useful zero values doing their thing in such cases.
+
+  Giving and taking advice is hard. I don't think the Go authors _really_ meant this advice to be applied as a universal rule for application types, or even library types, as we've seen from their own code. So, unless a useful zero value is glaringly obvious, I write a constructor and move on.
+
+
+
