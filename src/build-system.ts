@@ -17,6 +17,7 @@ import {
 import {IssueComment} from "./comments";
 import {Issue} from "./issues";
 import path from "path";
+import {publishedCategories, showOnMainBlog} from "./definitions";
 
 export class Config {
   constructor(readonly baseURL: string) {
@@ -28,31 +29,36 @@ export async function main(
   outputPath: string,
 ) {
 
-  const [config, allArticles] = await loadArticles();
-
+  // copy public assets
   exec(`cp -R ${publicPath}/* ${outputPath}`)
 
+  const [config, allArticles] = await loadAllContent();
+
+  // output standalone pages
   allArticles
     .filter(a => a.category === 'pages')
     .forEach(p => writePage(outputPath, p, config))
 
-
-  const articlesDesc = allArticles
-    .filter(a => a.category !== 'pages')
+  const mainBlogPosts = allArticles
+    .filter(a => showOnMainBlog(a.category))
     .sort((a,b) => +b.date - +a.date)
 
-  const commentsByCommentId = await gatherComments(articlesDesc.map(a => a.commentId))
+  const commentsByCommentId = await gatherComments(mainBlogPosts.map(a => a.commentId))
 
-  const forRendering = withNextLast(articlesDesc)
+  const tils = allArticles.filter(a => a.category === 'til')
+
+  // render all remaining content
+  withNextLast(mainBlogPosts)
+    // add TILs - they don't have next/last as there's more important ways to categorise
+    .concat(tils)
     .map((a: PaginatedArticle): ArticleForRendering => ({
       ...a,
       comments: (commentsByCommentId.get(a.commentId)?.comments) || [],
       commentHostIssue: commentsByCommentId.get(a.commentId)?.commentHostIssue,
     }))
+    .forEach(article => writeArticle(outputPath, article, config))
 
-  forRendering.forEach(article => writeArticle(outputPath, article, config))
-
-  const activeArticles = articlesDesc.filter(a => a.status === 'active')
+  const activeArticles = mainBlogPosts.filter(a => a.status === 'active')
 
   // needs to exist on the gh-pages branch, so write each time
   fs.writeFileSync(`${outputPath}/CNAME`, 'www.timr.co')
@@ -63,6 +69,15 @@ export async function main(
     baseURL: config.baseURL,
     description: "Tim  Ruffles' blog - software engineering",
     content: homePage(activeArticles.slice(0, 20)),
+  }));
+
+  fs.mkdirSync(`${outputPath}/til`)
+  fs.writeFileSync(`${outputPath}/til/index.html`,  layout({
+    title: "TIL - today I learned",
+    slug: "",
+    baseURL: config.baseURL,
+    description: "Things I've learned",
+    content: homePage(tils.slice(0, 20)),
   }));
 
   fs.writeFileSync(`${outputPath}/404.html`,  layout({
@@ -78,11 +93,11 @@ export async function main(
   fs.writeFileSync(`${outputPath}/rss.xml`,  rss(activeArticles));
 }
 
-export async function loadArticles() {
+export async function loadAllContent() {
   const baseURL = process.env.BASE_URL || "/";
   const config = new Config(baseURL)
 
-  const contentFolders = ["articles", "blogs", "pages"];
+  const contentFolders = Object.keys(publishedCategories);
 
   const articlesAndErrors = (await Promise.all(contentFolders.map(p =>
     loadActiveContent(p, config)))).flatMap(x => x)

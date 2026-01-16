@@ -1,13 +1,14 @@
-import {loadArticles} from "./src/build-system";
+import {loadAllContent} from "./src/build-system";
+import {isCommentable} from "./src/definitions";
 
 main()
 
 async function main() {
-  const [config, articles] = await loadArticles();
+  const [config, articles] = await loadAllContent();
 
   const cutoffForComments = new Date(Date.parse('2015-01-01'));
 
-  const forOutput = articles.filter(a => a.status === 'active' && a.category !== 'pages')
+  const forOutput = articles.filter(a => a.status === 'active' && isCommentable(a.category))
     .filter(a => a.date > cutoffForComments)
     .map(a => (
       {
