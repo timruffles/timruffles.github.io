@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlowGossip Simulation</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #12121a;
+      --bg-tertiary: #1a1a24;
+      --border: #2a2a3a;
+      --text-primary: #e8e8f0;
+      --text-secondary: #8888a0;
+      --text-muted: #5a5a70;
+      --accent-blue: #4a9eff;
+      --accent-green: #4aff9a;
+      --accent-orange: #ff9a4a;
+      --accent-purple: #9a4aff;
+      --algo-precise-oldest: #ff6b6b;
+      --algo-precise-newest: #ffd93d;
+      --algo-scuttle-breadth: #6bcb77;
+      --algo-scuttle-depth: #4d96ff;
+    }
+    
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+    
+    .container {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .header-left {
+      flex: 1;
+    }
+    
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .subtitle {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+    
+    .header-stats {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+    
+    .stat-card {
+      background: var(--bg-tertiary);
+      border-radius: 8px;
+      padding: 12px 16px;
+      text-align: center;
+      min-width: 100px;
+    }
+    
+    .stat-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--accent-blue);
+    }
+    
+    .stat-label {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 2px;
+    }
+    
+    .main-grid {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 24px;
+    }
+    
+    @media (max-width: 1100px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+      .header-stats {
+        flex-wrap: wrap;
+      }
+    }
+    
+    .panel {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    
+    .panel-title {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+    
+    .controls-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-height: calc(100vh - 140px);
+      overflow-y: auto;
+    }
+    
+    .control-section {
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .control-section:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    
+    .section-title {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+    
+    .slider-group {
+      margin-bottom: 12px;
+    }
+    
+    .slider-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    
+    .slider-label {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+    
+    .slider-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent-blue);
+      background: var(--bg-tertiary);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+    
+    input[type="range"] {
+      width: 100%;
+      height: 6px;
+      -webkit-appearance: none;
+      appearance: none;
+      background: var(--bg-tertiary);
+      border-radius: 3px;
+      outline: none;
+    }
+    
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      background: var(--accent-blue);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: transform 0.15s ease;
+    }
+    
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+    
+    .algorithm-toggles {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .algo-toggle {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      background: var(--bg-tertiary);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    
+    .algo-toggle:hover {
+      background: var(--border);
+    }
+    
+    .algo-toggle input {
+      display: none;
+    }
+    
+    .algo-checkbox {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--border);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+    
+    .algo-toggle input:checked + .algo-checkbox {
+      border-color: var(--algo-color);
+      background: var(--algo-color);
+    }
+    
+    .algo-checkbox::after {
+      content: '✓';
+      font-size: 12px;
+      color: var(--bg-primary);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    
+    .algo-toggle input:checked + .algo-checkbox::after {
+      opacity: 1;
+    }
+    
+    .algo-name {
+      font-size: 0.8rem;
+      flex: 1;
+    }
+    
+    .algo-indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      background: var(--algo-color);
+    }
+    
+    .sim-controls {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    
+    .btn {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .btn-primary {
+      background: var(--accent-blue);
+      color: var(--bg-primary);
+    }
+    
+    .btn-primary:hover {
+      background: #5aa8ff;
+      transform: translateY(-1px);
+    }
+    
+    .btn-secondary {
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+    
+    .btn-secondary:hover {
+      background: var(--border);
+    }
+    
+    .btn-danger {
+      background: #ff4a4a;
+      color: white;
+    }
+    
+    .btn-danger:hover {
+      background: #ff6b6b;
+    }
+    
+    .charts-area {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    
+    .charts-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    
+    @media (max-width: 900px) {
+      .charts-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .chart-container {
+      background: var(--bg-tertiary);
+      border-radius: 10px;
+      padding: 16px;
+      height: 280px;
+    }
+    
+    .chart-title {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+    
+    .chart-wrapper {
+      height: calc(100% - 28px);
+      position: relative;
+    }
+    
+    /* Scrollbar styling */
+    .controls-panel::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    .controls-panel::-webkit-scrollbar-track {
+      background: var(--bg-tertiary);
+      border-radius: 3px;
+    }
+    
+    .controls-panel::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 3px;
+    }
+    
+    .controls-panel::-webkit-scrollbar-thumb:hover {
+      background: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-left">
+        <h1>FlowGossip Simulation</h1>
+        <p class="subtitle">Efficient Reconciliation and Flow Control for Anti-Entropy Protocols — van Renesse et al.</p>
+      </div>
+      <div class="header-stats">
+        <div class="stat-card">
+          <div class="stat-value" id="tickCounter">0</div>
+          <div class="stat-label">Tick</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="statNodesHealthy">32</div>
+          <div class="stat-label">Healthy</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="statNodesOutage">0</div>
+          <div class="stat-label">Outage</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="statTotalUpdates">0</div>
+          <div class="stat-label">Updates</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="statGossipExchanges">0</div>
+          <div class="stat-label">Exchanges</div>
+        </div>
+      </div>
+    </header>
+    
+    <div class="main-grid">
+      <div class="panel controls-panel">
+        <div class="control-section">
+          <div class="section-title">Simulation Controls</div>
+          <div class="sim-controls">
+            <button class="btn btn-primary" id="playPauseBtn">▶ Play</button>
+            <button class="btn btn-secondary" id="stepBtn">Step</button>
+            <button class="btn btn-danger" id="resetBtn">Reset</button>
+          </div>
+          <div class="slider-group" style="margin-top: 16px;">
+            <div class="slider-header">
+              <span class="slider-label">Speed (ms/tick)</span>
+              <span class="slider-value" id="speedValue">100</span>
+            </div>
+            <input type="range" id="speed" min="20" max="500" value="100">
+          </div>
+        </div>
+        
+        <div class="control-section">
+          <div class="section-title">Algorithms</div>
+          <div class="algorithm-toggles">
+            <label class="algo-toggle" style="--algo-color: var(--algo-precise-oldest)">
+              <input type="checkbox" id="algo-precise-oldest">
+              <span class="algo-checkbox"></span>
+              <span class="algo-name">Precise-Oldest</span>
+              <span class="algo-indicator"></span>
+            </label>
+            <label class="algo-toggle" style="--algo-color: var(--algo-precise-newest)">
+              <input type="checkbox" id="algo-precise-newest">
+              <span class="algo-checkbox"></span>
+              <span class="algo-name">Precise-Newest</span>
+              <span class="algo-indicator"></span>
+            </label>
+            <label class="algo-toggle" style="--algo-color: var(--algo-scuttle-breadth)">
+              <input type="checkbox" id="algo-scuttle-breadth">
+              <span class="algo-checkbox"></span>
+              <span class="algo-name">Scuttle-Breadth</span>
+              <span class="algo-indicator"></span>
+            </label>
+            <label class="algo-toggle" style="--algo-color: var(--algo-scuttle-depth)">
+              <input type="checkbox" id="algo-scuttle-depth" checked>
+              <span class="algo-checkbox"></span>
+              <span class="algo-name">Scuttle-Depth</span>
+              <span class="algo-indicator"></span>
+            </label>
+          </div>
+        </div>
+        
+        <div class="control-section">
+          <div class="section-title">Network Parameters</div>
+          <div class="slider-group">
+            <div class="slider-header">
+              <span class="slider-label">Participants (N)</span>
+              <span class="slider-value" id="participantsValue">32</span>
+            </div>
+            <input type="range" id="participants" min="8" max="256" value="32" step="8">
+          </div>
+          <div class="slider-group">
+            <div class="slider-header">
+              <span class="slider-label">Keys per Participant (K)</span>
+              <span class="slider-value" id="keysValue">16</span>
+            </div>
+            <input type="range" id="keys" min="4" max="256" value="16" step="4">
+          </div>
+          <div class="slider-group">
+            <div class="slider-header">
+              <span class="slider-label">MTU (max deltas)</span>
+              <span class="slider-value" id="mtuValue">50</span>
+            </div>
+            <input type="range" id="mtu" min="10" max="500" value="50" step="5">
+          </div>
+          <div class="slider-group">
+            <div class="slider-header">
+              <span class="slider-label">Update Rate (ρ)</span>
+              <span class="slider-value" id="updateRateValue">1.0</span>
+            </div>
+            <input type="range" id="updateRate" min="0.1" max="5" value="1" step="0.1">
+          </div>
+        </div>
+        
+        <div class="control-section">
+          <div class="section-title">Network Conditions</div>
+          <div class="slider-group">
+            <div class="slider-header">
+              <span class="slider-label">P(outage starts)</span>
+              <span class="slider-value" id="pOutageStartValue">0.00</span>
+            </div>
+            <input type="range" id="pOutageStart" min="0" max="0.1" value="0" step="0.005">
+          </div>
+          <div class="slider-group">
+            <div class="slider-header">
+              <span class="slider-label">P(outage stops)</span>
+              <span class="slider-value" id="pOutageStopValue">0.20</span>
+            </div>
+            <input type="range" id="pOutageStop" min="0.05" max="1" value="0.2" step="0.05">
+          </div>
+          <div class="slider-group">
+            <div class="slider-header">
+              <span class="slider-label">Outage MTU Factor</span>
+              <span class="slider-value" id="outageMtuFactorValue">0.5</span>
+            </div>
+            <input type="range" id="outageMtuFactor" min="0" max="1" value="0.5" step="0.1">
+          </div>
+        </div>
+        
+        <div class="control-section">
+          <div class="section-title">Flow Control (AIMD)</div>
+          <div class="slider-group">
+            <div class="slider-header">
+              <span class="slider-label">φ₁ (overflow threshold)</span>
+              <span class="slider-value" id="phi1Value">3</span>
+            </div>
+            <input type="range" id="phi1" min="1" max="10" value="3">
+          </div>
+          <div class="slider-group">
+            <div class="slider-header">
+              <span class="slider-label">φ₂ (underflow threshold)</span>
+              <span class="slider-value" id="phi2Value">3</span>
+            </div>
+            <input type="range" id="phi2" min="1" max="10" value="3">
+          </div>
+          <div class="slider-group">
+            <div class="slider-header">
+              <span class="slider-label">α (decrease factor)</span>
+              <span class="slider-value" id="alphaValue">0.75</span>
+            </div>
+            <input type="range" id="alpha" min="0.5" max="0.95" value="0.75" step="0.05">
+          </div>
+          <div class="slider-group">
+            <div class="slider-header">
+              <span class="slider-label">β (increase amount)</span>
+              <span class="slider-value" id="betaValue">0.2</span>
+            </div>
+            <input type="range" id="beta" min="0.05" max="1" value="0.2" step="0.05">
+          </div>
+        </div>
+      </div>
+      
+      <div class="charts-area">
+        <div class="charts-grid">
+          <div class="chart-container">
+            <div class="chart-title">Maximum Staleness (ticks)</div>
+            <div class="chart-wrapper">
+              <canvas id="chartStaleness"></canvas>
+            </div>
+          </div>
+          <div class="chart-container">
+            <div class="chart-title">Stale Mapping Count</div>
+            <div class="chart-wrapper">
+              <canvas id="chartStaleCount"></canvas>
+            </div>
+          </div>
+          <div class="chart-container">
+            <div class="chart-title">Average Update Rate</div>
+            <div class="chart-wrapper">
+              <canvas id="chartUpdateRate"></canvas>
+            </div>
+          </div>
+          <div class="chart-container">
+            <div class="chart-title">Network Health (%)</div>
+            <div class="chart-wrapper">
+              <canvas id="chartNetworkHealth"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+// ============================================================================
+// CONFIGURATION
+// ============================================================================
+
+const CONFIG = {
+  participants: 32,
+  keysPerParticipant: 16,
+  mtu: 50,
+  updateRate: 1.0,
+  pOutageStart: 0.0,
+  pOutageStop: 0.2,
+  outageMtuFactor: 0.5,
+  phi1: 3,
+  phi2: 3,
+  alpha: 0.75,
+  beta: 0.2,
+  speed: 100
+};
+
+const ALGORITHMS = {
+  'precise-oldest': { enabled: false, color: '#ff6b6b', name: 'Precise-Oldest' },
+  'precise-newest': { enabled: false, color: '#ffd93d', name: 'Precise-Newest' },
+  'scuttle-breadth': { enabled: false, color: '#6bcb77', name: 'Scuttle-Breadth' },
+  'scuttle-depth': { enabled: true, color: '#4d96ff', name: 'Scuttle-Depth' }
+};
+
+// ============================================================================
+// PARTICIPANT CLASS
+// ============================================================================
+
+class Participant {
+  constructor(id, numKeys) {
+    this.id = id;
+    this.numKeys = numKeys;
+    
+    // Own state: key -> {value, version, updatedAt}
+    this.ownState = new Map();
+    for (let k = 0; k < numKeys; k++) {
+      this.ownState.set(k, { value: 0, version: 0, updatedAt: 0 });
+    }
+    
+    // View of other participants' states: participantId -> (key -> {value, version})
+    this.views = new Map();
+    
+    // Flow control
+    this.maxUpdateRate = CONFIG.mtu;
+    this.desiredUpdateRate = CONFIG.updateRate;
+    this.consecutiveOverflows = 0;
+    this.consecutiveUnderflows = 0;
+    
+    // Network state
+    this.isInOutage = false;
+    this.effectiveMtu = CONFIG.mtu;
+    
+    // Stats
+    this.nextVersion = 1;
+  }
+  
+  initializeViews(allParticipants) {
+    for (const p of allParticipants) {
+      if (p.id !== this.id) {
+        const view = new Map();
+        for (let k = 0; k < p.numKeys; k++) {
+          view.set(k, { value: 0, version: 0 });
+        }
+        this.views.set(p.id, view);
+      }
+    }
+  }
+  
+  // Add a new key to own state
+  addKey(keyId) {
+    if (!this.ownState.has(keyId)) {
+      this.ownState.set(keyId, { value: 0, version: 0, updatedAt: 0 });
+    }
+  }
+  
+  // Add keys to view of another participant
+  addKeysToView(participantId, numKeys) {
+    let view = this.views.get(participantId);
+    if (!view) {
+      view = new Map();
+      this.views.set(participantId, view);
+    }
+    for (let k = 0; k < numKeys; k++) {
+      if (!view.has(k)) {
+        view.set(k, { value: 0, version: 0 });
+      }
+    }
+  }
+  
+  // Update number of keys
+  setNumKeys(newNumKeys, tick) {
+    // Add new keys if expanding
+    for (let k = this.numKeys; k < newNumKeys; k++) {
+      this.ownState.set(k, { value: 0, version: 0, updatedAt: tick });
+    }
+    // Remove keys if shrinking
+    for (let k = newNumKeys; k < this.numKeys; k++) {
+      this.ownState.delete(k);
+    }
+    this.numKeys = newNumKeys;
+  }
+  
+  generateUpdate(tick) {
+    // Pick a random key to update
+    const key = Math.floor(Math.random() * this.numKeys);
+    const newValue = Math.random();
+    const newVersion = this.nextVersion++;
+    
+    this.ownState.set(key, {
+      value: newValue,
+      version: newVersion,
+      updatedAt: tick
+    });
+    
+    return { participantId: this.id, key, value: newValue, version: newVersion };
+  }
+  
+  getMaxVersionFor(participantId) {
+    if (participantId === this.id) {
+      let max = 0;
+      for (const entry of this.ownState.values()) {
+        max = Math.max(max, entry.version);
+      }
+      return max;
+    }
+    
+    const view = this.views.get(participantId);
+    if (!view) return 0;
+    
+    let max = 0;
+    for (const entry of view.values()) {
+      max = Math.max(max, entry.version);
+    }
+    return max;
+  }
+  
+  applyDelta(delta) {
+    if (delta.participantId === this.id) return; // Don't apply to self
+    
+    let view = this.views.get(delta.participantId);
+    if (!view) {
+      view = new Map();
+      this.views.set(delta.participantId, view);
+    }
+    
+    const current = view.get(delta.key);
+    if (!current || delta.version > current.version) {
+      view.set(delta.key, { value: delta.value, version: delta.version });
+    }
+  }
+}
+
+// ============================================================================
+// SIMULATION WORLD (one per algorithm)
+// ============================================================================
+
+class SimulationWorld {
+  constructor(algorithmId) {
+    this.algorithmId = algorithmId;
+    this.participants = [];
+    this.tick = 0;
+    this.totalUpdates = 0;
+    this.gossipExchanges = 0;
+    
+    // Metrics history
+    this.metrics = {
+      maxStaleness: [],
+      staleCount: [],
+      avgUpdateRate: [],
+      networkHealth: []
+    };
+    
+    this.initialize();
+  }
+  
+  initialize() {
+    this.participants = [];
+    this.tick = 0;
+    this.totalUpdates = 0;
+    this.gossipExchanges = 0;
+    this.metrics = { maxStaleness: [], staleCount: [], avgUpdateRate: [], networkHealth: [] };
+    
+    // Create participants
+    for (let i = 0; i < CONFIG.participants; i++) {
+      this.participants.push(new Participant(i, CONFIG.keysPerParticipant));
+    }
+    
+    // Initialize views
+    for (const p of this.participants) {
+      p.initializeViews(this.participants);
+    }
+  }
+  
+  // Dynamically adjust number of participants
+  adjustParticipants(newCount) {
+    const currentCount = this.participants.length;
+    
+    if (newCount > currentCount) {
+      // Add new participants
+      for (let i = currentCount; i < newCount; i++) {
+        const newP = new Participant(i, CONFIG.keysPerParticipant);
+        // Initialize new participant's views of existing participants
+        for (const existingP of this.participants) {
+          newP.addKeysToView(existingP.id, existingP.numKeys);
+        }
+        this.participants.push(newP);
+        
+        // Add views of new participant to all existing participants
+        for (const existingP of this.participants) {
+          if (existingP.id !== newP.id) {
+            existingP.addKeysToView(newP.id, newP.numKeys);
+          }
+        }
+      }
+    } else if (newCount < currentCount) {
+      // Remove participants (keep the first newCount)
+      const removedIds = new Set();
+      for (let i = newCount; i < currentCount; i++) {
+        removedIds.add(this.participants[i].id);
+      }
+      this.participants = this.participants.slice(0, newCount);
+      
+      // Remove views of removed participants
+      for (const p of this.participants) {
+        for (const id of removedIds) {
+          p.views.delete(id);
+        }
+      }
+    }
+  }
+  
+  // Dynamically adjust number of keys per participant
+  adjustKeys(newKeyCount) {
+    for (const p of this.participants) {
+      p.setNumKeys(newKeyCount, this.tick);
+    }
+    
+    // Update all views
+    for (const observer of this.participants) {
+      for (const owner of this.participants) {
+        if (observer.id !== owner.id) {
+          const view = observer.views.get(owner.id);
+          if (view) {
+            // Add new keys
+            for (let k = view.size; k < newKeyCount; k++) {
+              view.set(k, { value: 0, version: 0 });
+            }
+            // Remove old keys
+            for (let k = newKeyCount; k < view.size + newKeyCount; k++) {
+              view.delete(k);
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  // Update all participants' desired update rate
+  updateDesiredRates() {
+    for (const p of this.participants) {
+      p.desiredUpdateRate = CONFIG.updateRate;
+    }
+  }
+  
+  step(rng) {
+    // 1. Update network conditions
+    this.updateNetworkConditions(rng);
+    
+    // 2. Generate updates
+    this.generateUpdates(rng);
+    
+    // 3. Perform gossip exchanges
+    this.performGossipRound(rng);
+    
+    // 4. Collect metrics
+    this.collectMetrics();
+    
+    this.tick++;
+  }
+  
+  updateNetworkConditions(rng) {
+    for (const p of this.participants) {
+      if (p.isInOutage) {
+        if (rng() < CONFIG.pOutageStop) {
+          p.isInOutage = false;
+          p.effectiveMtu = CONFIG.mtu;
+        }
+      } else {
+        if (rng() < CONFIG.pOutageStart) {
+          p.isInOutage = true;
+          p.effectiveMtu = Math.floor(CONFIG.mtu * CONFIG.outageMtuFactor);
+        }
+      }
+      
+      // Always update effective MTU for non-outage nodes when CONFIG.mtu changes
+      if (!p.isInOutage) {
+        p.effectiveMtu = CONFIG.mtu;
+      } else {
+        p.effectiveMtu = Math.floor(CONFIG.mtu * CONFIG.outageMtuFactor);
+      }
+    }
+  }
+  
+  generateUpdates(rng) {
+    for (const p of this.participants) {
+      if (p.isInOutage) continue;
+      
+      // Use flow-controlled rate
+      const rate = Math.min(p.desiredUpdateRate, p.maxUpdateRate);
+      
+      // Poisson-ish: generate updates based on rate
+      if (rng() < rate) {
+        p.generateUpdate(this.tick);
+        this.totalUpdates++;
+      }
+    }
+  }
+  
+  performGossipRound(rng) {
+    const healthyParticipants = this.participants.filter(p => !p.isInOutage);
+    
+    for (const p of healthyParticipants) {
+      // Select random peer
+      const peers = healthyParticipants.filter(q => q.id !== p.id);
+      if (peers.length === 0) continue;
+      
+      const q = peers[Math.floor(rng() * peers.length)];
+      
+      // Perform gossip exchange
+      this.gossipExchange(p, q, rng);
+      this.gossipExchanges++;
+    }
+  }
+  
+  gossipExchange(p, q, rng) {
+    // Compute deltas in both directions
+    const deltasP2Q = this.computeDeltas(p, q);
+    const deltasQ2P = this.computeDeltas(q, p);
+    
+    // Order and limit by MTU
+    const orderedP2Q = this.orderDeltas(deltasP2Q, p, q, rng);
+    const orderedQ2P = this.orderDeltas(deltasQ2P, q, p, rng);
+    
+    const effectiveMtu = Math.min(p.effectiveMtu, q.effectiveMtu, CONFIG.mtu);
+    const limitedP2Q = orderedP2Q.slice(0, effectiveMtu);
+    const limitedQ2P = orderedQ2P.slice(0, effectiveMtu);
+    
+    // Apply deltas
+    for (const delta of limitedP2Q) {
+      q.applyDelta(delta);
+    }
+    for (const delta of limitedQ2P) {
+      p.applyDelta(delta);
+    }
+    
+    // Update AIMD counters
+    this.updateAimd(p, deltasP2Q.length, limitedP2Q.length);
+    this.updateAimd(q, deltasQ2P.length, limitedQ2P.length);
+    
+    // Exchange flow control rates
+    this.exchangeRates(p, q);
+  }
+  
+  computeDeltas(sender, receiver) {
+    const deltas = [];
+    
+    // For each participant (including sender)
+    for (const owner of this.participants) {
+      const senderView = owner.id === sender.id ? 
+        sender.ownState : sender.views.get(owner.id);
+      
+      const receiverMaxVersion = receiver.getMaxVersionFor(owner.id);
+      
+      if (!senderView) continue;
+      
+      for (const [key, entry] of senderView) {
+        if (this.algorithmId.startsWith('scuttle')) {
+          // Scuttlebutt: send if version > receiver's max for this owner
+          if (entry.version > receiverMaxVersion) {
+            deltas.push({
+              participantId: owner.id,
+              key,
+              value: entry.value,
+              version: entry.version
+            });
+          }
+        } else {
+          // Precise: send if version > receiver's version for this specific key
+          const receiverView = owner.id === receiver.id ?
+            receiver.ownState : receiver.views.get(owner.id);
+          
+          if (receiverView) {
+            const receiverEntry = receiverView.get(key);
+            if (!receiverEntry || entry.version > receiverEntry.version) {
+              deltas.push({
+                participantId: owner.id,
+                key,
+                value: entry.value,
+                version: entry.version
+              });
+            }
+          }
+        }
+      }
+    }
+    
+    return deltas;
+  }
+  
+  orderDeltas(deltas, sender, receiver, rng) {
+    if (deltas.length === 0) return [];
+    
+    switch (this.algorithmId) {
+      case 'precise-oldest':
+        // Sort by version ascending (oldest first)
+        return [...deltas].sort((a, b) => a.version - b.version);
+        
+      case 'precise-newest':
+        // Sort by version descending (newest first)
+        return [...deltas].sort((a, b) => b.version - a.version);
+        
+      case 'scuttle-breadth':
+        return this.orderScuttleBreadth(deltas, rng);
+        
+      case 'scuttle-depth':
+        return this.orderScuttleDepth(deltas, rng);
+        
+      default:
+        return deltas;
+    }
+  }
+  
+  orderScuttleBreadth(deltas, rng) {
+    // Group by participant
+    const byParticipant = new Map();
+    for (const d of deltas) {
+      if (!byParticipant.has(d.participantId)) {
+        byParticipant.set(d.participantId, []);
+      }
+      byParticipant.get(d.participantId).push(d);
+    }
+    
+    // Sort each participant's deltas by version (ascending for rank assignment)
+    for (const [pid, pDeltas] of byParticipant) {
+      pDeltas.sort((a, b) => a.version - b.version);
+    }
+    
+    // Interleave by rank
+    const result = [];
+    const participantIds = [...byParticipant.keys()];
+    
+    // Shuffle participant order for fairness
+    for (let i = participantIds.length - 1; i > 0; i--) {
+      const j = Math.floor(rng() * (i + 1));
+      [participantIds[i], participantIds[j]] = [participantIds[j], participantIds[i]];
+    }
+    
+    let rank = 0;
+    let added = true;
+    while (added) {
+      added = false;
+      for (const pid of participantIds) {
+        const pDeltas = byParticipant.get(pid);
+        if (rank < pDeltas.length) {
+          result.push(pDeltas[rank]);
+          added = true;
+        }
+      }
+      rank++;
+    }
+    
+    return result;
+  }
+  
+  orderScuttleDepth(deltas, rng) {
+    // Group by participant
+    const byParticipant = new Map();
+    for (const d of deltas) {
+      if (!byParticipant.has(d.participantId)) {
+        byParticipant.set(d.participantId, []);
+      }
+      byParticipant.get(d.participantId).push(d);
+    }
+    
+    // Sort participants by count descending (most behind first)
+    const participantOrder = [...byParticipant.entries()]
+      .sort((a, b) => {
+        const countDiff = b[1].length - a[1].length;
+        if (countDiff !== 0) return countDiff;
+        return rng() - 0.5; // Random tiebreaker
+      });
+    
+    const result = [];
+    for (const [pid, pDeltas] of participantOrder) {
+      // Sort by version ascending (must maintain scuttlebutt constraint)
+      pDeltas.sort((a, b) => a.version - b.version);
+      result.push(...pDeltas);
+    }
+    
+    return result;
+  }
+  
+  updateAimd(participant, wanted, sent) {
+    const mtu = Math.min(participant.effectiveMtu, CONFIG.mtu);
+    const wasOverflow = wanted > mtu;
+    
+    if (wasOverflow) {
+      participant.consecutiveOverflows++;
+      participant.consecutiveUnderflows = 0;
+      
+      if (participant.consecutiveOverflows >= CONFIG.phi1) {
+        participant.maxUpdateRate *= CONFIG.alpha;
+        participant.consecutiveOverflows = 0;
+      }
+    } else {
+      participant.consecutiveUnderflows++;
+      participant.consecutiveOverflows = 0;
+      
+      if (participant.consecutiveUnderflows >= CONFIG.phi2) {
+        participant.maxUpdateRate = Math.min(
+          participant.maxUpdateRate + CONFIG.beta,
+          CONFIG.mtu
+        );
+        participant.consecutiveUnderflows = 0;
+      }
+    }
+  }
+  
+  exchangeRates(p, q) {
+    const totalCapacity = p.maxUpdateRate + q.maxUpdateRate;
+    const totalDesired = p.desiredUpdateRate + q.desiredUpdateRate;
+    
+    if (totalDesired <= totalCapacity) {
+      const remainder = totalCapacity - totalDesired;
+      p.maxUpdateRate = p.desiredUpdateRate + remainder / 2;
+      q.maxUpdateRate = q.desiredUpdateRate + remainder / 2;
+    } else {
+      const halfCapacity = totalCapacity / 2;
+      
+      if (p.desiredUpdateRate >= halfCapacity && q.desiredUpdateRate >= halfCapacity) {
+        p.maxUpdateRate = halfCapacity;
+        q.maxUpdateRate = halfCapacity;
+      } else if (p.desiredUpdateRate < halfCapacity) {
+        p.maxUpdateRate = p.desiredUpdateRate;
+        q.maxUpdateRate = totalCapacity - p.desiredUpdateRate;
+      } else {
+        q.maxUpdateRate = q.desiredUpdateRate;
+        p.maxUpdateRate = totalCapacity - q.desiredUpdateRate;
+      }
+    }
+  }
+  
+  collectMetrics() {
+    let maxStaleness = 0;
+    let staleCount = 0;
+    
+    for (const observer of this.participants) {
+      for (const owner of this.participants) {
+        if (observer.id === owner.id) continue;
+        
+        const observerView = observer.views.get(owner.id);
+        if (!observerView) {
+          // Missing view entirely - this shouldn't happen after initialization
+          console.warn(`Missing view: observer ${observer.id} has no view of owner ${owner.id}`);
+          continue;
+        }
+        
+        for (const [key, ownerEntry] of owner.ownState) {
+          const observerEntry = observerView.get(key);
+          
+          // Stale if observer's version is behind owner's current version
+          if (!observerEntry) {
+            // Missing key in view
+            if (this.tick < 3) {
+              console.warn(`Missing key: observer ${observer.id} view of owner ${owner.id} missing key ${key}`);
+            }
+            staleCount++;
+          } else if (observerEntry.version < ownerEntry.version) {
+            staleCount++;
+            // Only count staleness time if there's actually been an update
+            if (ownerEntry.version > 0) {
+              const staleness = this.tick - ownerEntry.updatedAt;
+              maxStaleness = Math.max(maxStaleness, staleness);
+            }
+          }
+        }
+      }
+    }
+    
+    const avgRate = this.participants.reduce((sum, p) => 
+      sum + Math.min(p.desiredUpdateRate, p.maxUpdateRate), 0) / this.participants.length;
+    
+    const healthyCount = this.participants.filter(p => !p.isInOutage).length;
+    const networkHealth = (healthyCount / this.participants.length) * 100;
+    
+    this.metrics.maxStaleness.push(maxStaleness);
+    this.metrics.staleCount.push(staleCount);
+    this.metrics.avgUpdateRate.push(avgRate);
+    this.metrics.networkHealth.push(networkHealth);
+  }
+}
+
+// ============================================================================
+// MAIN SIMULATION CONTROLLER
+// ============================================================================
+
+class SimulationController {
+  constructor() {
+    this.worlds = new Map();
+    this.isRunning = false;
+    this.animationId = null;
+    this.lastTickTime = 0;
+    this.rngSeed = 12345;
+    
+    this.initializeCharts();
+    this.initializeUI();
+    this.reset();
+  }
+  
+  // Simple seeded RNG for reproducibility across worlds
+  createRng(seed) {
+    let s = seed;
+    return () => {
+      s = (s * 1103515245 + 12345) & 0x7fffffff;
+      return s / 0x7fffffff;
+    };
+  }
+  
+  reset() {
+    this.stop();
+    this.worlds.clear();
+    this.rngSeed = Math.floor(Math.random() * 1000000);
+    
+    // Create a world for each enabled algorithm
+    for (const [id, algo] of Object.entries(ALGORITHMS)) {
+      if (algo.enabled) {
+        this.worlds.set(id, new SimulationWorld(id));
+      }
+    }
+    
+    this.updateCharts();
+    this.updateStats();
+  }
+  
+  // Handle dynamic participant count change
+  adjustParticipants(newCount) {
+    for (const world of this.worlds.values()) {
+      world.adjustParticipants(newCount);
+    }
+  }
+  
+  // Handle dynamic key count change  
+  adjustKeys(newKeyCount) {
+    for (const world of this.worlds.values()) {
+      world.adjustKeys(newKeyCount);
+    }
+  }
+  
+  // Handle update rate change
+  updateDesiredRates() {
+    for (const world of this.worlds.values()) {
+      world.updateDesiredRates();
+    }
+  }
+  
+  step() {
+    // Use same seed for all worlds this tick
+    const tickSeed = this.rngSeed++;
+    
+    for (const [id, world] of this.worlds) {
+      const rng = this.createRng(tickSeed);
+      world.step(rng);
+    }
+    
+    this.updateCharts();
+    this.updateStats();
+  }
+  
+  play() {
+    if (this.isRunning) return;
+    this.isRunning = true;
+    this.lastTickTime = performance.now();
+    this.animate();
+    document.getElementById('playPauseBtn').textContent = '⏸ Pause';
+  }
+  
+  pause() {
+    this.isRunning = false;
+    if (this.animationId) {
+      cancelAnimationFrame(this.animationId);
+      this.animationId = null;
+    }
+    document.getElementById('playPauseBtn').textContent = '▶ Play';
+  }
+  
+  stop() {
+    this.pause();
+  }
+  
+  animate() {
+    if (!this.isRunning) return;
+    
+    const now = performance.now();
+    if (now - this.lastTickTime >= CONFIG.speed) {
+      this.step();
+      this.lastTickTime = now;
+    }
+    
+    this.animationId = requestAnimationFrame(() => this.animate());
+  }
+  
+  initializeCharts() {
+    const chartOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 0 },
+      scales: {
+        x: {
+          type: 'linear',
+          title: { display: true, text: 'Tick (T)', color: '#8888a0' },
+          grid: { color: '#2a2a3a' },
+          ticks: { color: '#8888a0' }
+        },
+        y: {
+          beginAtZero: true,
+          grid: { color: '#2a2a3a' },
+          ticks: { color: '#8888a0' }
+        }
+      },
+      plugins: {
+        legend: {
+          display: true,
+          position: 'top',
+          labels: { color: '#e8e8f0', boxWidth: 12, padding: 8 }
+        }
+      }
+    };
+    
+    this.charts = {
+      staleness: new Chart(document.getElementById('chartStaleness'), {
+        type: 'line',
+        data: { datasets: [] },
+        options: { ...chartOptions }
+      }),
+      staleCount: new Chart(document.getElementById('chartStaleCount'), {
+        type: 'line',
+        data: { datasets: [] },
+        options: { ...chartOptions }
+      }),
+      updateRate: new Chart(document.getElementById('chartUpdateRate'), {
+        type: 'line',
+        data: { datasets: [] },
+        options: { ...chartOptions }
+      }),
+      networkHealth: new Chart(document.getElementById('chartNetworkHealth'), {
+        type: 'line',
+        data: { datasets: [] },
+        options: { 
+          ...chartOptions,
+          scales: {
+            ...chartOptions.scales,
+            y: { ...chartOptions.scales.y, max: 100 }
+          }
+        }
+      })
+    };
+  }
+  
+  updateCharts() {
+    const maxPoints = 500;
+    
+    for (const chart of Object.values(this.charts)) {
+      chart.data.datasets = [];
+    }
+    
+    for (const [id, world] of this.worlds) {
+      const algo = ALGORITHMS[id];
+      const dataLength = world.metrics.maxStaleness.length;
+      const startIdx = Math.max(0, dataLength - maxPoints);
+      
+      const xData = Array.from({ length: dataLength - startIdx }, (_, i) => startIdx + i);
+      
+      this.charts.staleness.data.datasets.push({
+        label: algo.name,
+        data: xData.map((x, i) => ({ x, y: world.metrics.maxStaleness[startIdx + i] })),
+        borderColor: algo.color,
+        backgroundColor: algo.color + '20',
+        borderWidth: 2,
+        pointRadius: 0,
+        tension: 0.1
+      });
+      
+      this.charts.staleCount.data.datasets.push({
+        label: algo.name,
+        data: xData.map((x, i) => ({ x, y: world.metrics.staleCount[startIdx + i] })),
+        borderColor: algo.color,
+        backgroundColor: algo.color + '20',
+        borderWidth: 2,
+        pointRadius: 0,
+        tension: 0.1
+      });
+      
+      this.charts.updateRate.data.datasets.push({
+        label: algo.name,
+        data: xData.map((x, i) => ({ x, y: world.metrics.avgUpdateRate[startIdx + i] })),
+        borderColor: algo.color,
+        backgroundColor: algo.color + '20',
+        borderWidth: 2,
+        pointRadius: 0,
+        tension: 0.1
+      });
+      
+      this.charts.networkHealth.data.datasets.push({
+        label: algo.name,
+        data: xData.map((x, i) => ({ x, y: world.metrics.networkHealth[startIdx + i] })),
+        borderColor: algo.color,
+        backgroundColor: algo.color + '20',
+        borderWidth: 2,
+        pointRadius: 0,
+        tension: 0.1
+      });
+    }
+    
+    for (const chart of Object.values(this.charts)) {
+      chart.update('none');
+    }
+  }
+  
+  updateStats() {
+    // Use first world for stats display
+    const world = this.worlds.values().next().value;
+    if (!world) {
+      document.getElementById('tickCounter').textContent = '0';
+      document.getElementById('statNodesHealthy').textContent = CONFIG.participants;
+      document.getElementById('statNodesOutage').textContent = '0';
+      document.getElementById('statTotalUpdates').textContent = '0';
+      document.getElementById('statGossipExchanges').textContent = '0';
+      return;
+    }
+    
+    const healthy = world.participants.filter(p => !p.isInOutage).length;
+    const outage = world.participants.length - healthy;
+    
+    document.getElementById('tickCounter').textContent = world.tick;
+    document.getElementById('statNodesHealthy').textContent = healthy;
+    document.getElementById('statNodesOutage').textContent = outage;
+    document.getElementById('statTotalUpdates').textContent = world.totalUpdates;
+    document.getElementById('statGossipExchanges').textContent = world.gossipExchanges;
+  }
+  
+  initializeUI() {
+    // Play/Pause button
+    document.getElementById('playPauseBtn').addEventListener('click', () => {
+      if (this.isRunning) {
+        this.pause();
+      } else {
+        this.play();
+      }
+    });
+    
+    // Step button
+    document.getElementById('stepBtn').addEventListener('click', () => {
+      this.pause();
+      this.step();
+    });
+    
+    // Reset button
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      this.reset();
+    });
+    
+    // Algorithm toggles
+    for (const id of Object.keys(ALGORITHMS)) {
+      const checkbox = document.getElementById(`algo-${id}`);
+      checkbox.checked = ALGORITHMS[id].enabled;
+      checkbox.addEventListener('change', (e) => {
+        ALGORITHMS[id].enabled = e.target.checked;
+        this.reset();
+      });
+    }
+    
+    // Sliders - now most don't reset
+    this.setupSlider('speed', 'speedValue', v => CONFIG.speed = v);
+    this.setupSlider('participants', 'participantsValue', v => { 
+      CONFIG.participants = v; 
+      this.adjustParticipants(v);
+    });
+    this.setupSlider('keys', 'keysValue', v => { 
+      CONFIG.keysPerParticipant = v; 
+      this.adjustKeys(v);
+    });
+    this.setupSlider('mtu', 'mtuValue', v => CONFIG.mtu = v);
+    this.setupSlider('updateRate', 'updateRateValue', v => { 
+      CONFIG.updateRate = v; 
+      this.updateDesiredRates();
+    }, true);
+    this.setupSlider('pOutageStart', 'pOutageStartValue', v => CONFIG.pOutageStart = v, true);
+    this.setupSlider('pOutageStop', 'pOutageStopValue', v => CONFIG.pOutageStop = v, true);
+    this.setupSlider('outageMtuFactor', 'outageMtuFactorValue', v => CONFIG.outageMtuFactor = v, true);
+    this.setupSlider('phi1', 'phi1Value', v => CONFIG.phi1 = v);
+    this.setupSlider('phi2', 'phi2Value', v => CONFIG.phi2 = v);
+    this.setupSlider('alpha', 'alphaValue', v => CONFIG.alpha = v, true);
+    this.setupSlider('beta', 'betaValue', v => CONFIG.beta = v, true);
+  }
+  
+  setupSlider(sliderId, valueId, onChange, isFloat = false) {
+    const slider = document.getElementById(sliderId);
+    const valueDisplay = document.getElementById(valueId);
+    
+    const updateValue = () => {
+      const value = isFloat ? parseFloat(slider.value) : parseInt(slider.value);
+      valueDisplay.textContent = isFloat ? value.toFixed(2) : value;
+      onChange(value);
+    };
+    
+    slider.addEventListener('input', updateValue);
+    updateValue();
+  }
+}
+
+// ============================================================================
+// INITIALIZE
+// ============================================================================
+
+document.addEventListener('DOMContentLoaded', () => {
+  window.sim = new SimulationController();
+});
+</script>
+</body>
+</html>
