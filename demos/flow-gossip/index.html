@@ -771,7 +771,7 @@ class Participant {
     this.views = new Map();
     
     // Flow control
-    this.maxUpdateRate = 1.0; // Start with a reasonable rate, AIMD will adapt
+    this.maxUpdateRate = 0; // Start at 0, AIMD will increase it
     this.desiredUpdateRate = CONFIG.updateRate;
     this.consecutiveOverflows = 0;
     this.consecutiveUnderflows = 0;
