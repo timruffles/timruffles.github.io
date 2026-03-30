@@ -5,11 +5,16 @@
     <link>https://timr.co</link>
     <description>Tim Ruffles' blog</description>
     <item>
-      <title>Server-side rendered comments</title>
-      <link>https://timr.co/example-blog-post-comments</link>
-      <pubDate>Wed, 15 Mar 2023 12:00:00 GMT</pubDate>
-      <description>This is an example post
+      <title>Funny once ain’t enough: generative AI will not replace creatives</title>
+      <link>https://timr.co/funny-once-generative-ai-and-creatives</link>
+      <pubDate>Fri, 12 May 2023 12:00:00 GMT</pubDate>
+      <description>
 </description>
+    </item><item>
+      <title>Should governments give citizens compute?</title>
+      <link>https://timr.co/should-governments-give-citizens-compute</link>
+      <pubDate>Thu, 13 Apr 2023 12:00:00 GMT</pubDate>
+      <description>If governments provided citizens some compute some interesting things could happen. Basic utilities like email could be access via running open-source software for free on your free government compute and storage, rather than by advertising funded, ‘you ar…</description>
     </item><item>
       <title>Github&apos;s shrine to focus</title>
       <link>https://timr.co/githubs-shrine-to-focus</link>
