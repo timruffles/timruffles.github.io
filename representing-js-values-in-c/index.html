@@ -1,35 +1,31 @@
 <!doctype html>
-      <head>
-        <title>Representing JS Values in C</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <meta name="viewport" content="width=device-width">
-        <meta name="description" content="
-" >
-        <link rel="stylesheet" href="/css/normalize.css" type="text/css">
-        <link rel="stylesheet" href="/css/style.css" type="text/css">
-        <link rel="stylesheet" href="/css/prism-ghcolors.css" type="text/css">
-        <link rel="alternate" type="application/rss+xml" title="Subscribe to RSS feed" href="/rss.xml" />
-      </head>
-      <body class="article">
-        <div class="mast">
-          <div class='top-bar reading'>
-              <div class="links logical">
-                <div class="navigation logical">
-                  <a href="/">Home</a>
-                  <a href="/rss.xml">RSS</a>
-                  <a href="/me">
-                      Tim Ruffles
-                  </a>
-                </div>
-              </div>
-            </div>
-        </div>
-        <div class="content" class="reading">
-           
-
-           <div class="body">
-              <h1><a href="/representing-js-values-in-c">Representing JS Values in C</a></h1>
-  <p>When implementing JS a primary decision is how to represent JS values - the objects, numbers and strings that make up JS programs. Since I&#39;m targeting C, there&#39;s a lot of flexibility in how to do this.</p>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Representing JS Values in C</title>
+  <meta name="description" content="When implementing JS a primary decision is how to represent JS values - the objects, numbers and strings that make up JS programs. Since I&apos;m targeting C, there&apos;s a lot of flexibility in how to do this.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="alternate" type="application/rss+xml" title="Subscribe to RSS feed" href="/rss.xml" />
+</head>
+<body class="post">
+  <div class="paper">
+    <div class="rule"></div>
+    <div class="inner">
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/rss.xml">RSS</a>
+        <a href="/me">Me</a>
+      </nav>
+      <main>
+        <article class="article">
+    <h1 class="article-title">Representing JS Values in C</h1>
+    <div class="article-date">18 Apr 2019</div>
+    
+    <div class="article-body"><p>When implementing JS a primary decision is how to represent JS values - the objects, numbers and strings that make up JS programs. Since I&#39;m targeting C, there&#39;s a lot of flexibility in how to do this.</p>
 <p>There are 8 primitive types in JS that we&#39;ll need to store:</p>
 <ul>
 <li>string</li>
@@ -97,19 +93,16 @@ JsValue<span class="token operator">*</span> init_14 <span class="token operator
 <span class="token function">envSet</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> interned_13<span class="token punctuation">,</span> init_14<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token punctuation">;</span></code></pre>
 <p>You can see the numbers are &#39;interned&#39; - which is literal numbers in the source-code are pre-allocated at program startup, and are not part of garbage-checking.</p>
 <p>Next time I&#39;ll dig into the more complex types: objects, arrays, functions and strings.</p>
-
-  <div class="article-footer">
-  <p class=nav>
-    Next: <a href="/in-browser-js-to-c-compiler">
-      In browser JS to C compiler
-    </a>
-    </p>
-  <p class=nav>
-    Previous: <a href="/the-weirdest-javascript-syntax">
-      The Weirdest JavaScript syntax
-    </a>
-    </p>
-        <div class="comments">
+</div>
+    <div class="article-footer">
+    <nav class="post-nav"><a class="nav-prev" href="/the-weirdest-javascript-syntax">
+      <span class="nav-label">Previous</span>
+      <span class="nav-title">← The Weirdest JavaScript syntax</span>
+    </a><a class="nav-next" href="/in-browser-js-to-c-compiler">
+      <span class="nav-label">Next</span>
+      <span class="nav-title">In browser JS to C compiler →</span>
+    </a></nav>
+    <div class="comments">
         
         <p class="comment-help">
             <a href="https://github.com/timruffles/timruffles.github.io/issues/102" title="Comments handled via Github">
@@ -117,12 +110,11 @@ JsValue<span class="token operator">*</span> init_14 <span class="token operator
             </a> 💬 
         </p>
   </div>
+  </div>
+  </article>
+      </main>
+      <footer class="site-footer">📩 hello＠timr · co</footer>
     </div>
-            </div>
-        </div>
-        <div class="footer reading">
-          <div class="container">
-            <p>📩 hello＠timr · co</p>
-          </div>
-        </div>
-      </body><!-- built from 9b1da655726d97506306c16494c8820197cdd3b7 -->
+  </div>
+</body>
+</html><!-- built from e062011fef7bc0182dadb7450ecf5178143719e3 -->

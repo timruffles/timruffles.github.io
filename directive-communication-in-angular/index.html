@@ -1,35 +1,31 @@
 <!doctype html>
-      <head>
-        <title>Directive communication in Angular</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <meta name="viewport" content="width=device-width">
-        <meta name="description" content="
-" >
-        <link rel="stylesheet" href="/css/normalize.css" type="text/css">
-        <link rel="stylesheet" href="/css/style.css" type="text/css">
-        <link rel="stylesheet" href="/css/prism-ghcolors.css" type="text/css">
-        <link rel="alternate" type="application/rss+xml" title="Subscribe to RSS feed" href="/rss.xml" />
-      </head>
-      <body class="article">
-        <div class="mast">
-          <div class='top-bar reading'>
-              <div class="links logical">
-                <div class="navigation logical">
-                  <a href="/">Home</a>
-                  <a href="/rss.xml">RSS</a>
-                  <a href="/me">
-                      Tim Ruffles
-                  </a>
-                </div>
-              </div>
-            </div>
-        </div>
-        <div class="content" class="reading">
-           
-
-           <div class="body">
-              <h1><a href="/directive-communication-in-angular">Directive communication in Angular</a></h1>
-  <p>Directives in Angular are great. One challenge people face, however, is getting them to interact without creating too much, or too little, coupling.</p>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Directive communication in Angular</title>
+  <meta name="description" content="Directives in Angular are great. One challenge people face, however, is getting them to interact without creating too much, or too little, coupling.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="alternate" type="application/rss+xml" title="Subscribe to RSS feed" href="/rss.xml" />
+</head>
+<body class="post">
+  <div class="paper">
+    <div class="rule"></div>
+    <div class="inner">
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/rss.xml">RSS</a>
+        <a href="/me">Me</a>
+      </nav>
+      <main>
+        <article class="article">
+    <h1 class="article-title">Directive communication in Angular</h1>
+    <div class="article-date">5 Jun 2015</div>
+    
+    <div class="article-body"><p>Directives in Angular are great. One challenge people face, however, is getting them to interact without creating too much, or too little, coupling.</p>
 <p>The route of high-coupling is via the <code>Scope</code>. However this means sharing a heap of mutable state between components. Worse still, if one directive needs to publish a function for another to use it&#39;s completely invisible in the template - and requires heavy setup in tests.</p>
 <p>The low-coupling route is to use events (e.g <code>$rootScope.emit()</code>), or services. However both are best suited to very low-cohesion interactions as they are so implicit: they don&#39;t appear in the template and you have to read the source for both to see the publish/subscribe pairing.</p>
 <p>For components that interact closely events or services therefore reduce the readability of your code, making it hard for others to see the interactions. <a href="https://www.python.org/dev/peps/pep-0020/" >Explicit is better than implicit</a>.</p>
@@ -99,19 +95,16 @@
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
 <p>I find this pattern results in very readable interactions between components, with excellent testability. Hope you find it useful!</p>
-
-  <div class="article-footer">
-  <p class=nav>
-    Next: <a href="/real-time-the-easy-way-with-eventsource">
-      Real-time the easy way with EventSource
-    </a>
-    </p>
-  <p class=nav>
-    Previous: <a href="/turn-anything-into-an-ng-model-with-ngmodelcontroller">
-      Turn anything into an ng-model with ngModelController
-    </a>
-    </p>
-        <div class="comments">
+</div>
+    <div class="article-footer">
+    <nav class="post-nav"><a class="nav-prev" href="/turn-anything-into-an-ng-model-with-ngmodelcontroller">
+      <span class="nav-label">Previous</span>
+      <span class="nav-title">← Turn anything into an ng-model with ngModelController</span>
+    </a><a class="nav-next" href="/real-time-the-easy-way-with-eventsource">
+      <span class="nav-label">Next</span>
+      <span class="nav-title">Real-time the easy way with EventSource →</span>
+    </a></nav>
+    <div class="comments">
         <div class="comment">
   <div class="comment-heading">
     <img src="https://avatars.githubusercontent.com/u/249800?v=4" width="32" height="32" />
@@ -132,12 +125,11 @@
             </a> 💬 
         </p>
   </div>
+  </div>
+  </article>
+      </main>
+      <footer class="site-footer">📩 hello＠timr · co</footer>
     </div>
-            </div>
-        </div>
-        <div class="footer reading">
-          <div class="container">
-            <p>📩 hello＠timr · co</p>
-          </div>
-        </div>
-      </body><!-- built from 9b1da655726d97506306c16494c8820197cdd3b7 -->
+  </div>
+</body>
+</html><!-- built from e062011fef7bc0182dadb7450ecf5178143719e3 -->

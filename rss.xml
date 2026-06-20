@@ -1,227 +1,270 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-  <rss version="2.0">
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tim Ruffles' blog</title>
-    <link>https://timr.co</link>
+    <link>https://www.timr.co</link>
+    <atom:link href="https://www.timr.co/rss.xml" rel="self" type="application/rss+xml" />
     <description>Tim Ruffles' blog</description>
+    <language>en-GB</language>
+    <lastBuildDate>Fri, 12 May 2023 00:00:00 +0000</lastBuildDate>
     <item>
       <title>Funny once ain’t enough: generative AI will not replace creatives</title>
-      <link>https://timr.co/funny-once-generative-ai-and-creatives</link>
-      <pubDate>Fri, 12 May 2023 12:00:00 GMT</pubDate>
-      <description>
-</description>
-    </item><item>
+      <link>https://www.timr.co/funny-once-generative-ai-and-creatives</link>
+      <guid isPermaLink="true">https://www.timr.co/funny-once-generative-ai-and-creatives</guid>
+      <pubDate>Fri, 12 May 2023 00:00:00 +0000</pubDate>
+      <description>In the “The Moon is a Harsh Mistress” someone explaining humour to a computer mentions that most jokes are “funny once”. Unoriginality is a deadly sin for wit, but that&apos;s true to an important degree for all creative work. If an image, advert, film or piece…</description>
+    </item>
+    <item>
       <title>Should governments give citizens compute?</title>
-      <link>https://timr.co/should-governments-give-citizens-compute</link>
-      <pubDate>Thu, 13 Apr 2023 12:00:00 GMT</pubDate>
+      <link>https://www.timr.co/should-governments-give-citizens-compute</link>
+      <guid isPermaLink="true">https://www.timr.co/should-governments-give-citizens-compute</guid>
+      <pubDate>Thu, 13 Apr 2023 00:00:00 +0000</pubDate>
       <description>If governments provided citizens some compute some interesting things could happen. Basic utilities like email could be access via running open-source software for free on your free government compute and storage, rather than by advertising funded, ‘you ar…</description>
-    </item><item>
+    </item>
+    <item>
       <title>Github&apos;s shrine to focus</title>
-      <link>https://timr.co/githubs-shrine-to-focus</link>
-      <pubDate>Sun, 12 Feb 2023 12:00:00 GMT</pubDate>
-      <description>Hearing Github [is closing](https://techcrunch.com/2023/02/09/github-lays-off-10-and-goes-fully-remote/) its offices made me want to share my favourite thing about their HQ. Out of all the
-</description>
-    </item><item>
+      <link>https://www.timr.co/githubs-shrine-to-focus</link>
+      <guid isPermaLink="true">https://www.timr.co/githubs-shrine-to-focus</guid>
+      <pubDate>Sun, 12 Feb 2023 00:00:00 +0000</pubDate>
+      <description>Hearing Github [is closing](https://techcrunch.com/2023/02/09/github-lays-off-10-and-goes-fully-remote/) its offices made me want to share my favourite thing about their HQ. Out of all the</description>
+    </item>
+    <item>
       <title>When is a slice of any not a slice of any?</title>
-      <link>https://timr.co/slice-of-any-not-slice-of-any</link>
-      <pubDate>Tue, 11 Oct 2022 12:00:00 GMT</pubDate>
-      <description>When is `[]any` not `[]any` in Go? When generics get involved!
-</description>
-    </item><item>
+      <link>https://www.timr.co/slice-of-any-not-slice-of-any</link>
+      <guid isPermaLink="true">https://www.timr.co/slice-of-any-not-slice-of-any</guid>
+      <pubDate>Tue, 11 Oct 2022 00:00:00 +0000</pubDate>
+      <description>When is `[]any` not `[]any` in Go? When generics get involved!</description>
+    </item>
+    <item>
       <title>Vim quickfix hack for IntelliJ</title>
-      <link>https://timr.co/vim-quickfix-hack-for-intellij</link>
-      <pubDate>Wed, 24 Feb 2021 12:00:00 GMT</pubDate>
-      <description>Vim’s quickfix mode is very useful during complex refactors. For instance, I wrote an AST-based tool to identify locations that needed a manual refactor. But how could I navigate through all the matches to perform it?
-</description>
-    </item><item>
+      <link>https://www.timr.co/vim-quickfix-hack-for-intellij</link>
+      <guid isPermaLink="true">https://www.timr.co/vim-quickfix-hack-for-intellij</guid>
+      <pubDate>Wed, 24 Feb 2021 00:00:00 +0000</pubDate>
+      <description>Vim’s quickfix mode is very useful during complex refactors. For instance, I wrote an AST-based tool to identify locations that needed a manual refactor. But how could I navigate through all the matches to perform it?</description>
+    </item>
+    <item>
       <title>The Object Compromise</title>
-      <link>https://timr.co/the-object-compromise</link>
-      <pubDate>Sat, 23 Jan 2021 12:00:00 GMT</pubDate>
-      <description>
-</description>
-    </item><item>
+      <link>https://www.timr.co/the-object-compromise</link>
+      <guid isPermaLink="true">https://www.timr.co/the-object-compromise</guid>
+      <pubDate>Sat, 23 Jan 2021 00:00:00 +0000</pubDate>
+      <description>I’ve observed a pattern I call the ‘object compromise’. It&apos;s an architecture which emerges when its authors believe aspects of traditional object-oriented programming are harmful, but are not using a fully functional language[1](#langs) (and don&apos;t wish to …</description>
+    </item>
+    <item>
       <title>Server-Side Rendering is a Thiel Truth</title>
-      <link>https://timr.co/server-side-rendering-is-a-thiel-truth</link>
-      <pubDate>Sat, 25 Apr 2020 12:00:00 GMT</pubDate>
-      <description>
-</description>
-    </item><item>
+      <link>https://www.timr.co/server-side-rendering-is-a-thiel-truth</link>
+      <guid isPermaLink="true">https://www.timr.co/server-side-rendering-is-a-thiel-truth</guid>
+      <pubDate>Sat, 25 Apr 2020 00:00:00 +0000</pubDate>
+      <description>I recently pondered how I&apos;d answer [Peter Thiel&apos;s](https://www.goodreads.com/quotes/1478492-what-important-truth-do-very-few-people-agree-with-you) interview question if my answer had to relate to software:</description>
+    </item>
+    <item>
       <title>A pandemic of bubble maps</title>
-      <link>https://timr.co/a-pandemic-of-bubble-maps</link>
-      <pubDate>Sun, 29 Mar 2020 12:00:00 GMT</pubDate>
-      <description>
-</description>
-    </item><item>
+      <link>https://www.timr.co/a-pandemic-of-bubble-maps</link>
+      <guid isPermaLink="true">https://www.timr.co/a-pandemic-of-bubble-maps</guid>
+      <pubDate>Sun, 29 Mar 2020 00:00:00 +0000</pubDate>
+      <description>Besides COVID-19, we have an outbreak of bubble maps failing to communicate data effectively:</description>
+    </item>
+    <item>
       <title>Go interfaces, the tricky parts</title>
-      <link>https://timr.co/go-interfaces-the-tricky-parts</link>
-      <pubDate>Fri, 27 Sep 2019 12:00:00 GMT</pubDate>
-      <description>
-</description>
-    </item><item>
+      <link>https://www.timr.co/go-interfaces-the-tricky-parts</link>
+      <guid isPermaLink="true">https://www.timr.co/go-interfaces-the-tricky-parts</guid>
+      <pubDate>Fri, 27 Sep 2019 00:00:00 +0000</pubDate>
+      <description>Does this Go snippet compile, and if not, why?</description>
+    </item>
+    <item>
       <title>In browser JS to C compiler</title>
-      <link>https://timr.co/in-browser-js-to-c-compiler</link>
-      <pubDate>Fri, 19 Apr 2019 12:00:00 GMT</pubDate>
-      <description>
-</description>
-    </item><item>
+      <link>https://www.timr.co/in-browser-js-to-c-compiler</link>
+      <guid isPermaLink="true">https://www.timr.co/in-browser-js-to-c-compiler</guid>
+      <pubDate>Fri, 19 Apr 2019 00:00:00 +0000</pubDate>
+      <description>You can now [try out](https://timruffles.github.io/js-to-c/) my JS to C compiler in the browser! Edit the JS code on the left, and see the resulting C code on the right.</description>
+    </item>
+    <item>
       <title>Representing JS Values in C</title>
-      <link>https://timr.co/representing-js-values-in-c</link>
-      <pubDate>Thu, 18 Apr 2019 12:00:00 GMT</pubDate>
-      <description>
-</description>
-    </item><item>
+      <link>https://www.timr.co/representing-js-values-in-c</link>
+      <guid isPermaLink="true">https://www.timr.co/representing-js-values-in-c</guid>
+      <pubDate>Thu, 18 Apr 2019 00:00:00 +0000</pubDate>
+      <description>When implementing JS a primary decision is how to represent JS values - the objects, numbers and strings that make up JS programs. Since I&apos;m targeting C, there&apos;s a lot of flexibility in how to do this.</description>
+    </item>
+    <item>
       <title>The Weirdest JavaScript syntax</title>
-      <link>https://timr.co/the-weirdest-javascript-syntax</link>
-      <pubDate>Thu, 18 Apr 2019 12:00:00 GMT</pubDate>
-      <description>
-</description>
-    </item><item>
+      <link>https://www.timr.co/the-weirdest-javascript-syntax</link>
+      <guid isPermaLink="true">https://www.timr.co/the-weirdest-javascript-syntax</guid>
+      <pubDate>Thu, 18 Apr 2019 00:00:00 +0000</pubDate>
+      <description>I have bad news. The following is valid, spec compliant JS syntax:</description>
+    </item>
+    <item>
       <title>Compiling JS control-flow to C</title>
-      <link>https://timr.co/compiling-js-control-flow-to-c</link>
-      <pubDate>Sat, 16 Mar 2019 12:00:00 GMT</pubDate>
-      <description>
-</description>
-    </item><item>
+      <link>https://www.timr.co/compiling-js-control-flow-to-c</link>
+      <guid isPermaLink="true">https://www.timr.co/compiling-js-control-flow-to-c</guid>
+      <pubDate>Sat, 16 Mar 2019 00:00:00 +0000</pubDate>
+      <description>Let&apos;s look at how I implemented JS&apos;s `if` statement in the [`js-to-c`](https://github.com/timruffles/js-to-c/) compiler. First, let&apos;s write a JS `if`:</description>
+    </item>
+    <item>
       <title>Architecture for a JS to C compiler</title>
-      <link>https://timr.co/architecture-for-a-js-to-c-compiler</link>
-      <pubDate>Tue, 19 Feb 2019 12:00:00 GMT</pubDate>
-      <description>
-</description>
-    </item><item>
+      <link>https://www.timr.co/architecture-for-a-js-to-c-compiler</link>
+      <guid isPermaLink="true">https://www.timr.co/architecture-for-a-js-to-c-compiler</guid>
+      <pubDate>Tue, 19 Feb 2019 00:00:00 +0000</pubDate>
+      <description>The basic data-flow of compilation looks like this:</description>
+    </item>
+    <item>
       <title>Compiling Interpreted Languages</title>
-      <link>https://timr.co/compiling-interpreted-languages</link>
-      <pubDate>Tue, 29 Jan 2019 12:00:00 GMT</pubDate>
-      <description>
-</description>
-    </item><item>
+      <link>https://www.timr.co/compiling-interpreted-languages</link>
+      <guid isPermaLink="true">https://www.timr.co/compiling-interpreted-languages</guid>
+      <pubDate>Tue, 29 Jan 2019 00:00:00 +0000</pubDate>
+      <description>I think a few years back I’d have been confused by the concept of compiling JavaScript. I would have assumed that compiled and interpreted languages were fundamentally different beasts. Reading [SICP](https://mitpress.mit.edu/sites/default/files/sicp/index…</description>
+    </item>
+    <item>
       <title>Writing a Javascript to C compiler</title>
-      <link>https://timr.co/writing-a-javascript-to-c-compiler</link>
-      <pubDate>Mon, 28 Jan 2019 12:00:00 GMT</pubDate>
-      <description>
-</description>
-    </item><item>
+      <link>https://www.timr.co/writing-a-javascript-to-c-compiler</link>
+      <guid isPermaLink="true">https://www.timr.co/writing-a-javascript-to-c-compiler</guid>
+      <pubDate>Mon, 28 Jan 2019 00:00:00 +0000</pubDate>
+      <description>I’m writing a [JavaScript to C compiler](https://github.com/timruffles/js-to-c), and I&apos;d like to share the journey. Why? Figuring out how things ‘really work’ is a deep itch for me. I’m a self-taught developer. Throughout my infatuation with coding I’ve be…</description>
+    </item>
+    <item>
       <title>Improving Sapiens&apos; timeline page</title>
-      <link>https://timr.co/improving-sapiens-timeline-page</link>
-      <pubDate>Tue, 16 Jan 2018 12:00:00 GMT</pubDate>
-      <description>
-</description>
-    </item><item>
+      <link>https://www.timr.co/improving-sapiens-timeline-page</link>
+      <guid isPermaLink="true">https://www.timr.co/improving-sapiens-timeline-page</guid>
+      <pubDate>Tue, 16 Jan 2018 00:00:00 +0000</pubDate>
+      <description>Yuval Harari&apos;s book [_Sapiens_](https://en.wikipedia.org/wiki/Sapiens:_A_Brief_History_of_Humankind) includes a timeline before the text. Take a look at it below and consider what you notice in the data with a quick glance:</description>
+    </item>
+    <item>
       <title>Real-time the easy way with EventSource</title>
-      <link>https://timr.co/real-time-the-easy-way-with-eventsource</link>
-      <pubDate>Sat, 09 Apr 2016 12:00:00 GMT</pubDate>
-      <description>
-</description>
-    </item><item>
+      <link>https://www.timr.co/real-time-the-easy-way-with-eventsource</link>
+      <guid isPermaLink="true">https://www.timr.co/real-time-the-easy-way-with-eventsource</guid>
+      <pubDate>Sat, 09 Apr 2016 00:00:00 +0000</pubDate>
+      <description>When people think real-time their thoughts immediately leap to web-sockets. For many use-cases there exists a more productive approach: [server-sent-events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events) &amp; [EventSource](https://develo…</description>
+    </item>
+    <item>
       <title>Directive communication in Angular</title>
-      <link>https://timr.co/directive-communication-in-angular</link>
-      <pubDate>Fri, 05 Jun 2015 12:00:00 GMT</pubDate>
-      <description>
-</description>
-    </item><item>
+      <link>https://www.timr.co/directive-communication-in-angular</link>
+      <guid isPermaLink="true">https://www.timr.co/directive-communication-in-angular</guid>
+      <pubDate>Fri, 05 Jun 2015 00:00:00 +0000</pubDate>
+      <description>Directives in Angular are great. One challenge people face, however, is getting them to interact without creating too much, or too little, coupling.</description>
+    </item>
+    <item>
       <title>Turn anything into an ng-model with ngModelController</title>
-      <link>https://timr.co/turn-anything-into-an-ng-model-with-ngmodelcontroller</link>
-      <pubDate>Thu, 23 Apr 2015 12:00:00 GMT</pubDate>
-      <description>
-</description>
-    </item><item>
+      <link>https://www.timr.co/turn-anything-into-an-ng-model-with-ngmodelcontroller</link>
+      <guid isPermaLink="true">https://www.timr.co/turn-anything-into-an-ng-model-with-ngmodelcontroller</guid>
+      <pubDate>Thu, 23 Apr 2015 00:00:00 +0000</pubDate>
+      <description>Few people realise that `ng-model` can turn any interactive component into a fully-working input for use in Angular&apos;s `form` system. This saves you a heap of time in reinventing wheels - very often I see 100s of lines of codes in controllers managing state…</description>
+    </item>
+    <item>
       <title>Keeping easy things easy</title>
-      <link>https://timr.co/keeping-easy-things-easy</link>
-      <pubDate>Tue, 19 Aug 2014 12:00:00 GMT</pubDate>
-      <description>
-</description>
-    </item><item>
+      <link>https://www.timr.co/keeping-easy-things-easy</link>
+      <guid isPermaLink="true">https://www.timr.co/keeping-easy-things-easy</guid>
+      <pubDate>Tue, 19 Aug 2014 00:00:00 +0000</pubDate>
+      <description>There&apos;s a trend in front-end development to want to use the &apos;best practice&apos; tools in every project, no matter the size or complexity. This seems to be a way to signal (to ourselves as much as others) competence through tribal membership: i.e I use cool too…</description>
+    </item>
+    <item>
       <title>Infographics aren&apos;t just pretty pictures</title>
-      <link>https://timr.co/infographics-arent-just-pretty-pictures</link>
-      <pubDate>Tue, 11 Mar 2014 12:00:00 GMT</pubDate>
-      <description>
-</description>
-    </item><item>
+      <link>https://www.timr.co/infographics-arent-just-pretty-pictures</link>
+      <guid isPermaLink="true">https://www.timr.co/infographics-arent-just-pretty-pictures</guid>
+      <pubDate>Tue, 11 Mar 2014 00:00:00 +0000</pubDate>
+      <description>What does the below company (Thames Water) seem to be spending the most on?</description>
+    </item>
+    <item>
       <title>Scraping data with the browser</title>
-      <link>https://timr.co/scraping-data-with-the-browser</link>
-      <pubDate>Mon, 03 Mar 2014 12:00:00 GMT</pubDate>
-      <description>
-</description>
-    </item><item>
+      <link>https://www.timr.co/scraping-data-with-the-browser</link>
+      <guid isPermaLink="true">https://www.timr.co/scraping-data-with-the-browser</guid>
+      <pubDate>Mon, 03 Mar 2014 00:00:00 +0000</pubDate>
+      <description>&lt;p&gt;Chrome&apos;s developer tools make it easy to scrape data from web pages. I&apos;ll demonstrate this by grabbing a list of &lt;a href=&apos;en.wikipedia.org/wiki/ISO_3166-1)&apos;&gt;ISO country codes and country names&lt;/a&gt; from Wikipedia.</description>
+    </item>
+    <item>
       <title>Is anybody you know democratic?</title>
-      <link>https://timr.co/is-anybody-you-know-democratic</link>
-      <pubDate>Thu, 31 Oct 2013 12:00:00 GMT</pubDate>
-      <description>
-</description>
-    </item><item>
+      <link>https://www.timr.co/is-anybody-you-know-democratic</link>
+      <guid isPermaLink="true">https://www.timr.co/is-anybody-you-know-democratic</guid>
+      <pubDate>Thu, 31 Oct 2013 00:00:00 +0000</pubDate>
+      <description>I don’t think I’ve ever met a democratic person. The democracies we live in are representative, but I think even people who couldn’t be happier with the system would agree: they’re restricted democracies.</description>
+    </item>
+    <item>
       <title>Own your content</title>
-      <link>https://timr.co/own-your-content</link>
-      <pubDate>Wed, 09 Oct 2013 12:00:00 GMT</pubDate>
-      <description>
-</description>
-    </item><item>
+      <link>https://www.timr.co/own-your-content</link>
+      <guid isPermaLink="true">https://www.timr.co/own-your-content</guid>
+      <pubDate>Wed, 09 Oct 2013 00:00:00 +0000</pubDate>
+      <description>You should own the things you create online. Whenever you use a service like Twitter, Medium or Flickr, remember you&apos;re giving away your content.</description>
+    </item>
+    <item>
       <title>Land-grabbing the Noosphere</title>
-      <link>https://timr.co/land-grabbing-the-noosphere</link>
-      <pubDate>Tue, 10 Sep 2013 12:00:00 GMT</pubDate>
-      <description>
-</description>
-    </item><item>
+      <link>https://www.timr.co/land-grabbing-the-noosphere</link>
+      <guid isPermaLink="true">https://www.timr.co/land-grabbing-the-noosphere</guid>
+      <pubDate>Tue, 10 Sep 2013 00:00:00 +0000</pubDate>
+      <description>Abandoned projects are land-grabs that hurt everybody.</description>
+    </item>
+    <item>
       <title>Twedar - machine learning side project</title>
-      <link>https://timr.co/twedar-machine-learning-side-project</link>
-      <pubDate>Sun, 08 Sep 2013 12:00:00 GMT</pubDate>
-      <description>
-</description>
-    </item><item>
+      <link>https://www.timr.co/twedar-machine-learning-side-project</link>
+      <guid isPermaLink="true">https://www.timr.co/twedar-machine-learning-side-project</guid>
+      <pubDate>Sun, 08 Sep 2013 00:00:00 +0000</pubDate>
+      <description>[Twedar](http://twedar.herokuapp.com) is a little side-project I built about two years back with [Philip Cole](https://twitter.com/philip_cole). It&apos;s a live-updated Twitter search, with the power to filter out any noise from unrelated subjects that match y…</description>
+    </item>
+    <item>
       <title>Playing with ES6 generators to make a Maybe in Javascript</title>
-      <link>https://timr.co/playing-with-es6-generators-to-make-a-maybe-in-javascript</link>
-      <pubDate>Thu, 01 Aug 2013 12:00:00 GMT</pubDate>
-      <description>
-</description>
-    </item><item>
+      <link>https://www.timr.co/playing-with-es6-generators-to-make-a-maybe-in-javascript</link>
+      <guid isPermaLink="true">https://www.timr.co/playing-with-es6-generators-to-make-a-maybe-in-javascript</guid>
+      <pubDate>Thu, 01 Aug 2013 00:00:00 +0000</pubDate>
+      <description>&lt;div class=&quot;summary&quot;&gt;</description>
+    </item>
+    <item>
       <title>New project: SidekickJS - Javascript code quality tool</title>
-      <link>https://timr.co/new-project-sidekickjs---javascript-code-quality-tool</link>
-      <pubDate>Sun, 12 May 2013 12:00:00 GMT</pubDate>
-      <description>
-</description>
-    </item><item>
+      <link>https://www.timr.co/new-project-sidekickjs---javascript-code-quality-tool</link>
+      <guid isPermaLink="true">https://www.timr.co/new-project-sidekickjs---javascript-code-quality-tool</guid>
+      <pubDate>Sun, 12 May 2013 00:00:00 +0000</pubDate>
+      <description>I&apos;ve started work on a new potential startup: [SidekickJS, a Javascript code-quality tool](https://www.sidekickjs.com). It analyses your Javascript repository for basic Javascript issues, repetition, complexity and alerts you of changes. It&apos;s intended to r…</description>
+    </item>
+    <item>
       <title>Blurring the stock market</title>
-      <link>https://timr.co/blurring-the-stock-market</link>
-      <pubDate>Sun, 08 Apr 2012 12:00:00 GMT</pubDate>
+      <link>https://www.timr.co/blurring-the-stock-market</link>
+      <guid isPermaLink="true">https://www.timr.co/blurring-the-stock-market</guid>
+      <pubDate>Sun, 08 Apr 2012 00:00:00 +0000</pubDate>
       <description>High frequency trading (HFT) makes money from tiny changes in stock prices. It&apos;s purely speculative - it does not involve consideration of the fundamentals of the companies/bonds involved. Traders [&quot;compete on a basis of speed with other high-frequency tra…</description>
-    </item><item>
+    </item>
+    <item>
       <title>How much iOS can you learn in a day?</title>
-      <link>https://timr.co/how-much-ios-can-you-learn-in-a-day</link>
-      <pubDate>Sun, 25 Mar 2012 12:00:00 GMT</pubDate>
-      <description>
-</description>
-    </item><item>
+      <link>https://www.timr.co/how-much-ios-can-you-learn-in-a-day</link>
+      <guid isPermaLink="true">https://www.timr.co/how-much-ios-can-you-learn-in-a-day</guid>
+      <pubDate>Sun, 25 Mar 2012 00:00:00 +0000</pubDate>
+      <description>&lt;div class=&quot;summary&quot;&gt;</description>
+    </item>
+    <item>
       <title>The Faith Machine</title>
-      <link>https://timr.co/the-faith-machine</link>
-      <pubDate>Sat, 10 Sep 2011 12:00:00 GMT</pubDate>
-      <description>
-</description>
-    </item><item>
+      <link>https://www.timr.co/the-faith-machine</link>
+      <guid isPermaLink="true">https://www.timr.co/the-faith-machine</guid>
+      <pubDate>Sat, 10 Sep 2011 00:00:00 +0000</pubDate>
+      <description>Is being unreasonable reasonable? Certainly if you can only be happy with some amount of unreasonable beliefs, and you value happiness to any degree (and really, who doesn&apos;t?).</description>
+    </item>
+    <item>
       <title>The Luzhin Defence, Nabokov</title>
-      <link>https://timr.co/the-luzhin-defence-nabokov</link>
-      <pubDate>Sat, 09 Jul 2011 12:00:00 GMT</pubDate>
-      <description>
-</description>
-    </item><item>
+      <link>https://www.timr.co/the-luzhin-defence-nabokov</link>
+      <guid isPermaLink="true">https://www.timr.co/the-luzhin-defence-nabokov</guid>
+      <pubDate>Sat, 09 Jul 2011 00:00:00 +0000</pubDate>
+      <description>Nabakov&apos;s book is split into three - a lonely child&apos;s view of the world, an entrancing account of life as a chess genius, and his post-breakdown decline. It is equally about each part, and each has plenty of observations that ring true.</description>
+    </item>
+    <item>
       <title>Exambuff - Open Sourced Startup</title>
-      <link>https://timr.co/exambuff-open-sourced-startup</link>
-      <pubDate>Sat, 09 Jul 2011 12:00:00 GMT</pubDate>
-      <description>
-</description>
-    </item><item>
+      <link>https://www.timr.co/exambuff-open-sourced-startup</link>
+      <guid isPermaLink="true">https://www.timr.co/exambuff-open-sourced-startup</guid>
+      <pubDate>Sat, 09 Jul 2011 00:00:00 +0000</pubDate>
+      <description>&lt;div class=&quot;summary&quot;&gt;</description>
+    </item>
+    <item>
       <title>Rails 3 Asset Pipeline in a minute</title>
-      <link>https://timr.co/rails-3-asset-pipeline-in-a-minute</link>
-      <pubDate>Sat, 12 Feb 2011 12:00:00 GMT</pubDate>
-      <description>
-</description>
-    </item><item>
+      <link>https://www.timr.co/rails-3-asset-pipeline-in-a-minute</link>
+      <guid isPermaLink="true">https://www.timr.co/rails-3-asset-pipeline-in-a-minute</guid>
+      <pubDate>Sat, 12 Feb 2011 00:00:00 +0000</pubDate>
+      <description>Here&apos;s a quick summary of Rails 3&apos;s asset pipeline if you&apos;re already confident with Rails/Ruby, and some pointers on getting it working on Heroku.</description>
+    </item>
+    <item>
       <title>Ruby&apos;s === equality operator</title>
-      <link>https://timr.co/rubys-equality-operator</link>
-      <pubDate>Mon, 13 Sep 2010 12:00:00 GMT</pubDate>
+      <link>https://www.timr.co/rubys-equality-operator</link>
+      <guid isPermaLink="true">https://www.timr.co/rubys-equality-operator</guid>
+      <pubDate>Mon, 13 Sep 2010 00:00:00 +0000</pubDate>
       <description>Ruby’s ```===``` operator is often called the ‘case equality’ operator, which is indicative of where it is used, but not how it works. I realised I hadn’t quite grokked the how when I read [Jon Canady&apos;s post](http://joncanady.com/2010/07/05/switching-on-ob…</description>
-    </item><item>
+    </item>
+    <item>
       <title>My first experiments with R</title>
-      <link>https://timr.co/my-first-experiments-with-r</link>
-      <pubDate>Sat, 21 Aug 2010 12:00:00 GMT</pubDate>
+      <link>https://www.timr.co/my-first-experiments-with-r</link>
+      <guid isPermaLink="true">https://www.timr.co/my-first-experiments-with-r</guid>
+      <pubDate>Sat, 21 Aug 2010 00:00:00 +0000</pubDate>
       <description>I started to use R for a maths course at the Open University, and thought I&apos;d jot down my initial progress. R is pretty ugly to come to as a programming language: as far as I can tell, there is absolutely no naming convention at all. Luckily there&apos;s a REPL…</description>
     </item>
   </channel>
-  </rss>
+</rss>
