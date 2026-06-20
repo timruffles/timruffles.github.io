@@ -121,7 +121,7 @@ export function rss(articles: Article[]): string {
     <title>Tim Ruffles' blog</title>
     <link>${SITE}</link>
     <atom:link href="${SITE}/rss.xml" rel="self" type="application/rss+xml" />
-    <description>Tim Ruffles' blog — software engineering, occasionally taste.</description>
+    <description>Tim Ruffles' blog</description>
     <language>en-GB</language>
     <lastBuildDate>${updated}</lastBuildDate>
 ${items}
