@@ -109,7 +109,8 @@ export class Article {
       return Error(`${p}: ${html.message}`)
     }
 
-    const description = truncate((body.match(/^.*\n/) || [])[0] || '', 256, '…');
+    // first non-empty line of the body (block scalars often open with a blank line)
+    const description = truncate((body.replace(/^\s+/, '').match(/^.*(\n|$)/) || [''])[0].trim(), 256, '…');
 
 
     const dateParsed = Date.parse(date);

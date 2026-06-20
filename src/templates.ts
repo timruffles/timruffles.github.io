@@ -95,21 +95,43 @@ function renderComment(comment: IssueComment) {
 </div>`
 }
 
+// canonical host — matches CNAME (www.timr.co)
+const SITE = 'https://www.timr.co'
+
 export function rss(articles: Article[]): string {
-  return `<?xml version="1.0" encoding="UTF-8" ?>
-  <rss version="2.0">
+  const items = articles.map(article => {
+    const url = `${SITE}${article.slug}`
+    const summary = article.summary && article.summary !== 'TODO'
+      ? article.summary : article.description
+    return `    <item>
+      <title>${escapeXML(article.title)}</title>
+      <link>${url}</link>
+      <guid isPermaLink="true">${url}</guid>
+      <pubDate>${rfc822(article.date)}</pubDate>
+      <description>${escapeXML(summary)}</description>
+    </item>`
+  }).join('\n')
+
+  // articles arrive newest-first
+  const updated = rfc822(articles.length ? articles[0].date : new Date(0))
+
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tim Ruffles' blog</title>
-    <link>https://timr.co</link>
-    <description>Tim Ruffles' blog</description>
-    ${articles.map(article => `<item>
-      <title>${escapeXML(article.title)}</title>
-      <link>https://timr.co${article.slug}</link>
-      <pubDate>${format(article.date, 'EEE, dd MMM yyyy hh:mm:SS', {useAdditionalDayOfYearTokens: false}) + ' GMT'}</pubDate>
-      <description>${escapeXML(article.description)}</description>
-    </item>`).join('')}
+    <link>${SITE}</link>
+    <atom:link href="${SITE}/rss.xml" rel="self" type="application/rss+xml" />
+    <description>Tim Ruffles' blog — software engineering, occasionally taste.</description>
+    <language>en-GB</language>
+    <lastBuildDate>${updated}</lastBuildDate>
+${items}
   </channel>
-  </rss>`
+</rss>`
+}
+
+// RFC-822 date, e.g. "Fri, 27 Sep 2019 00:00:00 +0000"
+function rfc822(date: Date): string {
+  return format(date, "EEE, dd MMM yyyy HH:mm:ss") + " +0000"
 }
 
 function escapeXML(unsafe: string): string {
