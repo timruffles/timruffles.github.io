@@ -12,20 +12,21 @@
   <link rel="alternate" type="application/rss+xml" title="Subscribe to RSS feed" href="/rss.xml" />
 </head>
 <body class="post">
-  <div class="paper">
-    <div class="rule"></div>
-    <div class="inner">
-      <nav class="nav">
-        <a href="/">Home</a>
-        <a href="/rss.xml">RSS</a>
-        <a href="/me">Me</a>
-      </nav>
-      <main>
-        <article class="article">
-    <h1 class="article-title">Architecture for a JS to C compiler</h1>
-    <div class="article-date">19 Feb 2019</div>
-    
-    <div class="article-body"><p>The basic data-flow of compilation looks like this:</p>
+  <div class="topbar"></div>
+  <div class="page">
+    <nav class="nav">
+      <a href="/">Home</a>
+      <a href="/rss.xml">RSS</a>
+      <a href="/me">Tim Ruffles</a>
+    </nav>
+    <main>
+      <article class="post-article" style="--accent:#8ed11e;--wash:#8ed11e18">
+    <div class="post-spine"></div>
+    <div class="post-main">
+      <div class="kicker">19 Feb 2019 · Coding</div>
+      <h1 class="post-headline">Architecture for a JS to C compiler</h1>
+      
+      <div class="article-body"><p>The basic data-flow of compilation looks like this:</p>
 <ol>
 <li>parse: turn the source text into something we can use as input for our compiler, usually an AST (abstract syntax tree)</li>
 <li>optimisation (optional): transform the input program into an equivalent one that's more efficient in time or space</li>
@@ -116,11 +117,11 @@ console<span class="token punctuation">.</span><span class="token function">log<
 
 <p>In my next post, we'll look at our how our <code>js-to-c.ts</code> compiler takes a syntax tree and outputs C source code.</p>
 </div>
-    <div class="article-footer">
-    <nav class="post-nav"><a class="nav-prev" href="/compiling-interpreted-languages">
+      <div class="article-footer">
+    <nav class="post-nav"><a class="nav-prev" href="/compiling-interpreted-languages" style="--accent:#8ed11e">
       <span class="nav-label">Previous</span>
       <span class="nav-title">← Compiling Interpreted Languages</span>
-    </a><a class="nav-next" href="/compiling-js-control-flow-to-c">
+    </a><a class="nav-next" href="/compiling-js-control-flow-to-c" style="--accent:#8ed11e">
       <span class="nav-label">Next</span>
       <span class="nav-title">Compiling JS control-flow to C →</span>
     </a></nav>
@@ -133,10 +134,10 @@ console<span class="token punctuation">.</span><span class="token function">log<
         </p>
   </div>
   </div>
-  </article>
-      </main>
-      <footer class="site-footer">📩 hello＠timr · co</footer>
     </div>
+  </article>
+    </main>
+    <footer class="site-footer">📩 hello＠timr · co</footer>
   </div>
 </body>
-</html><!-- built from e062011fef7bc0182dadb7450ecf5178143719e3 -->
+</html><!-- built from be832c5e0f82478a1649f69c8103d4882a6ce4da -->

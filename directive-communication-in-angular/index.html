@@ -12,20 +12,21 @@
   <link rel="alternate" type="application/rss+xml" title="Subscribe to RSS feed" href="/rss.xml" />
 </head>
 <body class="post">
-  <div class="paper">
-    <div class="rule"></div>
-    <div class="inner">
-      <nav class="nav">
-        <a href="/">Home</a>
-        <a href="/rss.xml">RSS</a>
-        <a href="/me">Me</a>
-      </nav>
-      <main>
-        <article class="article">
-    <h1 class="article-title">Directive communication in Angular</h1>
-    <div class="article-date">5 Jun 2015</div>
-    
-    <div class="article-body"><p>Directives in Angular are great. One challenge people face, however, is getting them to interact without creating too much, or too little, coupling.</p>
+  <div class="topbar"></div>
+  <div class="page">
+    <nav class="nav">
+      <a href="/">Home</a>
+      <a href="/rss.xml">RSS</a>
+      <a href="/me">Tim Ruffles</a>
+    </nav>
+    <main>
+      <article class="post-article" style="--accent:#8ed11e;--wash:#8ed11e18">
+    <div class="post-spine"></div>
+    <div class="post-main">
+      <div class="kicker">5 Jun 2015 · Coding</div>
+      <h1 class="post-headline">Directive communication in Angular</h1>
+      
+      <div class="article-body"><p>Directives in Angular are great. One challenge people face, however, is getting them to interact without creating too much, or too little, coupling.</p>
 <p>The route of high-coupling is via the <code>Scope</code>. However this means sharing a heap of mutable state between components. Worse still, if one directive needs to publish a function for another to use it&#39;s completely invisible in the template - and requires heavy setup in tests.</p>
 <p>The low-coupling route is to use events (e.g <code>$rootScope.emit()</code>), or services. However both are best suited to very low-cohesion interactions as they are so implicit: they don&#39;t appear in the template and you have to read the source for both to see the publish/subscribe pairing.</p>
 <p>For components that interact closely events or services therefore reduce the readability of your code, making it hard for others to see the interactions. <a href="https://www.python.org/dev/peps/pep-0020/" >Explicit is better than implicit</a>.</p>
@@ -96,11 +97,11 @@
 <span class="token punctuation">}</span></code></pre>
 <p>I find this pattern results in very readable interactions between components, with excellent testability. Hope you find it useful!</p>
 </div>
-    <div class="article-footer">
-    <nav class="post-nav"><a class="nav-prev" href="/turn-anything-into-an-ng-model-with-ngmodelcontroller">
+      <div class="article-footer">
+    <nav class="post-nav"><a class="nav-prev" href="/turn-anything-into-an-ng-model-with-ngmodelcontroller" style="--accent:#ffd000">
       <span class="nav-label">Previous</span>
       <span class="nav-title">← Turn anything into an ng-model with ngModelController</span>
-    </a><a class="nav-next" href="/real-time-the-easy-way-with-eventsource">
+    </a><a class="nav-next" href="/real-time-the-easy-way-with-eventsource" style="--accent:#2e8fff">
       <span class="nav-label">Next</span>
       <span class="nav-title">Real-time the easy way with EventSource →</span>
     </a></nav>
@@ -126,10 +127,10 @@
         </p>
   </div>
   </div>
-  </article>
-      </main>
-      <footer class="site-footer">📩 hello＠timr · co</footer>
     </div>
+  </article>
+    </main>
+    <footer class="site-footer">📩 hello＠timr · co</footer>
   </div>
 </body>
-</html><!-- built from e062011fef7bc0182dadb7450ecf5178143719e3 -->
+</html><!-- built from be832c5e0f82478a1649f69c8103d4882a6ce4da -->

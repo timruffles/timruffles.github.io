@@ -12,20 +12,21 @@
   <link rel="alternate" type="application/rss+xml" title="Subscribe to RSS feed" href="/rss.xml" />
 </head>
 <body class="post">
-  <div class="paper">
-    <div class="rule"></div>
-    <div class="inner">
-      <nav class="nav">
-        <a href="/">Home</a>
-        <a href="/rss.xml">RSS</a>
-        <a href="/me">Me</a>
-      </nav>
-      <main>
-        <article class="article">
-    <h1 class="article-title">Representing JS Values in C</h1>
-    <div class="article-date">18 Apr 2019</div>
-    
-    <div class="article-body"><p>When implementing JS a primary decision is how to represent JS values - the objects, numbers and strings that make up JS programs. Since I&#39;m targeting C, there&#39;s a lot of flexibility in how to do this.</p>
+  <div class="topbar"></div>
+  <div class="page">
+    <nav class="nav">
+      <a href="/">Home</a>
+      <a href="/rss.xml">RSS</a>
+      <a href="/me">Tim Ruffles</a>
+    </nav>
+    <main>
+      <article class="post-article" style="--accent:#8ed11e;--wash:#8ed11e18">
+    <div class="post-spine"></div>
+    <div class="post-main">
+      <div class="kicker">18 Apr 2019 · Coding</div>
+      <h1 class="post-headline">Representing JS Values in C</h1>
+      
+      <div class="article-body"><p>When implementing JS a primary decision is how to represent JS values - the objects, numbers and strings that make up JS programs. Since I&#39;m targeting C, there&#39;s a lot of flexibility in how to do this.</p>
 <p>There are 8 primitive types in JS that we&#39;ll need to store:</p>
 <ul>
 <li>string</li>
@@ -94,11 +95,11 @@ JsValue<span class="token operator">*</span> init_14 <span class="token operator
 <p>You can see the numbers are &#39;interned&#39; - which is literal numbers in the source-code are pre-allocated at program startup, and are not part of garbage-checking.</p>
 <p>Next time I&#39;ll dig into the more complex types: objects, arrays, functions and strings.</p>
 </div>
-    <div class="article-footer">
-    <nav class="post-nav"><a class="nav-prev" href="/the-weirdest-javascript-syntax">
+      <div class="article-footer">
+    <nav class="post-nav"><a class="nav-prev" href="/the-weirdest-javascript-syntax" style="--accent:#2e8fff">
       <span class="nav-label">Previous</span>
       <span class="nav-title">← The Weirdest JavaScript syntax</span>
-    </a><a class="nav-next" href="/in-browser-js-to-c-compiler">
+    </a><a class="nav-next" href="/in-browser-js-to-c-compiler" style="--accent:#8ed11e">
       <span class="nav-label">Next</span>
       <span class="nav-title">In browser JS to C compiler →</span>
     </a></nav>
@@ -111,10 +112,10 @@ JsValue<span class="token operator">*</span> init_14 <span class="token operator
         </p>
   </div>
   </div>
-  </article>
-      </main>
-      <footer class="site-footer">📩 hello＠timr · co</footer>
     </div>
+  </article>
+    </main>
+    <footer class="site-footer">📩 hello＠timr · co</footer>
   </div>
 </body>
-</html><!-- built from e062011fef7bc0182dadb7450ecf5178143719e3 -->
+</html><!-- built from be832c5e0f82478a1649f69c8103d4882a6ce4da -->

@@ -12,20 +12,21 @@
   <link rel="alternate" type="application/rss+xml" title="Subscribe to RSS feed" href="/rss.xml" />
 </head>
 <body class="post">
-  <div class="paper">
-    <div class="rule"></div>
-    <div class="inner">
-      <nav class="nav">
-        <a href="/">Home</a>
-        <a href="/rss.xml">RSS</a>
-        <a href="/me">Me</a>
-      </nav>
-      <main>
-        <article class="article">
-    <h1 class="article-title">My first experiments with R</h1>
-    <div class="article-date">21 Aug 2010</div>
-    
-    <div class="article-body"><p>I started to use R for a maths course at the Open University, and thought I&#39;d jot down my initial progress. R is pretty ugly to come to as a programming language: as far as I can tell, there is absolutely no naming convention at all. Luckily there&#39;s a REPL and lots of people who&#39;ll have tripped across similarly confusing things on Stack Overflow.</p>
+  <div class="topbar"></div>
+  <div class="page">
+    <nav class="nav">
+      <a href="/">Home</a>
+      <a href="/rss.xml">RSS</a>
+      <a href="/me">Tim Ruffles</a>
+    </nav>
+    <main>
+      <article class="post-article" style="--accent:#23b5e8;--wash:#23b5e818">
+    <div class="post-spine"></div>
+    <div class="post-main">
+      <div class="kicker">21 Aug 2010 · Coding</div>
+      <h1 class="post-headline">My first experiments with R</h1>
+      
+      <div class="article-body"><p>I started to use R for a maths course at the Open University, and thought I&#39;d jot down my initial progress. R is pretty ugly to come to as a programming language: as far as I can tell, there is absolutely no naming convention at all. Luckily there&#39;s a REPL and lots of people who&#39;ll have tripped across similarly confusing things on Stack Overflow.</p>
 <p>I decided to use R instead of OUStats, the OU&#39;s proprietary stats program (Windows only). R certainly had a longer lead time for me to get useful things out of the data, but at least it&#39;s used outside of my course.</p>
 <p>The first data set I played around with was the eruptions of the <a href="http://www.geyserstudy.org/geysers/OLDFAITHFUL/eruptions/Old%20Faithful%20eruptions%20for%202011.TXT" >Old Faithful geyser in 2011</a>. I wrote a 3 line Ruby script to mung the data into seconds rather than hour:minutes:seconds, rather than look up whatever naming crimes R requires.</p>
 <pre><code>anHour <span class="token operator">=</span> <span class="token number">60</span> <span class="token operator">*</span> <span class="token number">60</span>
@@ -147,17 +148,17 @@ fathers <span class="token number">60</span> <span class="token number">61</span
 <p><img src="/img/scatter.png" alt="Scatter" /></p>
 <p>So my first half-day with R was pretty fun. I think the most confusing aspect is where to stop using R as a DSL by looking for the correct function that &quot;just works&quot; for your task, and to start creating your own solutions by using R as a programming language. The simplicity of retrieving basic statistical functions from, and visualising, correctly formatted data makes me want to explore a lot more.</p>
 </div>
-    <div class="article-footer">
-    <nav class="post-nav"><a class="nav-next" href="/rubys-equality-operator">
+      <div class="article-footer">
+    <nav class="post-nav"><a class="nav-next" href="/rubys-equality-operator" style="--accent:#23b5e8">
       <span class="nav-label">Next</span>
       <span class="nav-title">Ruby&apos;s === equality operator →</span>
     </a></nav>
     
   </div>
-  </article>
-      </main>
-      <footer class="site-footer">📩 hello＠timr · co</footer>
     </div>
+  </article>
+    </main>
+    <footer class="site-footer">📩 hello＠timr · co</footer>
   </div>
 </body>
-</html><!-- built from e062011fef7bc0182dadb7450ecf5178143719e3 -->
+</html><!-- built from be832c5e0f82478a1649f69c8103d4882a6ce4da -->

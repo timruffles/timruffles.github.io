@@ -12,20 +12,21 @@
   <link rel="alternate" type="application/rss+xml" title="Subscribe to RSS feed" href="/rss.xml" />
 </head>
 <body class="post">
-  <div class="paper">
-    <div class="rule"></div>
-    <div class="inner">
-      <nav class="nav">
-        <a href="/">Home</a>
-        <a href="/rss.xml">RSS</a>
-        <a href="/me">Me</a>
-      </nav>
-      <main>
-        <article class="article">
-    <h1 class="article-title">Rails 3 Asset Pipeline in a minute</h1>
-    <div class="article-date">12 Feb 2011</div>
-    
-    <div class="article-body"><p>Here&#39;s a quick summary of Rails 3&#39;s asset pipeline if you&#39;re already confident with Rails/Ruby, and some pointers on getting it working on Heroku.</p>
+  <div class="topbar"></div>
+  <div class="page">
+    <nav class="nav">
+      <a href="/">Home</a>
+      <a href="/rss.xml">RSS</a>
+      <a href="/me">Tim Ruffles</a>
+    </nav>
+    <main>
+      <article class="post-article" style="--accent:#8ed11e;--wash:#8ed11e18">
+    <div class="post-spine"></div>
+    <div class="post-main">
+      <div class="kicker">12 Feb 2011 · Coding</div>
+      <h1 class="post-headline">Rails 3 Asset Pipeline in a minute</h1>
+      
+      <div class="article-body"><p>Here&#39;s a quick summary of Rails 3&#39;s asset pipeline if you&#39;re already confident with Rails/Ruby, and some pointers on getting it working on Heroku.</p>
 <ul>
 <li>Rails 3 supports compiling Coffeescript, SASS etc to JS and CSS.</li>
 <li>Rails 3 puts assets in three places, here&#39;s a glob: <code>{app,lib,vendor}/assets/{stylesheets,javascripts}/*.*</code></li>
@@ -51,20 +52,20 @@ config<span class="token punctuation">.</span>assets<span class="token punctuati
 <pre><code>env RAILS_ENV<span class="token operator">=</span>production DATABASE_URL<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">{</span>YOUR_SCHEME_HERE <span class="token operator">-</span> prob postgres<span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>user<span class="token punctuation">:</span>pass@<span class="token number">127.0</span><span class="token number">.0</span><span class="token number">.1</span><span class="token operator">/</span>dbname bundle exec rake assets<span class="token punctuation">:</span>precompile <span class="token number">2</span><span class="token operator">></span><span class="token operator">&amp;</span><span class="token number">1</span></code></pre>
 <p>If you&#39;ve any other gotchas, or if anything is out of date, please let me know!</p>
 </div>
-    <div class="article-footer">
-    <nav class="post-nav"><a class="nav-prev" href="/rubys-equality-operator">
+      <div class="article-footer">
+    <nav class="post-nav"><a class="nav-prev" href="/rubys-equality-operator" style="--accent:#23b5e8">
       <span class="nav-label">Previous</span>
       <span class="nav-title">← Ruby&apos;s === equality operator</span>
-    </a><a class="nav-next" href="/exambuff-open-sourced-startup">
+    </a><a class="nav-next" href="/exambuff-open-sourced-startup" style="--accent:#23b5e8">
       <span class="nav-label">Next</span>
       <span class="nav-title">Exambuff - Open Sourced Startup →</span>
     </a></nav>
     
   </div>
-  </article>
-      </main>
-      <footer class="site-footer">📩 hello＠timr · co</footer>
     </div>
+  </article>
+    </main>
+    <footer class="site-footer">📩 hello＠timr · co</footer>
   </div>
 </body>
-</html><!-- built from e062011fef7bc0182dadb7450ecf5178143719e3 -->
+</html><!-- built from be832c5e0f82478a1649f69c8103d4882a6ce4da -->

@@ -12,20 +12,21 @@
   <link rel="alternate" type="application/rss+xml" title="Subscribe to RSS feed" href="/rss.xml" />
 </head>
 <body class="post">
-  <div class="paper">
-    <div class="rule"></div>
-    <div class="inner">
-      <nav class="nav">
-        <a href="/">Home</a>
-        <a href="/rss.xml">RSS</a>
-        <a href="/me">Me</a>
-      </nav>
-      <main>
-        <article class="article">
-    <h1 class="article-title">Compiling Interpreted Languages</h1>
-    <div class="article-date">29 Jan 2019</div>
-    
-    <div class="article-body"><p>I think a few years back I’d have been confused by the concept of compiling JavaScript. I would have assumed that compiled and interpreted languages were fundamentally different beasts. Reading <a href="https://mitpress.mit.edu/sites/default/files/sicp/index.html">SICP</a> taught me that on a deep level, programs in any language can be implemented correctly via compilation or interpretation. I started to think as programs as descriptions of desired behaviour, given a particular language definition.</p>
+  <div class="topbar"></div>
+  <div class="page">
+    <nav class="nav">
+      <a href="/">Home</a>
+      <a href="/rss.xml">RSS</a>
+      <a href="/me">Tim Ruffles</a>
+    </nav>
+    <main>
+      <article class="post-article" style="--accent:#8ed11e;--wash:#8ed11e18">
+    <div class="post-spine"></div>
+    <div class="post-main">
+      <div class="kicker">29 Jan 2019 · Coding</div>
+      <h1 class="post-headline">Compiling Interpreted Languages</h1>
+      
+      <div class="article-body"><p>I think a few years back I’d have been confused by the concept of compiling JavaScript. I would have assumed that compiled and interpreted languages were fundamentally different beasts. Reading <a href="https://mitpress.mit.edu/sites/default/files/sicp/index.html">SICP</a> taught me that on a deep level, programs in any language can be implemented correctly via compilation or interpretation. I started to think as programs as descriptions of desired behaviour, given a particular language definition.</p>
 <p>Given that programs are descriptions, we can fulfil it however we like! Either we can use the program text as runtime input to an existing host-native program which will interpret it, or we can compile that program into a equivalent program in another language.<label class="sidenote-number" for="sn-1"></label><input type="checkbox" class="sidenote-toggle" id="sn-1"><span class="sidenote">Still further, we could mix both, interpreting and compiling - as interpreters with just-in-time (JIT) compilers do.</span> </p>
 
 <p>Let’s demonstrate this for a simple language with two operations, <code>VAR</code> and <code>PRINT</code>, with strings are its only data-type. Here’s a program in that language:</p>
@@ -210,11 +211,11 @@ let sum <span class="token operator">=</span> <span class="token number">0</span
 <p>Interestingly, this is precisely the type of optimisations just-in-time compilers (JITs) perform. JITs are another reminder that dynamic languages can profit greatly from compilation. There's nothing theoretically stopping us from doing lots at runtime in compiled implementations, or lots of compilation in interpreted ones. Those decisions are trade-offs, and will decide how much of the pros/cons of each approach we'll get depending on where we sit between the two extremes.</p>
 <p>In my next post, I'll outline the high-level architectural approach I'll take in writing my JS to C compiler.</p>
 </div>
-    <div class="article-footer">
-    <nav class="post-nav"><a class="nav-prev" href="/writing-a-javascript-to-c-compiler">
+      <div class="article-footer">
+    <nav class="post-nav"><a class="nav-prev" href="/writing-a-javascript-to-c-compiler" style="--accent:#8ed11e">
       <span class="nav-label">Previous</span>
       <span class="nav-title">← Writing a Javascript to C compiler</span>
-    </a><a class="nav-next" href="/architecture-for-a-js-to-c-compiler">
+    </a><a class="nav-next" href="/architecture-for-a-js-to-c-compiler" style="--accent:#8ed11e">
       <span class="nav-label">Next</span>
       <span class="nav-title">Architecture for a JS to C compiler →</span>
     </a></nav>
@@ -227,10 +228,10 @@ let sum <span class="token operator">=</span> <span class="token number">0</span
         </p>
   </div>
   </div>
-  </article>
-      </main>
-      <footer class="site-footer">📩 hello＠timr · co</footer>
     </div>
+  </article>
+    </main>
+    <footer class="site-footer">📩 hello＠timr · co</footer>
   </div>
 </body>
-</html><!-- built from e062011fef7bc0182dadb7450ecf5178143719e3 -->
+</html><!-- built from be832c5e0f82478a1649f69c8103d4882a6ce4da -->

@@ -12,20 +12,21 @@
   <link rel="alternate" type="application/rss+xml" title="Subscribe to RSS feed" href="/rss.xml" />
 </head>
 <body class="post">
-  <div class="paper">
-    <div class="rule"></div>
-    <div class="inner">
-      <nav class="nav">
-        <a href="/">Home</a>
-        <a href="/rss.xml">RSS</a>
-        <a href="/me">Me</a>
-      </nav>
-      <main>
-        <article class="article">
-    <h1 class="article-title">Ruby&apos;s === equality operator</h1>
-    <div class="article-date">13 Sep 2010</div>
-    
-    <div class="article-body"><p>Ruby’s <code>===</code> operator is often called the ‘case equality’ operator, which is indicative of where it is used, but not how it works. I realised I hadn’t quite grokked the how when I read <a href="http://joncanady.com/2010/07/05/switching-on-object-class-in-ruby/" >Jon Canady&#39;s post</a>.</p>
+  <div class="topbar"></div>
+  <div class="page">
+    <nav class="nav">
+      <a href="/">Home</a>
+      <a href="/rss.xml">RSS</a>
+      <a href="/me">Tim Ruffles</a>
+    </nav>
+    <main>
+      <article class="post-article" style="--accent:#23b5e8;--wash:#23b5e818">
+    <div class="post-spine"></div>
+    <div class="post-main">
+      <div class="kicker">13 Sep 2010 · Coding</div>
+      <h1 class="post-headline">Ruby&apos;s === equality operator</h1>
+      
+      <div class="article-body"><p>Ruby’s <code>===</code> operator is often called the ‘case equality’ operator, which is indicative of where it is used, but not how it works. I realised I hadn’t quite grokked the how when I read <a href="http://joncanady.com/2010/07/05/switching-on-object-class-in-ruby/" >Jon Canady&#39;s post</a>.</p>
 <p>Jon was confused that the follow switch statement didn’t work as he’d expected - it wasn’t matching even though obj was an instance of ActiveRecord::Base.</p>
 <pre><code>case obj<span class="token punctuation">.</span>class
   <span class="token class-name">when</span> ActiveRecord<span class="token punctuation">:</span><span class="token punctuation">:</span>Base
@@ -51,20 +52,20 @@ end</code></pre>
 <span class="token operator">></span><span class="token operator">></span> <span class="token punctuation">:</span>a<span class="token punctuation">.</span>equal<span class="token operator">?</span> <span class="token punctuation">:</span>a
 <span class="token operator">=</span><span class="token operator">></span> <span class="token boolean">true</span> # same objects</code></pre>
 </div>
-    <div class="article-footer">
-    <nav class="post-nav"><a class="nav-prev" href="/my-first-experiments-with-r">
+      <div class="article-footer">
+    <nav class="post-nav"><a class="nav-prev" href="/my-first-experiments-with-r" style="--accent:#23b5e8">
       <span class="nav-label">Previous</span>
       <span class="nav-title">← My first experiments with R</span>
-    </a><a class="nav-next" href="/rails-3-asset-pipeline-in-a-minute">
+    </a><a class="nav-next" href="/rails-3-asset-pipeline-in-a-minute" style="--accent:#8ed11e">
       <span class="nav-label">Next</span>
       <span class="nav-title">Rails 3 Asset Pipeline in a minute →</span>
     </a></nav>
     
   </div>
-  </article>
-      </main>
-      <footer class="site-footer">📩 hello＠timr · co</footer>
     </div>
+  </article>
+    </main>
+    <footer class="site-footer">📩 hello＠timr · co</footer>
   </div>
 </body>
-</html><!-- built from e062011fef7bc0182dadb7450ecf5178143719e3 -->
+</html><!-- built from be832c5e0f82478a1649f69c8103d4882a6ce4da -->
