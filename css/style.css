@@ -4,8 +4,8 @@
    Plain modern CSS — custom properties + flexbox gap (universal since 2021). */
 
 :root {
-  --paper: #f3efe7;
-  --page: #e7e5df;
+  --paper: #ffffff;
+  --page: #f4f4f1;
   --ink: #1c1b18;
   --text: #2a2824;
   --muted: #615e57;
@@ -43,16 +43,18 @@ body {
 
 .paper {
   background: var(--paper);
-  max-width: 900px;
+  max-width: 780px;
   margin: 0 auto;
   min-height: 100vh;
+  /* subtle lift so the reading column reads as a page on the tinted backdrop */
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.05);
 }
 
 .rule {
   height: 4px;
   background: linear-gradient(90deg,
-    #d2541f 0%, #d2541f 34%, #c2933a 34%, #c2933a 56%,
-    #6e8d57 56%, #6e8d57 74%, #3f8a83 74%, #3f8a83 88%, #4a72a8 88%);
+    #2e8fff 0%, #2e8fff 34%, #ff5a1f 34%, #ff5a1f 56%,
+    #ffd000 56%, #ffd000 74%, #8ed11e 74%, #8ed11e 88%, #23b5e8 88%);
 }
 
 .inner { padding: 24px 26px 36px; }
@@ -101,17 +103,21 @@ body {
   max-width: 620px;
 }
 
-.post-entry { display: flex; flex-direction: column; }
+.post-entry { display: flex; flex-direction: column; position: relative; }
 
-.post-entry:not(:first-child)::before {
+/* original-style accent sidebar — colour cycles in CSS, not per-article */
+.post-entry::before {
   content: "";
-  align-self: center;
-  width: 72px;
-  height: 3px;
+  position: absolute;
+  left: -16px; top: 3px; bottom: 3px;
+  width: 5px;
   border-radius: 2px;
-  background: var(--hue);
-  margin-bottom: 22px;
+  background: #2e8fff;
 }
+.post-entry:nth-child(5n+2)::before { background: #ff5a1f; }
+.post-entry:nth-child(5n+3)::before { background: #ffd000; }
+.post-entry:nth-child(5n+4)::before { background: #8ed11e; }
+.post-entry:nth-child(5n+5)::before { background: #23b5e8; }
 
 .post-title {
   font-family: var(--serif);
@@ -355,7 +361,36 @@ sup { font-size: 0.7em; vertical-align: super; line-height: 0; }
 
 /* narrow/medium: tap the number to reveal the note inline as a small call-out.
    (kept until the viewport is wide enough for a real outer margin) */
-@media (max-width: 1339px) {
+/* float appearance for the margin note (inert until display:block is set below) */
+@media (min-width: 1000px) {
+  .sidenote {
+    float: right;
+    clear: right;
+    width: 150px;
+    margin-right: -250px;   /* push the note past the page's right edge into the margin */
+    margin-bottom: 1rem;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--muted);
+    text-align: left;
+  }
+  .sidenote-number { cursor: default; }
+}
+
+/* centred page has symmetric room → show the note in the margin */
+@media (min-width: 1180px) {
+  .sidenote { display: block; }
+}
+
+/* mid band: only on pages that actually have a footnote, collapse the left
+   margin (shift the page left) so the right margin can hold the note */
+@media (min-width: 1000px) and (max-width: 1179px) {
+  body:has(.sidenote) .paper { margin-left: 16px; margin-right: auto; }
+  body:has(.sidenote) .sidenote { display: block; }
+}
+
+/* otherwise (narrow, or no :has support) tap the number to reveal it inline */
+@media (max-width: 1179px) {
   .sidenote-toggle:checked + .sidenote {
     display: block;
     margin: 0.7rem 0;
@@ -366,23 +401,6 @@ sup { font-size: 0.7em; vertical-align: super; line-height: 0; }
     line-height: 1.55;
     color: var(--muted);
   }
-}
-
-/* wide: float the note out into the page margin, beyond the card */
-@media (min-width: 1340px) {
-  .sidenote {
-    display: block;
-    float: right;
-    clear: right;
-    width: 170px;
-    margin-right: -390px;   /* push the note past the card's right edge into the page margin */
-    margin-bottom: 1rem;
-    font-size: 12.5px;
-    line-height: 1.5;
-    color: var(--muted);
-    text-align: left;
-  }
-  .sidenote-number { cursor: default; }
 }
 
 /* ---- post-to-post nav ---- */
@@ -474,7 +492,7 @@ sup { font-size: 0.7em; vertical-align: super; line-height: 0; }
   .section-label { margin: 62px 0 30px; }
 
   .posts { gap: 38px; }
-  .post-entry:not(:first-child)::before { width: 140px; margin-bottom: 36px; }
+  .post-entry::before { left: -22px; width: 6px; }
   .post-title { font-size: 31px; line-height: 1.14; letter-spacing: -0.012em; }
   .post-meta { font-size: 11px; letter-spacing: 0.1em; margin-top: 11px; }
   .post-dek { font-size: 16px; line-height: 1.55; margin: 13px 0 0; }
@@ -489,17 +507,4 @@ sup { font-size: 0.7em; vertical-align: super; line-height: 0; }
   .post-nav { flex-direction: row; justify-content: space-between; gap: 48px; }
   .nav-prev { flex: 1; }
   .nav-next { flex: 1; text-align: right; }
-}
-
-/* free-standing paper, framed, on wider viewports */
-@media (min-width: 940px) {
-  .paper {
-    margin: 40px auto;
-    min-height: 0;
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    border-radius: 3px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-  }
-  /* match the card's rounded top corners now the card no longer clips */
-  .rule { border-radius: 3px 3px 0 0; }
 }
