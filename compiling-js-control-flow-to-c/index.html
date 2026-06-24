@@ -12,21 +12,20 @@
   <link rel="alternate" type="application/rss+xml" title="Subscribe to RSS feed" href="/rss.xml" />
 </head>
 <body class="post">
-  <div class="topbar"></div>
-  <div class="page">
-    <nav class="nav">
-      <a href="/">Home</a>
-      <a href="/rss.xml">RSS</a>
-      <a href="/me">Tim Ruffles</a>
-    </nav>
-    <main>
-      <article class="post-article" style="--accent:#8ed11e;--wash:#8ed11e18">
-    <div class="post-spine"></div>
-    <div class="post-main">
-      <div class="kicker">16 Mar 2019 · Coding</div>
-      <h1 class="post-headline">Compiling JS control-flow to C</h1>
-      
-      <div class="article-body"><p>Let&#39;s look at how I implemented JS&#39;s <code>if</code> statement in the <a href="https://github.com/timruffles/js-to-c/" ><code>js-to-c</code></a> compiler. First, let&#39;s write a JS <code>if</code>:</p>
+  <div class="paper">
+    <div class="rule"></div>
+    <div class="inner">
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/rss.xml">RSS</a>
+        <a href="/me">Me</a>
+      </nav>
+      <main>
+        <article class="article">
+    <h1 class="article-title">Compiling JS control-flow to C</h1>
+    <div class="article-date">16 Mar 2019</div>
+    
+    <div class="article-body"><p>Let&#39;s look at how I implemented JS&#39;s <code>if</code> statement in the <a href="https://github.com/timruffles/js-to-c/" ><code>js-to-c</code></a> compiler. First, let&#39;s write a JS <code>if</code>:</p>
 <pre><code class="language-js"><span class="token keyword">if</span> <span class="token punctuation">(</span>Math<span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">></span> <span class="token number">0.5</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'heads'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
@@ -159,11 +158,11 @@
 <span class="token keyword">function</span> <span class="token function">compileContinueStatement</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> `<span class="token keyword">continue</span><span class="token punctuation">;</span>` <span class="token punctuation">}</span></code></pre>
 <p>In the <code>for</code> example, you can see all of the JS <code>test</code> <code>body</code> <code>update</code> steps are in the C <code>while</code>&#39;s body, so <code>continue</code> and <code>break</code> will work as expected by being compiled one-to-one with their C equivalent. Take a look at the <code>forIn</code> and <code>while</code> loops in the js2c source and you&#39;ll see the same is true of them. Compiling an imperative language into another imperative language has let us piggy-back off the target language&#39;s constructs. There&#39;s something deep and satisfying about the logic of that translation.</p>
 </div>
-      <div class="article-footer">
-    <nav class="post-nav"><a class="nav-prev" href="/architecture-for-a-js-to-c-compiler" style="--accent:#8ed11e">
+    <div class="article-footer">
+    <nav class="post-nav"><a class="nav-prev" href="/architecture-for-a-js-to-c-compiler">
       <span class="nav-label">Previous</span>
       <span class="nav-title">← Architecture for a JS to C compiler</span>
-    </a><a class="nav-next" href="/the-weirdest-javascript-syntax" style="--accent:#2e8fff">
+    </a><a class="nav-next" href="/the-weirdest-javascript-syntax">
       <span class="nav-label">Next</span>
       <span class="nav-title">The Weirdest JavaScript syntax →</span>
     </a></nav>
@@ -176,10 +175,10 @@
         </p>
   </div>
   </div>
-    </div>
   </article>
-    </main>
-    <footer class="site-footer">📩 hello＠timr · co</footer>
+      </main>
+      <footer class="site-footer">📩 hello＠timr · co</footer>
+    </div>
   </div>
 </body>
-</html><!-- built from be832c5e0f82478a1649f69c8103d4882a6ce4da -->
+</html><!-- built from eb6553e84e2b2050b47932e589d7c31993df70ba -->

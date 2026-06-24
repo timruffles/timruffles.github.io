@@ -12,21 +12,20 @@
   <link rel="alternate" type="application/rss+xml" title="Subscribe to RSS feed" href="/rss.xml" />
 </head>
 <body class="post">
-  <div class="topbar"></div>
-  <div class="page">
-    <nav class="nav">
-      <a href="/">Home</a>
-      <a href="/rss.xml">RSS</a>
-      <a href="/me">Tim Ruffles</a>
-    </nav>
-    <main>
-      <article class="post-article" style="--accent:#2e8fff;--wash:#2e8fff18">
-    <div class="post-spine"></div>
-    <div class="post-main">
-      <div class="kicker">1 Aug 2013 · Coding</div>
-      <h1 class="post-headline">Playing with ES6 generators to make a Maybe in Javascript</h1>
-      
-      <div class="article-body"><div class="summary">
+  <div class="paper">
+    <div class="rule"></div>
+    <div class="inner">
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/rss.xml">RSS</a>
+        <a href="/me">Me</a>
+      </nav>
+      <main>
+        <article class="article">
+    <h1 class="article-title">Playing with ES6 generators to make a Maybe in Javascript</h1>
+    <div class="article-date">1 Aug 2013</div>
+    
+    <div class="article-body"><div class="summary">
   If you know about Either, Maybe and JS generators already just take a look <a href="https://gist.github.com/timruffles/6129848">at the code</a>.
 </div>
 
@@ -110,20 +109,20 @@ function MaybeGenerator() {
 <p>Each time we call <code>generator.next()</code> the generator runs until it hits a <code>yield</code>. Once that happens we get a <code>{done: Boolean, value: Anything}</code> object back from the generator. We&#39;re yielding functions to apply to the value, so we apply it to the current value. If returns something one of our guard functions thinks is a Nothing, we return Nothing and we&#39;re done. Once the generator is finished (the function closes) we get a <code>{done: true, value: undefined}</code> and end the loop, returning the final value.</p>
 <p>That rounds out the implementation! I&#39;m sure there are many more interesting &amp; sensible things to do with generators, they&#39;re extremely powerful.</p>
 </div>
-      <div class="article-footer">
-    <nav class="post-nav"><a class="nav-prev" href="/new-project-sidekickjs---javascript-code-quality-tool" style="--accent:#ffd000">
+    <div class="article-footer">
+    <nav class="post-nav"><a class="nav-prev" href="/new-project-sidekickjs---javascript-code-quality-tool">
       <span class="nav-label">Previous</span>
       <span class="nav-title">← New project: SidekickJS - Javascript code quality tool</span>
-    </a><a class="nav-next" href="/twedar-machine-learning-side-project" style="--accent:#2e8fff">
+    </a><a class="nav-next" href="/twedar-machine-learning-side-project">
       <span class="nav-label">Next</span>
       <span class="nav-title">Twedar - machine learning side project →</span>
     </a></nav>
     
   </div>
-    </div>
   </article>
-    </main>
-    <footer class="site-footer">📩 hello＠timr · co</footer>
+      </main>
+      <footer class="site-footer">📩 hello＠timr · co</footer>
+    </div>
   </div>
 </body>
-</html><!-- built from be832c5e0f82478a1649f69c8103d4882a6ce4da -->
+</html><!-- built from eb6553e84e2b2050b47932e589d7c31993df70ba -->

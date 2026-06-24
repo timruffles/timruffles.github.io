@@ -12,21 +12,20 @@
   <link rel="alternate" type="application/rss+xml" title="Subscribe to RSS feed" href="/rss.xml" />
 </head>
 <body class="post">
-  <div class="topbar"></div>
-  <div class="page">
-    <nav class="nav">
-      <a href="/">Home</a>
-      <a href="/rss.xml">RSS</a>
-      <a href="/me">Tim Ruffles</a>
-    </nav>
-    <main>
-      <article class="post-article" style="--accent:#8ed11e;--wash:#8ed11e18">
-    <div class="post-spine"></div>
-    <div class="post-main">
-      <div class="kicker">24 Feb 2021 · Coding</div>
-      <h1 class="post-headline">Vim quickfix hack for IntelliJ</h1>
-      
-      <div class="article-body"><p>Vim’s quickfix mode is very useful during complex refactors. For instance, I wrote an AST-based tool to identify locations that needed a manual refactor. But how could I navigate through all the matches to perform it?</p>
+  <div class="paper">
+    <div class="rule"></div>
+    <div class="inner">
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/rss.xml">RSS</a>
+        <a href="/me">Me</a>
+      </nav>
+      <main>
+        <article class="article">
+    <h1 class="article-title">Vim quickfix hack for IntelliJ</h1>
+    <div class="article-date">24 Feb 2021</div>
+    
+    <div class="article-body"><p>Vim’s quickfix mode is very useful during complex refactors. For instance, I wrote an AST-based tool to identify locations that needed a manual refactor. But how could I navigate through all the matches to perform it?</p>
 <p>With vim it’s easy: <code>vim -q</code>, which starts vim in <a href="http://vimdoc.sourceforge.net/htmldoc/quickfix.html" >quickfix</a>, and you can pipe in the locations from stdin or a file. You can then jump around using the quick-fix list or use <code>:cnext</code> to sequentially visit each match. I switched to IntelliJ + IdeaVIM years ago though, and IdeaVIM doesn’t have quick-fix support.</p>
 <p>I realised though that IntelliJ’s CLI launcher had <code>—line</code>, so I could get a reasonable hack together inside a IntelliJ terminal window that let me navigate stepwise through the list:</p>
 <pre><code class="language-sh">$ refactor<span class="token operator">-</span>tool <span class="token operator">></span> <span class="token operator">/</span>tmp<span class="token operator">/</span>quickfix<span class="token punctuation">.</span>list
@@ -40,11 +39,11 @@ done</code></pre>
 <p>The tool output in a <code>path/to/file:linenumber</code> format, e.g <code>tools/foo.go:123</code>. <code>${f%:*}</code> is using <code>%</code> bash expansion, which returns f without the shortest match of the pattern at the end of the string. <code>#</code> is the same but removes matches from the start. I capture the tty and read from it to avoid just reading the next line from STDIN.</p>
 <p>I’m excited to see IntelliJ’s <a href="https://gist.github.com/gregsh/b7ef2e4ebbc4c4c11ee9" >scripting layer mature</a>, which’ll enable much more powerful instances of ad-hoc scriptability.</p>
 </div>
-      <div class="article-footer">
-    <nav class="post-nav"><a class="nav-prev" href="/the-object-compromise" style="--accent:#8ed11e">
+    <div class="article-footer">
+    <nav class="post-nav"><a class="nav-prev" href="/the-object-compromise">
       <span class="nav-label">Previous</span>
       <span class="nav-title">← The Object Compromise</span>
-    </a><a class="nav-next" href="/slice-of-any-not-slice-of-any" style="--accent:#2e8fff">
+    </a><a class="nav-next" href="/slice-of-any-not-slice-of-any">
       <span class="nav-label">Next</span>
       <span class="nav-title">When is a slice of any not a slice of any? →</span>
     </a></nav>
@@ -57,10 +56,10 @@ done</code></pre>
         </p>
   </div>
   </div>
-    </div>
   </article>
-    </main>
-    <footer class="site-footer">📩 hello＠timr · co</footer>
+      </main>
+      <footer class="site-footer">📩 hello＠timr · co</footer>
+    </div>
   </div>
 </body>
-</html><!-- built from be832c5e0f82478a1649f69c8103d4882a6ce4da -->
+</html><!-- built from eb6553e84e2b2050b47932e589d7c31993df70ba -->
