@@ -1,31 +1,34 @@
 <!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>My first experiments with R</title>
-  <meta name="description" content="I started to use R for a maths course at the Open University, and thought I&apos;d jot down my initial progress. R is pretty ugly to come to as a programming language: as far as I can tell, there is absolutely no naming convention at all. Luckily there&apos;s a REPL…">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/style.css">
-  <link rel="alternate" type="application/rss+xml" title="Subscribe to RSS feed" href="/rss.xml" />
-</head>
-<body class="post">
-  <div class="paper">
-    <div class="rule"></div>
-    <div class="inner">
-      <nav class="nav">
-        <a href="/">Home</a>
-        <a href="/rss.xml">RSS</a>
-        <a href="/me">Me</a>
-      </nav>
-      <main>
-        <article class="article">
-    <h1 class="article-title">My first experiments with R</h1>
-    <div class="article-date">21 Aug 2010</div>
-    
-    <div class="article-body"><p>I started to use R for a maths course at the Open University, and thought I&#39;d jot down my initial progress. R is pretty ugly to come to as a programming language: as far as I can tell, there is absolutely no naming convention at all. Luckily there&#39;s a REPL and lots of people who&#39;ll have tripped across similarly confusing things on Stack Overflow.</p>
+      <head>
+        <title>My first experiments with R</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width">
+        <meta name="description" content="I started to use R for a maths course at the Open University, and thought I&apos;d jot down my initial progress. R is pretty ugly to come to as a programming language: as far as I can tell, there is absolutely no naming convention at all. Luckily there&apos;s a REPL…" >
+        <link rel="stylesheet" href="/css/normalize.css" type="text/css">
+        <link rel="stylesheet" href="/css/style.css" type="text/css">
+        <link rel="stylesheet" href="/css/prism-ghcolors.css" type="text/css">
+        <link rel="alternate" type="application/rss+xml" title="Subscribe to RSS feed" href="/rss.xml" />
+      </head>
+      <body class="article">
+        <div class="mast">
+          <div class='top-bar reading'>
+              <div class="links logical">
+                <div class="navigation logical">
+                  <a href="/">Home</a>
+                  <a href="/rss.xml">RSS</a>
+                  <a href="/me">
+                      Tim Ruffles
+                  </a>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="content" class="reading">
+           
+
+           <div class="body">
+              <h1><a href="/my-first-experiments-with-r">My first experiments with R</a></h1>
+  <p>I started to use R for a maths course at the Open University, and thought I&#39;d jot down my initial progress. R is pretty ugly to come to as a programming language: as far as I can tell, there is absolutely no naming convention at all. Luckily there&#39;s a REPL and lots of people who&#39;ll have tripped across similarly confusing things on Stack Overflow.</p>
 <p>I decided to use R instead of OUStats, the OU&#39;s proprietary stats program (Windows only). R certainly had a longer lead time for me to get useful things out of the data, but at least it&#39;s used outside of my course.</p>
 <p>The first data set I played around with was the eruptions of the <a href="http://www.geyserstudy.org/geysers/OLDFAITHFUL/eruptions/Old%20Faithful%20eruptions%20for%202011.TXT" >Old Faithful geyser in 2011</a>. I wrote a 3 line Ruby script to mung the data into seconds rather than hour:minutes:seconds, rather than look up whatever naming crimes R requires.</p>
 <pre><code>anHour <span class="token operator">=</span> <span class="token number">60</span> <span class="token operator">*</span> <span class="token number">60</span>
@@ -146,18 +149,21 @@ fathers <span class="token number">60</span> <span class="token number">61</span
 <span class="token operator">></span> pretty <span class="token operator">+</span> <span class="token function">geom_point</span><span class="token punctuation">(</span><span class="token function">aes</span><span class="token punctuation">(</span>size<span class="token operator">=</span>pearsonFrame$Frequency<span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
 <p><img src="/img/scatter.png" alt="Scatter" /></p>
 <p>So my first half-day with R was pretty fun. I think the most confusing aspect is where to stop using R as a DSL by looking for the correct function that &quot;just works&quot; for your task, and to start creating your own solutions by using R as a programming language. The simplicity of retrieving basic statistical functions from, and visualising, correctly formatted data makes me want to explore a lot more.</p>
-</div>
-    <div class="article-footer">
-    <nav class="post-nav"><a class="nav-next" href="/rubys-equality-operator">
-      <span class="nav-label">Next</span>
-      <span class="nav-title">Ruby&apos;s === equality operator →</span>
-    </a></nav>
-    
-  </div>
-  </article>
-      </main>
-      <footer class="site-footer">📩 hello＠timr · co</footer>
+
+  <div class="article-footer">
+  <p class=nav>
+    Next: <a href="/rubys-equality-operator">
+      Ruby's === equality operator
+    </a>
+    </p>
+  
+        
     </div>
-  </div>
-</body>
-</html><!-- built from 2cb76aad225e2bec47f9e82235c50749adf6ffa6 -->
+            </div>
+        </div>
+        <div class="footer reading">
+          <div class="container">
+            <p>📩 hello＠timr · co</p>
+          </div>
+        </div>
+      </body><!-- built from 6416c03f101d5cfb917cdcec9294afca4590db9c -->

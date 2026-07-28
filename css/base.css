@@ -1,0 +1,163 @@
+/*! normalize.css 2011-08-12T17:28 UTC · http://github.com/necolas/normalize.css */
+
+article, aside, details, figcaption, figure, footer, header, hgroup, nav, section {
+  /* Corrects block display not defined in IE6/7/8/9 & FF3. */
+  display: block;
+}
+
+audio, canvas, video {
+  /* Corrects inline-block display not defined in IE6/7/8/9 & FF3. */
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+}
+
+audio:not([controls]), [hidden] {
+  /* Prevents modern browsers from displaying audio without controls. */
+  display: none;
+}
+
+html {
+  /* Corrects text resizing oddly when body font-size is in ems. */
+  font-size: 100%;
+  /* Keeps page centred in all browsers regardless of content height. */
+  overflow-y: scroll;
+  /* Prevents iOS text size adjustment after orientation change. */
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+body {
+  /* Addresses margins handled incorrectly in IE6/7. */
+  margin: 0;
+}
+
+body, button, input, select, textarea {
+  /* Addresses font-family inconsistency between textarea and other form elements. */
+  font-family: sans-serif;
+}
+
+a {
+  color: #00e;
+}
+
+a:visited { color: #551a8b; }
+a:focus {
+  /* Addresses outline displayed oddly in Chrome. */
+  outline: thin dotted;
+}
+a:hover, a:active {
+  /* Improves readability when focused and mouse hovered. */
+  outline: 0;
+}
+
+abbr[title] {
+  /* Addresses styling not present in IE7/8/9, S5, Chrome. */
+  border-bottom: 1px dotted;
+}
+b, strong { /* Addresses style set to bolder in older browsers. */ font-weight: bold; }
+dfn { /* Addresses styling not present in S5, Chrome. */ font-style: italic; }
+mark { /* Addresses styling not present in IE6/7/8/9. */ background: #ff0; color: #000; }
+
+pre, code, kbd, samp {
+  /* Corrects font family set oddly in IE6, S4/5, Chrome. */
+  font-family: monospace, serif;
+  _font-family: 'courier new', monospace;
+  font-size: 1em;
+}
+
+pre {
+  /* Improves readability of pre-formatted text in all browsers. */
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+q {
+  /* Addresses CSS quotes not supported in IE6/7. */
+  quotes: none;
+}
+q::before, q::after {
+  /* Addresses quote property not supported in S4. */
+  content: none;
+}
+small { font-size: 75%; }
+blockquote { margin: 1em 40px; }
+
+/* Prevents sub and sup affecting line-height in all browsers.
+   See https://gist.github.com/413930. */
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup { top: -0.5em; }
+sub { bottom: -0.25em; }
+
+ul, ol {
+  margin: 1em 0;
+  padding: 0 0 0 40px;
+}
+
+dd { margin: 0 0 0 40px; }
+nav ul, nav ol {
+  list-style: none;
+  list-style-image: none;
+}
+
+img {
+  /* Removes border when inside an a element in IE6/7/8/9. */
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+}
+
+svg:not(:root) { /* Corrects overflow displayed oddly in IE9. */ overflow: hidden; }
+figure { /* Addresses margin not present in IE6/7/8/9, S5, O11. */ margin: 0; }
+form { /* Corrects margin displayed oddly in IE6/7. */ margin: 0; }
+fieldset { /* Defines consistent margin and padding. */ margin: 0 2px; padding: 0.35em 0.625em 0.75em; }
+legend { border: 0; *margin-left: -7px; }
+
+button, input, select, textarea {
+  /* Corrects font size not being inherited in all browsers. */
+  font-size: 100%;
+  margin: 0;
+  vertical-align: baseline;
+  *vertical-align: middle;
+}
+
+button, input { line-height: normal; *overflow: visible; }
+table button, table input {
+  /* Corrects overlap and whitespace issue in IE6/7. */
+  *overflow: auto;
+}
+
+button, html input[type="button"], html input[type="reset"], html input[type="submit"] {
+  /* Improves usability and consistency of cursor style. */
+  cursor: pointer;
+  -webkit-appearance: button;
+}
+
+input[type="checkbox"], input[type="radio"] {
+  /* Addresses box sizing set to content-box in IE8/9. */
+  box-sizing: border-box;
+  padding: 0;
+}
+
+button::-moz-focus-inner, input::-moz-focus-inner {
+  /* Corrects inner padding and border displayed oddly in FF3/4. */
+  border: 0;
+  padding: 0;
+}
+
+textarea {
+  /* Removes default vertical scrollbar and improves alignment. */
+  overflow: auto;
+  vertical-align: top;
+}
+table {
+  /* Removes most spacing between table cells. */
+  border-collapse: collapse;
+  border-spacing: 0;
+}

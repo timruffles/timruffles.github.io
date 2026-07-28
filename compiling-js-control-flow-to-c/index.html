@@ -1,31 +1,34 @@
 <!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Compiling JS control-flow to C</title>
-  <meta name="description" content="Let&apos;s look at how I implemented JS&apos;s `if` statement in the [`js-to-c`](https://github.com/timruffles/js-to-c/) compiler. First, let&apos;s write a JS `if`:">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/style.css">
-  <link rel="alternate" type="application/rss+xml" title="Subscribe to RSS feed" href="/rss.xml" />
-</head>
-<body class="post">
-  <div class="paper">
-    <div class="rule"></div>
-    <div class="inner">
-      <nav class="nav">
-        <a href="/">Home</a>
-        <a href="/rss.xml">RSS</a>
-        <a href="/me">Me</a>
-      </nav>
-      <main>
-        <article class="article">
-    <h1 class="article-title">Compiling JS control-flow to C</h1>
-    <div class="article-date">16 Mar 2019</div>
-    
-    <div class="article-body"><p>Let&#39;s look at how I implemented JS&#39;s <code>if</code> statement in the <a href="https://github.com/timruffles/js-to-c/" ><code>js-to-c</code></a> compiler. First, let&#39;s write a JS <code>if</code>:</p>
+      <head>
+        <title>Compiling JS control-flow to C</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width">
+        <meta name="description" content="Let&apos;s look at how I implemented JS&apos;s `if` statement in the [`js-to-c`](https://github.com/timruffles/js-to-c/) compiler. First, let&apos;s write a JS `if`:" >
+        <link rel="stylesheet" href="/css/normalize.css" type="text/css">
+        <link rel="stylesheet" href="/css/style.css" type="text/css">
+        <link rel="stylesheet" href="/css/prism-ghcolors.css" type="text/css">
+        <link rel="alternate" type="application/rss+xml" title="Subscribe to RSS feed" href="/rss.xml" />
+      </head>
+      <body class="article">
+        <div class="mast">
+          <div class='top-bar reading'>
+              <div class="links logical">
+                <div class="navigation logical">
+                  <a href="/">Home</a>
+                  <a href="/rss.xml">RSS</a>
+                  <a href="/me">
+                      Tim Ruffles
+                  </a>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="content" class="reading">
+           
+
+           <div class="body">
+              <h1><a href="/compiling-js-control-flow-to-c">Compiling JS control-flow to C</a></h1>
+  <p>Let&#39;s look at how I implemented JS&#39;s <code>if</code> statement in the <a href="https://github.com/timruffles/js-to-c/" ><code>js-to-c</code></a> compiler. First, let&#39;s write a JS <code>if</code>:</p>
 <pre><code class="language-js"><span class="token keyword">if</span> <span class="token punctuation">(</span>Math<span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">></span> <span class="token number">0.5</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'heads'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
@@ -157,16 +160,19 @@
 <pre><code><span class="token keyword">function</span> <span class="token function">compileBreakStatement</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> `<span class="token keyword">break</span><span class="token punctuation">;</span>` <span class="token punctuation">}</span>
 <span class="token keyword">function</span> <span class="token function">compileContinueStatement</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> `<span class="token keyword">continue</span><span class="token punctuation">;</span>` <span class="token punctuation">}</span></code></pre>
 <p>In the <code>for</code> example, you can see all of the JS <code>test</code> <code>body</code> <code>update</code> steps are in the C <code>while</code>&#39;s body, so <code>continue</code> and <code>break</code> will work as expected by being compiled one-to-one with their C equivalent. Take a look at the <code>forIn</code> and <code>while</code> loops in the js2c source and you&#39;ll see the same is true of them. Compiling an imperative language into another imperative language has let us piggy-back off the target language&#39;s constructs. There&#39;s something deep and satisfying about the logic of that translation.</p>
-</div>
-    <div class="article-footer">
-    <nav class="post-nav"><a class="nav-prev" href="/architecture-for-a-js-to-c-compiler">
-      <span class="nav-label">Previous</span>
-      <span class="nav-title">← Architecture for a JS to C compiler</span>
-    </a><a class="nav-next" href="/the-weirdest-javascript-syntax">
-      <span class="nav-label">Next</span>
-      <span class="nav-title">The Weirdest JavaScript syntax →</span>
-    </a></nav>
-    <div class="comments">
+
+  <div class="article-footer">
+  <p class=nav>
+    Next: <a href="/the-weirdest-javascript-syntax">
+      The Weirdest JavaScript syntax
+    </a>
+    </p>
+  <p class=nav>
+    Previous: <a href="/architecture-for-a-js-to-c-compiler">
+      Architecture for a JS to C compiler
+    </a>
+    </p>
+        <div class="comments">
         
         <p class="comment-help">
             <a href="https://github.com/timruffles/timruffles.github.io/issues/100" title="Comments handled via Github">
@@ -174,11 +180,12 @@
             </a> 💬 
         </p>
   </div>
-  </div>
-  </article>
-      </main>
-      <footer class="site-footer">📩 hello＠timr · co</footer>
     </div>
-  </div>
-</body>
-</html><!-- built from 2cb76aad225e2bec47f9e82235c50749adf6ffa6 -->
+            </div>
+        </div>
+        <div class="footer reading">
+          <div class="container">
+            <p>📩 hello＠timr · co</p>
+          </div>
+        </div>
+      </body><!-- built from 6416c03f101d5cfb917cdcec9294afca4590db9c -->

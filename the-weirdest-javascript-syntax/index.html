@@ -1,31 +1,34 @@
 <!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>The Weirdest JavaScript syntax</title>
-  <meta name="description" content="I have bad news. The following is valid, spec compliant JS syntax:">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/style.css">
-  <link rel="alternate" type="application/rss+xml" title="Subscribe to RSS feed" href="/rss.xml" />
-</head>
-<body class="post">
-  <div class="paper">
-    <div class="rule"></div>
-    <div class="inner">
-      <nav class="nav">
-        <a href="/">Home</a>
-        <a href="/rss.xml">RSS</a>
-        <a href="/me">Me</a>
-      </nav>
-      <main>
-        <article class="article">
-    <h1 class="article-title">The Weirdest JavaScript syntax</h1>
-    <div class="article-date">18 Apr 2019</div>
-    
-    <div class="article-body"><p>I have bad news. The following is valid, spec compliant JS syntax:</p>
+      <head>
+        <title>The Weirdest JavaScript syntax</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width">
+        <meta name="description" content="I have bad news. The following is valid, spec compliant JS syntax:" >
+        <link rel="stylesheet" href="/css/normalize.css" type="text/css">
+        <link rel="stylesheet" href="/css/style.css" type="text/css">
+        <link rel="stylesheet" href="/css/prism-ghcolors.css" type="text/css">
+        <link rel="alternate" type="application/rss+xml" title="Subscribe to RSS feed" href="/rss.xml" />
+      </head>
+      <body class="article">
+        <div class="mast">
+          <div class='top-bar reading'>
+              <div class="links logical">
+                <div class="navigation logical">
+                  <a href="/">Home</a>
+                  <a href="/rss.xml">RSS</a>
+                  <a href="/me">
+                      Tim Ruffles
+                  </a>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="content" class="reading">
+           
+
+           <div class="body">
+              <h1><a href="/the-weirdest-javascript-syntax">The Weirdest JavaScript syntax</a></h1>
+  <p>I have bad news. The following is valid, spec compliant JS syntax:</p>
 <pre><code class="language-js"><span class="token function">foo</span><span class="token punctuation">(</span><span class="token string">"bar"</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token number">42</span><span class="token punctuation">;</span></code></pre>
 <p>What in the Crockford is going on?</p>
 <p>Working on my <a href="https://github.com/timruffles/js-to-c" >JS to C compiler</a> I&#39;ve spent a fair bit of time reading and implementing the ECMAScript spec, specifically ES5 strict mode as it&#39;s small(er). It&#39;s in ES5 and earlier that this weird syntax exists - it <a href="http://ecma-international.org/ecma-262/6.0/#sec-additions-and-changes-that-introduce-incompatibilities-with-prior-editions" >was removed in ES2015</a>. If you read the ES1-5 specs on function calls, <a href="https://www.ecma-international.org/ecma-262/5.1/#sec-8.7" >you&#39;ll find</a> functions can return an internal spec type called a <code>Reference</code></p>
@@ -52,16 +55,19 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <span class="token keyword">var</span> env <span class="token operator">=</span> sh<span class="token punctuation">.</span><span class="token function">Environment</span><span class="token punctuation">(</span><span class="token string">"PROCESS"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token function">env</span><span class="token punctuation">(</span><span class="token string">"TEST"</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token string">"testvalue"</span><span class="token punctuation">;</span></code></pre>
 <p>Absolutely no reason this couldn&#39;t have been implemented via <code>sh.Environment(&quot;Process&quot;).Set(&quot;TEST&quot;,&quot;testvalue&quot;)</code>, but one fateful day in the 90s someone made a different call. That it affected five generations of the language spec teaches us syntax is the slowest thing to change out there: language designers beware!</p>
-</div>
-    <div class="article-footer">
-    <nav class="post-nav"><a class="nav-prev" href="/compiling-js-control-flow-to-c">
-      <span class="nav-label">Previous</span>
-      <span class="nav-title">← Compiling JS control-flow to C</span>
-    </a><a class="nav-next" href="/representing-js-values-in-c">
-      <span class="nav-label">Next</span>
-      <span class="nav-title">Representing JS Values in C →</span>
-    </a></nav>
-    <div class="comments">
+
+  <div class="article-footer">
+  <p class=nav>
+    Next: <a href="/representing-js-values-in-c">
+      Representing JS Values in C
+    </a>
+    </p>
+  <p class=nav>
+    Previous: <a href="/compiling-js-control-flow-to-c">
+      Compiling JS control-flow to C
+    </a>
+    </p>
+        <div class="comments">
         
         <p class="comment-help">
             <a href="https://github.com/timruffles/timruffles.github.io/issues/107" title="Comments handled via Github">
@@ -69,11 +75,12 @@ console<span class="token punctuation">.</span><span class="token function">log<
             </a> 💬 
         </p>
   </div>
-  </div>
-  </article>
-      </main>
-      <footer class="site-footer">📩 hello＠timr · co</footer>
     </div>
-  </div>
-</body>
-</html><!-- built from 2cb76aad225e2bec47f9e82235c50749adf6ffa6 -->
+            </div>
+        </div>
+        <div class="footer reading">
+          <div class="container">
+            <p>📩 hello＠timr · co</p>
+          </div>
+        </div>
+      </body><!-- built from 6416c03f101d5cfb917cdcec9294afca4590db9c -->
