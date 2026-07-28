@@ -101,14 +101,12 @@ const SITE = 'https://www.timr.co'
 export function rss(articles: Article[]): string {
   const items = articles.map(article => {
     const url = `${SITE}${article.slug}`
-    const summary = article.summary && article.summary !== 'TODO'
-      ? article.summary : article.description
     return `    <item>
       <title>${escapeXML(article.title)}</title>
       <link>${url}</link>
       <guid isPermaLink="true">${url}</guid>
       <pubDate>${rfc822(article.date)}</pubDate>
-      <description>${escapeXML(summary)}</description>
+      <description>${escapeXML(article.description)}</description>
     </item>`
   }).join('\n')
 
