@@ -1,8 +1,8 @@
 {
   "scripts": {
-    "build": "npm run -s build-sass && npm run -s build-site",
+    "build": "npm run -s build-css && npm run -s build-site",
     "build-site": "BASE_URL='/' ts-node build.ts",
-    "build-sass": "node-sass --recursive --output public/css/ --source-map true --source-map-contents views/css",
+    "build-css": "cp views/css/*.css public/css/",
     "local": "act",
     "watch": "concurrently 'chokidar \"*.ts\" \"src/*.ts\" \"**/*.txt\" \"views/**/*\" \"public/{img,js}/*\" -c \"npm run -s build\"' 'http-server -c-1 gh-pages'",
     "start": "npm run -s watch"
@@ -32,7 +32,6 @@
     "glob": "^7.1.6",
     "jsdom": "^16.4.0",
     "marked": "^1.2.7",
-    "node-sass": "^8.0.0",
     "prismjs": "^1.23.0",
     "ts-node": "^9.1.1",
     "typescript": "^4.1.3",
