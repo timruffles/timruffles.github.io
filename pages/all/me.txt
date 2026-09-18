@@ -1,9 +1,7 @@
 title: Me
-date: 2011/07/09
+date: 2026/09/18
 body: |
 
-  I'm an engineer at poolside.ai, previously at Plaid, GitHub and Cloudflare.
+  I'm an engineer at Nvidia, previously at Poolside, Plaid, GitHub and Cloudflare.
 
-  I [speak](/speaking) at user-groups and conferences.
-
-  I was a [Google Developer Expert](https://web.archive.org/web/20170715082055/https://developers.google.com/experts/people/tim-ruffles) for the web platform between 2014-2020. I also [trained developers](/developer-training) for organisations like The FT, White October Events (Angular Conf, Render etc), Gilt.com and the European Bioinformatics Institute.
+  I was a [Google Developer Expert](https://web.archive.org/web/20170715082055/https://developers.google.com/experts/people/tim-ruffles) for the web platform between 2014-2020. I also [trained developers](/developer-training) for organisations like The FT, White October Events (Angular Conf, Render etc), Gilt.com and the European Bioinformatics Institute. I [speak](/speaking) at user-groups and conferences; most recently on [gossip protocols](https://www.youtube.com/watch?v=nJe4encF22s) at Papers we Love London.
