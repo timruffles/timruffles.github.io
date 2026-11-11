@@ -1,0 +1,24 @@
+LLMs and craft
+
+LLMs have changed the craft of programming, and it has had me thinking of the tension between output and craft for makers: making more and better things, versus getting better at making. 
+
+I remember the moment I first heard about code. I was sitting by the SS Great Britain in Bristol, grilling my dad not about the massive steamship next to me, but about how the games I loved were made. Soon after he set me up with QBasic, and some time after that I’d made my first game, a text based game where you were ‘Cut-me-own-throat-dibbler’ from the Discworld novels, selling dubious meat products on a stick.
+
+From there, programming turned out to be the rabbit hole that has never ended for me. It is deeper, and wider, than I can ever fully explore. Build a website, a web app, learn a language a year, wrestle with different models of concurrency, distributed systems, operating systems, compilers: a never ending lists of tools and subjects to figure out. Picking up the O’Reilly book for a new language has always been a treat for me.
+
+However, I can't look back on a roster of personal projects that would have delighted the child me. I've acquired and sharpened a lot of metaphorical saws, without cutting much wood with each. I loved the process, but I have mixed feelings to realise my largest personal project - my JS to C compiler - has meaning only to others who love the craft. The insularity limits the contribution my projects can make to others.
+
+Then LLMs  arrived. I saw many of the craft skills I've spent time mastering becoming automated.
+
+I felt the pain of seeing skills learned the hard way becoming less valuable. But I become okay with it, from two points of view.
+
+1. excitment
+2. impact on others
+
+
+That gets back to the tension I see about spending our energy on craft vs output. Because it's the things we put out into the world, not our skills, which impact others.
+
+<TODO>
+
+
+ I'd love to pay forward the gift I was given, and perhaps make soemthing which causes a child’s eyes to light up, and them to ask: ‘how can I learn to make something like that?!’.

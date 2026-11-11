@@ -1,0 +1,18 @@
+Initial build out
+
+Starting out the project I had two goals: ensuring I could let the model work undirected for long periods of time without supervision, and ensuring the architecture emobidied some important constraints early.
+
+The architectural decisions were:
+1. the game must run headlessly, including all player commands
+2. the UI is just one client to the headless game, and works async with it to keep the UI perfectly smooth 
+
+(1) Was to ensure the core game logic and AI could be developed in parallel by agents without requiring huge resources from many instances of Unity. It also made it easy to build new development tools and test harnesses.
+
+(2) Was to ensure the UI didn't jank up, or start to define how the core game logic was shaped.
+
+Build out
+--------
+
+I first had agents build a spec for the game from the original manuals and online strategy guides. Then I had the agents build out an initial version of the game in unity, back and front end, using their own computer use and visual intelligence to check the UI against the reference. 
+
+This got me to an unpolished, but functional, version of the game extremely fast. It looked pretty bad, but the core logic was there. 

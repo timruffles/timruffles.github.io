@@ -1,0 +1,18 @@
+Game AI loop
+
+The original Ascendancy AI was pretty weak, so for the homage I wanteed to fix that. Game AI felt remarkably well suited to a verification loop, with a combination of supervision with a known strong model (i.e. a LLM), and self-play, where candidates played each other.
+
+One of the early architectural decisions was to ensure the game could be played headlessly, to make it easy to do exactly this type of thing. Therefore the loop was pretty simple:
+1. target: beat OpenAI Luna at the game consistently
+2. loop
+    1. identify candidate traditional AI approach
+    2. implement, test against other candidates
+    3. once improvement demonstrated, re-test against Luna, and look for potential areas to improve
+
+Using Luna let me start the process faster, and direct it more than a completely open genetic algorithm would. The goal here wasn't to come up with novel game AI techniques either. Well understood approaches to 4x AI were fine.
+
+After I'd got a pretty decent model, optimisation became important. I did not want players having to sit around while AI did its thing. This was another 'embarassingly automatable' process: set a target wall-clock time per turn on my machine, with max AI species (6), and let the model optimise it down. This dropped the time from TODO to TODO.
+
+I realised midway through that the AI would be an excellent way to implement automation to avoid late-game micromangement too. 
+
+TODO current approach ELO vs Luna, original AI and anatagoniser.
