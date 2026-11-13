@@ -96,7 +96,7 @@ export async function loadArticles() {
 }
 
 async function loadActiveContent(dir: string, config: Config): Promise<(Article | Error)[]> {
-  const files = await promisify(glob)(`${dir}/**/*.txt`)
+  const files = await promisify(glob)(`${dir}/**/*.{txt,md}`)
 
   const results = (await Promise.all(files.map(p => loadPage(p, config))))
       .filter(e => e instanceof Error ? true : e.status === 'active')
@@ -144,10 +144,31 @@ function writeArticle(outputPath: string, article: ArticleForRendering, cfg: Con
 async function loadPage(path: string, cfg: Config): Promise<Article | Error> {
   const found = fs.readFileSync(path, {encoding: 'utf8'})
   try {
-    return Article.fromObject(path, yaml.parse(found), cfg)
+    const raw = path.endsWith('.md') ? parseMarkdown(found) : yaml.parse(found)
+    return Article.fromObject(path, raw, cfg)
   } catch(e) {
     return new ArticleError(e.message, path)
   }
+}
+
+function parseMarkdown(source: string) {
+  const opening = /^\uFEFF?---[ \t]*\r?\n/.exec(source)
+  if (!opening) {
+    throw new Error('Markdown must start with YAML frontmatter delimited by ---')
+  }
+
+  const content = source.slice(opening[0].length)
+  const closing = /^---[ \t]*(?:\r?\n|$)/m.exec(content)
+  if (!closing) {
+    throw new Error('Missing closing --- delimiter for YAML frontmatter')
+  }
+
+  const metadata = yaml.parse(content.slice(0, closing.index))
+  if (!metadata || typeof metadata !== 'object' || Array.isArray(metadata)) {
+    throw new Error('YAML frontmatter must be a mapping of metadata fields')
+  }
+
+  return {...metadata, body: content.slice(closing.index + closing[0].length)}
 }
 
 class ArticleError extends Error {

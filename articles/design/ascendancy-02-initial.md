@@ -1,4 +1,8 @@
-Initial build out
+---
+title: Initial build out
+date: 2026-11-13
+draft: true
+---
 
 Starting out the project I had two goals: ensuring I could let the model work undirected for long periods of time without supervision, and ensuring the architecture emobidied some important constraints early.
 

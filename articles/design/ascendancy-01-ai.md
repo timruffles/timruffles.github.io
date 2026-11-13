@@ -1,4 +1,8 @@
-Game AI loop
+---
+title: Game AI loop
+date: 2026-11-13
+draft: true
+---
 
 The original Ascendancy AI was pretty weak, so for the homage I wanteed to fix that. Game AI felt remarkably well suited to a verification loop, with a combination of supervision with a known strong model (i.e. a LLM), and self-play, where candidates played each other.
 

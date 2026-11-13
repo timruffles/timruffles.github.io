@@ -4,7 +4,7 @@
     "build-site": "BASE_URL='/' ts-node build.ts",
     "build-css": "cp views/css/*.css public/css/",
     "local": "act",
-    "watch": "concurrently 'chokidar \"*.ts\" \"src/*.ts\" \"**/*.txt\" \"views/**/*\" \"public/{img,js}/*\" -c \"npm run -s build\"' 'http-server -c-1 gh-pages'",
+    "watch": "concurrently 'chokidar \"*.ts\" \"src/*.ts\" \"**/*.txt\" \"{articles,blogs,pages}/**/*.md\" \"views/**/*\" \"public/{img,js}/*\" -c \"npm run -s build\"' 'http-server -c-1 gh-pages'",
     "start": "npm run -s watch"
   },
   "resolutions": {
