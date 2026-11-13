@@ -2,6 +2,7 @@ Building a Homage to Ascendancy
 
 I'm building a remake of a game that fascinated me from the first time I saw it with its unique look, feel and sound: Ascendancy. Take a look at this:
 
+![planet](/asc/planet.jpg)
 
 What I think stands up even today is the art direction, the decision to show you how a planet feels rather than turning it into a spreadsheet. If it's flourishing, there's a lush growth in the prosperity section.
 
