@@ -15,7 +15,7 @@ As a comparison, here's Master of Orion from 2016, much more spreadsheety: "+2 f
 
 ![planet view origin](/img/asc/planet-orion.jpg)
 
-The design choices of the game were great throughout, but limited by the resources of the time. The ambitious 3D galaxy and rotating star-systems feel hard to use these days, with its on-screen camera controls: 
+The design choices of the game were great throughout, but limited by the resources of the time. The ambitious 3D galaxy and rotating star-systems feel hard to use these days, with their on-screen camera controls: 
 
 ![system](/img/asc/system.png)
 
