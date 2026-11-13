@@ -6,7 +6,14 @@
     <atom:link href="https://www.timr.co/rss.xml" rel="self" type="application/rss+xml" />
     <description>Tim Ruffles' blog</description>
     <language>en-GB</language>
-    <lastBuildDate>Fri, 12 May 2023 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 13 Nov 2026 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Building a Homage to Ascendancy: Strange Suns</title>
+      <link>https://www.timr.co/building-a-homage-to-ascendancy-strange-suns</link>
+      <guid isPermaLink="true">https://www.timr.co/building-a-homage-to-ascendancy-strange-suns</guid>
+      <pubDate>Fri, 13 Nov 2026 00:00:00 +0000</pubDate>
+      <description>I&apos;m building a remake of a game that fascinated me from the first time I experienced its unique look, feel and [sound](https://www.youtube.com/watch?v=uVqS7uDv_OE): Ascendancy.</description>
+    </item>
     <item>
       <title>Funny once ain’t enough: generative AI will not replace creatives</title>
       <link>https://www.timr.co/funny-once-generative-ai-and-creatives</link>
