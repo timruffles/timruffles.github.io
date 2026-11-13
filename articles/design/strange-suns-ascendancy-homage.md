@@ -1,17 +1,17 @@
 ---
 title: "Building a Homage to Ascendancy: Strange Suns"
-date: "2026/10/13"
+date: "2026/11/13"
 ---
 
 I'm building a remake of a game that fascinated me from the first time I experienced its unique look, feel and [sound](https://www.youtube.com/watch?v=uVqS7uDv_OE): Ascendancy. 
 
 ![species](/img/asc/game.png)
 
-What I think stands up even today, over 30 years since its release, is the art direction and atmosphere. For example, it makes you feel the state of your planets visually, rather than turning it into a spreadsheet. If a planet is flourishing, you see it immediately from the lush growth; you can see the glow if it's a scientific powerhouse:
+What I think stands up even today, over 30 years since its release, is the art direction and atmosphere. For example, it makes you feel the state of your planets visually, rather than turning it into a spreadsheet. If a planet is flourishing, you see it immediately from the lush growth; you can see from the glow if it's a scientific powerhouse:
 
 ![planet](/img/asc/planet.png)
 
-As a comparison, here's Master of Orion from 2016, much more spreadsheet-y. +2 food, not a vigorous plant. That nudges the player towards feeling the game is a numerical puzzle rather than an immersive experience:
+As a comparison, here's Master of Orion from 2016, much more spreadsheety: "+2 food". Collapsing everything to figures nudges the player towards feeling the game is just a numerical puzzle to crack, breaking the immersion:
 
 ![planet view origin](/img/asc/planet-orion.jpg)
 
