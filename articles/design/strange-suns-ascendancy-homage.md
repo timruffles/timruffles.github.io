@@ -1,5 +1,5 @@
 ---
-title: "Building a Homage to Ascendancy: Strange Suns"
+title: "Building a homage to Ascendancy: Strange Suns"
 date: "2026/11/13"
 ---
 
