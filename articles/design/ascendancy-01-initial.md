@@ -64,7 +64,6 @@ Over twelve hours and seventy-six commits, the spec had became a reality (spot t
 2026-10-11T22:08:48+01:00 abb5d7e73 Add deterministic ship combat and pluggable original AI
 ...
 2026-10-12T07:57:05+01:00 151770dd3 Add four surface structure model references
-2026-10-12T09:17:56+01:00 80a047852 Add first species portrait art targets
 ```
 
 What was cool was looking back over the agent session and finding all the images it had captured overnight:
