@@ -1,9 +1,9 @@
 ---
 title: "Homage to Ascendancy: devblog 1"
-date: 2026-11-13
+date: 2026-11-19
 ---
 
-For [this project](/building-a-homage-to-ascendancy-strange-suns) to succeed, I knew I needed to take approaches that let agents work undirected for long periods of time without supervision. I'm working full time, so any other approach would leave me either with an unpaid mortgage or an unfinished game.
+For [this project](/building-a-homage-to-ascendancy-strange-suns) to succeed, I knew I needed to take approaches that let agents work for long periods without supervision. I'm working full time, so any other approach would leave me either with an unpaid mortgage or an unfinished game.
 
 From experience, this would require pre-work to ensure the agent had guardrails, and that the tools it needed actually worked. It's never fun to find your agent has spent hours in a `/goal` loop sadly observing it still lacked some critical permission or dependency.
 
@@ -11,11 +11,11 @@ Since I'm reinterpreting an existing game, I had excellent source material for t
 
 ![ascendancy's 1995 manual](img/asc/blog-01/manual.png)
 
-From these references, I had an agent write up a programmer-level spec of the game. I also found a decompilation of the original to look up ambiguous rules. Having a spec compiled once would save a huge amount of time for agents vs repeatedly digging around in the source material. Also, later on I could edit it to indicate deliberate changes from the original rules, e.g. replacing AI, adding automation etc.
+From these references, I had an agent write up a programmer-level spec of the game. I also found a decompilation of the original to look up ambiguous rules. Compiling the spec once would save a huge amount of time for agents vs repeatedly digging around in the source material. Also, later on I could edit it to indicate deliberate changes from the original rules, e.g. replacing AI, adding automation etc.
 
 ## Automatic visual QA
 
-I also realised that running the original in DOSBox would let agents do high-fidelity checks themselves. So before running I also proved out that the model could run Ascendancy in DoxBox to check UI and behaviours that weren't clearly specified in the manual. Watching computer-use play a game from 1995 in DOSBox is wild:
+I also realised that running the original in DOSBox would let agents do high-fidelity checks themselves. So before running I proved out that the model could run Ascendancy in DOSBox to check UI and behaviours that weren't clearly specified in the manual. Watching a computer-use play a DOS game from 1995 is wild:
 
 ![agent playing a game from 1995](img/asc/blog-01/agent-plays-ascendancy-1995.mp4)
 
@@ -23,17 +23,17 @@ I also made sure the agent could get a hello-world Unity project running, and wa
 
 ![unity hello 4x](img/asc/blog-01/new-game-foundation.png#medium)
 
-Finally, I noticed Unity had built-in AI-based 3D model generation! So I could start with some vaguely Ascendancy-like ships.
+Finally, I noticed Unity's built-in AI 3D model generation! So I could start with some vaguely Ascendancy-like ships.
 
 ## Architecture
 
-One major architectural decision I made before starting was that the game logic must run headlessly, including all player commands, without coupling to Unity or the UI. The UI must dispatch commands to the game engine, but the coupling must run only from UI to game, never the reverse. 
+One major architectural decision I made before starting was that the game logic must run headlessly, including all player commands, without coupling to Unity or the UI. The UI must dispatch commands to the game engine, but the coupling must point only from UI to game, never the reverse.
 
 This was to ensure the core game logic and AI could be developed in parallel by agents without requiring huge resources from many instances of Unity. It'd also make it easy to build new development tools and test harnesses.
 
 ## `goal.md` version one
 
-I wanted my version of the game to be 3D throughout, with modern UI conventions. Put together with the above, this meant my first day's `goal.md` was:
+I wanted my version of the game to be 3D throughout, with modern UI conventions. Combined with the above, this meant my first day's `goal.md` was:
 
 ```text
 create a unity version of the classic game ascendancy. this should:
@@ -58,7 +58,7 @@ guidelines:
 
 ## The first overnight run
 
-With all the prep work done, at 9.20PM I prompted `/goal complete the work in goal.md` and called it a night. I woke up to... a game! 
+With all the prep work done, at 9.20pm I prompted `/goal complete the work in goal.md` and called it a night. I woke up to… a game! 
 
 ![first night result - a game!](img/asc/blog-01/agent-self-capture-galaxy-final-all-known-T02-23.png)
 
@@ -76,7 +76,6 @@ Over twelve hours and seventy-six commits, the spec had became a reality:
 ```
 
 What was cool was looking back over the agent session and finding all the images it had captured overnight:
-
 
 ![agent captures from the first night](img/asc/blog-01/first-night-agent-captures.mp4)
 
