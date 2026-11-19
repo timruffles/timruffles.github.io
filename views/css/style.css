@@ -132,6 +132,10 @@ table { border: 1px solid #eeeeee; }
 }
 blockquote p { margin: 0; white-space: normal; }
 
+/* ```gitlog fences - see renderGitLog() in src/records.ts */
+.gl-date { color: #aaa; }
+.gl-gap { color: #bbb; }
+
 /* media: ![alt](src#small) / ![alt](src.mp4#loop) - see image() in src/records.ts */
 .body .media { display: block; margin: 1em auto; }
 .body .media.m-medium { width: 70%; }

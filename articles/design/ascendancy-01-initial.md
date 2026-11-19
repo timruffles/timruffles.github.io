@@ -46,25 +46,17 @@ create a unity version of the classic game ascendancy. this should:
 - use architecture.md for unity approach
 	- start with pure code implementation of the game, build UI later
 	- lean as hard as possible on headless implementation of systems for fast development
-
-
-guidelines:
-- plan a project
-- use Luna 6 for coding implementation. keep the individual units of coding to do small and focussed, e.g. a chunky function or a small class; half a day's work for a human programmer. aim for chunks of work that will take 50-100 tool-calls, and supervise at that level to keep your time well spent
-  - when you need to find something out, use a research sub-agent and write findings to a markdown file. this will (a) keep it around long term (b) avoid wasting your context
-- use sub-agents as required
-- keep your project ledger as files, use git to record.
 ```
 
 ## The first overnight run
 
-With all the prep work done, at 9.20pm I prompted `/goal complete the work in goal.md` and called it a night. I woke up to… a game! 
+With all the prep work done, at 9.20pm I prompted `/goal complete the work in goal.md` and called it a night. I woke up to… a game! An _extremely_ ugly game, but a game:
 
 ![first night result - a game!](img/asc/blog-01/agent-self-capture-galaxy-final-all-known-T02-23.png)
 
-Over twelve hours and seventy-six commits, the spec had became a reality:
+Over twelve hours and seventy-six commits, the spec had became a reality (spot the lazy human commit messages):
 
-```text
+```gitlog
 2026-10-11T21:03:24+01:00 757e41097 initial
 2026-10-11T21:18:59+01:00 19352ce7b pre big run
 2026-10-11T21:24:03+01:00 c0361c881 Plan Ascendancy recreation and preserve original content tables

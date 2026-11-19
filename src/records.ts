@@ -66,6 +66,9 @@ export class Article {
 
     // rewrite all links
     function htmlRenderer(fragment: string) {
+      // only parse when there's something to rewrite: JSDOM would auto-close a lone
+      // opening tag like <details>, breaking html wrapped around markdown blocks
+      if(!/<(img|a)[\s>]/i.test(fragment)) return fragment
       const dom = new JSDOM(`<!DOCTYPE html>${fragment}`).window.document;
       for(const el of dom.querySelectorAll('img')) {
         el.src = prepareHref(el.src)
@@ -124,6 +127,7 @@ export class Article {
 
     const html = attempt(() => marked(body, {
       highlight: (code, lang) => {
+        if(lang === 'gitlog') return renderGitLog(code)
         // no language, or ```text / ```plain / ```none => no highlighting, just escaped
         const grammar = lang && prism.languages[lang]
         if(!grammar) {
@@ -163,4 +167,22 @@ function truncate(s: string, max: number, replace: string): string {
 
 function trimSlashPrefix(href: string) {
   return href.replace(/^[/]/, '')
+}
+
+
+const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+
+/**
+ * ```gitlog fence: lines of `<iso timestamp> <hash> <message>` (git log --format='%aI %h %s').
+ * Hashes are dropped and timestamps shortened and lightened. Other lines (e.g. `...`) pass through.
+ */
+function renderGitLog(code: string): string {
+  return code.replace(/\n+$/, '').split('\n').map(line => {
+    const m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})\S*\s+[0-9a-f]{6,40}\s+(.*)$/.exec(line)
+    if(!m) return `<span class="gl-gap">${esc(line)}</span>`
+    const [, , mo, day, hh, mm, message] = m
+    return `<span class="gl-date">${MONTHS[+mo - 1]} ${+day} ${hh}:${mm}</span> ${esc(message)}`
+  }).join('\n')
 }
