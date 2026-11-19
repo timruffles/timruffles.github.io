@@ -132,10 +132,18 @@ table { border: 1px solid #eeeeee; }
 }
 blockquote p { margin: 0; white-space: normal; }
 
+/* media: ![alt](src#small) / ![alt](src.mp4#loop) - see image() in src/records.ts */
+.body .media { display: block; margin: 1em auto; }
+.body .media.m-medium { width: 70%; }
+.body .media.m-small { width: 40%; }
+.body video.media:not(.m-small):not(.m-medium) { width: 100%; }
+.body .media.m-loop { pointer-events: none; }
+
 @media (max-width: 600px) {
   body { line-height: 1.4; }
   .footer, .content, .reading, .comments, .posts .post { width: auto; padding: 0 1rem; overflow: visible; }
   h1 { margin: 0 0 .25rem; }
+  .body .media.m-medium, .body .media.m-small { width: 100%; }
 }
 
 @media (min-width: 600px) {

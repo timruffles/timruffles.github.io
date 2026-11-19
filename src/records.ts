@@ -8,6 +8,7 @@ import 'prismjs/components/prism-shell-session'
 import path from 'path'
 import crypto from "crypto";
 import {attempt} from "./language";
+import {imageSize} from "./image-size";
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom
 
@@ -87,9 +88,30 @@ export class Article {
       return /^(http|www|#)/.test(href) ? href : `${cfg.baseURL}${trimSlashPrefix(href)}`;
     }
 
-    // ![${text}](href)
+    // image path as written in markdown -> file under public/
+    function localFile(href: string) {
+      return path.join(__dirname, '..', 'public', decodeURIComponent(trimSlashPrefix(href)))
+    }
+
+    // ![${text}](href#modifier modifier) - modifiers are URL-fragment tokens, e.g.
+    //   ![alt](img/a.png#small)         images: small | medium | (default: full column width)
+    //   ![alt](img/a.mp4)               video: .mp4/.webm/.mov render a <video controls>
+    //   ![alt](img/a.mp4#loop)          video: loop = muted autoplay loop, no controls (gif-like)
+    // any token becomes a class "m-<token>" styled in views/css/style.css
     function image(srcURL: string, title: string, text: string) {
-      return `<img src="${prepareHref(srcURL)}" alt="${text || title || ''}" />`
+      const [path, fragment = ''] = srcURL.split('#')
+      const mods = fragment.split(/[,+]/).filter(m => /^[a-z0-9-]+$/.test(m))
+      const classes = ['media', ...mods.map(m => `m-${m}`)].join(' ')
+      const src = prepareHref(path)
+      if(/\.(mp4|webm|mov)$/i.test(path)) {
+        const attrs = mods.includes('loop') ? 'autoplay loop muted playsinline' : 'controls preload="metadata"'
+        const label = text || title
+        return `<video class="${classes}" src="${src}" ${attrs}${label ? ` aria-label="${label}"` : ''}></video>`
+      }
+      // intrinsic size lets the browser reserve space before load (no layout shift)
+      const size = /^(https?:)?\/\//.test(path) ? undefined : imageSize(localFile(path))
+      const dims = size ? ` width="${size.width}" height="${size.height}"` : ''
+      return `<img class="${classes}" src="${src}"${dims} alt="${text || title || ''}" />`
     }
 
     marked.use({
@@ -102,7 +124,12 @@ export class Article {
 
     const html = attempt(() => marked(body, {
       highlight: (code, lang) => {
-        return prism.highlight(code, prism.languages[lang] || prism.languages.clike, lang)
+        // no language, or ```text / ```plain / ```none => no highlighting, just escaped
+        const grammar = lang && prism.languages[lang]
+        if(!grammar) {
+          return code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        }
+        return prism.highlight(code, grammar, lang)
       }
     }))
     if(html instanceof Error) {
