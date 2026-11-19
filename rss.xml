@@ -6,7 +6,14 @@
     <atom:link href="https://www.timr.co/rss.xml" rel="self" type="application/rss+xml" />
     <description>Tim Ruffles' blog</description>
     <language>en-GB</language>
-    <lastBuildDate>Fri, 13 Nov 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 19 Nov 2026 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Homage to Ascendancy: devblog 1</title>
+      <link>https://www.timr.co/homage-to-ascendancy-devblog-1</link>
+      <guid isPermaLink="true">https://www.timr.co/homage-to-ascendancy-devblog-1</guid>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 +0000</pubDate>
+      <description>For [this project](/building-a-homage-to-ascendancy-strange-suns) to succeed, I knew I needed to take approaches that let agents work for long periods without supervision. I&apos;m working full time, so any other approach would leave me either with an unpaid mo…</description>
+    </item>
     <item>
       <title>Building a homage to Ascendancy: Strange Suns</title>
       <link>https://www.timr.co/building-a-homage-to-ascendancy-strange-suns</link>

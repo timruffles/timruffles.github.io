@@ -1,0 +1,97 @@
+<!doctype html>
+      <head>
+        <title>Homage to Ascendancy: devblog 1</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width">
+        <meta name="description" content="For [this project](/building-a-homage-to-ascendancy-strange-suns) to succeed, I knew I needed to take approaches that let agents work for long periods without supervision. I&apos;m working full time, so any other approach would leave me either with an unpaid mo…" >
+        <link rel="stylesheet" href="/css/normalize.css" type="text/css">
+        <link rel="stylesheet" href="/css/style.css" type="text/css">
+        <link rel="stylesheet" href="/css/prism-ghcolors.css" type="text/css">
+        <link rel="alternate" type="application/rss+xml" title="Subscribe to RSS feed" href="/rss.xml" />
+      </head>
+      <body class="article">
+        <div class="mast">
+          <div class='top-bar reading'>
+              <div class="links logical">
+                <div class="navigation logical">
+                  <a href="/">Home</a>
+                  <a href="/rss.xml">RSS</a>
+                  <a href="/me">
+                      Tim Ruffles
+                  </a>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="content" class="reading">
+           
+
+           <div class="body">
+              <h1><a href="/homage-to-ascendancy-devblog-1">Homage to Ascendancy: devblog 1</a></h1>
+  <p>For <a href="/building-a-homage-to-ascendancy-strange-suns" >this project</a> to succeed, I knew I needed to take approaches that let agents work for long periods without supervision. I&#39;m working full time, so any other approach would leave me either with an unpaid mortgage or an unfinished game.</p>
+<p>From experience, this would require pre-work to ensure the agent had guardrails, and that the tools it needed actually worked. It&#39;s never fun to find your agent has spent hours in a <code>/goal</code> loop sadly observing it still lacked some critical permission or dependency.</p>
+<p>Since I&#39;m reinterpreting an existing game, I had excellent source material for the guardrails: the game manuals and strategy guides. Feast your eyes on the manual&#39;s lovely 90s art:</p>
+<p><img class="media" src="/img/asc/blog-01/manual.png" width="1332" height="1864" alt="ascendancy&#39;s 1995 manual" /></p>
+<p>From these references, I had an agent write up a programmer-level spec of the game. I also found a decompilation of the original to look up ambiguous rules. Compiling the spec once would save a huge amount of time for agents vs repeatedly digging around in the source material. Also, later on I could edit it to indicate deliberate changes from the original rules, e.g. replacing AI, adding automation etc.</p>
+<h2 id="automatic-visual-qa">Automatic visual QA</h2>
+<p>I also realised that running the original in DOSBox would let agents do high-fidelity checks themselves. So before running I proved out that the model could run Ascendancy in DOSBox to check UI and behaviours that weren&#39;t clearly specified in the manual. Watching a computer-use play a DOS game from 1995 is wild:</p>
+<p><video class="media" src="/img/asc/blog-01/agent-plays-ascendancy-1995.mp4" controls preload="metadata" aria-label="agent playing a game from 1995"></video></p>
+<p>I also made sure the agent could get a hello-world Unity project running, and was able to control Unity to check its own UI work. Hello galaxy:</p>
+<p><img class="media m-medium" src="/img/asc/blog-01/new-game-foundation.png" width="1280" height="720" alt="unity hello 4x" /></p>
+<p>Finally, I noticed Unity&#39;s built-in AI 3D model generation! So I could start with some vaguely Ascendancy-like ships.</p>
+<h2 id="architecture">Architecture</h2>
+<p>One major architectural decision I made before starting was that the game logic must run headlessly, including all player commands, without coupling to Unity or the UI. The UI must dispatch commands to the game engine, but the coupling must point only from UI to game, never the reverse.</p>
+<p>This was to ensure the core game logic and AI could be developed in parallel by agents without requiring huge resources from many instances of Unity. It&#39;d also make it easy to build new development tools and test harnesses.</p>
+<h2 id="goalmd-version-one"><code>goal.md</code> version one</h2>
+<p>I wanted my version of the game to be 3D throughout, with modern UI conventions. Combined with the above, this meant my first day&#39;s <code>goal.md</code> was:</p>
+<pre><code class="language-text">create a unity version of the classic game ascendancy. this should:
+- pluggable sounds
+- modern (3d) graphics
+- modern UI implementation, but a similar look and feel 
+  - the UI should be improved in terms of reducing toil and have modern scrolling etc, e.g. wasd for free flying camera around the space zones
+  - planets should be a 3d and zoomable, but still fixed in rotation
+- have a pluggable AI system for controlling the enemies, with the original AI as the first implementation
+- use architecture.md for unity approach
+    - start with pure code implementation of the game, build UI later
+    - lean as hard as possible on headless implementation of systems for fast development
+
+
+guidelines:
+- plan a project
+- use Luna 6 for coding implementation. keep the individual units of coding to do small and focussed, e.g. a chunky function or a small class; half a day&#39;s work for a human programmer. aim for chunks of work that will take 50-100 tool-calls, and supervise at that level to keep your time well spent
+  - when you need to find something out, use a research sub-agent and write findings to a markdown file. this will (a) keep it around long term (b) avoid wasting your context
+- use sub-agents as required
+- keep your project ledger as files, use git to record.</code></pre>
+<h2 id="the-first-overnight-run">The first overnight run</h2>
+<p>With all the prep work done, at 9.20pm I prompted <code>/goal complete the work in goal.md</code> and called it a night. I woke up to… a game! </p>
+<p><img class="media" src="/img/asc/blog-01/agent-self-capture-galaxy-final-all-known-T02-23.png" width="1920" height="1080" alt="first night result - a game!" /></p>
+<p>Over twelve hours and seventy-six commits, the spec had became a reality:</p>
+<pre><code class="language-text">2026-10-11T21:03:24+01:00 757e41097 initial
+2026-10-11T21:18:59+01:00 19352ce7b pre big run
+2026-10-11T21:24:03+01:00 c0361c881 Plan Ascendancy recreation and preserve original content tables
+2026-10-11T21:57:32+01:00 773e7259f Implement shared simulation and Unity campaign foundation
+2026-10-11T22:08:48+01:00 abb5d7e73 Add deterministic ship combat and pluggable original AI
+...
+2026-10-12T07:57:05+01:00 151770dd3 Add four surface structure model references
+2026-10-12T09:17:56+01:00 80a047852 Add first species portrait art targets</code></pre>
+<p>What was cool was looking back over the agent session and finding all the images it had captured overnight:</p>
+<p><video class="media" src="/img/asc/blog-01/first-night-agent-captures.mp4" controls preload="metadata" aria-label="agent captures from the first night"></video></p>
+<p>Then, of course, I wanted to fix everything about it.</p>
+
+  <div class="article-footer">
+  
+  <p class=nav>
+    Previous: <a href="/building-a-homage-to-ascendancy-strange-suns">
+      Building a homage to Ascendancy: Strange Suns
+    </a>
+    </p>
+        
+    </div>
+            </div>
+        </div>
+        <div class="footer reading">
+          <div class="container">
+            <p>📩 hello＠timr · co</p>
+          </div>
+        </div>
+      </body><!-- built from 94e34dcef8d7da556fbf50996ed0ec23bf4fa3e9 -->

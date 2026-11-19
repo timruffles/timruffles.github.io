@@ -95,7 +95,7 @@ readers <span class="token operator">:=</span> <span class="token punctuation">[
 <img style="height:250px" title="go interface values are a pair of pointers" src="/./img/go-interface-values.png">
 
 <p>You should be starting to see that although every concrete value can be place inside a &#39;box&#39; of the <code>any</code>/<code>interface{}</code>, this doesn&#39;t imply concrete values are boxed. And therefore <code>[]any</code>, before and after generics, means &quot;a slice of interface boxes&quot;. The diagram below shows that the backing array for a slice of three <code>int32</code> is a completely different size and layout vs the array backing a slice of interface values containing the same <code>int32</code> values:</p>
-<p><img src="/./img/go-slices-ivals.png" alt="go slices of concrete vs interface types" /></p>
+<p><img class="media" src="/./img/go-slices-ivals.png" width="1414" height="628" alt="go slices of concrete vs interface types" /></p>
 <p> The elements of <code>[]int32</code> or <code>[]string</code> are unboxed, so can&#39;t be assigned to <code>[]any</code>. <code>[]io.Reader</code> or <code>[]interface{ foo() }</code> have boxed elements, so can be assigned to <code>[]any</code>.</p>
 <p>This took me ages to get my head around. If this quick explanation hasn&#39;t clicked with you, I&#39;ve
 written <a href="/go-interfaces-the-tricky-parts/" >another post</a> that explains why interfaces work like this in Go (even pre
@@ -153,8 +153,8 @@ and <code>io.Reader</code> are different if they appear in type-parameters vs el
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
 <p>If you run this you&#39;ll see <code>normal</code> compiles (as <code>*os.File</code> can be assigned to <code>io.Reader</code>), but <code>generic</code> has a compile error:</p>
-<pre><code>invalid operation<span class="token punctuation">:</span> cannot use type assertion on type parameter
-  value f <span class="token punctuation">(</span>variable of type F constrained by io<span class="token punctuation">.</span>Reader<span class="token punctuation">)</span></code></pre>
+<pre><code>invalid operation: cannot use type assertion on type parameter
+  value f (variable of type F constrained by io.Reader)</code></pre>
 <p>This is captured in <a href="https://go.dev/ref/spec#Type_assertions" >the spec</a>, where the spec states
     type-assertions can be used only on an expression &quot;of interface type, but not a type parameter&quot;. But with what
     we&#39;ve learned we can explain <em>why</em> this rule is in the spec. In non-generic code, the value is always
@@ -185,7 +185,7 @@ boxed in an interface value. In generic code we may use an interface type to con
 
 <span class="token keyword">func</span> <span class="token function">withStringableNumeric</span><span class="token punctuation">(</span>n stringableNumeric<span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span></code></pre>
 <p>Again, we run into surprising behaviour when we used a type defined with <code>interface</code>: we get compile errors for both <code>var answer stringableNumeric</code> and <code>(n stringableNumeric)</code>:</p>
-<pre><code>error<span class="token punctuation">:</span> cannot use type stringableNumeric outside a type constraint<span class="token punctuation">:</span> interface <span class="token class-name">contains</span> type constraints</code></pre>
+<pre><code>error: cannot use type stringableNumeric outside a type constraint: interface contains type constraints</code></pre>
 <p>These compile errors demonstrate that although our <code>numericString</code> interface uses the same <code>interface</code> keyword as other interfaces, it clearly works differently. Indeed, the spec tell us interfaces are now split into &#39;general&#39; - those with concrete type constraints - and &#39;basic&#39; - those with only method constraints:</p>
 <blockquote>
 <p>Interfaces that are not basic may only be used as type constraints, or as elements of other interfaces used as constraints. They cannot be the types of values or variables, or components of other, non-interface types.</p>
@@ -252,4 +252,4 @@ discussions:</p>
             <p>📩 hello＠timr · co</p>
           </div>
         </div>
-      </body><!-- built from 290da6a6f9d8527ed07003c604a19b0581ac944b -->
+      </body><!-- built from 94e34dcef8d7da556fbf50996ed0ec23bf4fa3e9 -->

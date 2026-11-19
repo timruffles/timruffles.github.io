@@ -54,28 +54,28 @@
 </ol>
 <h2 id="a-sketch">A sketch</h2>
 <p>Lets manually walk the following JS code through our compiler tool-chain:</p>
-<pre><code><span class="token keyword">function</span> <span class="token function">fact</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">return</span> n <span class="token operator">&lt;</span> <span class="token number">3</span> <span class="token operator">?</span> n <span class="token punctuation">:</span> n <span class="token operator">*</span> <span class="token function">fact</span><span class="token punctuation">(</span>n <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">fact</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<pre><code>function fact(n) {
+    return n &lt; 3 ? n : n * fact(n - 1);
+}
+console.log(fact(5));</code></pre>
 <p>First we run esprima to parse the source and give us a syntax-tree:</p>
-<pre><code><span class="token punctuation">{</span>
-  <span class="token string">"type"</span><span class="token punctuation">:</span> <span class="token string">"Program"</span><span class="token punctuation">,</span>
-  <span class="token string">"body"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
-      <span class="token punctuation">{</span>
-          <span class="token string">"type"</span><span class="token punctuation">:</span> <span class="token string">"FunctionDeclaration"</span><span class="token punctuation">,</span>
-          <span class="token string">"id"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
-              <span class="token string">"type"</span><span class="token punctuation">:</span> <span class="token string">"Identifier"</span><span class="token punctuation">,</span>
-              <span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"fact"</span>
-          <span class="token punctuation">}</span><span class="token punctuation">,</span>
-          <span class="token string">"params"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
-              <span class="token punctuation">{</span>
-                  <span class="token string">"type"</span><span class="token punctuation">:</span> <span class="token string">"Identifier"</span><span class="token punctuation">,</span>
-                  <span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"n"</span>
-              <span class="token punctuation">}</span>
-          <span class="token punctuation">]</span><span class="token punctuation">,</span>
-          <span class="token string">"body"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
-              <span class="token string">"type"</span><span class="token punctuation">:</span> <span class="token string">"BlockStatement"</span><span class="token punctuation">,</span></code></pre>
+<pre><code>{
+  &quot;type&quot;: &quot;Program&quot;,
+  &quot;body&quot;: [
+      {
+          &quot;type&quot;: &quot;FunctionDeclaration&quot;,
+          &quot;id&quot;: {
+              &quot;type&quot;: &quot;Identifier&quot;,
+              &quot;name&quot;: &quot;fact&quot;
+          },
+          &quot;params&quot;: [
+              {
+                  &quot;type&quot;: &quot;Identifier&quot;,
+                  &quot;name&quot;: &quot;n&quot;
+              }
+          ],
+          &quot;body&quot;: {
+              &quot;type&quot;: &quot;BlockStatement&quot;,</code></pre>
 <p>This will be input to <code>js-to-c.ts</code>, which would output a target C program. We have a ternary expression in our input program, here&#39;s a snippet from the function in the compiler that handles it. You can see we&#39;re implementing JS&#39;s ternary expression with C&#39;s <code>if</code>:</p>
 <pre><code class="language-typescript"><span class="token keyword">function</span> <span class="token function">compileConditionalExpression</span><span class="token punctuation">(</span>node<span class="token operator">:</span> ConditionalExpression<span class="token punctuation">,</span> state<span class="token operator">:</span> CompileTimeState<span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token comment">// ...</span>
@@ -88,34 +88,34 @@ console<span class="token punctuation">.</span><span class="token function">log<
             }</span><span class="token template-punctuation string">`</span></span>
 <span class="token punctuation">}</span></code></pre>
 <p>Once our compiler has run we&#39;re left with a valid C program (hopefully). The below is the compiled <code>fact</code> function. Some interesting things to look for: the recursive call, and how the result value from the ternary is threaded through the multiplication and return:</p>
-<pre><code>static JsValue <span class="token operator">*</span><span class="token function">fact_1</span><span class="token punctuation">(</span>Env <span class="token operator">*</span>env<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  JsValue <span class="token operator">*</span>return_3<span class="token punctuation">;</span>
+<pre><code>static JsValue *fact_1(Env *env) {
+  JsValue *return_3;
 
-  JsValue <span class="token operator">*</span>left_6 <span class="token operator">=</span> <span class="token function">envGet</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> interned_2 <span class="token comment">/* n */</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  JsValue <span class="token operator">*</span>right_7 <span class="token operator">=</span> <span class="token function">jsValueCreateNumber</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  JsValue <span class="token operator">*</span>conditionalPredicate_5 <span class="token operator">=</span> <span class="token function">LTOperator</span><span class="token punctuation">(</span>left_6<span class="token punctuation">,</span> right_7<span class="token punctuation">)</span><span class="token punctuation">;</span>
-  JsValue <span class="token operator">*</span>conditionalValue_4<span class="token punctuation">;</span>
-  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isTruthy</span><span class="token punctuation">(</span>conditionalPredicate_5<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    return_3 <span class="token operator">=</span> <span class="token function">envGet</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> interned_2 <span class="token comment">/* n */</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
-    JsValue <span class="token operator">*</span>left_8 <span class="token operator">=</span> <span class="token function">envGet</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> interned_2 <span class="token comment">/* n */</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    JsValue <span class="token operator">*</span>callee_10 <span class="token operator">=</span> <span class="token function">envGet</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> interned_11 <span class="token comment">/* fact */</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    JsValue <span class="token operator">*</span>left_12 <span class="token operator">=</span> <span class="token function">envGet</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> interned_2 <span class="token comment">/* n */</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    JsValue <span class="token operator">*</span>right_13 <span class="token operator">=</span> <span class="token function">jsValueCreateNumber</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    JsValue <span class="token operator">*</span>call10Arg_0 <span class="token operator">=</span> <span class="token function">subtractOperator</span><span class="token punctuation">(</span>left_12<span class="token punctuation">,</span> right_13<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    JsValue <span class="token operator">*</span>args_10<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span>call10Arg_0<span class="token punctuation">}</span><span class="token punctuation">;</span>
-    JsValue <span class="token operator">*</span>right_9 <span class="token operator">=</span> <span class="token function">functionRunWithArguments</span><span class="token punctuation">(</span>callee_10<span class="token punctuation">,</span> args_10<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> NULL<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  JsValue *left_6 = envGet(env, interned_2 /* n */);
+  JsValue *right_7 = jsValueCreateNumber(3);
+  JsValue *conditionalPredicate_5 = LTOperator(left_6, right_7);
+  JsValue *conditionalValue_4;
+  if (isTruthy(conditionalPredicate_5)) {
+    return_3 = envGet(env, interned_2 /* n */);
+  } else {
+    JsValue *left_8 = envGet(env, interned_2 /* n */);
+    JsValue *callee_10 = envGet(env, interned_11 /* fact */);
+    JsValue *left_12 = envGet(env, interned_2 /* n */);
+    JsValue *right_13 = jsValueCreateNumber(1);
+    JsValue *call10Arg_0 = subtractOperator(left_12, right_13);
+    JsValue *args_10[] = {call10Arg_0};
+    JsValue *right_9 = functionRunWithArguments(callee_10, args_10, 1, NULL);
 
-    return_3 <span class="token operator">=</span> <span class="token function">multiplyOperator</span><span class="token punctuation">(</span>left_8<span class="token punctuation">,</span> right_9<span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-  <span class="token keyword">return</span> return_3<span class="token punctuation">;</span>
-  <span class="token keyword">return</span> <span class="token function">getUndefined</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span></code></pre>
+    return_3 = multiplyOperator(left_8, right_9);
+  }
+  return return_3;
+  return getUndefined();
+}</code></pre>
 <p>You can also see calls out to our runtime library - e.g <code>envGet()</code>. This is part of the runtime as we can&#39;t rely on the C call-stack here. In JS, functions are closures. Therefore they need the environment they close over to live well beyond the lifetime of the call-stack that defined them - think of function values stored as global properties or as event-listeners.</p>
 <p>To use the runtime library our output program use C&#39;s <code>#include</code> macro to include our runtime library&#39;s header files[^2], and get access to the definitions of the functions our library has defined elsewhere:</p>
-<pre><code>#include <span class="token string">"../../runtime/environments.h"</span>
-#include <span class="token string">"../../runtime/exceptions.h"</span>
-#include <span class="token string">"../../runtime/functions.h"</span></code></pre>
+<pre><code>#include &quot;../../runtime/environments.h&quot;
+#include &quot;../../runtime/exceptions.h&quot;
+#include &quot;../../runtime/functions.h&quot;</code></pre>
 <p>[^2]: header-files in C define the function prototypes defined elsewhere in <code>.c</code> or library files. Relying on the header-files means we can target library code without recompiling.</p>
 <p>In my next post, we&#39;ll look at our how our <code>js-to-c.ts</code> compiler takes a syntax tree and outputs C source code.</p>
 
@@ -146,4 +146,4 @@ console<span class="token punctuation">.</span><span class="token function">log<
             <p>📩 hello＠timr · co</p>
           </div>
         </div>
-      </body><!-- built from 290da6a6f9d8527ed07003c604a19b0581ac944b -->
+      </body><!-- built from 94e34dcef8d7da556fbf50996ed0ec23bf4fa3e9 -->

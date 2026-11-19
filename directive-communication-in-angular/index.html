@@ -37,66 +37,66 @@
 <img class="article-image" width="520" height="269" alt="angular directive communication via controller-as" src="/articles/interacting-directives/angular-directive-communication-via-controller-as.png">
 
 <p>The HTML we want is something like this. You can see we have revealed the interactions between the components explicitly without any coupling:</p>
-<pre><code><span class="token operator">&lt;</span><span class="token operator">!</span><span class="token operator">--</span> top level controller <span class="token operator">-</span> responsible <span class="token keyword">for</span> fetching data etc <span class="token operator">--</span><span class="token operator">></span>
-<span class="token operator">&lt;</span>div ng<span class="token operator">-</span>controller<span class="token operator">=</span><span class="token string">'DataVizCtrl as ctrl'</span><span class="token operator">></span>
+<pre><code>&lt;!-- top level controller - responsible for fetching data etc --&gt;
+&lt;div ng-controller='DataVizCtrl as ctrl'&gt;
 
-  <span class="token operator">&lt;</span><span class="token operator">!</span><span class="token operator">--</span> our filter widget has an on<span class="token operator">-</span>filtered event to 
-       allow us to pass its filter to other directives <span class="token operator">--</span><span class="token operator">></span>
-  <span class="token operator">&lt;</span>filter<span class="token operator">-</span>widget
-    on<span class="token operator">-</span>filtered<span class="token operator">=</span><span class="token string">'ctrl.graphCtrl.applyFilter($filter)'</span>
-  <span class="token operator">&lt;</span><span class="token operator">/</span>filter<span class="token operator">-</span>widget<span class="token operator">></span>
+  &lt;!-- our filter widget has an on-filtered event to 
+       allow us to pass its filter to other directives --&gt;
+  &lt;filter-widget
+    on-filtered='ctrl.graphCtrl.applyFilter($filter)'
+  &lt;/filter-widget&gt;
 
-  <span class="token operator">&lt;</span><span class="token operator">!</span><span class="token operator">--</span> graph widget exposes its controller so we can
-       use its API <span class="token keyword">in</span> our template <span class="token operator">--</span><span class="token operator">></span>
-  <span class="token operator">&lt;</span>graph<span class="token operator">-</span>widget
-    controller<span class="token operator">-</span>as<span class="token operator">=</span><span class="token string">'ctrl.graphCtrl'</span>
-    data<span class="token operator">=</span><span class="token string">'ctrl.data'</span>
-    <span class="token operator">></span>
-  <span class="token operator">&lt;</span><span class="token operator">/</span>graph<span class="token operator">-</span>widget<span class="token operator">></span>
+  &lt;!-- graph widget exposes its controller so we can
+       use its API in our template --&gt;
+  &lt;graph-widget
+    controller-as='ctrl.graphCtrl'
+    data='ctrl.data'
+    &gt;
+  &lt;/graph-widget&gt;
 
-<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span></code></pre>
+&lt;/div&gt;</code></pre>
 <p>Now for the definitions of the directives - I&#39;ve kept them minimal to keep focussed.</p>
 <p>The filter widget defines a <code>on-filtered=</code> event that is provided with a <code>$filter</code> variable. This will be a function usable in <code>Array.prototype.filter</code> etc - a function that takes a data item and decides whether it&#39;s included. This is a high level of abstraction over how that filter is constructed from the UI:</p>
-<pre><code><span class="token keyword">function</span> <span class="token function">filterWidget</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token comment">// minimal definition - this would have a template</span>
-  <span class="token comment">// and more code in reality</span>
-  <span class="token keyword">return</span> <span class="token punctuation">{</span>
-    scope<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-      onFiltered<span class="token punctuation">:</span> <span class="token string">"&amp;"</span><span class="token punctuation">,</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span>
-    link<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span>scope<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token comment">// called from inside this directive's UI, we</span>
-      <span class="token comment">// call the `onFiltered` expression exposing </span>
-      <span class="token comment">// local `$filter` variable</span>
-      scope<span class="token punctuation">.</span>publishFilter <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        scope<span class="token punctuation">.</span><span class="token function">onFiltered</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-          $filter<span class="token punctuation">:</span> <span class="token function">createFilter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token punctuation">}</span>
+<pre><code>function filterWidget() {
+  // minimal definition - this would have a template
+  // and more code in reality
+  return {
+    scope: {
+      onFiltered: "&amp;",
+    },
+    link: function(scope) {
+      // called from inside this directive's UI, we
+      // call the `onFiltered` expression exposing 
+      // local `$filter` variable
+      scope.publishFilter = function() {
+        scope.onFiltered({
+          $filter: createFilter(),
+        });
+      }
 
-      <span class="token comment">// returns a filtering function</span>
-      <span class="token keyword">function</span> <span class="token function">createFilter</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
+      // returns a filtering function
+      function createFilter() {
+      }
+    }
+  }
+}</code></pre>
 <p>The graph widget exposes a controller with its public API via <code>controller-as=</code>. This allows it to be told about any desired modifications to the data (e.g a filter) and determine how to present them (i.e nice animations):</p>
-<pre><code><span class="token keyword">function</span> <span class="token function">graphWidget</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword">return</span> <span class="token punctuation">{</span>
-    scope<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-      controllerAs<span class="token punctuation">:</span> <span class="token string">"ctrl"</span><span class="token punctuation">,</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span>  
-    controller<span class="token punctuation">:</span> GraphWidgetCtrl<span class="token punctuation">,</span>
-  <span class="token punctuation">}</span><span class="token punctuation">,</span> 
-<span class="token punctuation">}</span>
+<pre><code>function graphWidget() {
+  return {
+    scope: {
+      controllerAs: &quot;ctrl&quot;,
+    },  
+    controller: GraphWidgetCtrl,
+  }, 
+}
 
-<span class="token keyword">function</span> <span class="token function">GraphWidgetCtrl</span><span class="token punctuation">(</span>$scope<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  $scope<span class="token punctuation">.</span>controllerAs <span class="token operator">=</span> this<span class="token punctuation">;</span>
+function GraphWidgetCtrl($scope) {
+  $scope.controllerAs = this;
 
-  this<span class="token punctuation">.</span>applyFilter <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    this<span class="token punctuation">.</span>filteredData <span class="token operator">=</span> this<span class="token punctuation">.</span>data<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
+  this.applyFilter = function(filter) {
+    this.filteredData = this.data.filter(filter);
+  }
+}</code></pre>
 <p>I find this pattern results in very readable interactions between components, with excellent testability. Hope you find it useful!</p>
 
   <div class="article-footer">
@@ -139,4 +139,4 @@
             <p>📩 hello＠timr · co</p>
           </div>
         </div>
-      </body><!-- built from 290da6a6f9d8527ed07003c604a19b0581ac944b -->
+      </body><!-- built from 94e34dcef8d7da556fbf50996ed0ec23bf4fa3e9 -->

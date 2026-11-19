@@ -45,13 +45,13 @@
 <p>Grab the <a href="https://github.com/rails/sass-rails" >sass-rails</a> gem for sass, and <a href="https://github.com/compass/compass-rails" >compass-rails</a> to avoid reinventing a heap of <a href="http://compass-style.org/reference/compass/css3/" >CSS3/browser compatibility mixins</a>.</p>
 <h2 id="configuration">Configuration</h2>
 <p>If you have any top level files (eg that will be in a <code>script</code> or <code>link</code> tag) aside from application.{js,css}, they will not be precompiled unless you tell Rails about them manually.</p>
-<pre><code># again<span class="token punctuation">,</span> no need to mention <span class="token punctuation">.</span>coffee
-config<span class="token punctuation">.</span>assets<span class="token punctuation">.</span>precompile <span class="token operator">+</span><span class="token operator">=</span> <span class="token operator">%</span>w<span class="token punctuation">{</span>app<span class="token punctuation">.</span>js app<span class="token punctuation">.</span>css<span class="token punctuation">}</span></code></pre>
+<pre><code># again, no need to mention .coffee
+config.assets.precompile += %w{app.js app.css}</code></pre>
 <h2 id="using-it-with-heroku">Using it with Heroku</h2>
 <p>If you&#39;re <a href="http://devcenter.heroku.com/articles/rails31_heroku_cedar" >using Heroku with the asset pipleine</a>, you need to turn off initialize on precompilation (they don&#39;t set ENV vars, and therefore your initializers will crash). In <code>config/application.rb</code>, set:</p>
-<pre><code>config<span class="token punctuation">.</span>assets<span class="token punctuation">.</span>initialize_on_precompile <span class="token operator">=</span> <span class="token boolean">false</span></code></pre>
+<pre><code>config.assets.initialize_on_precompile = false</code></pre>
 <p>Debug precompiltation with the below command Heroku will use. Ideally turn off initialization as above, and if that&#39;s not possible, ensure no initialisers hit DBs etc.</p>
-<pre><code>env RAILS_ENV<span class="token operator">=</span>production DATABASE_URL<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">{</span>YOUR_SCHEME_HERE <span class="token operator">-</span> prob postgres<span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>user<span class="token punctuation">:</span>pass@<span class="token number">127.0</span><span class="token number">.0</span><span class="token number">.1</span><span class="token operator">/</span>dbname bundle exec rake assets<span class="token punctuation">:</span>precompile <span class="token number">2</span><span class="token operator">></span><span class="token operator">&amp;</span><span class="token number">1</span></code></pre>
+<pre><code>env RAILS_ENV=production DATABASE_URL={{YOUR_SCHEME_HERE - prob postgres}}://user:pass@127.0.0.1/dbname bundle exec rake assets:precompile 2&gt;&amp;1</code></pre>
 <p>If you&#39;ve any other gotchas, or if anything is out of date, please let me know!</p>
 
   <div class="article-footer">
@@ -74,4 +74,4 @@ config<span class="token punctuation">.</span>assets<span class="token punctuati
             <p>📩 hello＠timr · co</p>
           </div>
         </div>
-      </body><!-- built from 290da6a6f9d8527ed07003c604a19b0581ac944b -->
+      </body><!-- built from 94e34dcef8d7da556fbf50996ed0ec23bf4fa3e9 -->
