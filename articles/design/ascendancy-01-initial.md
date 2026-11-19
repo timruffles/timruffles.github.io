@@ -63,6 +63,10 @@ Over twelve hours and seventy-six commits, the spec had became a reality (spot t
 2026-10-11T21:57:32+01:00 773e7259f Implement shared simulation and Unity campaign foundation
 2026-10-11T22:08:48+01:00 abb5d7e73 Add deterministic ship combat and pluggable original AI
 ...
+2026-10-12T01:03:50+01:00 63f7a5a25 Show recorded ending ranks and source tactical controls
+...
+2026-10-12T05:48:08+01:00 f19b6906f Refine planet tile contours and colony model visibility
+...
 2026-10-12T07:57:05+01:00 151770dd3 Add four surface structure model references
 ```
 
