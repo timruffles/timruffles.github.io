@@ -38,12 +38,22 @@
 
 
 <h2 id="videos">Videos</h2>
-<iframe width="300" height="200" src="//www.youtube.com/embed/KIm84cPhH9g" frameborder="0" allowfullscreen=""></iframe>
+<iframe width="300" height="200" src="//www.youtube.com/embed/KIm84cPhH9g" frameborder="0" allowfullscreen></iframe>
 
-<br>
+<br />
 
-<iframe width="300" height="200" src="//www.youtube.com/embed/Wu9n7Ry0PWw" frameborder="0" allowfullscreen=""></iframe>
+<iframe width="300" height="200" src="//www.youtube.com/embed/Wu9n7Ry0PWw" frameborder="0" allowfullscreen></iframe>
 
+<script>
+  if(window.matchMedia('(min-device-width: 400)').matches) {
+    ;[].forEach.call(document.querySelectorAll("iframe"),function(el) {
+      el.width = 630
+      el.height = 400
+    })
+  }
+</script>
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
             </div>
         </div>
@@ -52,4 +62,4 @@
             <p>📩 hello＠timr · co</p>
           </div>
         </div>
-      </body><!-- built from 94e34dcef8d7da556fbf50996ed0ec23bf4fa3e9 -->
+      </body><!-- built from f07523da540af7e883428bd7c97a6ca5c7b87927 -->

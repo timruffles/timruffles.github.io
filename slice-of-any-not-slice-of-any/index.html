@@ -43,10 +43,10 @@
 <span class="token keyword">func</span> <span class="token function">two</span><span class="token punctuation">(</span>s <span class="token punctuation">[</span><span class="token punctuation">]</span>any<span class="token punctuation">)</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>any <span class="token punctuation">{</span> <span class="token keyword">return</span> s <span class="token punctuation">}</span></code></pre>
 <details>
  <summary>See answer 👀</summary><p>It doesn't compile, with this error:
- <code></code></p><pre><code>generics/main.go:9:13: cannot use s (variable of type S constrained by []E) as type []any in argument to two:
+ <code><pre>generics/main.go:9:13: cannot use s (variable of type S constrained by []E) as type []any in argument to two:
  cannot assign []E (in S) to []any
  </code></pre>
- <p></p>
+ </p>
 </details>
 
 <p>It&#39;d be quite reasonable to think it should compile, because:</p>
@@ -252,4 +252,4 @@ discussions:</p>
             <p>📩 hello＠timr · co</p>
           </div>
         </div>
-      </body><!-- built from 94e34dcef8d7da556fbf50996ed0ec23bf4fa3e9 -->
+      </body><!-- built from f07523da540af7e883428bd7c97a6ca5c7b87927 -->

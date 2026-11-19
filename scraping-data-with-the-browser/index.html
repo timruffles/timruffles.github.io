@@ -32,25 +32,25 @@
 
 </p><p>Before we begin, some general tips with working with the console (OSX):
 
-</p><ul>
+<ul>
   <li>Press up and down to navigate command history. This is great for iteratively building up a pipeline
-  </li><li>Press alt and left and right to skip forwards/backwards one word
-  </li><li>Cmd + k to clear the console
-  </li><li>Ctrl + e to skip to end, Ctrl + a to skip to the start
-  </li><li>Ctrl + enter to add a new line without running the current command
-</li></ul>
+  <li>Press alt and left and right to skip forwards/backwards one word
+  <li>Cmd + k to clear the console
+  <li>Ctrl + e to skip to end, Ctrl + a to skip to the start
+  <li>Ctrl + enter to add a new line without running the current command
+</ul>
 
 <h3>Finding the element to scrape</h3>
 
-<p>First off, we want to find the element that contains our data. Using the elements panel and right click -&gt; 'Inspect element', we highlight the element containing our data.
+<p>First off, we want to find the element that contains our data. Using the elements panel and right click -> 'Inspect element', we highlight the element containing our data.
 
-</p><p><img src="/img/inspect.png" width="640">
+<p><img src="/img/inspect.png" width="640">
 
 </p><h3>Building a pipeline</h3>
 
 <p>Next we move to the console. Chrome places the element you inspected most recently in the <code>$0</code> variable, the next most recent on <code>$1</code> and so on. It also aliases <code>querySelectorAll</code> as <code>$$(css [,startNode])</code>, so we can use these together to check out the rows in our table:
 
-</p><pre>&gt; $$("tr",$0)[0].innerHTML
+<pre>&gt; $$("tr",$0)[0].innerHTML
 "&lt;%= require 'cgi'; CGI.escapeHTML('<a href="/wiki/Afghanistan" title="Afghanistan">Afghanistan</a>
 <a href="/wiki/ISO_3166-1_alpha-2#AF" title="ISO 3166-1 alpha-2"><tt>AF</tt></a>
 <tt>AFG</tt>
@@ -60,51 +60,56 @@
 
 <p>Great! Looks like some useful data in that HTML. I normally slap <code>[0]</code> at the end of the pipeline to get this insight into what's being produced.
 
-</p><p>To grab the data from the HTML in another one-liner we can use one of the Array additions - <code>map</code>. Unforunately <code>$$</code> returns a <code>NodeList</code> which is array-like but not an array. To work around this we grab <code>[].map</code> and <code>.call</code> it on the node list.
+<p>To grab the data from the HTML in another one-liner we can use one of the Array additions - <code>map</code>. Unforunately <code>$$</code> returns a <code>NodeList</code> which is array-like but not an array. To work around this we grab <code>[].map</code> and <code>.call</code> it on the node list.
 
-</p><pre>&gt; [].map.call($$("tr",$0),mapper)[0]
+<pre>
+> [].map.call($$("tr",$0),mapper)[0]
 </pre>
 
 <p>We'll need to define <code>mapper()</code> - a function that takes each element in turn and returns the data we want as a structured object. In this case we want the contents of the 1st and 2nd nodes, so:
 
-</p><pre>&gt; function mapper(el) {
+<pre>
+> function mapper(el) {
     return {
       country: $("td",el)[0].innerText,
       code: $("td",el)[1].innerText
     }
   }
-&gt; [].map.call($$("tr",$0),mapper)[0]
+> [].map.call($$("tr",$0),mapper)[0]
 Object {country: "Afghanistan", code: "AF"}
 </pre>
 
 <p>Excellent - just what we want. Now we have an array full of tasty data, but how do we get it out?
 
-</p><p>Chrome saves the day again with <code>copy()</code>, giving us the data-clipboard bridge we've always wanted. Since we want useful data we'll <code>JSON.stringify</code> the data first, and our completed pipeline looks like:
+<p>Chrome saves the day again with <code>copy()</code>, giving us the data-clipboard bridge we've always wanted. Since we want useful data we'll <code>JSON.stringify</code> the data first, and our completed pipeline looks like:
 
-</p><pre>&gt; var data = [].map.call($$("tr",$0),mapper);
-&gt; copy(JSON.stringify(data))
+<pre>
+> var data = [].map.call($$("tr",$0),mapper);
+> copy(JSON.stringify(data))
 </pre>
 
 <p>What does our final data look like?
 
-</p><pre>[{"country":"Afghanistan","code":"AF"},{"country":"Åland Islands","code":"AX"},/* ... */,{"country":"Zimbabwe","code":"ZW"}]
+<pre>
+[{"country":"Afghanistan","code":"AF"},{"country":"Åland Islands","code":"AX"},/* ... */,{"country":"Zimbabwe","code":"ZW"}]
 </pre>
 
 <p>Here's the whole pipeline built up bit by bit
 
-</p><pre>&gt; var nodes = $$("tr",$0);
-&gt; function mapper(el) {
+<pre>
+> var nodes = $$("tr",$0);
+> function mapper(el) {
     return {
       country: $("tr",el)[0].innerText,
       code: $("tr",el)[1].innerText
     }
   }
-&gt; var data = [].map.call(nodes,mapper)
-&gt; copy(JSON.stringify(data))
+> var data = [].map.call(nodes,mapper)
+> copy(JSON.stringify(data))
 </pre>
 
 <p>Happy scraping!
-</p>
+
   <div class="article-footer">
   <p class=nav>
     Next: <a href="/infographics-arent-just-pretty-pictures">
@@ -125,4 +130,4 @@ Object {country: "Afghanistan", code: "AF"}
             <p>📩 hello＠timr · co</p>
           </div>
         </div>
-      </body><!-- built from 94e34dcef8d7da556fbf50996ed0ec23bf4fa3e9 -->
+      </body><!-- built from f07523da540af7e883428bd7c97a6ca5c7b87927 -->

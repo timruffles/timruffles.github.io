@@ -75,7 +75,7 @@ end
 <p>Looks like our geyser is fairly well modelled by the normal curve, but with a higher peak around the mean, a lower than normal observations near close to the mean on the left, and more than normal further from the mean. When I used 100 breaks I got a weird pattern of peaks and troughs that made me recheck my munger (which seems fine), but it looks fine with 25.</p>
 <p>The second data set was of pairs of father and son&#39;s heights. The data was collected as a frequency table, and this absolutely flummoxed my nascent R usage. Being a statistics ignoramus too, after a couple of hours search for how to carry out basic mean/sd/summary on a table of frequency data I came up with nothing. All the operations seemed to be designed to work on tables where each observation had a single row - so rather than this:</p>
 <table>
-  <tbody><tr>
+  <tr>
     <td>Father's Height</td><td>Son's Height</td><td>Frequency</td>
   </tr>
   <tr>
@@ -84,11 +84,11 @@ end
   <tr>
     <td>66</td><td>67</td><td>1</td>
   </tr>
-</tbody></table>
+</table>
 
 <p>I needed this:</p>
 <table>
-  <tbody><tr>
+  <tr>
     <td>Father's Height</td><td>Son's Height</td>
   </tr>
   <tr>
@@ -103,7 +103,7 @@ end
   <tr>
     <td>66</td><td>67</td>
   </tr>
-</tbody></table>
+</table>
 
 <p>I knew from the start I could just convert the data, but I felt R was a DSL for statistics, surely designed /precisely/ to replace imperatively coding statistical functions for common types of data. Well either I didn&#39;t look hard enough, or I was wrong. I found <a href="http://www.r-tutor.com/elementary-statistics/quantitative-data/relative-frequency-distribution-quantitative-data" >helpful pages</a> but my newness to both statistics and R probably means the answer is there in plain sight. Lots to learn.</p>
 <p>Anyway eventually I went for the conversion approach, via <a href="http://stackoverflow.com/questions/2190154/getting-raw-data-from-frequency-table" >StackOverflow</a>. The functional aspects of R come out nicely in this kind of conversion, just as the DSL shines in letting you do matrix-y math style operations over vectors.</p>
@@ -166,4 +166,4 @@ fathers 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79
             <p>📩 hello＠timr · co</p>
           </div>
         </div>
-      </body><!-- built from 94e34dcef8d7da556fbf50996ed0ec23bf4fa3e9 -->
+      </body><!-- built from f07523da540af7e883428bd7c97a6ca5c7b87927 -->

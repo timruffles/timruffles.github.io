@@ -31,7 +31,7 @@
   <p>Few people realise that <code>ng-model</code> can turn any interactive component into a fully-working input for use in Angular&#39;s <code>form</code> system. This saves you a heap of time in reinventing wheels - very often I see 100s of lines of codes in controllers managing state that Angular&#39;s <code>ng-model</code> desperately wants to manage for you.</p>
 <p>To demo this we&#39;ll plug a non-Angular SVG clock into <code>ng-model</code>.</p>
 <p>Try dragging the sun, editing the input and hitting &#39;start&#39;. As you can see, we&#39;ll achieve full ng-model functionality with a very unusual input.</p>
-<p><a class="jsbin-embed" href="https://jsbin.com/nelucu/15/embed?output&amp;height=470px"></a>JS Bin</p>
+<p><a class="jsbin-embed" href="https://jsbin.com/nelucu/15/embed?output&amp;height=470px"></a>JS Bin</a><script src="https://static.jsbin.com/js/embed.js"></script></p>
 <h2 id="turning-a-widget-into-an-input">Turning a widget into an input</h2>
 <p>First off - here&#39;s our template. A standard Angular form, with two-way binding between our input and the value of <code>input.time</code> via <code>ng-model</code>:</p>
 <pre><code>&lt;form name=timeForm&gt;
@@ -115,7 +115,7 @@
   }
 
 }</code></pre>
-<p>That&#39;s it - the <a href="https://gist.github.com/timruffles/bfbc53c5d7444a506470"></a>full source has the code for the clock etc.</p>
+<p>That&#39;s it - the <a href="https://gist.github.com/timruffles/bfbc53c5d7444a506470"></a>full source</a> has the code for the clock etc.</p>
 <p>You can do lots more with <code>ngModelController</code> - adding validators to the <code>$validators</code> object, changing how the values are parsed from the view, or formatted for it, with the <code>$parsers</code> and <code>$formatters</code> arrays - but that&#39;s a story for another blog post.</p>
 <h2 id="three-cheers">Three cheers</h2>
 <p>I really like this API! One API to turn anything - D3 visualisations, React components, random non-Angular widgets, <code>&lt;canvas&gt;</code>, the audio input or accelerometer - into an ng-model. A great example of a well designed abstraction promoting reuse.</p>
@@ -127,7 +127,7 @@
 <li>if you see a heap of <code>$watch</code>es in your controller handling the state of user input, think: is there a <code>ng-model</code> missing somewhere?</li>
 </ul>
 <h3 id="thanks">Thanks</h3>
-<p><a href="https://twitter.com/charlotteis"></a>@charlotteis for awesome proof reading!</p>
+<p><a href="https://twitter.com/charlotteis"></a>@charlotteis</a> for awesome proof reading!</p>
 
   <div class="article-footer">
   <p class=nav>
@@ -156,4 +156,4 @@
             <p>📩 hello＠timr · co</p>
           </div>
         </div>
-      </body><!-- built from 94e34dcef8d7da556fbf50996ed0ec23bf4fa3e9 -->
+      </body><!-- built from f07523da540af7e883428bd7c97a6ca5c7b87927 -->

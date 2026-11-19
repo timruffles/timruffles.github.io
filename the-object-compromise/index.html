@@ -60,15 +60,15 @@
 <p>Mutable fields violate the clarity of communication via messages in Kay’s vision. Setters and getters are symptoms of a procedural style of OO, which is likely to be using objects as mutable data-structures not collaborators.</p>
 <p>Inheritance - most perniciously when combined with mutable fields - makes analysing and extending object-oriented systems harder due to the intimate but implicit coupling it involves. Collaboration has proved to be the better approach.</p>
 <h3 id="what-are-values">What are values?</h3>
-<p><a id="values" href="/"></a></p>
+<p><a id="values" href="/"></a></a></p>
 <p>Values are data which are equal if their component parts are equal. For instance, <code>let a = 1; let b = 1; a == b</code> is a simple example of value semantics: data in different memory locations is equal. Complex data can also have value semantics - for instance two address structs with the same street, town and country. Value semantics can also be thought of as the opposite of object semantics: object equality semantics mean objects are only equal to themselves, i.e comparison of two references to the same place in memory.</p>
 <h3 id="is-this-just-the-functional-core-imperative-shell">Is this just the functional core, imperative shell?</h3>
 <p>Somewhat, except there isn’t much of a functional core, i.e I haven’t observed a meaningful amount of application logic implemented as functions and values which is then manipulated by objects. Here application logic is interwoven in methods on objects. I’ve not seen a large functional-core imperative-shell application so I’ll not comment on whether that would be ‘better’, I think the pro/cons would be depend on the domain and project/team maturity.</p>
 <h3 id="is-it-just-good-object-oriented-style">Is it just good object-oriented style?</h3>
 <p>Probably, but there is no general definition of good object-oriented style 😁. This pattern is largely equivalent to the style and nomenclature of <a href="http://www.growing-object-oriented-software.com" >Growing Object-Oriented Software Guided by Tests</a>. However, that book defines it in abstract terms (“Compose objects to describe system behaviour”). I find a concrete, bottom-up, definition based on which language language features to use, and what for, provides a more precise (and easy to follow) definition.</p>
 <ol>
-<li><a id="langs" href="/"></a> I’ve had most experience of this style writing Go at GitHub and Plaid, and TypeScript for my own projects. Both JavaScript and Go have functional features, but compared to, say, Haskell or Clojure, they clearly lack core primitives for handling state in a functional way (monads or atoms etc respectively), and aren’t idiomatically functional ‘in the large’ (i.e beyond Array.reduce)</li>
-<li><a id="side-effects" href="/"></a> including method calls on objects. Aside from that, the usual: network, logging, metrics, disk, databases, randomness, etc.</li>
+<li><a id="langs" href="/"></a></a> I’ve had most experience of this style writing Go at GitHub and Plaid, and TypeScript for my own projects. Both JavaScript and Go have functional features, but compared to, say, Haskell or Clojure, they clearly lack core primitives for handling state in a functional way (monads or atoms etc respectively), and aren’t idiomatically functional ‘in the large’ (i.e beyond Array.reduce)</li>
+<li><a id="side-effects" href="/"></a></a> including method calls on objects. Aside from that, the usual: network, logging, metrics, disk, databases, randomness, etc.</li>
 </ol>
 
   <div class="article-footer">
@@ -98,4 +98,4 @@
             <p>📩 hello＠timr · co</p>
           </div>
         </div>
-      </body><!-- built from 94e34dcef8d7da556fbf50996ed0ec23bf4fa3e9 -->
+      </body><!-- built from f07523da540af7e883428bd7c97a6ca5c7b87927 -->
