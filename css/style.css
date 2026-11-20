@@ -119,6 +119,14 @@ pre { font-size: 1rem; margin-bottom: 1rem; white-space: pre-wrap; }
 .comments input[type="text"], .comments textarea { font-size: 1em; }
 .comments textarea { width: 100%; }
 
+/* front page sections + pagination (see homePage()/allPostsPage() in src/templates.ts) */
+.posts-heading { font-size: .8em; font-weight: 400; letter-spacing: .04em; text-transform: uppercase; color: var(--muted-strong); margin: 1.5rem 0 .5rem; padding-left: .75rem; }
+.posts-more { margin: .25rem 0 0; text-align: right; font-size: .85em; }
+.posts-pager { display: flex; justify-content: space-between; align-items: baseline; margin: 1rem 0 2rem; font-size: .85em; }
+.posts-pager .date { color: var(--muted); }
+/* a selected post already visible in Recent isn't repeated on wider screens (hidden in Recent on phones, so it shows here) */
+@media (min-width: 601px) { .posts-selected .post.in-recent { display: none; } }
+
 .posts h4 { margin: 0 1em 0 0; }
 .posts a[href] { color: var(--text); text-decoration: none; }
 .posts .date { font-size: .7em; color: var(--muted); }
@@ -176,6 +184,8 @@ blockquote p { margin: 0; white-space: normal; }
 
 @media (max-width: 600px) {
   body { line-height: 1.4; }
+  /* keep 'Selected' in view on phones: show only the newest few recent posts ('more' leads to the rest) */
+  .posts-recent .post:nth-child(n+6) { display: none; }
   .footer, .content, .reading, .comments, .posts .post { width: auto; padding: 0 1rem; overflow: visible; }
   h1 { margin: 0 0 .25rem; }
   .body .media.m-medium, .body .media.m-small { width: 100%; }
