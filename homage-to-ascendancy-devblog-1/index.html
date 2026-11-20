@@ -3,14 +3,27 @@
         <title>Homage to Ascendancy: devblog 1</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta name="viewport" content="width=device-width">
+        <meta name="color-scheme" content="light dark">
         <meta name="description" content="For [this project](/building-a-homage-to-ascendancy-strange-suns) to succeed, I knew I needed to take approaches that let agents work for long periods without supervision. I&apos;m working full time, so any other approach would leave me either with an unpaid mo…" >
         <link rel="stylesheet" href="/css/normalize.css" type="text/css">
         <link rel="stylesheet" href="/css/style.css" type="text/css">
         <link rel="stylesheet" href="/css/prism-ghcolors.css" type="text/css">
+        <link rel="stylesheet" href="/css/dark.css" type="text/css" media="(prefers-color-scheme: dark)">
         <link rel="alternate" type="application/rss+xml" title="Subscribe to RSS feed" href="/rss.xml" />
       </head>
       <body class="article">
         <div class="mast">
+          <svg class="mast-stripe" aria-hidden="true" focusable="false" width="100%" height="2">
+            <defs>
+              <pattern id="mast-pattern" width="40" height="2" patternUnits="userSpaceOnUse">
+                <rect class="stripe-1" x="0" width="10" height="2"/>
+                <rect class="stripe-2" x="10" width="6" height="2"/>
+                <rect class="stripe-3" x="16" width="14" height="2"/>
+                <rect class="stripe-4" x="30" width="10" height="2"/>
+              </pattern>
+            </defs>
+            <rect width="100%" height="2" fill="url(#mast-pattern)"/>
+          </svg>
           <div class='top-bar reading'>
               <div class="links logical">
                 <div class="navigation logical">
@@ -31,7 +44,7 @@
   <p>For <a href="/building-a-homage-to-ascendancy-strange-suns" >this project</a> to succeed, I knew I needed to take approaches that let agents work for long periods without supervision. I&#39;m working full time, so any other approach would leave me either with an unpaid mortgage or an unfinished game.</p>
 <p>From experience, this would require pre-work to ensure the agent had guardrails, and that the tools it needed actually worked. It&#39;s never fun to find your agent has spent hours in a <code>/goal</code> loop sadly observing it still lacked some critical permission or dependency.</p>
 <p>Since I&#39;m reinterpreting an existing game, I had excellent source material for the guardrails: the game manuals and strategy guides. Feast your eyes on the manual&#39;s lovely 90s art:</p>
-<p><img class="media" src="/img/asc/blog-01/manual.png" width="1332" height="1864" alt="ascendancy&#39;s 1995 manual" /></p>
+<p><img class="media m-bright" src="/img/asc/blog-01/manual.png" width="1332" height="1864" alt="ascendancy&#39;s 1995 manual" /></p>
 <p>From these references, I had an agent write up a programmer-level spec of the game. I also found a decompilation of the original to look up ambiguous rules. Compiling the spec once would save a huge amount of time for agents vs repeatedly digging around in the source material. Also, later on I could edit it to indicate deliberate changes from the original rules, e.g. replacing AI, adding automation etc.</p>
 <h2 id="automatic-visual-qa">Automatic visual QA</h2>
 <p>I also realised that running the original in DOSBox would let agents do high-fidelity checks themselves. So before running I proved out that the model could run Ascendancy in DOSBox to check UI and behaviours that weren&#39;t clearly specified in the manual. Watching a computer-use play a DOS game from 1995 is wild:</p>
@@ -76,8 +89,8 @@
   <div class="article-footer">
   
   <p class=nav>
-    Previous: <a href="/building-a-homage-to-ascendancy-strange-suns">
-      Building a homage to Ascendancy: Strange Suns
+    Previous: <a href="/building-a-homage-to-ascendancy">
+      Building a homage to Ascendancy
     </a>
     </p>
         <div class="comments">
@@ -96,4 +109,4 @@
             <p>📩 hello＠timr · co</p>
           </div>
         </div>
-      </body><!-- built from 4d129431e52c66ecc0e2b094a18fa1100ec1c963 -->
+      </body><!-- built from 9cf26b356bf80c457a900444b0c6e996d327d6a5 -->

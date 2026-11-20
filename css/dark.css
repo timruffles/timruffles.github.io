@@ -1,0 +1,69 @@
+/*
+ * Dark mode: a warm-black take on Solarized's accents. Linked with media="(prefers-color-scheme: dark)"
+ * after style.css and the prism theme (see layout() in src/templates.ts), so it only
+ * applies for dark visitors. Colour tokens are defined in :root in style.css.
+ * Text/accent contrast against --bg (#1e1714) is >= 4.5:1 throughout.
+ */
+:root {
+  color-scheme: dark;
+
+  /* accents */
+  --orange: #ff8a3d;
+  --blue: #3dbdea;
+  --green: #9bb52a;
+  --yellow: #d9a521;
+  --red: #f46f62;
+  --magenta: #ea6fae;
+  --violet: #8f94e6;
+  --cyan: #34b8ae;
+
+  /* site tokens */
+  --link-color: var(--orange);
+  --accent-blue: var(--blue);
+
+  --bg: #1e1714;
+  --panel: #2a211c;
+  --border: #3d312a;
+  --text: #c2b6aa;
+  --text-soft: #a89c91;
+  --heading: #efe6db;
+  --muted: #9d9084;
+  --muted-strong: #9d9084;
+
+  --panel-yes: #2e2415;
+  --panel-na: #2a2420;
+  --on-accent: #1e1714;
+  --on-bright: #1e1714;
+  --post-yellow: var(--yellow);
+  --post-green: var(--green);
+  --good-bg: #1f3220;
+  --bad-bg: #44261f;
+  --plug-border: #5a4638;
+  --selection: #4d3a2c;
+  --stripe-1: var(--green);
+  --stripe-2: var(--orange);
+  --stripe-3: var(--yellow);
+  --stripe-4: var(--blue);
+}
+
+a, a:link, a:visited { color: var(--link-color); }
+::selection { background: var(--selection); color: var(--heading); }
+.summary { background: var(--panel); }
+
+/* bright images are tagged m-bright at build time (see src/image-brightness.ts) */
+.body img.m-bright, .body video.m-bright { filter: brightness(.85) contrast(1.05); }
+
+/* code: dark take on the prism ghcolors theme */
+code[class*="language-"], pre[class*="language-"] { color: var(--text); }
+pre[class*="language-"] { background-color: var(--panel); border-color: var(--border); }
+:not(pre) > code[class*="language-"] { background: var(--panel); border-color: var(--border); }
+pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+code[class*="language-"]::selection, code[class*="language-"] ::selection { background: var(--selection); }
+.token.comment, .token.prolog, .token.doctype, .token.cdata { color: var(--muted); }
+.token.punctuation, .token.operator { color: var(--text-soft); }
+.token.string, .token.attr-value { color: var(--green); }
+.token.entity, .token.url, .token.symbol, .token.number, .token.boolean, .token.variable,
+.token.constant, .token.property, .token.regex, .token.inserted { color: var(--cyan); }
+.token.atrule, .token.keyword, .token.attr-name { color: var(--orange); }
+.token.function, .token.deleted { color: var(--red); }
+.token.tag, .token.selector { color: var(--violet); }
