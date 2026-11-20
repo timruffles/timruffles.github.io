@@ -37,6 +37,8 @@ export class Article {
     readonly description: string,
     readonly category: string,
     commentIdRaw = slug,
+    // shown in the 'Selected' section of the front page (front matter: selected: true)
+    readonly selected = false,
   ) {
     // id is used for the comment system. It's currently using the slug. May want to add
     // ability
@@ -54,6 +56,7 @@ export class Article {
       // set commentId to provide stability if slug changes after publication
       commentId = undefined,
       previousSlugs = [],
+      selected = false,
     } = raw;
 
     const currentSlug = rawSlug || titleToSlug(title);
@@ -160,7 +163,7 @@ export class Article {
     const status = archived ? 'archived' : draft ? 'draft' : 'active';
 
     return new Article(p, title, new Date(dateParsed), status, slugBased, html, description, categoryFromPath,
-      commentId || currentSlug)
+      commentId || currentSlug, selected === true)
   }
 }
 

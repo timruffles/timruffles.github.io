@@ -192,18 +192,58 @@ export function renderArticle(article: ArticleForRendering, cfg: Config): string
   ${articleFooter(article, cfg)}`
 }
 
-export function homePage(articles: Article[]): string {
-  return `<div class="posts">
-    ${articles.map(article => `
-        <a href="${article.slug}" class=post title="${article.title}">
-        
+function postRows(articles: Article[], extraClass: (a: Article) => string = () => ''): string {
+  return articles.map(article => `
+        <a href="${article.slug}" class="post${extraClass(article) ? ' ' + extraClass(article) : ''}" title="${article.title}">
+
           <h4>
             ${article.title}
           </h4>
           <span class=date>${formatDate(article.date)}</span>
         </a>
-    `).join('')}
-  </div>`
+    `).join('')
+}
+
+// Recent rows after this many are hidden on phones (see .posts-recent in style.css: nth-child(n+6))
+const RECENT_VISIBLE_ON_MOBILE = 5
+
+/**
+ * Front page: Recent (newest first, with a link to the full archive) then Selected.
+ *
+ * A selected post never shows twice on screen:
+ *  - in the first RECENT_VISIBLE_ON_MOBILE recent rows it's visible everywhere, so it's left out of Selected
+ *  - further down Recent it's hidden on phones, so it stays in Selected, tagged "in-recent" so CSS
+ *    hides it there on wider screens (where Recent already shows it)
+ */
+export function homePage(
+  recent: Article[],
+  selected: Article[],
+  moreHref: string | undefined,
+): string {
+  const visibleEverywhere = new Set(recent.slice(0, RECENT_VISIBLE_ON_MOBILE))
+  const inRecent = new Set(recent)
+  const selectedRows = selected.filter(a => !visibleEverywhere.has(a))
+  return `<h3 class="posts-heading">Recent</h3>
+  <div class="posts posts-recent">${postRows(recent)}</div>
+  ${moreHref ? `<p class="posts-more"><a href="${moreHref}">more</a></p>` : ''}
+  ${selectedRows.length ? `<h3 class="posts-heading">Selected</h3>
+  <div class="posts posts-selected">${postRows(selectedRows, a => inRecent.has(a) ? 'in-recent' : '')}</div>` : ''}`
+}
+
+/** One page of the paginated "all posts" archive. */
+export function allPostsPage(
+  articles: Article[],
+  page: number,
+  pageCount: number,
+  hrefForPage: (n: number) => string,
+): string {
+  return `<h3 class="posts-heading">All posts</h3>
+  <div class="posts">${postRows(articles)}</div>
+  <p class="posts-pager">
+    ${page > 1 ? `<a href="${hrefForPage(page - 1)}" rel="prev">&larr; newer</a>` : '<span></span>'}
+    <span class="date">page ${page} of ${pageCount}</span>
+    ${page < pageCount ? `<a href="${hrefForPage(page + 1)}" rel="next">older &rarr;</a>` : '<span></span>'}
+  </p>`
 }
 
 function formatDate(date: Date) {

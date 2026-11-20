@@ -8,6 +8,7 @@ import {analyseImages} from "./image-brightness";
 import {
   PaginatedArticle,
   homePage,
+  allPostsPage,
   layout,
   renderArticle,
   renderPage,
@@ -18,6 +19,9 @@ import {
 import {IssueComment} from "./comments";
 import {Issue} from "./issues";
 import path from "path";
+
+const RECENT_COUNT = 8
+const ALL_POSTS_PAGE_SIZE = 30
 
 export class Config {
   constructor(readonly baseURL: string) {
@@ -66,8 +70,14 @@ export async function main(
     slug: "",
     baseURL: config.baseURL,
     description: "Tim  Ruffles' blog - software engineering",
-    content: homePage(activeArticles.slice(0, 20)),
+    content: homePage(
+      activeArticles.slice(0, RECENT_COUNT),
+      activeArticles.filter(a => a.selected),
+      activeArticles.length > RECENT_COUNT ? `${config.baseURL}posts/` : undefined,
+    ),
   }));
+
+  writeAllPosts(outputPath, activeArticles, config)
 
   fs.writeFileSync(`${outputPath}/404.html`,  layout({
     title: "Missing",
@@ -111,13 +121,29 @@ async function loadActiveContent(dir: string, config: Config): Promise<(Article 
 function writeHTML(outputPath: string, slugWithSlash: string, html: string) {
   const dir = path.join(outputPath, slugWithSlash);
   try {
-    fs.mkdirSync(dir)
+    fs.mkdirSync(dir, {recursive: true})
   } catch (e) {
     if (e.code !== 'EEXIST') {
       throw e
     }
   }
   fs.writeFileSync(path.join(dir, "index.html"), html)
+}
+
+// /posts/, /posts/2/, ... - every active post, newest first
+function writeAllPosts(outputPath: string, articlesDesc: Article[], cfg: Config) {
+  const pageCount = Math.max(1, Math.ceil(articlesDesc.length / ALL_POSTS_PAGE_SIZE))
+  const slugFor = (n: number) => n === 1 ? 'posts' : `posts/${n}`
+  for(let page = 1; page <= pageCount; page++) {
+    const slice = articlesDesc.slice((page - 1) * ALL_POSTS_PAGE_SIZE, page * ALL_POSTS_PAGE_SIZE)
+    writeHTML(outputPath, slugFor(page), layout({
+      title: page === 1 ? "All posts" : `All posts, page ${page}`,
+      slug: slugFor(page),
+      baseURL: cfg.baseURL,
+      description: "All of Tim Ruffles' posts",
+      content: allPostsPage(slice, page, pageCount, n => `${cfg.baseURL}${slugFor(n)}/`),
+    }))
+  }
 }
 
 function writePage(outputPath: string, article: Article, cfg: Config) {

@@ -1,5 +1,6 @@
 title: "The Weirdest JavaScript syntax"
 date: "2019/04/18"
+selected: true
 body: |
 
   I have bad news. The following is valid, spec compliant JS syntax:

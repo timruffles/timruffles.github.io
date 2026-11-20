@@ -1,5 +1,6 @@
 title: "Go interfaces, the tricky parts"
 date: "2019/09/27"
+selected: true
 body: |
 
   Does this Go snippet compile, and if not, why?
