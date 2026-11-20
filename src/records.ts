@@ -9,6 +9,7 @@ import path from 'path'
 import crypto from "crypto";
 import {attempt} from "./language";
 import {imageSize} from "./image-size";
+import {BRIGHT_THRESHOLD, brightnessOf, warnBright} from "./image-brightness";
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom
 
@@ -104,7 +105,12 @@ export class Article {
     function image(srcURL: string, title: string, text: string) {
       const [path, fragment = ''] = srcURL.split('#')
       const mods = fragment.split(/[,+]/).filter(m => /^[a-z0-9-]+$/.test(m))
-      const classes = ['media', ...mods.map(m => `m-${m}`)].join(' ')
+      const local = !/^(https?:)?\/\//.test(path)
+      const file = local ? localFile(path) : ''
+      const luminance = local ? brightnessOf(file) : undefined
+      const bright = luminance !== undefined && luminance >= BRIGHT_THRESHOLD
+      if(bright) warnBright(file, luminance!, p)
+      const classes = ['media', ...mods.map(m => `m-${m}`), ...(bright ? ['m-bright'] : [])].join(' ')
       const src = prepareHref(path)
       if(/\.(mp4|webm|mov)$/i.test(path)) {
         const attrs = mods.includes('loop') ? 'autoplay loop muted playsinline' : 'controls preload="metadata"'
@@ -112,7 +118,7 @@ export class Article {
         return `<video class="${classes}" src="${src}" ${attrs}${label ? ` aria-label="${label}"` : ''}></video>`
       }
       // intrinsic size lets the browser reserve space before load (no layout shift)
-      const size = /^(https?:)?\/\//.test(path) ? undefined : imageSize(localFile(path))
+      const size = local ? imageSize(file) : undefined
       const dims = size ? ` width="${size.width}" height="${size.height}"` : ''
       return `<img class="${classes}" src="${src}"${dims} alt="${text || title || ''}" />`
     }

@@ -1,5 +1,5 @@
 ---
-title: "Building a homage to Ascendancy: Strange Suns"
+title: "Building a homage to Ascendancy"
 date: "2026/11/13"
 ---
 
@@ -21,7 +21,7 @@ The design choices of the game were great throughout, but limited by the resourc
 
 Worse, this reviewer was not wrong that ['the level of micromanagement is simply ridiculous'](https://gamefaqs.gamespot.com/pc/575213-ascendancy/reviews/104028#:~:text=The%20level%20of%20micromanagement%20is%20simply%20ridiculous). As the game progresses, each game turn involves an ever-growing burden of rote building decisions. Replaying it as an adult, I also realise why the AI was considered famously ['terrible'](https://gamefaqs.gamespot.com/pc/575213-ascendancy/reviews/104028#:~:text=the%20AI%20is%2C%20well%2C%20terrible), even with the Antagonizer patch (great name).
 
-Therefore I felt the game's vision deserved a reimagining with modern rendering and playability tweaks. So I'm building a homage to Ascendancy - using the same rules, and taking the art direction from the original as far as I can. I want this to feel like Ascendancy, while looking better and being more fun to play.
+Therefore I felt the game's vision deserved a reimagining with modern rendering and playability tweaks. So I'm building a homage to Ascendancy - using the same rules, and taking the art direction from the original as far as I can. I want this to feel like Ascendancy, while looking better and being more fun to play. I'm calling it 'Strange Suns'.
 
 Here's a taste of where I've got so far: 
 

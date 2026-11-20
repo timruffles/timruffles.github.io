@@ -28,14 +28,27 @@ export function layout({
         <title>${title}</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta name="viewport" content="width=device-width">
+        <meta name="color-scheme" content="light dark">
         ${description ? `<meta name="description" content="${escapeXML(description)}" >` : ''}
         <link rel="stylesheet" href="${baseURL}css/normalize.css" type="text/css">
         <link rel="stylesheet" href="${baseURL}css/style.css" type="text/css">
         <link rel="stylesheet" href="${baseURL}css/prism-ghcolors.css" type="text/css">
+        <link rel="stylesheet" href="${baseURL}css/dark.css" type="text/css" media="(prefers-color-scheme: dark)">
         <link rel="alternate" type="application/rss+xml" title="Subscribe to RSS feed" href="${baseURL}rss.xml" />
       </head>
       <body class="${root ? "root" : "article"}">
         <div class="mast">
+          <svg class="mast-stripe" aria-hidden="true" focusable="false" width="100%" height="2">
+            <defs>
+              <pattern id="mast-pattern" width="40" height="2" patternUnits="userSpaceOnUse">
+                <rect class="stripe-1" x="0" width="10" height="2"/>
+                <rect class="stripe-2" x="10" width="6" height="2"/>
+                <rect class="stripe-3" x="16" width="14" height="2"/>
+                <rect class="stripe-4" x="30" width="10" height="2"/>
+              </pattern>
+            </defs>
+            <rect width="100%" height="2" fill="url(#mast-pattern)"/>
+          </svg>
           <div class='top-bar reading'>
               <div class="links logical">
                 <div class="navigation logical">

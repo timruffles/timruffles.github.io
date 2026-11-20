@@ -4,6 +4,7 @@ import fs from 'fs'
 import {glob} from "glob";
 import {exec} from "child_process";
 import {Article} from "./records";
+import {analyseImages} from "./image-brightness";
 import {
   PaginatedArticle,
   homePage,
@@ -27,6 +28,9 @@ export async function main(
   publicPath: string,
   outputPath: string,
 ) {
+
+  // brightness of every image, so the (sync) markdown renderer can flag glaring ones for dark mode
+  await analyseImages(publicPath)
 
   const [config, allArticles] = await loadArticles();
 
